@@ -8,6 +8,7 @@ import MainPage from "../src/pages/MainPage/mainPage"
 import Footer from "./components/Footer/footer"
 import Login from "./components/Login/login"
 import SignUp from "./components/SignUp/signUp"
+import MyPage from "./components/MyPage/myPage"
 import RoomMate from "./pages/RoomMate/roomMate"
 
 const App: React.FC = () => {
@@ -28,6 +29,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Login />} />
           <Route path="/MainPage" element={<MainPage />} />
           <Route path="/SignUp" element={<SignUp />} />
+          <Route path="/MyPage" element={<MyPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
