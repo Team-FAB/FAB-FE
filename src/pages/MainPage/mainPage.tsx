@@ -1,5 +1,11 @@
+import React from "react"
+
 const MainPage: React.FC = () => {
-  return <div>dd</div>
+  
+  
+  return (
+    <div>dddddd</div>
+  )
 }
 
 export default MainPage
