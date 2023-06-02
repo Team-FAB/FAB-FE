@@ -1,0 +1,50 @@
+@import "../../styles/variable.css";
+
+.headerContainer {
+  width: 1017px;
+  height: 77px;
+  padding: 0px 28px 0px 28px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--black300);
+}
+
+.alarmBox {
+  display: flex;
+  gap: 10px;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 98px;
+  height: 60px;
+  margin-right: 469px;
+  transition: opacity 0.3s;
+  opacity: 1;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.nav {
+  display: flex;
+  gap: 60px;
+  font-size: var(--font-size-sub1);
+  font-weight: var(--font-weight-sub1);
+}
+
+.nav li {
+  color: var(--black500);
+  cursor: pointer;
+}
+
+.nav li:hover {
+  color: var(--purple600);
+}

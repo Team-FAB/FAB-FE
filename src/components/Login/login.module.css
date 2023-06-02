@@ -1,0 +1,130 @@
+.loginContainer {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background-color: var(--bgc);
+}
+
+.logo {
+  width: 130px;
+  position: absolute;
+  top: 30px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  opacity: 1;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.loginBox {
+  display: flex;
+  height: 500px;
+  top: 10px;
+  left: 10px;
+}
+
+.Logintitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-body1);
+  color: var(--purple500);
+  margin-bottom: 20px;
+}
+
+.videoBox {
+  width: 400px;
+  background-color: var(--purple500);
+  border-radius: 20px 0 0 20px;
+}
+
+.formBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  border-radius: 0 20px 20px 0px;
+  background-color: var(--white);
+}
+
+.loginForm {
+  width: 20px;
+}
+
+.signUpText {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+  color: var(--black300);
+  font-size: var(--font-size-sub3);
+}
+
+.signUpLink {
+  transition: opacity 0.2s;
+  opacity: 1;
+}
+
+.signUpLink:hover {
+  opacity: 0.5;
+}
+
+/* .alert {
+  z-index: 1001;
+  position: absolute;
+  top: 10px;
+  display: flex;
+  justify-content: center;
+} */
+
+.loginBtnBox {
+  display: flex;
+  gap: 10px;
+}
+
+.sociallogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.sociallogin img {
+  width: 220px;
+  cursor: pointer;
+}
+
+.socialloginTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-body2);
+  color: var(--purple300);
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  height: 1px;
+  background-color: var(--black100);
+}
