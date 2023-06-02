@@ -1,0 +1,27 @@
+.myPageContainer {
+  min-width: 1045px;
+  max-width: 1045px;
+  margin: 0 auto;
+}
+
+.myPageBox {
+  width: 470px;
+  height: 50px;
+  margin: 0 auto;
+}
+
+.myPageUl {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 35px;
+}
+
+.myPageUl li {
+  font-size: var(--font-size-h6);
+}
+
+.myPageUl li:hover,
+.myPageUl li:active {
+  color: var(--purple600);
+}
+
