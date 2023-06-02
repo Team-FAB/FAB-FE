@@ -1,0 +1,57 @@
+.cardContainer {
+  width: 250px;
+  cursor: pointer;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardTitle {
+  font-size: var(--font-size-h6);
+}
+
+.cardContent {
+  color: var(--black300);
+}
+
+.cardBadgeContainer {
+  display: flex;
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.cardBadgeArea,
+.cardBadgePeriod,
+.cardBadgePrice {
+  color: var(--white);
+  padding: 5px 8px;
+  border-radius: var(--badge-border-radius);
+}
+
+.cardBadgeArea {
+  background-color: var(--purple200);
+}
+.cardBadgePeriod {
+  background-color: var(--purple300);
+}
+
+.cardBadgePrice {
+  background-color: var(--purple400);
+}
+
+.user {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.user span {
+  color: var(--black300);
+}
+
+.author {
+  display: flex;
+  gap: 3px;
+}

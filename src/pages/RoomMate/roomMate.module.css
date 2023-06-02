@@ -1,0 +1,33 @@
+.roomMateContainer {
+  width: 800px;
+  padding: 60px;
+  margin: 0 auto;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+.roomMateTitle {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-button);
+}
+
+.roomMateBtn {
+  display: flex;
+  gap: 10px;
+}
+
+.pagination {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
