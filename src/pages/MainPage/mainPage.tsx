@@ -4,7 +4,7 @@ const MainPage: React.FC = () => {
   
   
   return (
-    <div>reset</div>
+    <div>example</div>
   )
 }
 
