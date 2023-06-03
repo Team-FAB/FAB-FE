@@ -6,10 +6,12 @@ import Chat from "./components/Chat/chat"
 import Header from "./components/Header/header"
 import MainPage from "../src/pages/MainPage/mainPage"
 import Footer from "./components/Footer/footer"
-import Login from "./pages/Login/login"
-import SignUp from "./pages/SignUp/signUp"
-import MyPage from "./components/MyPage/myPage"
+import Login from "./components/Login/login"
+import SignUp from "./components/SignUp/signUp"
+import MyPage from "./pages/MyPage/myPage"
+import Profile from "./pages/MyPage/Proflie/profile"
 import RoomMate from "./pages/RoomMate/roomMate"
+
 
 const App: React.FC = () => {
   return (
@@ -29,7 +31,11 @@ const App: React.FC = () => {
           <Route path="/" element={<Login />} />
           <Route path="/MainPage" element={<MainPage />} />
           <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/MyPage" element={<MyPage />} />
+          <Route path="/MyPage/*" element={<MyPage />} />
+          <Route path="/MyPage/Profile" element={<Profile />} />
+          {/* <Route path="/MyPage/Board" element={<Board />} />
+          <Route path="/MyPage/Applicant" element={<Applicant />} />
+          <Route path="/MyPage/Favorite" element={<Favorite />} /> */}
         </Routes>
         <Footer />
       </BrowserRouter>
