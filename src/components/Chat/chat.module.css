@@ -15,18 +15,22 @@
   height: 80px;
   left: 90%;
   top: 70%;
-  background: var(--purple500);
+  background: var(--white);
   border: none;
   box-shadow: var(--shadow);
   border-radius: var(--badge-border-radius);
 }
 
-.iconButton:hover {
-  background: var(--purple600);
+.iconButton:hover{
+  opacity: 0.8;
+}
+
+.icon:hover {
+  opacity: 0.8;
 }
 
 .icon {
-  fill: var(--white);
+  fill: var(--purple500);
 }
 
 .alarm {
