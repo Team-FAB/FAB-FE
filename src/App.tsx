@@ -8,7 +8,8 @@ import MainPage from "../src/pages/MainPage/mainPage"
 import Footer from "./components/Footer/footer"
 import Login from "./components/Login/login"
 import SignUp from "./components/SignUp/signUp"
-import MyPage from "./components/MyPage/myPage"
+import MyPage from "./pages/MyPage/myPage"
+import Profile from "./pages/MyPage/Proflie/profile"
 
 const App: React.FC = () => {
   return (
@@ -27,7 +28,11 @@ const App: React.FC = () => {
           <Route path="/" element={<Login />} />
           <Route path="/MainPage" element={<MainPage />} />
           <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/MyPage" element={<MyPage />} />
+          <Route path="/MyPage/*" element={<MyPage />} />
+          <Route path="/MyPage/Profile" element={<Profile />} />
+          {/* <Route path="/MyPage/Board" element={<Board />} />
+          <Route path="/MyPage/Applicant" element={<Applicant />} />
+          <Route path="/MyPage/Favorite" element={<Favorite />} /> */}
         </Routes>
         <Footer />
       </BrowserRouter>

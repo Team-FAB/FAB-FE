@@ -48,9 +48,9 @@ const Footer: React.FC = () => {
             <p>방갑고 Owner</p>
             <div className={styles.footerGit}>
               <p>Front-End</p>
-              {frontOwners.map((item) => (
+              {frontOwners.map((item, index) => (
                 <div>
-                  <p key={item.name}>{item.name}</p>
+                  <p key={index}>{item.name}</p>
                   <a
                     href={item.gitAddress}
                     target="_blank"
