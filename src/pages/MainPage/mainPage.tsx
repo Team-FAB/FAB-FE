@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./mainPage.module.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -7,7 +7,7 @@ import RecommendPostCard from "../../components/RecommendCard/recommendCard";
 import MultiCarousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-
+import PostModal from "../../components/PostModal/postModal";
 
 const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
@@ -25,8 +25,6 @@ const CustomLeftArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   );
 };
 
-
-
 const MainPage: React.FC = () => {
   const adImages = [
     "https://via.placeholder.com/500x130",
@@ -41,6 +39,38 @@ const MainPage: React.FC = () => {
       items: 4,
       slidesToSlide: 4,
     },
+  };
+
+  const posts = [
+    { id: 1, title: "Title 1", content: "Post 1" },
+    { id: 2, title: "Title 2", content: "Post 2" },
+    { id: 3, title: "Title 3", content: "Post 3" },
+    { id: 4, title: "Title 4", content: "Post 4" },
+    { id: 5, title: "Title 5", content: "Post 5" },
+    { id: 6, title: "Title 6", content: "Post 6" },
+    { id: 7, title: "Title 7", content: "Post 7" },
+    { id: 8, title: "Title 8", content: "Post 8" },
+    { id: 9, title: "Title 9", content: "Post 9" },
+    { id: 10, title: "Title 10", content: "Post 10" },
+    { id: 11, title: "Title 11", content: "Post 11" },
+    { id: 12, title: "Title 12", content: "Post 12" },
+  ];
+
+  const [selectedPost, setSelectedPost] = useState<{
+    id: number;
+    title: string;
+    content: string;
+  } | null>(null);
+
+  const handlePostClick = (post: {
+    id: number;
+    title: string;
+    content: string;
+  }) => {
+    setSelectedPost(post);
+  };
+  const handleCloseModal = () => {
+    setSelectedPost(null);
   };
 
   return (
@@ -71,22 +101,15 @@ const MainPage: React.FC = () => {
           customRightArrow={<CustomRightArrow />}
           customLeftArrow={<CustomLeftArrow />}
         >
-          <MainPostCard />
-          <MainPostCard />
-          <MainPostCard />
-          <MainPostCard />
-          <MainPostCard />
-          <MainPostCard />
-          <MainPostCard />
-          <MainPostCard />
-          <MainPostCard />
-          <MainPostCard />
-          <MainPostCard />
-          <MainPostCard />
+          {posts.map((post) => (
+            <MainPostCard key={post.id} onClick={() => handlePostClick(post)} />
+          ))}
         </MultiCarousel>
       </div>
       <div className={styles.recommendPost}>
-        <div className={styles.title}>방갑고에서 추천하는 룸메이트를 만나보세요 💌</div>
+        <div className={styles.title}>
+          방갑고에서 추천하는 룸메이트를 만나보세요 💌
+        </div>
         <MultiCarousel
           responsive={responsive}
           infinite={true}
@@ -109,6 +132,9 @@ const MainPage: React.FC = () => {
           <RecommendPostCard />
         </MultiCarousel>
       </div>
+      {selectedPost && (
+        <PostModal post={selectedPost} onClose={handleCloseModal} />
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
-import { UserOutlined } from "@ant-design/icons"
-import styles from "./postCard.module.css"
-import { Badge, Card } from "antd"
+import { UserOutlined } from "@ant-design/icons";
+import styles from "./postCard.module.css";
+import { Badge, Card } from "antd";
 
 const PostCard: React.FC = () => {
   return (
@@ -26,7 +26,7 @@ const PostCard: React.FC = () => {
         </Card>
       </Badge.Ribbon>
     </div>
-  )
-}
+  );
+};
 
-export default PostCard
+export default PostCard;
