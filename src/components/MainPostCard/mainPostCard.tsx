@@ -2,9 +2,14 @@ import { UserOutlined } from "@ant-design/icons";
 import styles from "./mainpostCard.module.css";
 import { Badge, Card } from "antd";
 
-const MainPostCard: React.FC = () => {
+interface MainPostCardProps {
+  onClick: () => void;
+}
+
+
+const MainPostCard: React.FC<MainPostCardProps> = ({ onClick }) => {
   return (
-    <div className={styles.cardContainer}>
+    <div className={styles.cardContainer} onClick={onClick}>
       <Badge.Ribbon text="모집">
         <Card style={{ width: 250, marginTop: 16 }}>
           <div className={styles.cardText}>
