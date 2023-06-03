@@ -1,0 +1,75 @@
+.conatainer {
+  width: 100vw;
+}
+
+.adContainer {
+  margin-top: 10px;
+}
+
+.mainPost {
+  position: relative;
+  align-items: center;
+  vertical-align: center;
+  margin: 0 auto;
+  width: 1200px;
+  padding: 30px 30px 30px 50px;
+}
+
+.recommendPost {
+  position: relative;
+  align-items: center;
+  vertical-align: center;
+  margin: 0 auto;
+  width: 1200px;
+  padding: 30px 30px 30px 50px;
+  margin-bottom: 50px;
+}
+
+.customRightArrow {
+  position: absolute;
+  right: 42px;
+  top: 53%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.customLeftArrow {
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.RightArrow {
+  fill: var(--purple600);
+}
+
+.LeftArrow {
+  fill: var(--purple600);
+}
+
+.title {
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 49px;
+  color: var(--purple600);
+}
