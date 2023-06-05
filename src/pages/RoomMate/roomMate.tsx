@@ -16,14 +16,6 @@ const RoomMate: React.FC = () => {
       </div>
       <div className={styles.cardGrid}>
         <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
       </div>
       <Pagination className={styles.pagination} defaultCurrent={1} total={50} />
     </div>
