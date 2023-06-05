@@ -13,12 +13,9 @@ import SignUp from "./pages/SignUp/signUp"
 import MyPage from "./pages/MyPage/myPage"
 import Profile from "./pages/MyPage/Proflie/profile"
 import RoomMate from "./pages/RoomMate/roomMate"
-<<<<<<< HEAD
-=======
 import Board from "./pages/MyPage/Board/board"
 import Applicant from "./pages/MyPage/Applicant/applicant"
 import Favorite from "./pages/MyPage/Favorites/favorite"
->>>>>>> 369948af797b55300d01de6e45520525337aff5f
 
 const App: React.FC = () => {
   return (
@@ -41,15 +38,9 @@ const App: React.FC = () => {
             <Route path="/SignUp" element={<SignUp />} />
             <Route path="/MyPage/*" element={<MyPage />} />
             <Route path="/MyPage/Profile" element={<Profile />} />
-<<<<<<< HEAD
-            {/* <Route path="/MyPage/Board" element={<Board />} />
-          <Route path="/MyPage/Applicant" element={<Applicant />} />
-          <Route path="/MyPage/Favorite" element={<Favorite />} /> */}
-=======
             <Route path="/MyPage/Board" element={<Board />} />
             <Route path="/MyPage/Applicant" element={<Applicant />} />
             <Route path="/MyPage/Favorite" element={<Favorite />} />
->>>>>>> 369948af797b55300d01de6e45520525337aff5f
           </Routes>
           <Footer />
         </BrowserRouter>
