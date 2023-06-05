@@ -22,7 +22,6 @@ export interface Post {
   period: string
   price: string
   recruit: boolean
-  message: string
 }
 
 export interface User {
@@ -41,4 +40,10 @@ export interface User {
   faviteTag: string
   hateTag: string
   myText: string
+}
+
+export interface PostModalProps {
+  post: any
+  visible: boolean
+  onClose: () => void
 }
