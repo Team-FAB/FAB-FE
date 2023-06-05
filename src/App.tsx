@@ -36,11 +36,10 @@ const App: React.FC = () => {
             <Route path="/" element={<Login />} />
             <Route path="/MainPage" element={<MainPage />} />
             <Route path="/SignUp" element={<SignUp />} />
-            <Route path="/MyPage/*" element={<MyPage />} />
-            <Route path="/MyPage/Profile" element={<Profile />} />
-            <Route path="/MyPage/Board" element={<Board />} />
-            <Route path="/MyPage/Applicant" element={<Applicant />} />
-            <Route path="/MyPage/Favorite" element={<Favorite />} />
+            <Route path="/MyPage" element={<Profile />} />
+            <Route path="/Board" element={<Board />} />
+            <Route path="/Applicant" element={<Applicant />} />
+            <Route path="/Favorite" element={<Favorite />} />
           </Routes>
           <Footer />
         </BrowserRouter>
