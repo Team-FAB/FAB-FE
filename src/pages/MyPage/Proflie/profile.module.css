@@ -1,7 +1,7 @@
 .profileContainer {
   width: 400px;
-  min-height: 1000px;
-  max-height: 1000px;
+  /* min-height: 1000px; */
+  height: 100%;
   margin: 0 auto;
   margin-top: 55px; /*나중에 지우기*/
 }
@@ -134,7 +134,7 @@
 
 .tendencyModalBox {
   width: 480px;
-  height: 150px;
+  height: 100px;
   overflow-y: scroll;
 }
 
