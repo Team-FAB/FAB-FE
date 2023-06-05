@@ -3,7 +3,7 @@ import { Modal, Badge, Button } from "antd";
 import styles from "./postModal.module.css"
 
 
-interface PostModalProps {
+export interface PostModalProps {
   post: any; 
   onClose: () => void;
 }
