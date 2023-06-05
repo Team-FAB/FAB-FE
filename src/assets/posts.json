@@ -1,0 +1,148 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Title 1",
+      "nickname": "황지민",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "남양주",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 2,
+      "title": "Title 2",
+      "nickname": "권선아",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "인천",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 3,
+      "title": "Title 3",
+      "nickname": "고지민",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "전남",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 4,
+      "title": "Title 4",
+      "nickname": "서원호",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "지역",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 5,
+      "title": "Title 5",
+      "nickname": "조유진",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "노원",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 6,
+      "title": "Title 6",
+      "nickname": "윤장원",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "안양",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 7,
+      "title": "Title 7",
+      "nickname": "제로베이스",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "지역",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 8,
+      "title": "Title 8",
+      "nickname": "제발",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "지역",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 9,
+      "title": "Title 9",
+      "nickname": "취업좀",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "지역",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 10,
+      "title": "Title 10",
+      "nickname": "시켜",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "지역",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 11,
+      "title": "Title 11",
+      "nickname": "주세요",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "지역",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    },
+    {
+      "id": 12,
+      "title": "Title 12",
+      "nickname": "부탁드립니다",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "지역",
+      "period": "3~6개월",
+      "price": "5,000,000",
+      "recruit": true
+    }
+  ]
+}

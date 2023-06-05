@@ -1,29 +1,42 @@
+import { useSelector } from "react-redux"
+import { RootState } from "../../Redux/store"
+import { LoginValues } from "../../interface/interface"
 import "antd"
 import styles from "../Login/login.module.css"
 import { UserOutlined, LockOutlined } from "@ant-design/icons"
-import { Button, Form, Input } from "antd"
+import { Button, Form, Input, message } from "antd"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
+import { loginUser } from "../../Redux/user"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
+  const [messageApi, contextHolder] = message.useMessage()
 
-  const handleLogin = () => {
-    navigate("/MainPage") // 메인 페이지로 이동
+  const dispatch = useAppDispatch()
+  const user = useSelector((state: RootState) => state.user)
+
+  const handleLogin = (values: LoginValues) => {
+    const { email, password } = values
+    dispatch(loginUser({ email, password }))
   }
 
-  const onFinish = (values: unknown) => {
-    console.log("Received values of form: ", values)
-  }
+  useEffect(() => {
+    if (user.error) {
+      messageApi.info("이메일 또는 비밀번호를 입력하세요.")
+    } else if (user.isLogged) {
+      navigate("/MainPage")
+    }
+  }, [user, navigate, messageApi])
 
   return (
     <>
       <div className={styles.loginContainer}>
-        <img
-          className={styles.logo}
-          src="src/assets/logo.svg"
-          onClick={handleLogin}
-        />
+        <Link to="/MainPage">
+          <img className={styles.logo} src="src/assets/logo.svg" />
+        </Link>
         <div className={styles.loginBox}>
           <div className={styles.videoBox}></div>
           <div className={styles.formBox}>
@@ -31,7 +44,7 @@ const Login: React.FC = () => {
             <Form
               name="login"
               initialValues={{ remember: true }}
-              onFinish={onFinish}
+              onFinish={handleLogin}
             >
               <Form.Item
                 name="Email"
@@ -82,6 +95,7 @@ const Login: React.FC = () => {
           </div>
         </div>
       </div>
+      {contextHolder}
     </>
   )
 }

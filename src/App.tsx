@@ -1,4 +1,6 @@
 import React from "react"
+import { Provider } from "react-redux"
+import { store } from "./Redux/store"
 import "../src/App.css"
 import { ConfigProvider } from "antd"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
@@ -15,34 +17,35 @@ import Board from "./pages/MyPage/Board/board"
 import Applicant from "./pages/MyPage/Applicant/applicant"
 import Favorite from "./pages/MyPage/Favorites/favorite"
 
-
 const App: React.FC = () => {
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: "#6231ef",
-          fontSize: 12,
-        },
-      }}
-    >
-      <BrowserRouter>
-        <Chat />
-        <Header />
-        <Routes>
-          <Route path="/RoomMate" element={<RoomMate />} />
-          <Route path="/" element={<Login />} />
-          <Route path="/MainPage" element={<MainPage />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/MyPage/*" element={<MyPage />} />
-          <Route path="/MyPage/Profile" element={<Profile />} />
-          <Route path="/MyPage/Board" element={<Board />} />
-          <Route path="/MyPage/Applicant" element={<Applicant />} />
-          <Route path="/MyPage/Favorite" element={<Favorite />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </ConfigProvider>
+    <Provider store={store}>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#6231ef",
+            fontSize: 12,
+          },
+        }}
+      >
+        <BrowserRouter>
+          <Chat />
+          <Header />
+          <Routes>
+            <Route path="/RoomMate" element={<RoomMate />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/MainPage" element={<MainPage />} />
+            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/MyPage/*" element={<MyPage />} />
+            <Route path="/MyPage/Profile" element={<Profile />} />
+            <Route path="/MyPage/Board" element={<Board />} />
+            <Route path="/MyPage/Applicant" element={<Applicant />} />
+            <Route path="/MyPage/Favorite" element={<Favorite />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </ConfigProvider>
+    </Provider>
   )
 }
 
