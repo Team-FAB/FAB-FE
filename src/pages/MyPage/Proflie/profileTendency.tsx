@@ -9,17 +9,17 @@ const ProfileTendency: React.FC = () => {
   const [tendencyModal, setTendencyModal] = useState(false);
 
   const tendencyChoice = [
-    { tendency: "밥 같이 먹는" },
-    { tendency: "밥 혼자 먹는" },
-    { tendency: "동갑" },
-    { tendency: "흡연하는" },
-    { tendency: "금연하는" },
-    { tendency: "사생활 존중하는" },
-    { tendency: "취미가 같은" },
-    { tendency: "음주를 좋아하는" },
-    { tendency: "대화를 좋아하는" },
-    { tendency: "조용한 분위기를 좋아하는" },
-    { tendency: "동물을 좋아하는" },
+    { tendency: "밥 같이 먹는", value: "밥 같이 먹는" },
+    { tendency: "밥 혼자 먹는", value: "밥 혼자 먹는" },
+    { tendency: "동갑", value: "동갑" },
+    { tendency: "흡연하는", value: "흡연하는" },
+    { tendency: "금연하는", value: "금연하는" },
+    { tendency: "사생활 존중하는", value: "사생활 존중하는" },
+    { tendency: "취미가 같은", value: "취미가 같은" },
+    { tendency: "음주를 좋아하는", value: "음주를 좋아하는" },
+    { tendency: "대화를 좋아하는", value: "대화를 좋아하는" },
+    { tendency: "조용한 분위기를 좋아하는", value: "조용한 분위기를 좋아하는" },
+    { tendency: "동물을 좋아하는", value: "동물을 좋아하는" },
   ]
 
   const items: MenuProps['items'] = [
@@ -55,7 +55,7 @@ const ProfileTendency: React.FC = () => {
             <span>이런 룸메이트는 싫어요 😤</span>
             <Button className={styles.tendencyBtn} type="primary" onClick={() => setTendencyModal(true)} style={{ width: 50, height: 25, fontSize: 10, borderRadius: 20 }}>수정</Button>
             <Modal
-              title="이런 룸메이트는 싫어요 😤 (최대 1개 ~ 5개 선택)"
+              title="이런 룸메이트는 싫어요 😤 (1개 ~ 5개 선택)"
               centered
               open={tendencyModal}
               onOk={() => setTendencyModal(false)}
@@ -79,7 +79,7 @@ const ProfileTendency: React.FC = () => {
             <span>이런 룸메이트가 좋아요 🥰</span>
             <Button className={styles.tendencyBtn} type="primary" onClick={() => setTendencyModal(true)} style={{ width: 50, height: 25, fontSize: 10, borderRadius: 20 }}>수정</Button>
             <Modal
-              title="이런 룸메이트가 좋아요 🥰 (최대 1개 ~ 최대 5개 선택)"
+              title="이런 룸메이트가 좋아요 🥰 (1개 ~ 최대 5개 선택)"
               centered
               open={tendencyModal}
               onOk={() => setTendencyModal(false)}

@@ -6,11 +6,14 @@ import Chat from "./components/Chat/chat"
 import Header from "./components/Header/header"
 import MainPage from "../src/pages/MainPage/mainPage"
 import Footer from "./components/Footer/footer"
-import Login from "./components/Login/login"
-import SignUp from "./components/SignUp/signUp"
+import Login from "./pages/Login/login"
+import SignUp from "./pages/SignUp/signUp"
 import MyPage from "./pages/MyPage/myPage"
 import Profile from "./pages/MyPage/Proflie/profile"
 import RoomMate from "./pages/RoomMate/roomMate"
+import Board from "./pages/MyPage/Board/board"
+import Applicant from "./pages/MyPage/Applicant/applicant"
+import Favorite from "./pages/MyPage/Favorites/favorite"
 
 
 const App: React.FC = () => {
@@ -33,9 +36,9 @@ const App: React.FC = () => {
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/MyPage/*" element={<MyPage />} />
           <Route path="/MyPage/Profile" element={<Profile />} />
-          {/* <Route path="/MyPage/Board" element={<Board />} />
+          <Route path="/MyPage/Board" element={<Board />} />
           <Route path="/MyPage/Applicant" element={<Applicant />} />
-          <Route path="/MyPage/Favorite" element={<Favorite />} /> */}
+          <Route path="/MyPage/Favorite" element={<Favorite />} />
         </Routes>
         <Footer />
       </BrowserRouter>
