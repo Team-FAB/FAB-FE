@@ -1,10 +1,12 @@
 import styles from "./roomMate.module.css"
 import PostCard from "../../components/PostCard/postCard"
 import { Button, Pagination } from "antd"
+import RoomMateSearch from "./roomMateSearch"
 
 const RoomMate: React.FC = () => {
   return (
     <div className={styles.roomMateContainer}>
+      <RoomMateSearch />
       <div className={styles.roomMateTitle}>
         <span>룸메이트 구해요 👋</span>
         <div className={styles.roomMateBtn}>
