@@ -2,29 +2,35 @@ import styles from './boardCard.module.css'
 import { UserOutlined } from "@ant-design/icons";
 import { Badge, Card } from "antd";
 
-const BoardCard = () => {
+interface BoardCard {
+  onClick: () => void;
+  post: any;
+}
+
+const BoardCard: React.FC<BoardCard> = ({ post, onClick }) => {
+
   return (
-    <div className={styles.boardCardContainer}>
+    <div className={styles.boardCardContainer}  onClick={onClick}>
       <div className={styles.cardContainer}>
         <Badge.Ribbon text="마감" style={{ background:'#8a8a8a' }}>
           <Card style={{ width: 250, marginTop: 16 }}>
             <div className={styles.cardText}>
               <div className={styles.cardTitleBox}>
-                <span className={styles.cardTitle}>제목</span>
+                <span className={styles.cardTitle}>{post.title}</span>
               </div>
-              <span className={styles.cardContent}>글 내용</span>
+              <span className={styles.cardContent}>{post.content}</span>
             </div>
             <div className={styles.user}>
               <div className={styles.author}>
-                <span>작성자</span>
+                <span>{post.nickname}</span>
                 <UserOutlined style={{ color: "#ff0000" }} />
               </div>
-              <span>2023-10-20</span>
+              <span>{post.createdDate}</span>
             </div>
             <div className={styles.cardBadgeContainer}>
-              <Badge className={styles.cardBadgeArea}>지역</Badge>
-              <Badge className={styles.cardBadgePeriod}>3~6개월</Badge>
-              <Badge className={styles.cardBadgePrice}>5,000,000원</Badge>
+              <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
+              <Badge className={styles.cardBadgePeriod}>{post.period}</Badge>
+              <Badge className={styles.cardBadgePrice}>{post.price}</Badge>
             </div>
           </Card>
         </Badge.Ribbon>

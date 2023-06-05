@@ -2,9 +2,11 @@ import React from "react"
 import { Modal, Badge, Button } from "antd"
 import styles from "./postModal.module.css"
 
+
 interface PostModalProps {
   post: any
   onClose: () => void
+
 }
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
