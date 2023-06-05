@@ -3,6 +3,7 @@ import BoardCard from '../../../components/BoardCard/boardCard'
 import styles from './board.module.css'
 import { Post } from '../../../interface/interface';
 import PostModal from '../../../components/PostModal/postModal';
+import MyPage from '../myPage';
 
 const Board: React.FC = () => {
 
@@ -24,18 +25,21 @@ const Board: React.FC = () => {
   }, [])
 
   return (
-    <div className={styles.boardContainer}>
-      {posts.map((post) => (
-        <BoardCard
-          key={post.id}
-          post={post}
-          onClick={() => handlePostClick(post)}
-        />
-      ))}
-      {selectedPost && (
-        <PostModal post={selectedPost} onClose={handleCloseModal} />
-      )}
-    </div>
+    <>
+      <MyPage />
+      <div className={styles.boardContainer}>
+        {posts.map((post) => (
+          <BoardCard
+            key={post.id}
+            post={post}
+            onClick={() => handlePostClick(post)}
+          />
+        ))}
+        {selectedPost && (
+          <PostModal post={selectedPost} onClose={handleCloseModal} />
+        )}
+      </div>
+    </>
   )
 }
 
