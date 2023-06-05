@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./mainPage.module.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -8,39 +8,6 @@ import MultiCarousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import PostModal from "../../components/PostModal/postModal";
-import RecommendModal from "../../components/RecommendModal/recommendModal";
-
-interface Post {
-  id: number;
-  title: string;
-  nickname: string;
-  content: string;
-  gender: string;
-  createdDate: string;
-  region: string;
-  period: string;
-  price: string;
-  recruit: boolean;
-  message: string;
-}
-
-interface User {
-  id: number;
-  nickname: string;
-  image: string;
-  email: string;
-  gender: string;
-  smoke: boolean;
-  MBTI: string;
-  region: string;
-  minAge: number;
-  maxAge: number;
-  myAge: number;
-  activityTime: string;
-  faviteTag: string;
-  hateTag: string;
-  myText: string;
-}
 
 const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
@@ -59,20 +26,6 @@ const CustomLeftArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 };
 
 const MainPage: React.FC = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    fetch("src/assets/posts.json")
-      .then((response) => response.json())
-      .then((data) => setPosts(data.posts));
-
-    fetch("src/assets/users.json")
-      .then((response) => response.json())
-      .then((data) => setUsers(data.user));
-  }, []);
-
   const adImages = [
     "https://via.placeholder.com/500x130",
     "https://via.placeholder.com/500x130",
@@ -88,18 +41,36 @@ const MainPage: React.FC = () => {
     },
   };
 
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const posts = [
+    { id: 1, title: "Title 1", content: "Post 1" },
+    { id: 2, title: "Title 2", content: "Post 2" },
+    { id: 3, title: "Title 3", content: "Post 3" },
+    { id: 4, title: "Title 4", content: "Post 4" },
+    { id: 5, title: "Title 5", content: "Post 5" },
+    { id: 6, title: "Title 6", content: "Post 6" },
+    { id: 7, title: "Title 7", content: "Post 7" },
+    { id: 8, title: "Title 8", content: "Post 8" },
+    { id: 9, title: "Title 9", content: "Post 9" },
+    { id: 10, title: "Title 10", content: "Post 10" },
+    { id: 11, title: "Title 11", content: "Post 11" },
+    { id: 12, title: "Title 12", content: "Post 12" },
+  ];
 
-  const handlePostClick = (post: Post) => {
+  const [selectedPost, setSelectedPost] = useState<{
+    id: number;
+    title: string;
+    content: string;
+  } | null>(null);
+
+  const handlePostClick = (post: {
+    id: number;
+    title: string;
+    content: string;
+  }) => {
     setSelectedPost(post);
   };
-
   const handleCloseModal = () => {
     setSelectedPost(null);
-  };
-
-  const handleUserClick = (user: User) => {
-    setSelectedUser(user);
   };
 
   return (
@@ -131,11 +102,7 @@ const MainPage: React.FC = () => {
           customLeftArrow={<CustomLeftArrow />}
         >
           {posts.map((post) => (
-            <MainPostCard
-              key={post.id}
-              post={post}
-              onClick={() => handlePostClick(post)}
-            />
+            <MainPostCard key={post.id} onClick={() => handlePostClick(post)} />
           ))}
         </MultiCarousel>
       </div>
@@ -151,23 +118,22 @@ const MainPage: React.FC = () => {
           customRightArrow={<CustomRightArrow />}
           customLeftArrow={<CustomLeftArrow />}
         >
-          {users.map((user) => (
-            <RecommendPostCard
-              key={user.id}
-              user={user}
-              onClick={() => handleUserClick(user)}
-            />
-          ))}
+          <RecommendPostCard />
+          <RecommendPostCard />
+          <RecommendPostCard />
+          <RecommendPostCard />
+          <RecommendPostCard />
+          <RecommendPostCard />
+          <RecommendPostCard />
+          <RecommendPostCard />
+          <RecommendPostCard />
+          <RecommendPostCard />
+          <RecommendPostCard />
+          <RecommendPostCard />
         </MultiCarousel>
       </div>
       {selectedPost && (
         <PostModal post={selectedPost} onClose={handleCloseModal} />
-      )}
-      {selectedUser && (
-        <RecommendModal
-          user={selectedUser}
-          onClose={() => setSelectedUser(null)}
-        />
       )}
     </div>
   );
