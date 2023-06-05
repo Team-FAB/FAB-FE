@@ -2,8 +2,11 @@ import styles from "./roomMate.module.css"
 import PostCard from "../../components/PostCard/postCard"
 import { Button, Pagination } from "antd"
 import RoomMateSearch from "./roomMateSearch"
+import postsData from "../../assets/posts.json"
 
 const RoomMate: React.FC = () => {
+  const pageSize = 12
+
   return (
     <div className={styles.roomMateContainer}>
       <RoomMateSearch />
@@ -17,7 +20,12 @@ const RoomMate: React.FC = () => {
       <div className={styles.cardGrid}>
         <PostCard />
       </div>
-      <Pagination className={styles.pagination} defaultCurrent={1} total={50} />
+      <Pagination
+        className={styles.pagination}
+        defaultCurrent={1}
+        total={postsData.posts.length}
+        pageSize={pageSize}
+      />
     </div>
   )
 }
