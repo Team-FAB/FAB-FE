@@ -1,6 +1,7 @@
 import styles from './profile.module.css'
 import { MenuProps, Modal } from 'antd';
 import { Button, Dropdown } from 'antd';
+import { Checkbox } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { useState } from 'react';
 
@@ -9,18 +10,18 @@ const ProfileTendency: React.FC = () => {
   const [tendencyModal, setTendencyModal] = useState(false);
 
   const tendencyChoice = [
-    { tendency: "밥 같이 먹는", value: "밥 같이 먹는" },
-    { tendency: "밥 혼자 먹는", value: "밥 혼자 먹는" },
-    { tendency: "동갑", value: "동갑" },
-    { tendency: "흡연하는", value: "흡연하는" },
-    { tendency: "금연하는", value: "금연하는" },
-    { tendency: "사생활 존중하는", value: "사생활 존중하는" },
-    { tendency: "취미가 같은", value: "취미가 같은" },
-    { tendency: "음주를 좋아하는", value: "음주를 좋아하는" },
-    { tendency: "대화를 좋아하는", value: "대화를 좋아하는" },
-    { tendency: "조용한 분위기를 좋아하는", value: "조용한 분위기를 좋아하는" },
-    { tendency: "동물을 좋아하는", value: "동물을 좋아하는" },
-  ]
+    { label: "밥 같이 먹는", value: "밥 같이 먹는" },
+    { label: "밥 혼자 먹는", value: "밥 혼자 먹는" },
+    { label: "동갑", value: "동갑" },
+    { label: "흡연하는", value: "흡연하는" },
+    { label: "금연하는", value: "금연하는" },
+    { label: "사생활 존중하는", value: "사생활 존중하는" },
+    { label: "취미가 같은", value: "취미가 같은" },
+    { label: "음주를 좋아하는", value: "음주를 좋아하는" },
+    { label: "대화를 좋아하는", value: "대화를 좋아하는" },
+    { label: "조용한 분위기를 좋아하는", value: "조용한 분위기를 좋아하는" },
+    { label: "동물을 좋아하는", value: "동물을 좋아하는" },
+  ];
 
   const items: MenuProps['items'] = [
     {
@@ -61,16 +62,14 @@ const ProfileTendency: React.FC = () => {
               onOk={() => setTendencyModal(false)}
               onCancel={() => setTendencyModal(false)}
             >
-             <div className={styles.tendencyModalBox}>
-              {tendencyChoice.map((item, index) => (
-                <span key={index}>#{item.tendency}</span>
-              ))}
-            </div>
+              <div className={styles.tendencyModalBox}>
+                <Checkbox.Group options={tendencyChoice} />
+              </div>
             </Modal>
           </div>
           <div className={styles.tendencyBox}>
             {tendencyChoice.map((item, index) => (
-              <span key={index}>#{item.tendency}</span>
+              <span key={index}>#{item.label}</span>
             ))}
           </div>
         </div>
@@ -85,16 +84,14 @@ const ProfileTendency: React.FC = () => {
               onOk={() => setTendencyModal(false)}
               onCancel={() => setTendencyModal(false)}
             >
-             <div className={styles.tendencyModalBox}>
-              {tendencyChoice.map((item, index) => (
-                <span key={index}>#{item.tendency}</span>
-              ))}
-            </div>
+              <div className={styles.tendencyModalBox}>
+                <Checkbox.Group options={tendencyChoice} />
+              </div>
             </Modal>
           </div>
           <div className={styles.tendencyBox}>
             {tendencyChoice.map((item, index) => (
-              <span key={index}>#{item.tendency}</span>
+              <span key={index}>#{item.label}</span>
             ))}
           </div>
         </div>

@@ -5,6 +5,7 @@
   height: 50px;
   margin: 0 auto;
   margin-bottom: 80px;
+  position: relative;
 }
 
 .searchIcon {
@@ -29,11 +30,6 @@
   align-items: center;
   flex: 1;
 }
-
-/* 
-.cardBadgeArea::after {
-  border-right: 3px solid var(--purple500);
-} */
 
 /* postCard.css */
 .cardBadgeArea,
@@ -64,15 +60,15 @@
 
 .searchChoiceContainer {
   position: absolute;
-  top: 23%;
-  left: 34%;
+  top: 140%;
+  left: -1%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   justify-content: center;
   width: 500px;
   height: 245px;
   margin: 0 auto;
-  background: var(-white);
+  background-color: var(--white);
   box-shadow: var(--shadow);
   border-radius: var(--badge-border-radius);
   padding: 30px;
@@ -162,4 +158,8 @@
   justify-items: start;
   align-items: center;
   width: 60px;
+}
+
+.searchChoiceGender {
+  height: 240px;
 }

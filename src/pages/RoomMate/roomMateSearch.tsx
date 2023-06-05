@@ -45,6 +45,7 @@ const RoomMateSearch = () => {
     {quarter: '3개월 ~ 6개월'},
     {quarter: '6개월 ~ 9개월'},
     {quarter: '9개월 ~ 12개월'},
+    {quarter: '1년 이상 ~'},
   ]
 
   const price = [
@@ -52,6 +53,7 @@ const RoomMateSearch = () => {
     {deposit: '3,000,000원'},
     {deposit: '5,000,000원'},
     {deposit: '8,000,000원'},
+    {deposit: '10,000,000원'},
   ]
 
   const gender = [
@@ -90,64 +92,65 @@ const RoomMateSearch = () => {
           <Badge className={styles.cardBadgeGender}>성별</Badge>
         </div>
           <CaretDownOutlined onClick={handleToggleSearchBox}/>
+          {searchBoxOpen &&
+            <div className={styles.searchChoiceContainer}>
+              <div className={styles.searchChoiceArea}>
+                <p>지역</p>
+                <Radio.Group className={styles.areaRadioGroup}>
+                  {area.map((item, index) => (
+                    <Radio
+                      key={index} 
+                      value={item.region}
+                      className={styles.areaRadioBtn}>
+                      {item.region}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </div>
+              <div className={styles.searchChoicePeriod}>
+                <p>기간</p>
+                <Radio.Group className={styles.periodRadioGroup}>
+                  {period.map((item, index) => (
+                    <Radio
+                      key={index} 
+                      value={item.quarter}
+                      className={styles.periodRadioBtn}>
+                      {item.quarter}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </div>
+              <div className={styles.searchChoicePrice}>
+                <p>보증금</p>
+                <Radio.Group className={styles.priceRadioGroup}>
+                  {price.map((item, index) => (
+                    <Radio
+                      key={index} 
+                      value={item.deposit}
+                      className={styles.priceRadioBtn}>
+                      {item.deposit}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </div>
+              <div className={styles.searchChoiceGender}>
+                <p>성별</p>
+                <Radio.Group className={styles.genderRadioGroup}>
+                  {gender.map((item, index) => (
+                    <Radio
+                      key={index}
+                      value={item.name}
+                      className={styles.genderRadioBtn}>
+                      {item.name}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </div>
+            </div>
+          }
       </div>
     </div>
-    {searchBoxOpen &&
-      <div className={styles.searchChoiceContainer}>
-        <div className={styles.searchChoiceArea}>
-          <p>지역</p>
-          <Radio.Group className={styles.areaRadioGroup}>
-            {area.map((item, index) => (
-              <Radio
-                key={index} 
-                value={item.region}
-                className={styles.areaRadioBtn}>
-                {item.region}
-              </Radio>
-            ))}
-          </Radio.Group>
-        </div>
-        <div className={styles.searchChoicePeriod}>
-          <p>기간</p>
-          <Radio.Group className={styles.periodRadioGroup}>
-            {period.map((item, index) => (
-              <Radio
-                key={index} 
-                value={item.quarter}
-                className={styles.periodRadioBtn}>
-                {item.quarter}
-              </Radio>
-            ))}
-          </Radio.Group>
-        </div>
-        <div className={styles.searchChoicePrice}>
-          <p>보증금</p>
-          <Radio.Group className={styles.priceRadioGroup}>
-            {price.map((item, index) => (
-              <Radio
-                key={index} 
-                value={item.deposit}
-                className={styles.priceRadioBtn}>
-                {item.deposit}
-              </Radio>
-            ))}
-          </Radio.Group>
-        </div>
-        <div className={styles.searchChoiceGender}>
-          <p>성별</p>
-          <Radio.Group className={styles.genderRadioGroup}>
-            {gender.map((item, index) => (
-              <Radio
-                key={index}
-                value={item.name}
-                className={styles.genderRadioBtn}>
-                {item.name}
-              </Radio>
-            ))}
-          </Radio.Group>
-        </div>
-      </div>
-    }
+    
     </>
   )
 }

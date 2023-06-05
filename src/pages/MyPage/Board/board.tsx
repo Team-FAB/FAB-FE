@@ -1,5 +1,4 @@
 import BoardCard from '../../../components/BoardCard/boardCard'
-import PostCard from '../../../components/PostCard/postCard'
 import styles from './board.module.css'
 
 const Board = () => {
