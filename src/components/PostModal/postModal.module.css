@@ -1,0 +1,84 @@
+.badgePresent,
+.isBadgePresent,
+.save,
+.apply,
+.cardBadgeArea,
+.cardBadgePeriod,
+.cardBadgePrice {
+  color: var(--white);
+  padding: 5px 8px;
+  border-radius: var(--badge-border-radius);
+}
+
+.badgePresent {
+  background-color: var(--purple400);
+}
+
+.save {
+  background-color: var(--black200);
+  margin-left: 15px;
+}
+
+.title {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-h5);
+}
+
+.content {
+  font-size: var(--font-size-sub1);
+  height: 70px;
+  line-height: 16px;
+}
+
+.ProfileContainer {
+  position: relative;
+}
+
+.profileImg {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: var(--black100);
+  margin-top: 2px;
+}
+
+.ProfileContent {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 5px;
+  font-size: var(--font-size-sub2);
+  color: var(--black300);
+}
+
+.apply {
+  background-color: var(--black200);
+  float: right;
+}
+
+.line {
+  border-bottom: 1px solid var(--black200);
+  width: 470px;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+.cardBadgeContainer {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.cardBadgeArea {
+  background-color: var(--purple200);
+}
+.cardBadgePeriod {
+  background-color: var(--purple300);
+}
+
+.cardBadgePrice {
+  background-color: var(--purple400);
+}
+
+.isBadgePresent {
+  background-color: var(--black200);
+}

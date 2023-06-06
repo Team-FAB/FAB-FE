@@ -1,0 +1,37 @@
+.badgePresent{
+  color: var(--white);
+  padding: 5px 8px;
+  border-radius: var(--badge-border-radius);
+}
+
+.badgePresent {
+  background-color: var(--purple400);
+}
+
+.ProfileContainer {
+  position: relative;
+}
+
+.profileImg {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: var(--black100);
+  margin-top: 2px;
+}
+
+.ProfileContent {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 5px;
+  font-size: var(--font-size-sub2);
+  color: var(--black300);
+}
+
+.box {
+  width: 17px;
+  height: 17px;
+  background-color: var(--purple400);
+}
+

@@ -13,7 +13,6 @@
   font-size: var(--font-size-h6);
 }
 
-
 .cardBadgeContainer {
   display: flex;
   gap: 5px;
@@ -27,7 +26,6 @@
   padding: 5px 8px;
   border-radius: var(--badge-border-radius);
 }
-
 
 .cardBadgePrice {
   display: flex;

@@ -1,10 +1,6 @@
 .cardContainer {
+  width: 250px;
   cursor: pointer;
-}
-
-.cardContainer:hover {
-  transform: scale(1.05);
-  transition: transform 0.2s ease-in-out;
 }
 
 .cardText {
@@ -28,15 +24,30 @@
 
 .cardBadgeArea,
 .cardBadgePeriod,
-.cardBadgePrice {
+.cardBadgePrice,
+.statusBadgeArea {
   color: var(--white);
   padding: 5px 8px;
   border-radius: var(--badge-border-radius);
 }
 
+.cardTitleBox {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.statusBadgeArea {
+  display: flex;
+  background-color: var(--black200);
+  position: absolute; 
+  right: 0%;
+}
+
 .cardBadgeArea {
   background-color: var(--purple200);
 }
+
 .cardBadgePeriod {
   background-color: var(--purple300);
 }

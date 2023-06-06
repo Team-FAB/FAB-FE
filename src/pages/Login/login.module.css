@@ -16,7 +16,8 @@
 .logo {
   width: 130px;
   position: absolute;
-  top: 30px;
+  top: 50px;
+  left: calc(50% - 70px);
   cursor: pointer;
   transition: opacity 0.3s;
   opacity: 1;
@@ -29,8 +30,6 @@
 .loginBox {
   display: flex;
   height: 500px;
-  top: 10px;
-  left: 10px;
 }
 
 .Logintitle {
