@@ -43,7 +43,7 @@ export interface User {
 }
 
 export interface PostModalProps {
-  post: any
+  post: string
   visible: boolean
   onClose: () => void
 }
@@ -62,4 +62,8 @@ export interface Props {
     isRecruit: boolean
   }>
   showRecruitOnly?: boolean
+}
+
+export interface GlobalState {
+  user: UserState
 }

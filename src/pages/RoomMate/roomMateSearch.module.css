@@ -16,7 +16,7 @@
 .searchBox {
   position: relative;
   display: flex;
-  border: 3px solid var(--purple600);
+  border: 1px solid var(--purple600);
   border-radius: var(--badge-border-radius);
   width: 800px;
   height: 40px;
@@ -25,7 +25,14 @@
   font-size: var(--font-size-sub2);
 }
 
-.searchBox > div {
+.searchBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.searchBar div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +40,7 @@
   border-right: 1px solid var(--black100);
 }
 
-.searchBox > .lastDiv {
+.searchBox .lastDiv {
   border: none;
 }
 
