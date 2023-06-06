@@ -1,0 +1,9 @@
+.applicantContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 870px;
+  height: 100%;
+  margin: 30px auto;
+}
