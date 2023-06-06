@@ -69,23 +69,29 @@ const RoomMateSearch = () => {
           style={{ fontSize: 28 }}
         />
         <div className={styles.searchBox}>
-          <div>
-            <p>지역</p>
-            <Badge className={styles.cardBadgeArea}>{selectedArea}</Badge>
+          <div className={styles.searchBar}>
+            <div>
+              <p>지역</p>
+              <Badge className={styles.cardBadgeArea}>{selectedArea}</Badge>
+            </div>
+            <div>
+              <p>기간</p>
+              <Badge className={styles.cardBadgePeriod}>{selectedPeriod}</Badge>
+            </div>
+            <div>
+              <p>보증금</p>
+              <Badge className={styles.cardBadgePrice}>{selectedPrice}</Badge>
+            </div>
+            <div className={styles.lastDiv}>
+              <p>성별</p>
+              <Badge className={styles.cardBadgeGender}>{selectedGender}</Badge>
+            </div>
+            <CaretDownOutlined
+              className={styles.lastDiv}
+              onClick={handleToggleSearchBox}
+              style={{ color: "#4c2ad3" }}
+            />
           </div>
-          <div>
-            <p>기간</p>
-            <Badge className={styles.cardBadgePeriod}>{selectedPeriod}</Badge>
-          </div>
-          <div>
-            <p>보증금</p>
-            <Badge className={styles.cardBadgePrice}>{selectedPrice}</Badge>
-          </div>
-          <div className={styles.lastDiv}>
-            <p>성별</p>
-            <Badge className={styles.cardBadgeGender}>{selectedGender}</Badge>
-          </div>
-          <CaretDownOutlined onClick={handleToggleSearchBox} />
           {searchBoxOpen && (
             <div className={styles.searchChoiceContainer}>
               <div className={styles.searchChoiceArea}>
