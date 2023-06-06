@@ -12,8 +12,8 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch<AppDispatch>()
 
-  const handleLogin = () => {
-    navigate("/MainPage") // 메인 페이지로 이동
+  const mainpageLink = () => {
+    navigate("/MainPage")
   }
 
   const onFinish = (values: {
@@ -21,6 +21,7 @@ const SignUp: React.FC = () => {
     password: string
     nickname: string
   }) => {
+    console.log(registerUserStatus)
     dispatch(registerUser(values))
   }
 
@@ -30,7 +31,7 @@ const SignUp: React.FC = () => {
 
   useEffect(() => {
     if (registerUserStatus === "fulfilled") {
-      navigate("/MainPage")
+      navigate("/")
     }
   }, [registerUserStatus, navigate])
 
@@ -39,7 +40,7 @@ const SignUp: React.FC = () => {
       <img
         className={styles.logo}
         src="src/assets/logo.svg"
-        onClick={handleLogin}
+        onClick={mainpageLink}
       />
       <div className={styles.signUpBox}>
         <div className={styles.videoBox}></div>
