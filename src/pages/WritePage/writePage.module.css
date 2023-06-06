@@ -1,0 +1,50 @@
+.container {
+  position: relative;
+  align-items: center;
+  vertical-align: center;
+  margin: 0 auto;
+  width: 700px;
+  padding: 100px;
+}
+
+.title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 31px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.titleInput {
+  height: 35px;
+  border-radius: 10px;
+  border-color: var(--black200);
+  margin-bottom: 30px;
+}
+
+.require {
+  color: var(--red);
+  font-size: var(--font-size-sub2);
+  margin-bottom: 12px;
+}
+
+.textArea {
+  margin-top: -40px;
+  height: 400px;
+  z-index: 0;
+}
+
+.buttonContainer {
+  display: flex;
+  margin-top: 100px;
+}
+
+.submitButton {
+  margin: 0 auto;
+  width: 100px;
+  color: var(--white);
+  background-color: var(--purple600);
+  border-radius: var(--badge-border-radius);
+}

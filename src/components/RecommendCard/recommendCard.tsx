@@ -39,7 +39,7 @@ const RecommendPostCard: React.FC<Props> = ({ user, onClick }) => {
             <br /> 확인해보세요 ~
           </div>
           <div className={styles.cardBadgeContainer}>
-            <Button className={styles.cardBadgePrice}>프로필 보기</Button>
+            <Button className={styles.cardBadgePrice} type="primary">프로필 보기</Button>
           </div>
         </Card>
       </Badge.Ribbon>
