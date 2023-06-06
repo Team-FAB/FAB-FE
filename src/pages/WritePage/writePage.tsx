@@ -1,26 +1,14 @@
 import React, { useState } from "react";
+import styles from "./writePage.module.css"
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Quill의 테마를 가져옵니다.
+import "react-quill/dist/quill.snow.css";
+import WritePageSelect from "./writePageSelect";
+import { Button, Input } from "antd";
 
 const WritePage: React.FC = () => {
   const [content, setContent] = useState("");
 
   const modules = {
-    toolbar: [
-      ["bold", "italic", "underline", "strike"],
-      ["blockquote", "code-block"],
-      [{ header: 1 }, { header: 2 }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ script: "sub" }, { script: "super" }],
-      [{ indent: "-1" }, { indent: "+1" }],
-      [{ direction: "rtl" }],
-      [{ size: ["small", false, "large", "huge"] }],
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      [{ color: [] }, { background: [] }],
-      [{ font: [] }],
-      [{ align: [] }],
-      ["clean"],
-    ],
   };
 
   const handleChange = (
@@ -32,10 +20,16 @@ const WritePage: React.FC = () => {
     setContent(content);
   };
 
+
+
   return (
-    <div>
-      <ReactQuill theme="snow" modules={modules} onChange={handleChange} />
-      <button>등록</button>
+    <div className={styles.container}>
+      <div className={styles.title}>게시글 작성 ✏️</div>
+      <Input placeholder="제목" className={styles.titleInput}></Input>
+      <div className={styles.require}>* 필수 입력 항목</div>
+      <WritePageSelect/>
+      <ReactQuill theme="snow" modules={modules} onChange={handleChange} className={styles.textArea}/>
+      <div className={styles.buttonContainer}><Button className={styles.submitButton} type="primary">등록</Button></div>
     </div>
   );
 };
