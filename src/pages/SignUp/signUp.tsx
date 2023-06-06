@@ -78,6 +78,16 @@ const SignUp: React.FC = () => {
               name="passwordCheck"
               rules={[
                 { required: true, message: "비밀번호를 한번 더 입력하세요." },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve()
+                    }
+                    return Promise.reject(
+                      new Error("비밀번호가 맞지 않습니다."),
+                    )
+                  },
+                }),
               ]}
             >
               <Input

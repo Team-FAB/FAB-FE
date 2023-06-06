@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { UserState } from "../interface/interface"
 
 const initialState: UserState = {
@@ -14,7 +14,7 @@ export const loginUser = createAsyncThunk(
   async (credentials: { email: string; password: string }) => {
     try {
       const response = await fetch(
-        "http://7e26-221-156-192-79.ngrok-free.app/api/users/login",
+        "https://0c48-211-211-141-39.ngrok-free.app/api/users/login",
         {
           method: "POST",
           headers: {
@@ -29,10 +29,13 @@ export const loginUser = createAsyncThunk(
       }
 
       const data = await response.json()
-      return data.jwt
+      return { jwt: data.jwt, name: data.name }
     } catch (error) {
-      console.error(error)
-      throw error
+      console.error("오류", error)
+      return {
+        jwt: "",
+        name: "",
+      }
     }
   },
 )
@@ -41,8 +44,8 @@ export const registerUser = createAsyncThunk(
   "api/users/register",
   async (userInfo: { email: string; password: string; nickname: string }) => {
     try {
-      const response = await fetch(
-        "http://7e26-221-156-192-79.ngrok-free.app/api/users/register",
+      await fetch(
+        "https://0c48-211-211-141-39.ngrok-free.app/api/users/register",
         {
           method: "POST",
           headers: {
@@ -51,61 +54,39 @@ export const registerUser = createAsyncThunk(
           body: JSON.stringify(userInfo),
         },
       )
-
-      if (!response.ok) {
-        throw new Error("회원가입 실패")
-      }
-
-      const data = await response.json()
-      return data.message
     } catch (error) {
-      console.error(error)
+      console.error("회원가입 실패", error)
     }
   },
 )
 
-export const userSlice = createSlice({
+const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<{ name: string }>) => {
-      state.isLogged = true
-      state.name = action.payload.name
-    },
     logout: (state) => {
       state.isLogged = false
       state.name = null
+      state.jwt = ""
+      state.error = ""
+      state.status = ""
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(loginUser.fulfilled, (state, action: PayloadAction<string>) => {
-        state.jwt = action.payload
-        state.isLogged = true
-      })
-      .addCase(loginUser.rejected, (state, action) => {
-        if (action.payload) {
-          state.error = action.payload.message || "로그인에 실패했습니다."
-        } else {
-          state.error = action.error.message || "로그인에 실패했습니다."
-        }
-      })
-      .addCase(
-        registerUser.fulfilled,
-        (state, action: PayloadAction<string>) => {
-          state.name = action.payload
-        },
-      )
-      .addCase(registerUser.rejected, (state, action) => {
-        if (action.payload) {
-          state.error = action.payload.message || "회원가입에 실패했습니다."
-        } else {
-          state.error = action.error.message || "회원가입에 실패했습니다."
-        }
-      })
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      state.isLogged = true
+      state.jwt = action.payload.jwt
+      state.name = action.payload.name
+      state.status = "fulfilled"
+    })
+
+    builder.addCase(loginUser.rejected, (state) => {
+      state.isLogged = false
+      state.error = "로그인 실패"
+      state.status = "rejected"
+    })
   },
 })
 
-export const { login, logout } = userSlice.actions
-
+export const { logout } = userSlice.actions
 export default userSlice.reducer
