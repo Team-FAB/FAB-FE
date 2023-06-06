@@ -1,8 +1,9 @@
 .alarmContainer {
   position: relative;
   display: flex;
+  justify-content: center;
   align-items: center;
-  width: 30px;
+  width: 50px;
   cursor: pointer;
 }
 

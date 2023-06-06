@@ -9,7 +9,7 @@
       "createdDate": "20XX-00-00",
       "region": "남양주",
       "period": "3~6개월",
-      "price": "5,000,000",
+      "price": "5,000,000원",
       "isRecruit": true
     },
     {
@@ -21,8 +21,8 @@
       "createdDate": "20XX-00-00",
       "region": "인천",
       "period": "3~6개월",
-      "price": "5,000,000",
-      "isRecruit": true
+      "price": "5,000,000원",
+      "isRecruit": false
     },
     {
       "id": 3,
@@ -33,7 +33,7 @@
       "createdDate": "20XX-00-00",
       "region": "전남",
       "period": "3~6개월",
-      "price": "5,000,000",
+      "price": "5,000,000원",
       "isRecruit": true
     },
     {
@@ -45,8 +45,8 @@
       "createdDate": "20XX-00-00",
       "region": "지역",
       "period": "3~6개월",
-      "price": "5,000,000",
-      "isRecruit": true
+      "price": "5,000,000원",
+      "isRecruit": false
     },
     {
       "id": 5,
@@ -57,8 +57,8 @@
       "createdDate": "20XX-00-00",
       "region": "노원",
       "period": "3~6개월",
-      "price": "5,000,000",
-      "isRecruit": true
+      "price": "5,000,000원",
+      "isRecruit": false
     },
     {
       "id": 6,
@@ -69,7 +69,7 @@
       "createdDate": "20XX-00-00",
       "region": "안양",
       "period": "3~6개월",
-      "price": "5,000,000",
+      "price": "5,000,000원",
       "isRecruit": true
     },
     {
@@ -81,8 +81,8 @@
       "createdDate": "20XX-00-00",
       "region": "지역",
       "period": "3~6개월",
-      "price": "5,000,000",
-      "isRecruit": true
+      "price": "5,000,000원",
+      "isRecruit": false
     },
     {
       "id": 8,
@@ -93,8 +93,8 @@
       "createdDate": "20XX-00-00",
       "region": "지역",
       "period": "3~6개월",
-      "price": "5,000,000",
-      "isRecruit": true
+      "price": "5,000,000원",
+      "isRecruit": false
     },
     {
       "id": 9,
@@ -105,8 +105,8 @@
       "createdDate": "20XX-00-00",
       "region": "지역",
       "period": "3~6개월",
-      "price": "5,000,000",
-      "isRecruit": true
+      "price": "5,000,000원",
+      "isRecruit": false
     },
     {
       "id": 10,
@@ -117,7 +117,7 @@
       "createdDate": "20XX-00-00",
       "region": "지역",
       "period": "3~6개월",
-      "price": "5,000,000",
+      "price": "5,000,000원",
       "isRecruit": true
     },
     {
@@ -129,7 +129,7 @@
       "createdDate": "20XX-00-00",
       "region": "지역",
       "period": "3~6개월",
-      "price": "5,000,000",
+      "price": "5,000,000원",
       "isRecruit": true
     },
     {
@@ -141,8 +141,8 @@
       "createdDate": "20XX-00-00",
       "region": "지역",
       "period": "3~6개월",
-      "price": "5,000,000",
-      "isRecruit": true
+      "price": "5,000,000원",
+      "isRecruit": false
     },
     {
       "id": 13,
@@ -153,7 +153,31 @@
       "createdDate": "20XX-00-00",
       "region": "지역",
       "period": "3~6개월",
-      "price": "5,000,000",
+      "price": "5,000,000원",
+      "isRecruit": false
+    },
+    {
+      "id": 14,
+      "title": "Title 14",
+      "nickname": "페이지네이션 테스트",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "지역",
+      "period": "3~6개월",
+      "price": "5,000,000원",
+      "isRecruit": true
+    },
+    {
+      "id": 15,
+      "title": "Title 15",
+      "nickname": "페이지네이션 테스트",
+      "content": "글 내용",
+      "gender": "FEMALE",
+      "createdDate": "20XX-00-00",
+      "region": "지역",
+      "period": "3~6개월",
+      "price": "5,000,000원",
       "isRecruit": true
     }
   ]

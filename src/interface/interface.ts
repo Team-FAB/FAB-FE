@@ -2,7 +2,7 @@ export interface UserState {
   isLogged: boolean
   name: string | null
   jwt: string
-  error: string
+  error: string | undefined
   status: string
 }
 
@@ -21,7 +21,7 @@ export interface Post {
   region: string
   period: string
   price: string
-  recruit: boolean
+  isRecruit: boolean
 }
 
 export interface User {
@@ -46,4 +46,20 @@ export interface PostModalProps {
   post: any
   visible: boolean
   onClose: () => void
+}
+
+export interface Props {
+  posts: Array<{
+    id: number
+    title: string
+    nickname: string
+    content: string
+    gender: string
+    createdDate: string
+    region: string
+    period: string
+    price: string
+    isRecruit: boolean
+  }>
+  showRecruitOnly?: boolean
 }

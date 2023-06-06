@@ -18,10 +18,11 @@
   display: flex;
   border: 3px solid var(--purple600);
   border-radius: var(--badge-border-radius);
-  width: 550px;
+  width: 800px;
   height: 40px;
   box-sizing: border-box;
   padding: 7px 15px;
+  font-size: var(--font-size-sub2);
 }
 
 .searchBox > div {
@@ -29,6 +30,11 @@
   justify-content: center;
   align-items: center;
   flex: 1;
+  border-right: 1px solid var(--black100);
+}
+
+.searchBox > .lastDiv {
+  border: none;
 }
 
 /* postCard.css */
@@ -61,11 +67,12 @@
 .searchChoiceContainer {
   position: absolute;
   top: 140%;
-  left: -1%;
+  left: 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
   justify-content: center;
-  width: 500px;
+  width: 700px;
   height: 245px;
   margin: 0 auto;
   background-color: var(--white);
@@ -76,7 +83,7 @@
 }
 
 .searchChoiceContainer > div > p {
-  font-size: var(--font-size-h6);
+  font-size: var(--font-size-body1);
   margin-bottom: 13px;
 }
 
@@ -103,18 +110,23 @@
   color: var(--purple500);
 }
 
-.areaRadioGroup::-webkit-scrollbar,
+.areaRadioGroup::-webkit-scrollbar-thumb {
+  background-color: var(--black100);
+  border-radius: var(--badge-border-radius);
+}
+
+.areaRadioGroup::-webkit-scrollbar {
+  background-color: inherit;
+}
+
 .periodRadioGroup::-webkit-scrollbar,
 .priceRadioGroup::-webkit-scrollbar,
-.genderRadioGroup::-webkit-scrollbar{
+.genderRadioGroup::-webkit-scrollbar {
   display: none;
 }
 
 .areaRadioGroup {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
   height: 200px;
-  margin-top: 20px;
   overflow-y: scroll;
 }
 
@@ -122,9 +134,9 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 70px;
+  width: 120px;
   height: 40px;
-  font-size: var(--font-size-sub4);
+  font-size: var(--font-size-sub3);
   margin: 0px;
 }
 
@@ -133,7 +145,6 @@
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   height: 200px;
-  margin-top: 20px;
   overflow-y: scroll;
 }
 
@@ -142,9 +153,9 @@
   display: flex;
   justify-items: start;
   align-items: center;
-  width: 100px;
+  width: 120px;
   height: 40px;
-  font-size: var(--font-size-sub4);
+  font-size: var(--font-size-sub3);
 }
 
 .genderRadioGroup {

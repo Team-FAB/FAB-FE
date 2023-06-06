@@ -47,7 +47,7 @@ const Login: React.FC = () => {
               onFinish={handleLogin}
             >
               <Form.Item
-                name="Email"
+                name="email"
                 rules={[{ required: true, message: "이메일을 입력하세요." }]}
               >
                 <Input
