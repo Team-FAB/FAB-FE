@@ -2,6 +2,7 @@ import styles from "../Footer/footer.module.css"
 import { SiNotion } from "react-icons/si"
 import { BsYoutube } from "react-icons/bs"
 import { ImGithub } from "react-icons/im"
+import img from '../../assets/logo(w).svg'
 
 const Footer: React.FC = () => {
   const owner = [
@@ -21,7 +22,7 @@ const Footer: React.FC = () => {
       <div className={styles.footerContainer}>
         <div className={styles.footerBox}>
           <div className={styles.footerDesc}>
-            <img src="src/assets/logo(w).svg" />
+            <img src={img} />
             <p>COMPANY NAME: 방갑고</p>
             <p>OWNER: First And Best</p>
             <p>Copyright © 2023 - All right reserved</p>
