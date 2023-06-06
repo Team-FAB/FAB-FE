@@ -1,20 +1,23 @@
-import React from "react"
-import { Provider } from "react-redux"
-import { store } from "./Redux/store"
-import "../src/App.css"
-import { ConfigProvider } from "antd"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Chat from "./components/Chat/chat"
-import Header from "./components/Header/header"
-import MainPage from "../src/pages/MainPage/mainPage"
-import Footer from "./components/Footer/footer"
-import Login from "./pages/Login/login"
-import SignUp from "./pages/SignUp/signUp"
-import Profile from "./pages/MyPage/Proflie/profile"
-import RoomMate from "./pages/RoomMate/roomMate"
-import Board from "./pages/MyPage/Board/board"
-import Applicant from "./pages/MyPage/Applicant/applicant"
-import Favorite from "./pages/MyPage/Favorites/favorite"
+import React from "react";
+import { Provider } from "react-redux";
+import { store } from "./Redux/store";
+import "../src/App.css";
+import { ConfigProvider } from "antd";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Chat from "./components/Chat/chat";
+import Header from "./components/Header/header";
+import MainPage from "../src/pages/MainPage/mainPage";
+import Footer from "./components/Footer/footer";
+import Login from "./pages/Login/login";
+import SignUp from "./pages/SignUp/signUp";
+import Profile from "./pages/MyPage/Proflie/profile";
+import RoomMate from "./pages/RoomMate/roomMate";
+import Board from "./pages/MyPage/Board/board";
+import Applicant from "./pages/MyPage/Applicant/applicant";
+import Favorite from "./pages/MyPage/Favorites/favorite";
+import WritePage from "./pages/WritePage/writePage";
+
+
 
 const App: React.FC = () => {
   return (
@@ -39,12 +42,13 @@ const App: React.FC = () => {
             <Route path="/Board" element={<Board />} />
             <Route path="/Applicant" element={<Applicant />} />
             <Route path="/Favorite" element={<Favorite />} />
+            <Route path="/WritePage" element={<WritePage />} />
           </Routes>
           <Footer />
         </BrowserRouter>
       </ConfigProvider>
     </Provider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

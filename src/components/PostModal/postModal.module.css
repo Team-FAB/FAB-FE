@@ -1,4 +1,5 @@
 .badgePresent,
+.isBadgePresent,
 .save,
 .apply,
 .cardBadgeArea,
@@ -76,4 +77,8 @@
 
 .cardBadgePrice {
   background-color: var(--purple400);
+}
+
+.isBadgePresent {
+  background-color: var(--black200);
 }
