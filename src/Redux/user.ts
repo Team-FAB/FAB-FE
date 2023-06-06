@@ -3,10 +3,9 @@ import { UserState } from "../interface/interface"
 
 const initialState: UserState = {
   isLogged: false,
-  name: null,
-  jwt: "",
   error: "",
   status: "",
+  signUp: false,
 }
 
 export const loginUser = createAsyncThunk(
@@ -32,10 +31,7 @@ export const loginUser = createAsyncThunk(
       return { jwt: data.jwt, name: data.name }
     } catch (error) {
       console.error("오류", error)
-      return {
-        jwt: "",
-        name: "",
-      }
+      throw error
     }
   },
 )
@@ -44,7 +40,7 @@ export const registerUser = createAsyncThunk(
   "api/users/register",
   async (userInfo: { email: string; password: string; nickname: string }) => {
     try {
-      await fetch(
+      const response = await fetch(
         "https://0c48-211-211-141-39.ngrok-free.app/api/users/register",
         {
           method: "POST",
@@ -54,8 +50,13 @@ export const registerUser = createAsyncThunk(
           body: JSON.stringify(userInfo),
         },
       )
+
+      if (!response.ok) {
+        throw new Error("회원가입 실패")
+      }
     } catch (error) {
       console.error("회원가입 실패", error)
+      throw error
     }
   },
 )
@@ -66,23 +67,35 @@ const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.isLogged = false
-      state.name = null
-      state.jwt = ""
       state.error = ""
-      state.status = ""
+      state.status = "idle"
+    },
+    signUp: (state) => {
+      state.signUp = false
+      state.error = ""
+      state.status = "idle"
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginUser.fulfilled, (state, action) => {
+    builder.addCase(loginUser.fulfilled, (state) => {
       state.isLogged = true
-      state.jwt = action.payload.jwt
-      state.name = action.payload.name
       state.status = "fulfilled"
     })
 
     builder.addCase(loginUser.rejected, (state) => {
       state.isLogged = false
       state.error = "로그인 실패"
+      state.status = "rejected"
+    })
+
+    builder.addCase(registerUser.fulfilled, (state) => {
+      state.signUp = true
+      state.status = "fulfilled"
+    })
+
+    builder.addCase(registerUser.rejected, (state) => {
+      state.signUp = false
+      state.error = "회원가입 실패"
       state.status = "rejected"
     })
   },

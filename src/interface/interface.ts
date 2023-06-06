@@ -1,7 +1,6 @@
 export interface UserState {
   isLogged: boolean
-  name: string | null
-  jwt: string
+  signUp: boolean
   error: string | undefined
   status: string
 }
