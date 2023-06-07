@@ -24,7 +24,6 @@ const Login: React.FC = () => {
   }
 
   useEffect(() => {
-    console.log(user)
     if (user.error) {
       messageApi.info("이메일 또는 비밀번호를 입력하세요.")
     } else if (user.isLogged) {
