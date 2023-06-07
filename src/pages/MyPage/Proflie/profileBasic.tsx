@@ -1,13 +1,29 @@
-import { Input, Button, Form } from "antd"
+import { Input, Button, Form, Upload } from "antd"
 import { UserOutlined, MailOutlined } from "@ant-design/icons"
 import styles from './profile.module.css'
+import { useState } from "react";
 
 const ProfileBasic: React.FC = () => {
+
+  const [profilePhoto, setProfilePhoto] = useState<string>('https://via.placeholder.com/120');
+
+  const handleImageUpload = (file: File | Blob) => {
+    const imageURL = URL.createObjectURL(file);
+    setProfilePhoto(imageURL);
+  };
 
   return (
     <div className={styles.profilePhotoBox}>
       <div>
-        <img className={styles.profilePhoto} src='https://via.placeholder.com/120' />
+        <Upload
+            accept="image/*"
+            showUploadList={false}
+            beforeUpload={(file) => {
+              handleImageUpload(file);
+              return false; // 업로드 후 자동으로 업로드 목록에 추가되지 않도록 설정
+            }}>
+          <img className={styles.profilePhoto} src={profilePhoto} alt="Profile" />
+        </Upload>
       </div>
 
       <Form
