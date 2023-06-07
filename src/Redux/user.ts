@@ -3,6 +3,7 @@ import { Token, UserState } from "../interface/interface"
 import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage"
 import { Dispatch } from "redux"
 import { RootState } from "./store"
+import { userLogin, userRegister } from "../api"
 
 let initialState: UserState = {
   isLogged: false,
@@ -58,16 +59,13 @@ export const loginUser = createAsyncThunk<
     { dispatch, getState },
   ) => {
     try {
-      const response = await fetch(
-        "https://2d22-211-211-141-39.ngrok-free.app/api/users/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
+      const response = await fetch(userLogin, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      )
+        body: JSON.stringify(credentials),
+      })
 
       const data = await response.json()
       const { token, name } = data
@@ -75,7 +73,6 @@ export const loginUser = createAsyncThunk<
       dispatch(loginSuccess({ token, name }))
 
       saveToLocalStorage(getState().user)
-
       return { token, name }
     } catch (error) {
       console.error("오류", error)
@@ -88,16 +85,13 @@ export const registerUser = createAsyncThunk(
   "api/users/register",
   async (userInfo: { email: string; password: string; nickname: string }) => {
     try {
-      await fetch(
-        "https://2d22-211-211-141-39.ngrok-free.app/api/users/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userInfo),
+      await fetch(userRegister, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      )
+        body: JSON.stringify(userInfo),
+      })
     } catch (error) {
       console.error("회원가입 실패", error)
       throw error

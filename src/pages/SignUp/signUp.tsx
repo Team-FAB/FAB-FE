@@ -2,15 +2,15 @@ import { Input, Button, Form } from "antd"
 import { UserOutlined, LockOutlined } from "@ant-design/icons"
 import styles from "./signUp.module.css"
 import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
 import { registerUser } from "../../Redux/user"
 import { useSelector } from "react-redux"
-import { AppDispatch, RootState } from "../../Redux/store"
+import { RootState } from "../../Redux/store"
 import { useEffect } from "react"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
 
   const mainpageLink = () => {
     navigate("/MainPage")
