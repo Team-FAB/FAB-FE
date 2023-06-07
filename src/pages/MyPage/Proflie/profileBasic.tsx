@@ -16,12 +16,12 @@ const ProfileBasic: React.FC = () => {
     <div className={styles.profilePhotoBox}>
       <div>
         <Upload
-            accept="image/*"
-            showUploadList={false}
-            beforeUpload={(file) => {
-              handleImageUpload(file);
-              return false; // 업로드 후 자동으로 업로드 목록에 추가되지 않도록 설정
-            }}>
+          accept="image/*"
+          showUploadList={false}
+          beforeUpload={(file) => {
+            handleImageUpload(file);
+            return false; // 업로드 후 자동으로 업로드 목록에 추가되지 않도록 설정
+          }}>
           <img className={styles.profilePhoto} src={profilePhoto} alt="Profile" />
         </Upload>
       </div>
