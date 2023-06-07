@@ -3,7 +3,7 @@
   height: 100%;
   margin: 0 auto;
   margin-top: 35px;
-  min-height: 1250px;
+  min-height: 1300px;
 }
 
 .profilePhotoBox {
@@ -96,7 +96,7 @@
 
 .tagContainer > div {
   margin-bottom: 26px;
-  margin-left: 20px;
+  /* margin-left: 20px; */
 }
 
 .tendencyDesc {
@@ -104,6 +104,7 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 6px;
+  margin-top: 10px;
 }
 
 .tagContainer > div > span {
@@ -115,6 +116,7 @@
   justify-content: center;
   align-items: center;
   margin-left: 5px;
+  margin-bottom: 30px;
 }
 
 .tendencyBox {
@@ -122,6 +124,16 @@
   height: 120px;
   padding-left: 10px;
   overflow-y: scroll;
+  transform: translateX(10px);
+}
+
+.tendencyNot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 330px;
+  height: 120px;
+  padding-left: 10px;
 }
 
 .tendencyBox::-webkit-scrollbar {
@@ -154,6 +166,10 @@
   border: 1px solid var(--black200);
   border-radius: var(--badge-border-radius);
   font-size: var(--font-size-sub3);
+}
+
+.tendencyNotChoice {
+  transform: translateX(-15px);
 }
 
 .IntroducContainer > p {

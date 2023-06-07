@@ -223,13 +223,6 @@ const ProfileTendency: React.FC = () => {
         <div>
           <div className={styles.tendencyDesc}>
             <span>이런 룸메이트가 싫어요 😤</span>
-            <Button 
-              className={styles.tendencyBtn} 
-              type="primary" 
-              onClick={() => setTendencyModal(true)} 
-              style={{ width: 50, height: 25, fontSize: 10, borderRadius: 20 }}>
-              수정
-            </Button>
             <Modal
               title="이런 룸메이트가 싫어요 😤 (1개 ~ 최대 5개 선택)"
               centered
@@ -240,14 +233,18 @@ const ProfileTendency: React.FC = () => {
               }}
               onCancel={() => setTendencyModal(false)}>
               <div className={styles.tendencyModalBox}>
-                <Checkbox.Group options={tendencyChoice} onChange={handleTendencyChange} disabled/>
+                <Checkbox.Group options={tendencyChoice} onChange={handleTendencyChange}/>
               </div>
             </Modal>
           </div>
-          <div className={styles.tendencyBox}>
-            {selectedTendency.map((item, index) => (
-              <span key={index}>#{item}</span>
-            ))}
+          <div className={`${styles.tendencyBox} ${selectedTendency.length === 0 ? styles.tendencyNot : ''}`}>
+            {selectedTendency.length === 0 ? (
+              <span className={styles.tendencyNotChoice}>성향을 선택해주세요</span>
+            ) : (
+              selectedTendency.map((item, index) => (
+                <span key={index}>#{item}</span>
+              ))
+            )}
           </div>
         </div>
         <div>
@@ -276,6 +273,13 @@ const ProfileTendency: React.FC = () => {
             ))}
           </div>
         </div>
+        <Button 
+          className={styles.tendencyBtn} 
+          type="primary" 
+          onClick={() => setTendencyModal(true)} 
+          style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>
+          수정
+        </Button>
       </div>
       <div className={styles.IntroducContainer}>
         <p>본인 소개</p>
