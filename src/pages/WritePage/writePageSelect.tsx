@@ -1,14 +1,43 @@
-import { Badge, Input, Form } from "antd";
+import { Badge, Input, Form, RadioChangeEvent } from "antd";
 import styles from "./writePageSelect.module.css";
 import { Radio } from "antd";
 import { useState } from "react";
+import { FormInstance } from "antd";
 
-const writePageSelect = () => {
+interface WritePageSelectProps {
+  form: FormInstance;
+}
+
+const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
   const [searchBoxOpen, setSearchBoxOpen] = useState(false);
-  const [selectedArea, setSelectedArea] = useState("지역");
-  const [selectedPeriod, setSelectedPeriod] = useState("기간");
-  const [selectedPrice, setSelectedPrice] = useState("보증금");
-  const [selectedGender, setSelectedGender] = useState("성별");
+  const [selectedArea, setSelectedArea] = useState<string>("지역");
+  const [selectedPeriod, setSelectedPeriod] = useState<string>("기간");
+  const [selectedPrice, setSelectedPrice] = useState<String>("보증금");
+  const [selectedGender, setSelectedGender] = useState<string>("성별");
+
+  const handleRegionChange = (e: RadioChangeEvent) => {
+    const region = e.target.value;
+    setSelectedArea(region);
+    form.setFieldsValue({ region });
+  };
+
+  const handlePeriodChange = (e: RadioChangeEvent) => {
+    const period = e.target.value;
+    setSelectedPeriod(period);
+    form.setFieldsValue({ period });
+  };
+
+  const handlePriceChange = (e: RadioChangeEvent) => {
+    const price = e.target.value
+    setSelectedPrice(price);
+    form.setFieldsValue({ price });
+  };
+
+  const handleGenderChange = (e: RadioChangeEvent) => {
+    const gender = e.target.value;
+    setSelectedGender(gender);
+    form.setFieldsValue({ gender });
+  };
 
   const handleToggleSearchBox = () => {
     setSearchBoxOpen(!searchBoxOpen);
@@ -50,6 +79,14 @@ const writePageSelect = () => {
     { quarter: "1년 이상 ~" },
   ];
 
+  const price = [
+    { deposit: "~ 1,000,000원" },
+    { deposit: "~ 3,000,000원" },
+    { deposit: "~ 5,000,000원" },
+    { deposit: "~ 8,000,000원" },
+    { deposit: "~ 10,000,000원" },
+  ];
+
   const gender = [{ name: "여성" }, { name: "남성" }];
 
   return (
@@ -82,14 +119,26 @@ const writePageSelect = () => {
               <Badge className={styles.cardBadgeGender}>{selectedGender}</Badge>
             </div>
           </div>
-          {searchBoxOpen && (
-            <div className={styles.searchChoiceContainer}>
-              <div className={styles.searchChoiceArea}>
-                <p>지역</p>
-                <div className={styles.areaRadioGroup}>
-                  <Radio.Group
-                    onChange={(e) => setSelectedArea(e.target.value)}
-                  >
+          <div
+            className={
+              searchBoxOpen
+                ? styles.searchChoiceContainer
+                : styles.searchChoiceContainerHide
+            }
+          >
+            <div className={styles.searchChoiceArea}>
+              <p>지역</p>
+              <div className={styles.areaRadioGroup}>
+                <Form.Item
+                  name="region"
+                  rules={[
+                    {
+                      required: true,
+                      message: "지역을 선택해 주세요.",
+                    },
+                  ]}
+                >
+                  <Radio.Group onChange={handleRegionChange}>
                     {area.map((item, index) => (
                       <Radio
                         key={index}
@@ -100,14 +149,24 @@ const writePageSelect = () => {
                       </Radio>
                     ))}
                   </Radio.Group>
-                </div>
+                </Form.Item>
               </div>
-              <div className={styles.searchChoicePeriod}>
-                <p>기간</p>
+            </div>
+            <div className={styles.searchChoicePeriod}>
+              <p>기간</p>
+              <Form.Item
+                name="period"
+                rules={[
+                  {
+                    required: true,
+                    message: "기간을 선택해 주세요.",
+                  },
+                ]}
+              >
                 <Radio.Group
                   className={styles.periodRadioGroup}
                   value={selectedPeriod}
-                  onChange={(e) => setSelectedPeriod(e.target.value)}
+                  onChange={handlePeriodChange}
                 >
                   {period.map((item, index) => (
                     <Radio
@@ -119,55 +178,51 @@ const writePageSelect = () => {
                     </Radio>
                   ))}
                 </Radio.Group>
-              </div>
-              <div className={styles.searchChoicePrice}>
-                <p>보증금</p>
-                <Form>
-                  <Form.Item
-                    name="price"
-                    rules={[
-                      {
-                        required: true,
-                        message: "필수 입력 사항입니다.",
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          const numericValue = parseInt(value, 10);
-                          if (
-                            !value ||
-                            (numericValue >= 1000000 &&
-                              numericValue <= 10000000)
-                          ) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(
-                            new Error(
-                              "가격은 백만원에서 천만원 사이여야 합니다."
-                            )
-                          );
-                        },
-                      }),
-                    ]}
-                  >
-                    <Input
-                      placeholder="가격을 입력해주세요."
-                      className={styles.priceInput}
-                      onChange={(e) => {
-                        setSelectedPrice(
-                          e.target.value === "" ? "보증금" : e.target.value
-                        );
-                      }}
-                      maxLength={8}
-                    />
-                  </Form.Item>
-                </Form>
-              </div>
-              <div className={styles.searchChoiceGender}>
-                <p>성별</p>
+              </Form.Item>
+            </div>
+            <div className={styles.searchChoicePrice}>
+              <p>보증금</p>
+              <Form.Item
+                name="price"
+                rules={[
+                  {
+                    required: true,
+                    message: "소유한 보증금을 선택해 주세요.",
+                  },
+                ]}
+              >
+                <Radio.Group
+                  className={styles.priceRadioGroup}
+                  value={selectedPeriod}
+                  onChange={handlePriceChange}
+                >
+                  {price.map((item, index) => (
+                    <Radio
+                      key={index}
+                      value={item.deposit}
+                      className={styles.priceRadioBtn}
+                    >
+                      {item.deposit}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+            </div>
+            <div className={styles.searchChoiceGender}>
+              <p>성별</p>
+              <Form.Item
+                name="gender"
+                rules={[
+                  {
+                    required: true,
+                    message: "성별을 선택해 주세요.",
+                  },
+                ]}
+              >
                 <Radio.Group
                   className={styles.genderRadioGroup}
                   value={selectedGender}
-                  onChange={(e) => setSelectedGender(e.target.value)}
+                  onChange={handleGenderChange}
                 >
                   {gender.map((item, index) => (
                     <Radio
@@ -179,9 +234,9 @@ const writePageSelect = () => {
                     </Radio>
                   ))}
                 </Radio.Group>
-              </div>
+              </Form.Item>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </>
