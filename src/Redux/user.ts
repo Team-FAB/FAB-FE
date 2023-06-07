@@ -5,6 +5,7 @@ import { Token, UserState } from "../interface/interface"
 import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage"
 import { Dispatch } from "redux"
 import { RootState } from "./store"
+import { userLogin, userRegister } from "../api"
 
 let initialState: UserState = {
   isLogged: false,
