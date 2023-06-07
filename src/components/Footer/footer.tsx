@@ -2,7 +2,7 @@ import styles from "../Footer/footer.module.css"
 import { SiNotion } from "react-icons/si"
 import { BsYoutube } from "react-icons/bs"
 import { ImGithub } from "react-icons/im"
-import img from '../../assets/logo(w).svg'
+import img from "../../assets/logo(w).svg"
 
 const Footer: React.FC = () => {
   const owner = [

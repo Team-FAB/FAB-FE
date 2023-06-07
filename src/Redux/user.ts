@@ -81,7 +81,7 @@ export const loginUser = createAsyncThunk<
       saveToLocalStorage(getState().user)
       return { token, name }
     } catch (error) {
-      console.error("오류", error)
+      console.error("로그인 실패")
       throw error
     }
   },
@@ -108,7 +108,7 @@ export const kakaologinUser = createAsyncThunk<
     saveToLocalStorage(getState().user)
     return { token }
   } catch (error) {
-    console.error("오류", error)
+    console.error("로그인 실패")
     throw error
   }
 })
@@ -117,7 +117,7 @@ export const googleloginUser = createAsyncThunk<
   { token: string },
   void,
   { dispatch: Dispatch; state: RootState }
->("login/oauth2/kakao", async (_, { dispatch, getState }) => {
+>("login/oauth2/google", async (_, { dispatch, getState }) => {
   try {
     const response = await fetch(googleUserLogin, {
       method: "GET",
@@ -134,7 +134,7 @@ export const googleloginUser = createAsyncThunk<
     saveToLocalStorage(getState().user)
     return { token }
   } catch (error) {
-    console.error("오류", error)
+    console.error("로그인 실패")
     throw error
   }
 })
@@ -151,7 +151,7 @@ export const registerUser = createAsyncThunk(
         body: JSON.stringify(userInfo),
       })
     } catch (error) {
-      console.error("회원가입 실패", error)
+      console.error("회원가입 실패")
       throw error
     }
   },
@@ -206,30 +206,26 @@ const userSlice = createSlice({
     builder.addCase(registerUser.rejected, (state) => {
       state.signUp = false
       state.msg = "회원가입 실패"
-      state.status = "rejected"
     })
 
-    // builder.addCase(kakaologinUser.fulfilled, (state) => {
-    //   state.kakao = true
-    //   state.status = "fulfilled"
-    // })
+    builder.addCase(kakaologinUser.fulfilled, (state) => {
+      state.kakao = true
+      state.status = "fulfilled"
+    })
 
-    // builder.addCase(kakaologinUser.rejected, (state) => {
-    //   state.kakao = false
-    //   state.msg = "로그인 실패"
-    //   state.status = "rejected"
-    // })
+    builder.addCase(kakaologinUser.rejected, (state) => {
+      state.kakao = false
+      state.msg = "로그인 실패"
+    })
 
-    // builder.addCase(googleloginUser.fulfilled, (state) => {
-    //   state.google = true
-    //   state.status = "fulfilled"
-    // })
+    builder.addCase(googleloginUser.fulfilled, (state) => {
+      state.google = true
+    })
 
-    // builder.addCase(googleloginUser.rejected, (state) => {
-    //   state.google = false
-    //   state.msg = "로그인 실패"
-    //   state.status = "rejected"
-    // })
+    builder.addCase(googleloginUser.rejected, (state) => {
+      state.google = false
+      state.msg = "로그인 실패"
+    })
   },
 })
 
