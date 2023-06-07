@@ -191,3 +191,7 @@
   .priceInput{
     margin-top: 10px;
   }
+
+  .searchChoiceContainerHide {
+    display: none;
+  }
