@@ -80,3 +80,13 @@ export interface GlobalState {
   google: boolean
   token: Token
 }
+
+export interface profileTendencyDropdown {
+  genderBoxOpen: boolean
+  ageBoxOpen: boolean
+  smokeBoxOpen: boolean
+  MBTIBoxOpen: boolean
+  regionBoxOpen: boolean
+  ageGroupBoxOpen: boolean
+  activityTimeBoxOpen: boolean
+}

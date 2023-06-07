@@ -7,7 +7,7 @@ import img from "../../assets/logo(w).svg"
 const Footer: React.FC = () => {
   const owner = [
     { name: "BE_윤장원", gitAddress: "https://github.com/yjjjwww" },
-    { name: "BE_서원호", gitAddress: "https://github.com/YouJin-Cho" },
+    { name: "BE_서원호", gitAddress: "https://github.com/wonho-seo" },
     { name: "BE_고지민", gitAddress: "https://github.com/FeelingXD" },
     { name: "FE_조유진", gitAddress: "https://github.com/YouJin-Cho" },
     { name: "FE_황지민", gitAddress: "https://github.com/HwangJiMinn" },
@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
             <div className={styles.footerGit}>
               <p>Back-End</p>
               {backOwners.map((item) => (
-                <div>
+                <div key={item.name}>
                   <p>{item.name}</p>
                   <a
                     href={item.gitAddress}
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
             <div className={styles.footerGit}>
               <p>Front-End</p>
               {frontOwners.map((item) => (
-                <div>
+                <div key={item.name}>
                   <p>{item.name}</p>
                   <a
                     href={item.gitAddress}

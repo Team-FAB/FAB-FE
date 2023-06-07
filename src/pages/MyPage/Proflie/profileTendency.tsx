@@ -8,54 +8,36 @@ import { useState } from 'react';
 import { Radio } from "antd"
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { activityTime, age, ageGroup, gender, mbti, region, smoke, tendencyChoice } from '../../../object/profileDropdown';
+import { profileTendencyDropdown } from '../../../interface/interface';
 
 const ProfileTendency: React.FC = () => {
 
   const [tendencyModal, setTendencyModal] = useState(false)
 
   const [selectedGender, setSelectedGender] = useState("성별")
-  const [genderBoxOpen, setGenderBoxOpen] = useState(false)
   const [selectedAge, setSelectedAge] = useState("00")
-  const [ageBoxOpen, setAgeBoxOpen] = useState(false)
   const [selectedSmoke, setSelectedSmoke] = useState("담배")
-  const [smokeBoxOpen, setSmokeBoxOpen] = useState(false)
   const [selectedMBTI, setSelectedMBTI] = useState("MBTI")
-  const [MBTIBoxOpen, setMBTIBoxOpen] = useState(false)
   const [selectedregion, setSelectedregion] = useState("지역")
-  const [regionBoxOpen, setRegionBoxOpen] = useState(false)
   const [selectedAgeGroup, setSelectedAgeGroup] = useState("00 ~ 00")
-  const [ageGroupBoxOpen, setAgeGroupBoxOpen] = useState(false)
   const [selectedActivityTime, setSelectedActivityTime] = useState("활동시간")
-  const [activityTimeBoxOpen, setActivityTimeBoxOpen] = useState(false)
 
-  const handleToggleGenderBox = () => {
-    setGenderBoxOpen(!genderBoxOpen)
+  const [boxStates, setBoxStates] = useState({
+    genderBoxOpen: false,
+    ageBoxOpen: false,
+    smokeBoxOpen: false,
+    MBTIBoxOpen: false,
+    regionBoxOpen: false,
+    ageGroupBoxOpen: false,
+    activityTimeBoxOpen: false
+  })
+
+  const handleToggleBox = (boxName: keyof profileTendencyDropdown) => {
+    setBoxStates((prevState) => ({
+      ...prevState,
+      [boxName]: !prevState[boxName]
+    }))
   }
-
-  const handleToggleAgeBox = () => {
-    setAgeBoxOpen(!ageBoxOpen)
-  }
-
-  const handleToggleSmokeBox = () => {
-    setSmokeBoxOpen(!smokeBoxOpen)
-  }
-
-  const handleToggleMBTIBox = () => {
-    setMBTIBoxOpen(!MBTIBoxOpen)
-  }
-
-  const handleToggleRegionBox = () => {
-    setRegionBoxOpen(!regionBoxOpen)
-  }
-
-  const handleToggleAgeGroupBox = () => {
-    setAgeGroupBoxOpen(!ageGroupBoxOpen)
-  }
-
-  const handleToggleactivityBox = () => {
-    setActivityTimeBoxOpen(!activityTimeBoxOpen)
-  }
-
   // 체크박스
   const [selectedTendency, setSelectedTendency] = useState<string[]>([]);
 
@@ -69,24 +51,25 @@ const ProfileTendency: React.FC = () => {
       <span>룸메이트 신청 시 사용되는 프로필 입니다.</span>
       <div className={styles.dropdownContainer}>
         <Radio.Group onChange={(e) => {
-          setSelectedGender(e.target.value);
-          setGenderBoxOpen(false);
+          setSelectedGender(e.target.value)
+          handleToggleBox("genderBoxOpen")
         }}>
           <div className={styles.dropdownBox}> 
             <p className={styles.dropdownP}> 저의 성별은</p>
-            <div onClick={handleToggleGenderBox}>
+            <div onClick={() => handleToggleBox("genderBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{selectedGender}</Badge>
             </div>
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          {genderBoxOpen && (
-            <div className={styles.regionRadioBtn}> 
+          {boxStates.genderBoxOpen && (
+            <div className={styles.RadioBtn}>
               {gender.map((item, index) => (
                 <Radio
                   key={index}
                   value={item.name}
-                  className={styles.regionRadio}>
-                    {item.name}
+                  className={styles.Radio}
+                >
+                  {item.name}
                 </Radio>
               ))}
             </div>
@@ -94,22 +77,22 @@ const ProfileTendency: React.FC = () => {
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           setSelectedAge(e.target.value);
-          setAgeBoxOpen(false);
+          handleToggleBox("ageBoxOpen")
         }}>
           <div className={styles.dropdownBox}> 
             <p className={styles.dropdownP}> 저의 연령대는</p>
-            <div onClick={handleToggleAgeBox}>
+            <div onClick={() => handleToggleBox("ageBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{selectedAge}</Badge>
             </div>
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          {ageBoxOpen && (
-            <div className={styles.regionRadioBtn}> 
+          {boxStates.ageBoxOpen && (
+            <div className={styles.RadioBtn}> 
               {age.map((item, index) => (
                 <Radio
                   key={index}
                   value={item.age}
-                  className={styles.regionRadio}>
+                  className={styles.Radio}>
                     {item.age}
                 </Radio>
               ))}
@@ -118,21 +101,21 @@ const ProfileTendency: React.FC = () => {
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           setSelectedSmoke(e.target.value);
-          setSmokeBoxOpen(false);
+          handleToggleBox("smokeBoxOpen")
         }}>
           <div className={styles.dropdownBox}> 
             <p className={styles.dropdownP}> 저는 흡연을</p>
-            <div onClick={handleToggleSmokeBox}>
+            <div onClick={() => handleToggleBox("smokeBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{selectedSmoke}</Badge>
             </div>
           </div>
-          {smokeBoxOpen && (
-            <div className={styles.regionRadioBtn}> 
+          {boxStates.smokeBoxOpen && (
+            <div className={styles.smokeRadioBtn}> 
               {smoke.map((item, index) => (
                 <Radio
                   key={index}
                   value={item.smoke}
-                  className={styles.regionRadio}>
+                  className={styles.smokeRadio}>
                     {item.smoke}
                 </Radio>
               ))}
@@ -141,16 +124,16 @@ const ProfileTendency: React.FC = () => {
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           setSelectedMBTI(e.target.value);
-          setMBTIBoxOpen(false);
+          handleToggleBox("MBTIBoxOpen")
         }}>
           <div className={styles.dropdownBox}> 
             <p className={styles.dropdownP}> 저의 MBTI는</p>
-            <div onClick={handleToggleMBTIBox}>
+            <div onClick={() => handleToggleBox("MBTIBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{selectedMBTI}</Badge>
             </div>
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          {MBTIBoxOpen && (
+          {boxStates.MBTIBoxOpen && (
             <div className={styles.mbtiRadioBtn}> 
               {mbti.map((item, index) => (
                 <Radio
@@ -165,16 +148,16 @@ const ProfileTendency: React.FC = () => {
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           setSelectedregion(e.target.value);
-          setRegionBoxOpen(false);
+          handleToggleBox("regionBoxOpen")
         }}>
           <div className={styles.dropdownBox}> 
             <p className={styles.dropdownP}> 제가 희망하는 지역은 </p>
-            <div onClick={handleToggleRegionBox}>
+            <div onClick={() => handleToggleBox("regionBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{selectedregion}</Badge>
             </div>
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          {regionBoxOpen && (
+          {boxStates.regionBoxOpen && (
             <div className={styles.regionRadioBtn}> 
               {region.map((item, index) => (
                 <Radio
@@ -189,22 +172,22 @@ const ProfileTendency: React.FC = () => {
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           setSelectedAgeGroup(e.target.value);
-          setAgeGroupBoxOpen(false);
+          handleToggleBox("ageGroupBoxOpen")
         }}>
           <div className={styles.dropdownBox}> 
             <p className={styles.dropdownP}>제가 희망하는 연령대는</p>
-            <div onClick={handleToggleAgeGroupBox}>
+            <div onClick={() => handleToggleBox("ageGroupBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{selectedAgeGroup}</Badge>
             </div>
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          {ageGroupBoxOpen && (
-            <div className={styles.regionRadioBtn}> 
+          {boxStates.ageGroupBoxOpen && (
+            <div className={styles.ageGroupRadioBtn}> 
               {ageGroup.map((item, index) => (
                 <Radio
                   key={index}
                   value={item.ageGroup}
-                  className={styles.regionRadio}>
+                  className={styles.ageGroupRadio}>
                     {item.ageGroup}
                 </Radio>
               ))}
@@ -213,22 +196,22 @@ const ProfileTendency: React.FC = () => {
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           setSelectedActivityTime(e.target.value);
-          setActivityTimeBoxOpen(false);
+          handleToggleBox("activityTimeBoxOpen")
         }}>
           <div className={styles.dropdownBox}> 
             <p className={styles.dropdownP}>저는 대부분</p>
-            <div onClick={handleToggleactivityBox}>
+            <div onClick={() => handleToggleBox("activityTimeBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{selectedActivityTime}</Badge>
             </div>
             <p className={styles.dropdownP}> 에 활동합니다 ☺️</p>
           </div>
-          {activityTimeBoxOpen && (
-            <div className={styles.regionRadioBtn}> 
+          {boxStates.activityTimeBoxOpen && (
+            <div className={styles.RadioBtn}> 
               {activityTime.map((item, index) => (
                 <Radio
                   key={index}
                   value={item.activityTime}
-                  className={styles.regionRadio}>
+                  className={styles.Radio}>
                     {item.activityTime}
                 </Radio>
               ))}
@@ -240,7 +223,6 @@ const ProfileTendency: React.FC = () => {
         <div>
           <div className={styles.tendencyDesc}>
             <span>이런 룸메이트가 싫어요 😤</span>
-            <Button className={styles.tendencyBtn} type="primary" onClick={() => setTendencyModal(true)} style={{ width: 50, height: 25, fontSize: 10, borderRadius: 20 }}>수정</Button>
             <Modal
               title="이런 룸메이트가 싫어요 😤 (1개 ~ 최대 5개 선택)"
               centered
@@ -251,14 +233,18 @@ const ProfileTendency: React.FC = () => {
               }}
               onCancel={() => setTendencyModal(false)}>
               <div className={styles.tendencyModalBox}>
-                <Checkbox.Group options={tendencyChoice} onChange={handleTendencyChange} disabled/>
+                <Checkbox.Group options={tendencyChoice} onChange={handleTendencyChange}/>
               </div>
             </Modal>
           </div>
-          <div className={styles.tendencyBox}>
-            {selectedTendency.map((item, index) => (
-              <span key={index}>#{item}</span>
-            ))}
+          <div className={`${styles.tendencyBox} ${selectedTendency.length === 0 ? styles.tendencyNot : ''}`}>
+            {selectedTendency.length === 0 ? (
+              <span className={styles.tendencyNotChoice}>성향을 선택해주세요</span>
+            ) : (
+              selectedTendency.map((item, index) => (
+                <span key={index}>#{item}</span>
+              ))
+            )}
           </div>
         </div>
         <div>
@@ -287,6 +273,13 @@ const ProfileTendency: React.FC = () => {
             ))}
           </div>
         </div>
+        <Button 
+          className={styles.tendencyBtn} 
+          type="primary" 
+          onClick={() => setTendencyModal(true)} 
+          style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>
+          수정
+        </Button>
       </div>
       <div className={styles.IntroducContainer}>
         <p>본인 소개</p>
