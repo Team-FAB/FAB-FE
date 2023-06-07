@@ -1,15 +1,23 @@
 import { UserOutlined } from "@ant-design/icons"
 import styles from "./postCard.module.css"
-import { Badge, Card } from "antd"
+import { Badge, Card, message } from "antd"
 import PostModal from "../PostModal/postModal"
 import { useState } from "react"
 import { Props, Post } from "../../interface/interface"
+import { useSelector } from "react-redux"
+import { RootState } from "../../Redux/store"
 
 const PostCard: React.FC<Props> = ({ showRecruitOnly, posts }) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
+  const isLogged = useSelector((state: RootState) => state.user.isLogged)
+  const [messageApi, contextHolder] = message.useMessage()
 
   const handlePostClick = (post: Post) => {
-    setSelectedPost(post)
+    if (isLogged === true) {
+      setSelectedPost(post)
+    } else {
+      messageApi.info("로그인 후 사용 가능합니다.")
+    }
   }
 
   const handleCloseModal = () => {
@@ -99,6 +107,7 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly, posts }) => {
       {selectedPost && (
         <PostModal post={selectedPost} onClose={handleCloseModal} />
       )}
+      {contextHolder}
     </>
   )
 }
