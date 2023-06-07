@@ -2,7 +2,7 @@ import styles from "../Footer/footer.module.css"
 import { SiNotion } from "react-icons/si"
 import { BsYoutube } from "react-icons/bs"
 import { ImGithub } from "react-icons/im"
-import img from '../../assets/logo(w).svg'
+import img from "../../assets/logo(w).svg"
 
 const Footer: React.FC = () => {
   const owner = [
@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
               <p>Back-End</p>
               {backOwners.map((item) => (
                 <div>
-                  <p key={item.name}>{item.name}</p>
+                  <p>{item.name}</p>
                   <a
                     href={item.gitAddress}
                     target="_blank"
@@ -49,9 +49,9 @@ const Footer: React.FC = () => {
             <p>방갑고 Owner</p>
             <div className={styles.footerGit}>
               <p>Front-End</p>
-              {frontOwners.map((item, index) => (
+              {frontOwners.map((item) => (
                 <div>
-                  <p key={index}>{item.name}</p>
+                  <p>{item.name}</p>
                   <a
                     href={item.gitAddress}
                     target="_blank"

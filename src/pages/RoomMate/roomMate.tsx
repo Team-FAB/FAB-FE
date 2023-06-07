@@ -1,16 +1,20 @@
 import styles from "./roomMate.module.css"
 import PostCard from "../../components/PostCard/postCard"
-import { Button, Pagination } from "antd"
+import { Button, Pagination, message } from "antd"
 import RoomMateSearch from "./roomMateSearch"
 import postsData from "../../assets/posts.json"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { RootState } from "../../Redux/store"
 
 const RoomMate: React.FC = () => {
-  const pageSize = 9
   const [currentPage, setCurrentPage] = useState(1)
   const [showRecruitOnly, setShowRecruitOnly] = useState(false)
+  const isLogged = useSelector((state: RootState) => state.user.isLogged)
+  const pageSize = 9
   const navigate = useNavigate()
+  const [messageApi, contextHolder] = message.useMessage()
 
   const toggleRecruitOnly = () => {
     setShowRecruitOnly(!showRecruitOnly)
@@ -30,7 +34,11 @@ const RoomMate: React.FC = () => {
   const postsToShow = filteredPosts.slice(start, end)
 
   const goToWritePage = () => {
-    navigate("/WritePage")
+    if (isLogged === true) {
+      navigate("/WritePage")
+    } else {
+      messageApi.info("로그인 후 사용 가능합니다.")
+    }
   }
 
   return (
@@ -57,6 +65,7 @@ const RoomMate: React.FC = () => {
         total={filteredPosts.length}
         pageSize={pageSize}
       />
+      {contextHolder}
     </div>
   )
 }
