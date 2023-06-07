@@ -1,38 +1,34 @@
-
 export const gender = [{ name: "여성" }, { name: "남성" }]
 
-export const age= [
-  {age: 20},
-  {age: 30}
-]
+export const age = [{ age: 20 }, { age: 30 }]
 
 export const ageGroup = [
-  {ageGroup: '20-25'},
-  {ageGroup: '25-30'},
-  {ageGroup: '30-35'},
+  { ageGroup: "20-25" },
+  { ageGroup: "25-30" },
+  { ageGroup: "30-35" },
 ]
 
 export const smoke = [{ smoke: "합니다" }, { smoke: "하지 않습니다" }]
 
-export const activityTime = [{ activityTime: '오전' }, { activityTime: '오후' }]
+export const activityTime = [{ activityTime: "오전" }, { activityTime: "오후" }]
 
 export const mbti = [
-  {mbti : 'ISTJ'},
-  {mbti : 'ISFJ'},
-  {mbti : 'INFJ'},
-  {mbti : 'INTJ'},
-  {mbti : 'ISTP'},
-  {mbti : 'ISFP'},
-  {mbti : 'INFP'},
-  {mbti : 'INTP'},
-  {mbti : 'ESTP'},
-  {mbti : 'ESFP'},
-  {mbti : 'ENFP'},
-  {mbti : 'ENTP'},
-  {mbti : 'ESTJ'},
-  {mbti : 'ESFJ'},
-  {mbti : 'ENFJ'},
-  {mbti : 'ENTJ'},
+  { mbti: "ISTJ" },
+  { mbti: "ISFJ" },
+  { mbti: "INFJ" },
+  { mbti: "INTJ" },
+  { mbti: "ISTP" },
+  { mbti: "ISFP" },
+  { mbti: "INFP" },
+  { mbti: "INTP" },
+  { mbti: "ESTP" },
+  { mbti: "ESFP" },
+  { mbti: "ENFP" },
+  { mbti: "ENTP" },
+  { mbti: "ESTJ" },
+  { mbti: "ESFJ" },
+  { mbti: "ENFJ" },
+  { mbti: "ENTJ" },
 ]
 
 export const region = [
@@ -79,4 +75,20 @@ export const tendencyChoice = [
   { label: "조용한 분위기를 좋아하는", value: "조용한 분위기를 좋아하는" },
   { label: "동물을 좋아하는", value: "동물을 좋아하는" },
   { label: "동물을 좋아하지 않는", value: "동물을 좋아하지 않는" },
-];
+]
+
+export const period = [
+  { quarter: "1개월 ~ 3개월" },
+  { quarter: "3개월 ~ 6개월" },
+  { quarter: "6개월 ~ 9개월" },
+  { quarter: "9개월 ~ 12개월" },
+  { quarter: "1년 이상 ~" },
+]
+
+export const price = [
+  { deposit: "~ 1,000,000원" },
+  { deposit: "~ 3,000,000원" },
+  { deposit: "~ 5,000,000원" },
+  { deposit: "~ 8,000,000원" },
+  { deposit: "~ 10,000,000원" },
+]

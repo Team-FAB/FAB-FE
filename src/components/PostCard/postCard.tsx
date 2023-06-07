@@ -40,6 +40,7 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly, posts }) => {
     <>
       {postsToShow.map((post) => (
         <div
+          key={post.id}
           className={styles.cardContainer}
           onClick={() => handlePostClick(post)}
         >

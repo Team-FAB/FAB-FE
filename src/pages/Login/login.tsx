@@ -7,20 +7,24 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons"
 import { Button, Form, Input, message } from "antd"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
 import { googleloginUser, kakaologinUser, loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
-
+  const isLogged = useSelector((state: RootState) => state.user.isLogged)
   const dispatch = useAppDispatch()
-  const user = useSelector((state: RootState) => state.user)
 
   const handleLogin = (values: LoginValues) => {
     const { email, password } = values
     dispatch(loginUser({ email, password }))
+
+    if (isLogged === false) {
+      messageApi.info("이메일 또는 비밀번호를 확인하세요.")
+    } else {
+      navigate("/MainPage")
+    }
   }
 
   const handleKakaoLogin = () => {
@@ -30,14 +34,6 @@ const Login: React.FC = () => {
   const handleGoogleLogin = () => {
     dispatch(googleloginUser())
   }
-
-  useEffect(() => {
-    if (user.msg) {
-      messageApi.info("이메일 또는 비밀번호를 입력하세요.")
-    } else if (user.isLogged) {
-      navigate("/MainPage")
-    }
-  }, [user, navigate, messageApi])
 
   return (
     <>
