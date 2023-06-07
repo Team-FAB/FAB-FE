@@ -8,7 +8,7 @@ import { Button, Form, Input, message } from "antd"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
-import { loginUser } from "../../Redux/user"
+import { googleloginUser, kakaologinUser, loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 
 const Login: React.FC = () => {
@@ -21,6 +21,14 @@ const Login: React.FC = () => {
   const handleLogin = (values: LoginValues) => {
     const { email, password } = values
     dispatch(loginUser({ email, password }))
+  }
+
+  const handleKakaoLogin = () => {
+    dispatch(kakaologinUser())
+  }
+
+  const handleGoogleLogin = () => {
+    dispatch(googleloginUser())
   }
 
   useEffect(() => {
@@ -89,8 +97,14 @@ const Login: React.FC = () => {
                 <span className={styles.title}>또는</span>
                 <span className={styles.line}></span>
               </div>
-              <img src="src/assets/Kakao Login.svg" />
-              <img src="src/assets/Google Login.svg" />
+              <img
+                src="src/assets/Kakao Login.svg"
+                onClick={handleKakaoLogin}
+              />
+              <img
+                src="src/assets/Google Login.svg"
+                onClick={handleGoogleLogin}
+              />
             </div>
           </div>
         </div>
