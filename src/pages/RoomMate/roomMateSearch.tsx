@@ -34,8 +34,10 @@ const RoomMateSearch = () => {
       }
 
       const data = await response.json()
+      setSearchBoxOpen(!searchBoxOpen)
       console.log(data)
     } catch (error) {
+      setSearchBoxOpen(!searchBoxOpen)
       console.error("데이터 불러오기 오류", error)
     }
   }
