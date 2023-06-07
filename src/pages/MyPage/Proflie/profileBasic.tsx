@@ -1,4 +1,5 @@
-import { Button } from 'antd';
+import { Input, Button, Form } from "antd"
+import { UserOutlined, MailOutlined } from "@ant-design/icons"
 import styles from './profile.module.css'
 
 const ProfileBasic: React.FC = () => {
@@ -8,18 +9,41 @@ const ProfileBasic: React.FC = () => {
       <div>
         <img className={styles.profilePhoto} src='https://via.placeholder.com/120' />
       </div>
-      <form className={styles.profileBasic}>
-        <div>
-          <p>닉네임</p>
-          <input type='text' name='displayName' />
-        </div>
-        <div>
-          <p>이메일</p>
-          <input type='text' name='email'/>
-        </div>
-        {/* <input type='submit' value='변경' /> */}
-        <Button className={styles.basicBtn} type="primary" style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>수정</Button>
-      </form>
+
+      <Form
+        name="signUp"
+        initialValues={{ remember: true }}
+        className={styles.profileformBox}>
+        <Form.Item
+          name="nickname"
+          rules={[
+            { required: true, message: "새로운 닉네임을 입력하세요." },
+            { type: "email", message: "기존 닉네임과 같습니다." },
+          ]}>
+          <Input
+            prefix={<UserOutlined />}
+            placeholder="새로운 닉네임을 입력하세요."
+            style={{ width: 200, height: 40 }}/>
+        </Form.Item>
+        <Form.Item
+          name="email"
+          rules={[{ required: true, message: "새로운 이메일을 입력하세요." }]}>
+          <Input
+            prefix={<MailOutlined />}
+            type="email"
+            placeholder="새로운 이메일을 입력하세요."
+            style={{ width: 200, height: 40 }}/>
+        </Form.Item>
+        <Form.Item>
+          <Button 
+            className={styles.basicBtn} 
+            type="primary" 
+            htmlType="submit" 
+            style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>
+            수정
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   )
 }
