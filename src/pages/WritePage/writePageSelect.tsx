@@ -1,14 +1,43 @@
-import { Badge, Input, Form } from "antd";
+import { Badge, Input, Form, RadioChangeEvent } from "antd";
 import styles from "./writePageSelect.module.css";
 import { Radio } from "antd";
 import { useState } from "react";
+import { FormInstance } from "antd";
 
-const writePageSelect = () => {
+interface WritePageSelectProps {
+  form: FormInstance;
+}
+
+const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
   const [searchBoxOpen, setSearchBoxOpen] = useState(false);
-  const [selectedArea, setSelectedArea] = useState("지역");
-  const [selectedPeriod, setSelectedPeriod] = useState("기간");
-  const [selectedPrice, setSelectedPrice] = useState("보증금");
-  const [selectedGender, setSelectedGender] = useState("성별");
+  const [selectedArea, setSelectedArea] = useState<string>("지역");
+  const [selectedPeriod, setSelectedPeriod] = useState<string>("기간");
+  const [selectedPrice, setSelectedPrice] = useState<number>(0);
+  const [selectedGender, setSelectedGender] = useState<string>("성별");
+
+  const handleRegionChange = (e: RadioChangeEvent) => {
+    const region = e.target.value;
+    setSelectedArea(region);
+    form.setFieldsValue({ region });
+  };
+
+  const handlePeriodChange = (e: RadioChangeEvent) => {
+    const period = e.target.value;
+    setSelectedPeriod(period);
+    form.setFieldsValue({ period });
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const price = e.target.value === "" ? 0 : parseInt(e.target.value);
+    setSelectedPrice(price);
+    form.setFieldsValue({ price });
+  };
+
+  const handleGenderChange = (e: RadioChangeEvent) => {
+    const gender = e.target.value;
+    setSelectedGender(gender);
+    form.setFieldsValue({ gender });
+  };
 
   const handleToggleSearchBox = () => {
     setSearchBoxOpen(!searchBoxOpen);
@@ -87,38 +116,56 @@ const writePageSelect = () => {
               <div className={styles.searchChoiceArea}>
                 <p>지역</p>
                 <div className={styles.areaRadioGroup}>
-                  <Radio.Group
-                    onChange={(e) => setSelectedArea(e.target.value)}
+                  <Form.Item
+                    name="region"
+                    rules={[
+                      {
+                        required: true,
+                        message: "지역을 선택해 주세요.",
+                      },
+                    ]}
                   >
-                    {area.map((item, index) => (
-                      <Radio
-                        key={index}
-                        value={item.region}
-                        className={styles.areaRadioBtn}
-                      >
-                        {item.region}
-                      </Radio>
-                    ))}
-                  </Radio.Group>
+                    <Radio.Group onChange={handleRegionChange}>
+                      {area.map((item, index) => (
+                        <Radio
+                          key={index}
+                          value={item.region}
+                          className={styles.areaRadioBtn}
+                        >
+                          {item.region}
+                        </Radio>
+                      ))}
+                    </Radio.Group>
+                  </Form.Item>
                 </div>
               </div>
               <div className={styles.searchChoicePeriod}>
                 <p>기간</p>
-                <Radio.Group
-                  className={styles.periodRadioGroup}
-                  value={selectedPeriod}
-                  onChange={(e) => setSelectedPeriod(e.target.value)}
+                <Form.Item
+                  name="period"
+                  rules={[
+                    {
+                      required: true,
+                      message: "기간을 선택해 주세요.",
+                    },
+                  ]}
                 >
-                  {period.map((item, index) => (
-                    <Radio
-                      key={index}
-                      value={item.quarter}
-                      className={styles.periodRadioBtn}
-                    >
-                      {item.quarter}
-                    </Radio>
-                  ))}
-                </Radio.Group>
+                  <Radio.Group
+                    className={styles.periodRadioGroup}
+                    value={selectedPeriod}
+                    onChange={handlePeriodChange}
+                  >
+                    {period.map((item, index) => (
+                      <Radio
+                        key={index}
+                        value={item.quarter}
+                        className={styles.periodRadioBtn}
+                      >
+                        {item.quarter}
+                      </Radio>
+                    ))}
+                  </Radio.Group>
+                </Form.Item>
               </div>
               <div className={styles.searchChoicePrice}>
                 <p>보증금</p>
@@ -152,11 +199,7 @@ const writePageSelect = () => {
                     <Input
                       placeholder="가격을 입력해주세요."
                       className={styles.priceInput}
-                      onChange={(e) => {
-                        setSelectedPrice(
-                          e.target.value === "" ? "보증금" : e.target.value
-                        );
-                      }}
+                      onChange={handlePriceChange}
                       maxLength={8}
                     />
                   </Form.Item>
@@ -164,21 +207,31 @@ const writePageSelect = () => {
               </div>
               <div className={styles.searchChoiceGender}>
                 <p>성별</p>
-                <Radio.Group
-                  className={styles.genderRadioGroup}
-                  value={selectedGender}
-                  onChange={(e) => setSelectedGender(e.target.value)}
+                <Form.Item
+                  name="gender"
+                  rules={[
+                    {
+                      required: true,
+                      message: "성별을 선택해 주세요.",
+                    },
+                  ]}
                 >
-                  {gender.map((item, index) => (
-                    <Radio
-                      key={index}
-                      value={item.name}
-                      className={styles.genderRadioBtn}
-                    >
-                      {item.name}
-                    </Radio>
-                  ))}
-                </Radio.Group>
+                  <Radio.Group
+                    className={styles.genderRadioGroup}
+                    value={selectedGender}
+                    onChange={handleGenderChange}
+                  >
+                    {gender.map((item, index) => (
+                      <Radio
+                        key={index}
+                        value={item.name}
+                        className={styles.genderRadioBtn}
+                      >
+                        {item.name}
+                      </Radio>
+                    ))}
+                  </Radio.Group>
+                </Form.Item>
               </div>
             </div>
           )}
