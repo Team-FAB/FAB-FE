@@ -15,22 +15,16 @@ const ProfileTendency: React.FC = () => {
 
   const [selectedGender, setSelectedGender] = useState("성별")
   const [genderBoxOpen, setGenderBoxOpen] = useState(false)
-
   const [selectedAge, setSelectedAge] = useState("00")
   const [ageBoxOpen, setAgeBoxOpen] = useState(false)
-
   const [selectedSmoke, setSelectedSmoke] = useState("담배")
   const [smokeBoxOpen, setSmokeBoxOpen] = useState(false)
-
   const [selectedMBTI, setSelectedMBTI] = useState("MBTI")
   const [MBTIBoxOpen, setMBTIBoxOpen] = useState(false)
-
   const [selectedregion, setSelectedregion] = useState("지역")
   const [regionBoxOpen, setRegionBoxOpen] = useState(false)
-
   const [selectedAgeGroup, setSelectedAgeGroup] = useState("00 ~ 00")
   const [ageGroupBoxOpen, setAgeGroupBoxOpen] = useState(false)
-
   const [selectedActivityTime, setSelectedActivityTime] = useState("활동시간")
   const [activityTimeBoxOpen, setActivityTimeBoxOpen] = useState(false)
 
@@ -270,7 +264,7 @@ const ProfileTendency: React.FC = () => {
         <div>
           <div className={styles.tendencyDesc}>
             <span>이런 룸메이트가 좋아요 🥰</span>
-            <Button className={styles.tendencyBtn} type="primary" onClick={() => setTendencyModal(true)} style={{ width: 50, height: 25, fontSize: 10, borderRadius: 20 }}>수정</Button>
+            {/* <Button className={styles.tendencyBtn} type="primary" onClick={() => setTendencyModal(true)} style={{ width: 50, height: 25, fontSize: 10, borderRadius: 20 }}>수정</Button> */}
             <Modal
               title="이런 룸메이트가 좋아요 🥰 (1개 ~ 최대 5개 선택)"
               centered
@@ -286,9 +280,11 @@ const ProfileTendency: React.FC = () => {
             </Modal>
           </div>
           <div className={styles.tendencyBox}>
-          {selectedTendency.map((item, index) => (
-            <span key={index}>#{item}</span>
-          ))}
+            {tendencyChoice
+            .filter((option) => !selectedTendency.includes(option.value))
+            .map((item, index) => (
+              <span key={index}>#{item.value}</span>
+            ))}
           </div>
         </div>
       </div>
