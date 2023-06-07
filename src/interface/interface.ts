@@ -1,8 +1,10 @@
 export interface UserState {
   isLogged: boolean
-  signUp: boolean
-  error: string | undefined
+  msg: string
   status: string
+  signUp: boolean
+  token: unknown
+  user: string
 }
 
 export interface LoginValues {
@@ -63,6 +65,16 @@ export interface Props {
   showRecruitOnly?: boolean
 }
 
+export interface Token {
+  atk: string
+  rtk: string
+}
+
 export interface GlobalState {
-  user: UserState
+  isLogged: boolean
+  msg: string
+  status: string
+  signUp: boolean
+  user: string
+  token: Token
 }
