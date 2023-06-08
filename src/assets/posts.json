@@ -10,7 +10,8 @@
       "region": "남양주",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": true
+      "isRecruit": true,
+      "favorite": false
     },
     {
       "id": 2,
@@ -22,7 +23,8 @@
       "region": "인천",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": false
+      "isRecruit": false,
+      "favorite": false
     },
     {
       "id": 3,
@@ -34,7 +36,8 @@
       "region": "전남",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": true
+      "isRecruit": true,
+      "favorite": false
     },
     {
       "id": 4,
@@ -46,7 +49,8 @@
       "region": "지역",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": false
+      "isRecruit": false,
+      "favorite": false
     },
     {
       "id": 5,
@@ -58,7 +62,8 @@
       "region": "노원",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": false
+      "isRecruit": false,
+      "favorite": false
     },
     {
       "id": 6,
@@ -70,7 +75,8 @@
       "region": "안양",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": true
+      "isRecruit": true,
+      "favorite": false
     },
     {
       "id": 7,
@@ -82,7 +88,8 @@
       "region": "지역",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": false
+      "isRecruit": false,
+      "favorite": false
     },
     {
       "id": 8,
@@ -94,7 +101,8 @@
       "region": "지역",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": false
+      "isRecruit": false,
+      "favorite": false
     },
     {
       "id": 9,
@@ -106,7 +114,8 @@
       "region": "지역",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": false
+      "isRecruit": false,
+      "favorite": false
     },
     {
       "id": 10,
@@ -118,7 +127,8 @@
       "region": "지역",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": true
+      "isRecruit": true,
+      "favorite": false
     },
     {
       "id": 11,
@@ -130,7 +140,8 @@
       "region": "지역",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": true
+      "isRecruit": true,
+      "favorite": false
     },
     {
       "id": 12,
@@ -142,7 +153,8 @@
       "region": "지역",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": false
+      "isRecruit": false,
+      "favorite": false
     },
     {
       "id": 13,
@@ -154,7 +166,8 @@
       "region": "지역",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": false
+      "isRecruit": false,
+      "favorite": false
     },
     {
       "id": 14,
@@ -166,7 +179,8 @@
       "region": "지역",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": true
+      "isRecruit": true,
+      "favorite": false
     },
     {
       "id": 15,
@@ -178,7 +192,8 @@
       "region": "지역",
       "period": "3~6개월",
       "price": "5,000,000원",
-      "isRecruit": true
+      "isRecruit": true,
+      "favorite": false
     }
   ]
 }
