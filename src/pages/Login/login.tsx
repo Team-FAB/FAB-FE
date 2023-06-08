@@ -9,6 +9,7 @@ import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { googleloginUser, kakaologinUser, loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { useEffect } from "react"
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
@@ -19,11 +20,8 @@ const Login: React.FC = () => {
   const handleLogin = (values: LoginValues) => {
     const { email, password } = values
     dispatch(loginUser({ email, password }))
-
     if (isLogged === false) {
       messageApi.info("이메일 또는 비밀번호를 확인하세요.")
-    } else {
-      navigate("/MainPage")
     }
   }
 
@@ -34,6 +32,12 @@ const Login: React.FC = () => {
   const handleGoogleLogin = () => {
     dispatch(googleloginUser())
   }
+
+  useEffect(() => {
+    if (isLogged === true) {
+      navigate("/MainPage")
+    }
+  }, [isLogged, navigate])
 
   return (
     <>
