@@ -4,6 +4,7 @@ import styles from "./roomMateSearch.module.css"
 import { Radio } from "antd"
 import { useState } from "react"
 import { region, gender, period, price } from "../../object/profileDropdown"
+import { userArticleRecent } from "../../api"
 
 const RoomMateSearch = () => {
   const [searchBoxOpen, setSearchBoxOpen] = useState(false)
@@ -27,7 +28,7 @@ const RoomMateSearch = () => {
     // const queryString = new URLSearchParams(searchParams).toString()
 
     try {
-      const response = await fetch(`url`)
+      const response = await fetch(userArticleRecent)
 
       if (!response.ok) {
         throw new Error("서버 연결 안됨")
@@ -49,8 +50,8 @@ const RoomMateSearch = () => {
           className={styles.searchIcon}
           style={{ fontSize: 28 }}
         />
-        <div className={styles.searchBox} onClick={handleToggleSearchBox}>
-          <div className={styles.searchBar}>
+        <div className={styles.searchBox}>
+          <div className={styles.searchBar} onClick={handleToggleSearchBox}>
             <div>
               <p>지역</p>
               <Badge className={styles.cardBadgeArea}>{selectedArea}</Badge>
