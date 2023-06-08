@@ -18,7 +18,6 @@ const initialState: UserState = loadFromLocalStorage() || {
       rtk: "",
     },
   },
-  status: "idle",
   signUp: false,
   kakao: false,
   google: false,
@@ -152,43 +151,35 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.isLogged = true
       state.data.token = action.payload.data.token
-      state.status = "fulfilled"
       saveToLocalStorage(state)
     },
     logout: (state) => {
       state.isLogged = false
       state.data.token = { atk: "", rtk: "" }
-      state.status = "fulfilled"
     },
     signUp: (state) => {
       state.signUp = false
-      state.status = "idle"
     },
     kakaoLogin: (state) => {
       state.isLogged = false
-      state.status = "idle"
     },
     googleLogin: (state) => {
       state.isLogged = false
-      state.status = "idle"
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.isLogged = true
       state.data.token = action.payload.data.token
-      state.status = "fulfilled"
       saveToLocalStorage(state)
     })
 
     builder.addCase(loginUser.rejected, (state) => {
       state.isLogged = false
-      state.status = "rejected"
     })
 
     builder.addCase(registerUser.fulfilled, (state) => {
       state.signUp = true
-      state.status = "fulfilled"
     })
 
     builder.addCase(registerUser.rejected, (state) => {
@@ -197,7 +188,6 @@ const userSlice = createSlice({
 
     builder.addCase(kakaologinUser.fulfilled, (state) => {
       state.kakao = true
-      state.status = "fulfilled"
       saveToLocalStorage(state)
     })
 

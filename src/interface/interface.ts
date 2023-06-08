@@ -1,6 +1,5 @@
 export interface UserState {
   isLogged: boolean
-  status: string
   signUp: boolean
   data: {
     token: Token
@@ -24,7 +23,7 @@ export interface Post {
   region: string
   period: string
   price: string
-  recruit: boolean
+  recruiting: boolean
 }
 
 export interface User {
@@ -90,4 +89,28 @@ export interface profileTendencyDropdown {
   regionBoxOpen: boolean
   ageGroupBoxOpen: boolean
   activityTimeBoxOpen: boolean
+}
+
+export interface profileBasicValues {
+  nickname?: string
+  email?: string
+}
+
+export interface userProfileData {
+  // id: number
+  // image: string
+  nickname?: string
+  email?: string
+  password?: string
+  gender?: string
+  smoke?: boolean
+  MBTI?: string
+  region?: string
+  minAge?: number
+  maxAge?: number
+  myAge?: number
+  activityTime?: string
+  favoriteTag?: string[]
+  hateTag?: string
+  myText?: string
 }

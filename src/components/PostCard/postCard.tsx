@@ -19,17 +19,25 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${userArticle}?page=1&size=12&isRecruiting=true`,
+          `${userArticle}?page=1&size=12&isRecruiting=false`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
         )
+
         if (!response.ok) {
-          throw new Error("서버에서 데이터를 가져오지 못했습니다")
+          throw new Error(`서버 상태 응답 ${response.status}`)
         }
+
         const data = await response.json()
-        console.log(data)
         setPosts(data.data)
+        console.log(data.data)
       } catch (error) {
         console.error(error)
-        messageApi.error("데이터를 로드하는 동안 오류가 발생했습니다")
+        messageApi.error("데이터 불러오기 오류")
       }
     }
 
@@ -45,7 +53,7 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
   }
 
   const postsToShow = showRecruitOnly
-    ? posts.filter((post) => post.recruit)
+    ? posts.filter((post) => post.recruiting)
     : posts
 
   return (
@@ -56,7 +64,7 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
           className={styles.cardContainer}
           onClick={() => handlePostClick(post)}
         >
-          <Badge.Ribbon key={post.id} text={recruit(post.recruit)}>
+          <Badge.Ribbon key={post.id} text={recruit(post.recruiting)}>
             <Card style={{ width: 250, marginTop: 16 }}>
               <div className={styles.cardText}>
                 <span className={styles.cardTitle}>{post.title}</span>
