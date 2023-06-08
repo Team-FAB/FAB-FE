@@ -2,12 +2,12 @@ import styles from "../Footer/footer.module.css"
 import { SiNotion } from "react-icons/si"
 import { BsYoutube } from "react-icons/bs"
 import { ImGithub } from "react-icons/im"
-import img from '../../assets/logo(w).svg'
+import img from "../../assets/logo(w).svg"
 
 const Footer: React.FC = () => {
   const owner = [
     { name: "BE_윤장원", gitAddress: "https://github.com/yjjjwww" },
-    { name: "BE_서원호", gitAddress: "https://github.com/YouJin-Cho" },
+    { name: "BE_서원호", gitAddress: "https://github.com/wonho-seo" },
     { name: "BE_고지민", gitAddress: "https://github.com/FeelingXD" },
     { name: "FE_조유진", gitAddress: "https://github.com/YouJin-Cho" },
     { name: "FE_황지민", gitAddress: "https://github.com/HwangJiMinn" },
@@ -32,8 +32,8 @@ const Footer: React.FC = () => {
             <div className={styles.footerGit}>
               <p>Back-End</p>
               {backOwners.map((item) => (
-                <div>
-                  <p key={item.name}>{item.name}</p>
+                <div key={item.name}>
+                  <p>{item.name}</p>
                   <a
                     href={item.gitAddress}
                     target="_blank"
@@ -49,9 +49,9 @@ const Footer: React.FC = () => {
             <p>방갑고 Owner</p>
             <div className={styles.footerGit}>
               <p>Front-End</p>
-              {frontOwners.map((item, index) => (
-                <div>
-                  <p key={index}>{item.name}</p>
+              {frontOwners.map((item) => (
+                <div key={item.name}>
+                  <p>{item.name}</p>
                   <a
                     href={item.gitAddress}
                     target="_blank"

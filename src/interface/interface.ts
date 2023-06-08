@@ -4,7 +4,8 @@ export interface UserState {
   status: string
   signUp: boolean
   token: unknown
-  user: string
+  kakao: boolean
+  google: boolean
 }
 
 export interface LoginValues {
@@ -75,6 +76,17 @@ export interface GlobalState {
   msg: string
   status: string
   signUp: boolean
-  user: string
+  kakao: boolean
+  google: boolean
   token: Token
+}
+
+export interface profileTendencyDropdown {
+  genderBoxOpen: boolean
+  ageBoxOpen: boolean
+  smokeBoxOpen: boolean
+  MBTIBoxOpen: boolean
+  regionBoxOpen: boolean
+  ageGroupBoxOpen: boolean
+  activityTimeBoxOpen: boolean
 }

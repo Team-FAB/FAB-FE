@@ -21,7 +21,6 @@ const SignUp: React.FC = () => {
     password: string
     nickname: string
   }) => {
-    console.log(registerUserStatus)
     dispatch(registerUser(values))
   }
 

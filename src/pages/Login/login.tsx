@@ -7,29 +7,33 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons"
 import { Button, Form, Input, message } from "antd"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
-import { loginUser } from "../../Redux/user"
+import { googleloginUser, kakaologinUser, loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
-
+  const isLogged = useSelector((state: RootState) => state.user.isLogged)
   const dispatch = useAppDispatch()
-  const user = useSelector((state: RootState) => state.user)
 
   const handleLogin = (values: LoginValues) => {
     const { email, password } = values
     dispatch(loginUser({ email, password }))
-  }
 
-  useEffect(() => {
-    if (user.msg) {
-      messageApi.info("이메일 또는 비밀번호를 입력하세요.")
-    } else if (user.isLogged) {
+    if (isLogged === false) {
+      messageApi.info("이메일 또는 비밀번호를 확인하세요.")
+    } else {
       navigate("/MainPage")
     }
-  }, [user, navigate, messageApi])
+  }
+
+  const handleKakaoLogin = () => {
+    dispatch(kakaologinUser())
+  }
+
+  const handleGoogleLogin = () => {
+    dispatch(googleloginUser())
+  }
 
   return (
     <>
@@ -89,8 +93,14 @@ const Login: React.FC = () => {
                 <span className={styles.title}>또는</span>
                 <span className={styles.line}></span>
               </div>
-              <img src="src/assets/Kakao Login.svg" />
-              <img src="src/assets/Google Login.svg" />
+              <img
+                src="src/assets/Kakao Login.svg"
+                onClick={handleKakaoLogin}
+              />
+              <img
+                src="src/assets/Google Login.svg"
+                onClick={handleGoogleLogin}
+              />
             </div>
           </div>
         </div>

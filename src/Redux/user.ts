@@ -1,11 +1,14 @@
-
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { UserState } from "../interface/interface";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { Token, UserState } from "../interface/interface"
 import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage"
 import { Dispatch } from "redux"
 import { RootState } from "./store"
-import { userLogin, userRegister } from "../api"
+import {
+  googleUserLogin,
+  kakaoUserLogin,
+  userLogin,
+  userRegister,
+} from "../api"
 
 let initialState: UserState = {
   isLogged: false,
@@ -16,7 +19,8 @@ let initialState: UserState = {
   msg: "",
   status: "idle",
   signUp: false,
-  user: "",
+  kakao: false,
+  google: false,
 }
 
 const persistedState = loadFromLocalStorage()
@@ -77,11 +81,63 @@ export const loginUser = createAsyncThunk<
       saveToLocalStorage(getState().user)
       return { token, name }
     } catch (error) {
-      console.error("오류", error)
+      console.error("로그인 실패")
       throw error
     }
   },
 )
+
+export const kakaologinUser = createAsyncThunk<
+  { token: string },
+  void,
+  { dispatch: Dispatch; state: RootState }
+>("login/oauth2/kakao", async (_, { dispatch, getState }) => {
+  try {
+    const response = await fetch(kakaoUserLogin, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    const data = await response.json()
+    const { token } = data
+
+    dispatch(loginSuccess({ token }))
+
+    saveToLocalStorage(getState().user)
+    return { token }
+  } catch (error) {
+    console.error("로그인 실패")
+    throw error
+  }
+})
+
+export const googleloginUser = createAsyncThunk<
+  { token: string },
+  void,
+  { dispatch: Dispatch; state: RootState }
+>("login/oauth2/google", async (_, { dispatch, getState }) => {
+  try {
+    const response = await fetch(googleUserLogin, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    const data = await response.json()
+    const { token } = data
+
+    dispatch(loginSuccess({ token }))
+
+    saveToLocalStorage(getState().user)
+    return { token }
+  } catch (error) {
+    console.error("로그인 실패")
+    throw error
+  }
+})
 
 export const registerUser = createAsyncThunk(
   "api/users/register",
@@ -95,7 +151,7 @@ export const registerUser = createAsyncThunk(
         body: JSON.stringify(userInfo),
       })
     } catch (error) {
-      console.error("회원가입 실패", error)
+      console.error("회원가입 실패")
       throw error
     }
   },
@@ -123,6 +179,11 @@ const userSlice = createSlice({
       state.token = action.payload.token
       state.status = "fulfilled"
     },
+    kakaoLogin: (state) => {
+      state.signUp = false
+      state.msg = ""
+      state.status = "idle"
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
@@ -145,7 +206,25 @@ const userSlice = createSlice({
     builder.addCase(registerUser.rejected, (state) => {
       state.signUp = false
       state.msg = "회원가입 실패"
-      state.status = "rejected"
+    })
+
+    builder.addCase(kakaologinUser.fulfilled, (state) => {
+      state.kakao = true
+      state.status = "fulfilled"
+    })
+
+    builder.addCase(kakaologinUser.rejected, (state) => {
+      state.kakao = false
+      state.msg = "로그인 실패"
+    })
+
+    builder.addCase(googleloginUser.fulfilled, (state) => {
+      state.google = true
+    })
+
+    builder.addCase(googleloginUser.rejected, (state) => {
+      state.google = false
+      state.msg = "로그인 실패"
     })
   },
 })
