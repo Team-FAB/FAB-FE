@@ -1,9 +1,10 @@
 export interface UserState {
   isLogged: boolean
-  msg: string
   status: string
   signUp: boolean
-  token: unknown
+  data: {
+    token: Token
+  }
   kakao: boolean
   google: boolean
 }
