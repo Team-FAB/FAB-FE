@@ -65,7 +65,7 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
               <div className={styles.user}>
                 <div className={styles.author}>
                   <span>{post.nickname}</span>
-                  {post.gender === "FEMALE" ? (
+                  {post.gender === "여성" ? (
                     <UserOutlined style={{ color: "#ff0000" }} />
                   ) : (
                     <UserOutlined style={{ color: "#2858FF" }} />

@@ -42,7 +42,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             <span className={styles.ProfileContent}>
               {post.nickname} {post.createdDate}
             </span>
-            <Button className={styles.apply} type="primary">신청하기</Button>
+            <Button className={styles.apply} type="primary">
+              신청하기
+            </Button>
           </div>
           <div className={styles.line}></div>
           <div className={styles.cardBadgeContainer}>
@@ -69,7 +71,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             <span className={styles.ProfileContent}>
               {post.nickname} {post.createdDate}
             </span>
-            <Button className={styles.apply}>신청하기</Button>
+            <Button className={styles.apply} type="primary">
+              신청하기
+            </Button>
           </div>
           <div className={styles.line}></div>
           <div className={styles.cardBadgeContainer}>
