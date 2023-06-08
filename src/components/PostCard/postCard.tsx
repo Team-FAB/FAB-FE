@@ -19,14 +19,14 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${userArticle}?page=1&size=12&isRecruiting=true`,
+          `${userArticle}?page=1&size=9&isRecruiting=false`,
         )
         if (!response.ok) {
           throw new Error("서버에서 데이터를 가져오지 못했습니다")
         }
         const data = await response.json()
-        console.log(data)
         setPosts(data.data)
+        console.log(data)
       } catch (error) {
         console.error(error)
         messageApi.error("데이터를 로드하는 동안 오류가 발생했습니다")
