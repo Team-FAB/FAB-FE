@@ -7,6 +7,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
+import roomMateTitle from "../../assets/룸메이트 구해요.svg"
 
 const RoomMate: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -45,7 +46,7 @@ const RoomMate: React.FC = () => {
     <div className={styles.roomMateContainer}>
       <RoomMateSearch />
       <div className={styles.roomMateTitle}>
-        <span>룸메이트 구해요 👋</span>
+        <img src={roomMateTitle} />
         <div className={styles.roomMateBtn}>
           <Button type="primary" onClick={toggleRecruitOnly}>
             {showRecruitOnly ? "전체보기" : "모집글만"}

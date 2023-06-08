@@ -49,7 +49,7 @@ const RoomMateSearch = () => {
           className={styles.searchIcon}
           style={{ fontSize: 28 }}
         />
-        <div className={styles.searchBox}>
+        <div className={styles.searchBox} onClick={handleToggleSearchBox}>
           <div className={styles.searchBar}>
             <div>
               <p>지역</p>
