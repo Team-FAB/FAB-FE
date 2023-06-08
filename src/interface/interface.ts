@@ -23,7 +23,7 @@ export interface Post {
   region: string
   period: string
   price: string
-  recruit: boolean
+  recruiting: boolean
 }
 
 export interface User {
