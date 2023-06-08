@@ -4,7 +4,6 @@ import { Radio } from "antd"
 import { useState } from "react"
 import { FormInstance } from "antd"
 import { region, gender, period, price } from "../../object/profileDropdown"
-import Item from "antd/es/list/Item"
 
 interface WritePageSelectProps {
   form: FormInstance
