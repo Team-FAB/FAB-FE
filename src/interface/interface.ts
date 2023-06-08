@@ -1,9 +1,10 @@
 export interface UserState {
   isLogged: boolean
-  msg: string
   status: string
   signUp: boolean
-  token: unknown
+  data: {
+    token: Token
+  }
   kakao: boolean
   google: boolean
 }
@@ -23,7 +24,7 @@ export interface Post {
   region: string
   period: string
   price: string
-  isRecruit: boolean
+  recruit: boolean
 }
 
 export interface User {
@@ -114,3 +115,4 @@ export interface userProfileData {
   hateTag?: string
   myText?: string
 }
+

@@ -1,3 +1,4 @@
+/* General */
 .searchContainer {
   display: flex;
   justify-content: center;
@@ -23,6 +24,7 @@
   box-sizing: border-box;
   padding: 7px 15px;
   font-size: var(--font-size-sub2);
+  cursor: pointer;
 }
 
 .searchBar {
@@ -44,7 +46,7 @@
   border: none;
 }
 
-/* postCard.css */
+/* Post Card */
 .cardBadgeArea,
 .cardBadgePeriod,
 .cardBadgePrice,
@@ -58,6 +60,7 @@
 .cardBadgeArea {
   background-color: var(--purple200);
 }
+
 .cardBadgePeriod {
   background-color: var(--purple300);
 }
@@ -69,8 +72,8 @@
 .cardBadgeGender {
   background-color: var(--purple500);
 }
-/* postCard.css */
 
+/* Search Choice Container */
 .searchChoiceContainer {
   position: absolute;
   top: 140%;
@@ -94,13 +97,6 @@
 .searchChoiceContainer > div > p {
   font-size: var(--font-size-body1);
   margin-bottom: 13px;
-}
-
-.searchChoiceArea,
-.searchChoicePeriod,
-.searchChoicePrice,
-.searchChoiceGender {
-  margin-right: 10px;
 }
 
 .searchChoiceArea > p {
@@ -132,24 +128,29 @@
   align-items: center;
 }
 
-.areaRadioGroup::-webkit-scrollbar-thumb {
+/* Radio Groups */
+.areaRadioGroup::-webkit-scrollbar-thumb,
+.priceRadioGroup::-webkit-scrollbar-thumb {
   background-color: var(--black100);
   border-radius: var(--badge-border-radius);
 }
 
-.areaRadioGroup::-webkit-scrollbar {
+.areaRadioGroup::-webkit-scrollbar,
+.priceRadioGroup::-webkit-scrollbar {
   background-color: inherit;
 }
 
 .periodRadioGroup::-webkit-scrollbar,
-.priceRadioGroup::-webkit-scrollbar,
 .genderRadioGroup::-webkit-scrollbar {
   display: none;
 }
 
-.areaRadioGroup {
+.areaRadioGroup,
+.priceRadioGroup {
+  width: 140px;
   height: 200px;
-  overflow-y: scroll;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .areaRadioBtn {
@@ -159,20 +160,13 @@
   width: 120px;
   height: 40px;
   font-size: var(--font-size-sub3);
-  margin: 0px;
-}
-
-.periodRadioGroup,
-.priceRadioGroup {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  height: 200px;
-  overflow-y: scroll;
+  margin: 0;
 }
 
 .periodRadioBtn,
 .priceRadioBtn {
   display: flex;
+  height: 40px;
   justify-items: start;
   align-items: center;
   font-size: var(--font-size-sub3);

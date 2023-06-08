@@ -6,6 +6,9 @@ import WritePageSelect from "./writePageSelect";
 import { Button, Input, Form, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Store } from "antd/lib/form/interface";
+import { userArticle } from "../../api";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Redux/store";
 
 const WritePage: React.FC = () => {
   const [content, setContent] = useState("");
@@ -33,31 +36,27 @@ const WritePage: React.FC = () => {
     setContent(content);
   };
 
+  const userToken = useSelector((state : RootState) => state.user.data.token)
+
   const onFinish = async (values: Store) => {
     try {
-      const response = await fetch(
-        "https://2d22-211-211-141-39.ngrok-free.app/api/article",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "JWT",
-          },
-          body: JSON.stringify(values), // values를 JSON 형식으로 변환
-        }
-      );
-      console.log(values);
+      const response = await fetch(userArticle, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userToken.atk.toString(),
+        },
+        body: JSON.stringify(values), // values를 JSON 형식으로 변환
+      })
+
       if (!response.ok) {
-        // 만약 응답이 정상적이지 않다면, 에러 처리
-
         console.log(response);
-      }
-
-      const resData = await response.json(); // JSON 형식으로 응답을 파싱
-
-      if (resData.message === "게시글 작성 완료") {
-        console.log("Success:", values);
+      } else {
         navigate("/RoomMate");
+        Modal.success({
+          title: "게시글 작성 완료",
+          content: "게시글 작성이 완료되었습니다!",
+        });
       }
     } catch (error) {
       console.error("Error:", error);
@@ -91,7 +90,7 @@ const WritePage: React.FC = () => {
           <Input placeholder="제목" className={styles.titleInput} />
         </Form.Item>
         <div className={styles.require}>* 필수 입력 항목</div>
-        <WritePageSelect form = {form}/>
+        <WritePageSelect form={form} />
         <Form.Item name="content">
           <ReactQuill
             theme="snow"
