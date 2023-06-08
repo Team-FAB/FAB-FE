@@ -1,39 +1,51 @@
+import { useEffect, useState } from "react"
 import { UserOutlined } from "@ant-design/icons"
 import styles from "./postCard.module.css"
 import { Badge, Card, message } from "antd"
 import PostModal from "../PostModal/postModal"
-import { useState } from "react"
 import { Props, Post } from "../../interface/interface"
-import { useSelector } from "react-redux"
-import { RootState } from "../../Redux/store"
+import { userArticleRecent } from "../../api"
 
-const PostCard: React.FC<Props> = ({ showRecruitOnly, posts }) => {
+const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
-  const isLogged = useSelector((state: RootState) => state.user.isLogged)
+  const [posts, setPosts] = useState<Post[]>([])
   const [messageApi, contextHolder] = message.useMessage()
 
-  const handlePostClick = (post: Post) => {
-    if (isLogged === true) {
-      setSelectedPost(post)
-    } else {
-      messageApi.info("로그인 후 사용 가능합니다.")
+  const recruit = (isRecruit: boolean) => {
+    return isRecruit ? "모집" : "마감"
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${userArticleRecent}?page=1&size=12&isRecruiting=true`,
+        )
+        if (!response.ok) {
+          throw new Error("서버에서 데이터를 가져오지 못했습니다")
+        }
+        const data = await response.json()
+        console.log(data)
+        setPosts(data.data)
+      } catch (error) {
+        console.error(error)
+        messageApi.error("데이터를 로드하는 동안 오류가 발생했습니다")
+      }
     }
+
+    fetchData()
+  }, [messageApi])
+
+  const handlePostClick = (post: Post) => {
+    setSelectedPost(post)
   }
 
   const handleCloseModal = () => {
     setSelectedPost(null)
   }
 
-  const recruit = (isRecruit: boolean) => {
-    if (isRecruit) {
-      return "모집"
-    } else {
-      return "마감"
-    }
-  }
-
   const postsToShow = showRecruitOnly
-    ? posts.filter((post) => post.isRecruit === true)
+    ? posts.filter((post) => post.recruit)
     : posts
 
   return (
@@ -44,65 +56,30 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly, posts }) => {
           className={styles.cardContainer}
           onClick={() => handlePostClick(post)}
         >
-          {post.isRecruit === true ? (
-            <Badge.Ribbon key={post.id} text={recruit(post.isRecruit)}>
-              <Card style={{ width: 250, marginTop: 16 }}>
-                <div className={styles.cardText}>
-                  <span className={styles.cardTitle}>{post.title}</span>
-                  <span className={styles.cardContent}>{post.content}</span>
+          <Badge.Ribbon key={post.id} text={recruit(post.recruit)}>
+            <Card style={{ width: 250, marginTop: 16 }}>
+              <div className={styles.cardText}>
+                <span className={styles.cardTitle}>{post.title}</span>
+                <span className={styles.cardContent}>{post.content}</span>
+              </div>
+              <div className={styles.user}>
+                <div className={styles.author}>
+                  <span>{post.nickname}</span>
+                  {post.gender === "여성" ? (
+                    <UserOutlined style={{ color: "#ff0000" }} />
+                  ) : (
+                    <UserOutlined style={{ color: "#2858FF" }} />
+                  )}
                 </div>
-                <div className={styles.user}>
-                  <div className={styles.author}>
-                    <span>{post.nickname}</span>
-                    {post.gender === "여성" ? (
-                      <UserOutlined style={{ color: "#ff0000" }} />
-                    ) : (
-                      <UserOutlined style={{ color: "#2858FF" }} />
-                    )}
-                  </div>
-                  <span>{post.createdDate}</span>
-                </div>
-                <div className={styles.cardBadgeContainer}>
-                  <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
-                  <Badge className={styles.cardBadgePeriod}>
-                    {post.period}
-                  </Badge>
-                  <Badge className={styles.cardBadgePrice}>{post.price}</Badge>
-                </div>
-              </Card>
-            </Badge.Ribbon>
-          ) : (
-            <Badge.Ribbon
-              key={post.id}
-              text={recruit(post.isRecruit)}
-              color="#8a8a8a"
-            >
-              <Card style={{ width: 250, marginTop: 16 }}>
-                <div className={styles.cardText}>
-                  <span className={styles.cardTitle}>{post.title}</span>
-                  <span className={styles.cardContent}>{post.content}</span>
-                </div>
-                <div className={styles.user}>
-                  <div className={styles.author}>
-                    <span>{post.nickname}</span>
-                    {post.gender === "여성" ? (
-                      <UserOutlined style={{ color: "#ff0000" }} />
-                    ) : (
-                      <UserOutlined style={{ color: "#2858FF" }} />
-                    )}
-                  </div>
-                  <span>{post.createdDate}</span>
-                </div>
-                <div className={styles.cardBadgeContainer}>
-                  <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
-                  <Badge className={styles.cardBadgePeriod}>
-                    {post.period}
-                  </Badge>
-                  <Badge className={styles.cardBadgePrice}>{post.price}</Badge>
-                </div>
-              </Card>
-            </Badge.Ribbon>
-          )}
+                <span>{post.createdDate}</span>
+              </div>
+              <div className={styles.cardBadgeContainer}>
+                <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
+                <Badge className={styles.cardBadgePeriod}>{post.period}</Badge>
+                <Badge className={styles.cardBadgePrice}>{post.price}</Badge>
+              </div>
+            </Card>
+          </Badge.Ribbon>
         </div>
       ))}
       {selectedPost && (
