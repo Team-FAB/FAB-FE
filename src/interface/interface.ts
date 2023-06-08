@@ -91,3 +91,28 @@ export interface profileTendencyDropdown {
   ageGroupBoxOpen: boolean
   activityTimeBoxOpen: boolean
 }
+
+export interface profileBasicValues { 
+  nickname?: string
+  email?: string
+}
+
+export interface userProfileData {
+  // id: number
+  // image: string
+  nickname?: string
+  email?: string
+  password?: string
+  gender?: string
+  smoke?: boolean
+  MBTI?: string
+  region?: string
+  minAge?: number
+  maxAge?: number
+  myAge?: number
+  activityTime?: string
+  favoriteTag?: string[]
+  hateTag?: string
+  myText?: string
+}
+
