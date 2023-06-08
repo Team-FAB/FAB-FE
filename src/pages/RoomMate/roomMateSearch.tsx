@@ -4,7 +4,7 @@ import styles from "./roomMateSearch.module.css"
 import { Radio } from "antd"
 import { useState } from "react"
 import { region, gender, period, price } from "../../object/profileDropdown"
-import { userArticleRecent } from "../../api"
+import { userArticle } from "../../api"
 
 const RoomMateSearch = () => {
   const [searchBoxOpen, setSearchBoxOpen] = useState(false)
@@ -28,7 +28,7 @@ const RoomMateSearch = () => {
     // const queryString = new URLSearchParams(searchParams).toString()
 
     try {
-      const response = await fetch(userArticleRecent)
+      const response = await fetch(userArticle)
 
       if (!response.ok) {
         throw new Error("서버 연결 안됨")
