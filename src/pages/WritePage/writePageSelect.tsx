@@ -1,53 +1,53 @@
-import { Badge, Input, Form, RadioChangeEvent } from "antd";
-import styles from "./writePageSelect.module.css";
-import { Radio } from "antd";
-import { useState } from "react";
-import { FormInstance } from "antd";
-import { region, gender, period, price } from "../../object/profileDropdown";
-import Item from "antd/es/list/Item";
+import { Badge, Input, Form, RadioChangeEvent } from "antd"
+import styles from "./writePageSelect.module.css"
+import { Radio } from "antd"
+import { useState } from "react"
+import { FormInstance } from "antd"
+import { region, gender, period, price } from "../../object/profileDropdown"
+import Item from "antd/es/list/Item"
 
 interface WritePageSelectProps {
-  form: FormInstance;
+  form: FormInstance
 }
 
 const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
-  const [searchBoxOpen, setSearchBoxOpen] = useState(false);
-  const [selectedArea, setSelectedArea] = useState<string>("지역");
-  const [selectedPeriod, setSelectedPeriod] = useState<string>("기간");
-  const [selectedPrice, setSelectedPrice] = useState<String>("보증금");
+  const [searchBoxOpen, setSearchBoxOpen] = useState(false)
+  const [selectedArea, setSelectedArea] = useState<string>("지역")
+  const [selectedPeriod, setSelectedPeriod] = useState<string>("기간")
+  const [selectedPrice, setSelectedPrice] = useState<String>("보증금")
 
-  const [selectedGender, setSelectedGender] = useState<string>("성별");
+  const [selectedGender, setSelectedGender] = useState<string>("성별")
 
   const handleRegionChange = (e: RadioChangeEvent) => {
-    const region = e.target.value;
-    setSelectedArea(region);
-    form.setFieldsValue({ region });
-  };
+    const region = e.target.value
+    setSelectedArea(region)
+    form.setFieldsValue({ region })
+  }
 
   const handlePeriodChange = (e: RadioChangeEvent) => {
-    const period = e.target.value;
-    setSelectedPeriod(period);
-    form.setFieldsValue({ period });
-  };
+    const period = e.target.value
+    setSelectedPeriod(period)
+    form.setFieldsValue({ period })
+  }
 
   const handlePriceChange = (e: RadioChangeEvent) => {
-    const deposit = e.target.value;
+    const deposit = e.target.value
     const selectedPriceDisplay = price.find(
-      (item) => item.deposit === deposit
-    )?.display;
-    setSelectedPrice(selectedPriceDisplay || "보증금");
-    form.setFieldsValue({ price: deposit });
-  };
+      (item) => item.deposit === deposit,
+    )?.display
+    setSelectedPrice(selectedPriceDisplay || "보증금")
+    form.setFieldsValue({ price: deposit })
+  }
 
   const handleGenderChange = (e: RadioChangeEvent) => {
-    const gender = e.target.value;
-    setSelectedGender(gender);
-    form.setFieldsValue({ gender });
-  };
+    const gender = e.target.value
+    setSelectedGender(gender)
+    form.setFieldsValue({ gender })
+  }
 
   const handleToggleSearchBox = () => {
-    setSearchBoxOpen(!searchBoxOpen);
-  };
+    setSearchBoxOpen(!searchBoxOpen)
+  }
 
   return (
     <>
@@ -202,7 +202,7 @@ const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default writePageSelect;
+export default writePageSelect

@@ -7,6 +7,8 @@ import { Button, Input, Form, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Store } from "antd/lib/form/interface";
 import { userArticle } from "../../api";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Redux/store";
 
 const WritePage: React.FC = () => {
   const [content, setContent] = useState("");
@@ -34,17 +36,18 @@ const WritePage: React.FC = () => {
     setContent(content);
   };
 
+  const userToken = useSelector((state : RootState) => state.user.data.token)
+
   const onFinish = async (values: Store) => {
     try {
       const response = await fetch(userArticle, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0OUBnbWFpbC5jb20iLCJyb2xlcyI6W10sImlhdCI6MTY4NjIxNTU1MCwiZXhwIjoxNjg2MjE5MTUwfQ.XwPQ4olBb1zL6Sd9Cb7P6_J-5lXt3IZh5rVmH0GrRts",
+          Authorization: userToken.atk.toString(),
         },
         body: JSON.stringify(values), // values를 JSON 형식으로 변환
-      });
+      })
 
       if (!response.ok) {
         console.log(response);

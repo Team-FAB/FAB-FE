@@ -7,7 +7,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
-import roomMateTitle from "../../assets/룸메이트 구해요.svg"
+import roomMateTitle from "../../assets/RoommateTitle.svg"
 
 const RoomMate: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1)
