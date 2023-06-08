@@ -81,11 +81,27 @@ const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
 
   const price = [
     { deposit: "~ 1,000,000원" },
+    { deposit: "~ 2,000,000원" },
     { deposit: "~ 3,000,000원" },
+    { deposit: "~ 4,000,000원" },
     { deposit: "~ 5,000,000원" },
+    { deposit: "~ 6,000,000원" },
+    { deposit: "~ 7,000,000원" },
     { deposit: "~ 8,000,000원" },
+    { deposit: "~ 9,000,000원" },
     { deposit: "~ 10,000,000원" },
+    { deposit: "~ 11,000,000원" },
+    { deposit: "~ 12,000,000원" },
+    { deposit: "~ 13,000,000원" },
+    { deposit: "~ 14,000,000원" },
+    { deposit: "~ 15,000,000원" },
+    { deposit: "~ 16,000,000원" },
+    { deposit: "~ 17,000,000원" },
+    { deposit: "~ 18,000,000원" },
+    { deposit: "~ 19,000,000원" },
+    { deposit: "~ 20,000,000원" }
   ];
+
 
   const gender = [{ name: "여성" }, { name: "남성" }];
 
