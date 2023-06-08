@@ -4,7 +4,7 @@ import styles from "./postCard.module.css"
 import { Badge, Card, message } from "antd"
 import PostModal from "../PostModal/postModal"
 import { Props, Post } from "../../interface/interface"
-import { userArticleRecent } from "../../api"
+import { userArticle } from "../../api"
 
 const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
@@ -19,7 +19,7 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${userArticleRecent}?page=1&size=12&isRecruiting=true`,
+          `${userArticle}?page=1&size=12&isRecruiting=true`,
         )
         if (!response.ok) {
           throw new Error("서버에서 데이터를 가져오지 못했습니다")
