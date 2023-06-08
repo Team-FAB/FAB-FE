@@ -1,8 +1,12 @@
 export interface UserState {
   isLogged: boolean
-  signUp: boolean
-  error: string | undefined
   status: string
+  signUp: boolean
+  data: {
+    token: Token
+  }
+  kakao: boolean
+  google: boolean
 }
 
 export interface LoginValues {
@@ -20,7 +24,7 @@ export interface Post {
   region: string
   period: string
   price: string
-  isRecruit: boolean
+  recruit: boolean
 }
 
 export interface User {
@@ -63,6 +67,27 @@ export interface Props {
   showRecruitOnly?: boolean
 }
 
+export interface Token {
+  atk: string
+  rtk: string
+}
+
 export interface GlobalState {
-  user: UserState
+  isLogged: boolean
+  msg: string
+  status: string
+  signUp: boolean
+  kakao: boolean
+  google: boolean
+  token: Token
+}
+
+export interface profileTendencyDropdown {
+  genderBoxOpen: boolean
+  ageBoxOpen: boolean
+  smokeBoxOpen: boolean
+  MBTIBoxOpen: boolean
+  regionBoxOpen: boolean
+  ageGroupBoxOpen: boolean
+  activityTimeBoxOpen: boolean
 }

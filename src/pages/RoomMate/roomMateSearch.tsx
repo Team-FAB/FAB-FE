@@ -1,8 +1,10 @@
 import { SearchOutlined, CaretDownOutlined } from "@ant-design/icons"
-import { Badge } from "antd"
+import { Badge, Button } from "antd"
 import styles from "./roomMateSearch.module.css"
-import { Radio } from "antd"
+import { Radio, RadioChangeEvent } from "antd"
 import { useState } from "react"
+import { region, gender, period, price } from "../../object/profileDropdown"
+import { userArticle } from "../../api"
 
 const RoomMateSearch = () => {
   const [searchBoxOpen, setSearchBoxOpen] = useState(false)
@@ -14,52 +16,39 @@ const RoomMateSearch = () => {
   const handleToggleSearchBox = () => {
     setSearchBoxOpen(!searchBoxOpen)
   }
+  const handlePriceChange = (e: RadioChangeEvent) => {
+    const deposit = e.target.value
+    const selectedPriceDisplay = price.find(
+      (item) => item.deposit === deposit,
+    )?.display
+    setSelectedPrice(selectedPriceDisplay || "보증금")
+  }
 
-  const area = [
-    { region: "마포구" },
-    { region: "서대문구" },
-    { region: "은평구" },
-    { region: "용산구" },
-    { region: "중구" },
-    { region: "종로구" },
-    { region: "성북구" },
-    { region: "성동구" },
-    { region: "동대문구" },
-    { region: "광진구" },
-    { region: "중랑구" },
-    { region: "강북구" },
-    { region: "도봉구" },
-    { region: "노원구" },
-    { region: "강서구" },
-    { region: "양천구" },
-    { region: "구로구" },
-    { region: "영등포구" },
-    { region: "동작구" },
-    { region: "금천구" },
-    { region: "관악구" },
-    { region: "서초구" },
-    { region: "강남구" },
-    { region: "송파구" },
-    { region: "강동구" },
-  ]
+  const handleSearch = async () => {
+    // const searchParams = {
+    //   region: selectedArea,
+    //   period: selectedPeriod,
+    //   price: selectedPrice,
+    //   gender: selectedGender,
+    // }
 
-  const period = [
-    { quarter: "1개월 ~ 3개월" },
-    { quarter: "3개월 ~ 6개월" },
-    { quarter: "6개월 ~ 9개월" },
-    { quarter: "9개월 ~ 12개월" },
-    { quarter: "1년 이상 ~" },
-  ]
+    // const queryString = new URLSearchParams(searchParams).toString()
 
-  const price = [
-    { deposit: "~ 1,000,000원" },
-    { deposit: "~ 3,000,000원" },
-    { deposit: "~ 5,000,000원" },
-    { deposit: "~ 8,000,000원" },
-    { deposit: "~ 10,000,000원" },
-  ]
+    try {
+      const response = await fetch(userArticle)
 
-  const gender = [{ name: "여성" }, { name: "남성" }]
+      if (!response.ok) {
+        throw new Error("서버 연결 안됨")
+      }
+
+      const data = await response.json()
+      setSearchBoxOpen(!searchBoxOpen)
+      console.log(data)
+    } catch (error) {
+      setSearchBoxOpen(!searchBoxOpen)
+      console.error("데이터 불러오기 오류", error)
+    }
+  }
 
   return (
     <>
@@ -69,7 +58,7 @@ const RoomMateSearch = () => {
           style={{ fontSize: 28 }}
         />
         <div className={styles.searchBox}>
-          <div className={styles.searchBar}>
+          <div className={styles.searchBar} onClick={handleToggleSearchBox}>
             <div>
               <p>지역</p>
               <Badge className={styles.cardBadgeArea}>{selectedArea}</Badge>
@@ -94,78 +83,87 @@ const RoomMateSearch = () => {
           </div>
           {searchBoxOpen && (
             <div className={styles.searchChoiceContainer}>
-              <div className={styles.searchChoiceArea}>
-                <p>지역</p>
-                <div className={styles.areaRadioGroup}>
+              <div className={styles.searchChoiceBox}>
+                <div className={styles.searchChoiceArea}>
+                  <p>지역</p>
+                  <div className={styles.areaRadioGroup}>
+                    <Radio.Group
+                      onChange={(e) => setSelectedArea(e.target.value)}
+                    >
+                      {region.map((item, index) => (
+                        <Radio
+                          key={index}
+                          value={item.region}
+                          className={styles.areaRadioBtn}
+                        >
+                          {item.region}
+                        </Radio>
+                      ))}
+                    </Radio.Group>
+                  </div>
+                </div>
+                <div className={styles.searchChoicePeriod}>
+                  <p>기간</p>
                   <Radio.Group
-                    onChange={(e) => setSelectedArea(e.target.value)}
+                    className={styles.periodRadioGroup}
+                    value={selectedPeriod}
+                    onChange={(e) => setSelectedPeriod(e.target.value)}
                   >
-                    {area.map((item, index) => (
+                    {period.map((item, index) => (
                       <Radio
                         key={index}
-                        value={item.region}
-                        className={styles.areaRadioBtn}
+                        value={item.quarter}
+                        className={styles.periodRadioBtn}
                       >
-                        {item.region}
+                        {item.quarter}
+                      </Radio>
+                    ))}
+                  </Radio.Group>
+                </div>
+                <div className={styles.searchChoicePrice}>
+                  <p>보증금</p>
+                  <Radio.Group
+                    className={styles.priceRadioGroup}
+                    value={selectedPrice}
+                    onChange={handlePriceChange}
+                  >
+                    {price.map((item, index) => (
+                      <Radio
+                        key={index}
+                        value={item.deposit}
+                        className={styles.priceRadioBtn}
+                      >
+                        {item.display}
+                      </Radio>
+                    ))}
+                  </Radio.Group>
+                </div>
+                <div className={styles.searchChoiceGender}>
+                  <p>성별</p>
+                  <Radio.Group
+                    className={styles.genderRadioGroup}
+                    value={selectedGender}
+                    onChange={(e) => setSelectedGender(e.target.value)}
+                  >
+                    {gender.map((item, index) => (
+                      <Radio
+                        key={index}
+                        value={item.name}
+                        className={styles.genderRadioBtn}
+                      >
+                        {item.name}
                       </Radio>
                     ))}
                   </Radio.Group>
                 </div>
               </div>
-              <div className={styles.searchChoicePeriod}>
-                <p>기간</p>
-                <Radio.Group
-                  className={styles.periodRadioGroup}
-                  value={selectedPeriod}
-                  onChange={(e) => setSelectedPeriod(e.target.value)}
-                >
-                  {period.map((item, index) => (
-                    <Radio
-                      key={index}
-                      value={item.quarter}
-                      className={styles.periodRadioBtn}
-                    >
-                      {item.quarter}
-                    </Radio>
-                  ))}
-                </Radio.Group>
-              </div>
-              <div className={styles.searchChoicePrice}>
-                <p>보증금</p>
-                <Radio.Group
-                  className={styles.priceRadioGroup}
-                  value={selectedPrice}
-                  onChange={(e) => setSelectedPrice(e.target.value)}
-                >
-                  {price.map((item, index) => (
-                    <Radio
-                      key={index}
-                      value={item.deposit}
-                      className={styles.priceRadioBtn}
-                    >
-                      {item.deposit}
-                    </Radio>
-                  ))}
-                </Radio.Group>
-              </div>
-              <div className={styles.searchChoiceGender}>
-                <p>성별</p>
-                <Radio.Group
-                  className={styles.genderRadioGroup}
-                  value={selectedGender}
-                  onChange={(e) => setSelectedGender(e.target.value)}
-                >
-                  {gender.map((item, index) => (
-                    <Radio
-                      key={index}
-                      value={item.name}
-                      className={styles.genderRadioBtn}
-                    >
-                      {item.name}
-                    </Radio>
-                  ))}
-                </Radio.Group>
-              </div>
+              <Button
+                className={styles.searchChoiceBtn}
+                type="primary"
+                onClick={handleSearch}
+              >
+                검색하기
+              </Button>
             </div>
           )}
         </div>

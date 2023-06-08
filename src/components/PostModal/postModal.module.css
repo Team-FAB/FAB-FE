@@ -17,6 +17,11 @@
 .save {
   background-color: var(--black200);
   margin-left: 15px;
+  cursor: pointer;
+}
+
+.saveActive {
+  background-color: var(--purple600);
 }
 
 .title {
@@ -28,6 +33,11 @@
   font-size: var(--font-size-sub1);
   height: 70px;
   line-height: 16px;
+}
+
+.titleContainer{
+  display: flex;
+  align-items: center;
 }
 
 .ProfileContainer {

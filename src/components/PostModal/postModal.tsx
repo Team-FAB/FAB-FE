@@ -1,20 +1,29 @@
-import React from "react";
-import { Modal, Badge, Button } from "antd";
-import styles from "./PostModal.module.css";
+import React, { useState } from "react"
+import { Modal, Badge, Button } from "antd"
+import styles from "./PostModal.module.css"
 
 interface PostModalProps {
-  post: any;
-  onClose: () => void;
+  post: any
+  onClose: () => void
 }
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
+  const [isSaved, setIsSaved] = useState(false)
   const recruit = (isRecruit: boolean) => {
     if (isRecruit) {
-      return "모집";
+      return "모집"
     } else {
-      return "마감";
+      return "마감"
     }
-  };
+  }
+
+  const saveClassName = isSaved
+    ? `${styles.save} ${styles.saveActive}`
+    : styles.save
+
+  const handleSaveClick = () => {
+    setIsSaved(!isSaved)
+  }
 
   return (
     <Modal
@@ -31,7 +40,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           </Badge>
           <div className={styles.titleContainer}>
             <span className={styles.title}>{post.title}</span>
-            <Badge className={styles.save}>찜하기</Badge>
+            <span className={saveClassName} onClick={handleSaveClick}>
+              찜하기
+            </span>
           </div>
           <div className={styles.content}>{post.content}</div>
           <div className={styles.ProfileContainer}>
@@ -42,7 +53,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             <span className={styles.ProfileContent}>
               {post.nickname} {post.createdDate}
             </span>
-            <Button className={styles.apply}>신청하기</Button>
+            <Button className={styles.apply} type="primary">
+              신청하기
+            </Button>
           </div>
           <div className={styles.line}></div>
           <div className={styles.cardBadgeContainer}>
@@ -58,7 +71,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           </Badge>
           <div className={styles.titleContainer}>
             <span className={styles.title}>{post.title}</span>
-            <Badge className={styles.save}>찜하기</Badge>
+            <span className={saveClassName} onClick={handleSaveClick}>
+              찜하기
+            </span>
           </div>
           <div className={styles.content}>{post.content}</div>
           <div className={styles.ProfileContainer}>
@@ -69,7 +84,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             <span className={styles.ProfileContent}>
               {post.nickname} {post.createdDate}
             </span>
-            <Button className={styles.apply}>신청하기</Button>
+            <Button className={styles.apply} type="primary">
+              신청하기
+            </Button>
           </div>
           <div className={styles.line}></div>
           <div className={styles.cardBadgeContainer}>
@@ -80,7 +97,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
         </div>
       )}
     </Modal>
-  );
-};
+  )
+}
 
-export default PostModal;
+export default PostModal
