@@ -1,5 +1,5 @@
 import styles from './profile.module.css'
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import { Button } from 'antd';
 import { Checkbox } from 'antd';
 import { Badge } from "antd"
@@ -43,34 +43,38 @@ const ProfileTendency: React.FC = () => {
   const [favoriteTag, setfavoriteTag] = useState<string[]>([]);
 
   const handleTendencyChange = (checkedValues: CheckboxValueType[]) => {
-    setfavoriteTag(checkedValues as string[]);
+    if (checkedValues.length <= 5) {
+      setfavoriteTag(checkedValues as string[]);
+    } else {
+      message.error('최대 5개까지 선택할 수 있습니다.');
+    }
   };
 
 
   // 서버 연결
-  // const updateProfileTendency = async (profileData: userProfileData, token: string) => {
+  const updateProfileTendency = async (profileData: userProfileData, token: string) => {
 
-  //   try {
-  //     const response = await fetch('https://.../api/profile', { // 주소 수정
-  //       method: 'PUT',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 포함
-  //       },
-  //       body: JSON.stringify(profileData),
-  //     });
+    try {
+      const response = await fetch('https://.../api/profile', { // 주소 수정
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`, // JWT 토큰을 헤더에 포함
+        },
+        body: JSON.stringify(profileData),
+      });
 
-  //     if (!response.ok) {
-  //       throw new Error('프로필 성향 정보 업데이트 실패');
-  //     }
+      if (!response.ok) {
+        throw new Error('프로필 성향 정보 업데이트 실패');
+      }
 
-  //     const updatedProfileTendency = await response.json();
-  //     return updatedProfileTendency;
-  //   } catch (error) {
-  //     console.error('프로필 성향 정보 업데이트 오류', error);
-  //     throw error;
-  //   }
-  // };
+      const updatedProfileTendency = await response.json();
+      return updatedProfileTendency;
+    } catch (error) {
+      console.error('프로필 성향 정보 업데이트 오류', error);
+      throw error;
+    }
+  };
 
   // 프로필 정보 업데이트 핸들러
   const handleUpdateProfile = async () => {
@@ -90,9 +94,9 @@ const ProfileTendency: React.FC = () => {
 
       console.log('사용자 입력 데이터:', profileData);
 
-      // const token = '여기에 JWT 토큰을 저장해둔다';
-      // const updatedProfile = await updateProfileTendency(profileData, token); // 토큰 값 변경 필요
-      // console.log('프로필 업데이트 성공', updatedProfile);
+      const token = '여기에 JWT 토큰을 저장해둔다';
+      const updatedProfile = await updateProfileTendency(profileData, token); // 토큰 값 변경 필요
+      console.log('프로필 업데이트 성공', updatedProfile);
     } catch (error) {
       console.error('프로필 업데이트 오류', error);
     }
@@ -307,21 +311,7 @@ const ProfileTendency: React.FC = () => {
         </div>
         <div>
           <div className={styles.tendencyDesc}>
-            <span>이런 룸메이트가 싫어요 😤</span>
-            {/* <Button className={styles.tendencyBtn} type="primary" onClick={() => setTendencyModal(true)} style={{ width: 50, height: 25, fontSize: 10, borderRadius: 20 }}>수정</Button> */}
-            <Modal
-              title="이런 룸메이트가 싫어요 😤 (1개 ~ 최대 5개 선택)"
-              centered
-              open={tendencyModal}
-              onOk={() => {
-                setTendencyModal(false);
-                setfavoriteTag(favoriteTag);
-              }}
-              onCancel={() => setTendencyModal(false)}>
-              <div className={styles.tendencyModalBox}>
-                <Checkbox.Group options={tendencyChoice} onChange={handleTendencyChange}/>
-              </div>
-            </Modal>
+            <span>성향을 선택해주세요 ☺️</span>
           </div>
           <div className={styles.tendencyBox}>
             {tendencyChoice
@@ -336,7 +326,7 @@ const ProfileTendency: React.FC = () => {
           type="primary" 
           onClick={() => setTendencyModal(true)} 
           style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>
-          수정
+          선택
         </Button>
       </div>
       <div className={styles.IntroducContainer}>

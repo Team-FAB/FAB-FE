@@ -9,6 +9,7 @@ const ProfileBasic: React.FC = () => {
 
   // 로그인한 유저 가져오기
   const isLogged = useSelector((state: RootState) => state.user.isLogged)
+  const userToken = useSelector((state : RootState) => state.user.data.token)
 
   // 사진 업로드
   const [profilePhoto, setProfilePhoto] = useState<string>('https://via.placeholder.com/120')
@@ -19,13 +20,13 @@ const ProfileBasic: React.FC = () => {
 
   // 새로운 닉네임, 비밀번호 할당
   const [nickname, setNickname] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleProfileBasicChange = async (values: { nickname: string; password: string }) => {
-    const updatedProfileData = { name: values.nickname, password: values.password, }
+  const [email] = useState('');
+  
+  const handleProfileBasicChange = async (values: { nickname: string }) => {
+    const updatedProfileData = { name: values.nickname }
 
     console.log("입력된 닉네임:", values.nickname);
-    console.log("입력된 비밀번호:", values.password);
+    // console.log("입력된 비밀번호:", values.password);
 
     try {
       const token = '여기에 JWT 토큰을 저장해둔다';
@@ -37,7 +38,7 @@ const ProfileBasic: React.FC = () => {
   };
 
   // 서버 연결
-  const updateProfile = async (profileData: { name: string; password: string }, token: string) => {
+  const updateProfile = async (profileData: { name: string }, token: string) => {
     try {
       const response = await fetch('https://.../api/profile', { // 주소 수정
         method: 'PUT',
@@ -93,15 +94,14 @@ const ProfileBasic: React.FC = () => {
             style={{ width: 200, height: 40 }}/>
         </Form.Item>
         <Form.Item
-          name="password"
-          rules={[{ required: true, message: "새로운 패스워드를 입력하세요." }]}>
+          name="email">
           <Input
             prefix={<MailOutlined />}
-            placeholder="새로운 패스워드를 입력하세요."
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} // 비밀번호 변경 핸들러 설정
-            style={{ width: 200, height: 40 }}/>
+            placeholder="이메일입니다."
+            type="email"
+            value={email}
+            style={{ width: 200, height: 40 }}
+            readOnly />
         </Form.Item>
         <Form.Item>
           <Button 
