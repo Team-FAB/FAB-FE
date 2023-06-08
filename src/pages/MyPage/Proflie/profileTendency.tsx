@@ -1,5 +1,5 @@
 import styles from './profile.module.css'
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import { Button } from 'antd';
 import { Checkbox } from 'antd';
 import { Badge } from "antd"
@@ -43,7 +43,11 @@ const ProfileTendency: React.FC = () => {
   const [favoriteTag, setfavoriteTag] = useState<string[]>([]);
 
   const handleTendencyChange = (checkedValues: CheckboxValueType[]) => {
-    setfavoriteTag(checkedValues as string[]);
+    if (checkedValues.length <= 5) {
+      setfavoriteTag(checkedValues as string[]);
+    } else {
+      message.error('최대 5개까지 선택할 수 있습니다.');
+    }
   };
 
 
@@ -307,21 +311,7 @@ const ProfileTendency: React.FC = () => {
         </div>
         <div>
           <div className={styles.tendencyDesc}>
-            <span>이런 룸메이트가 싫어요 😤</span>
-            {/* <Button className={styles.tendencyBtn} type="primary" onClick={() => setTendencyModal(true)} style={{ width: 50, height: 25, fontSize: 10, borderRadius: 20 }}>수정</Button> */}
-            <Modal
-              title="이런 룸메이트가 싫어요 😤 (1개 ~ 최대 5개 선택)"
-              centered
-              open={tendencyModal}
-              onOk={() => {
-                setTendencyModal(false);
-                setfavoriteTag(favoriteTag);
-              }}
-              onCancel={() => setTendencyModal(false)}>
-              <div className={styles.tendencyModalBox}>
-                <Checkbox.Group options={tendencyChoice} onChange={handleTendencyChange}/>
-              </div>
-            </Modal>
+            <span>성향을 선택해주세요 ☺️</span>
           </div>
           <div className={styles.tendencyBox}>
             {tendencyChoice
@@ -336,7 +326,7 @@ const ProfileTendency: React.FC = () => {
           type="primary" 
           onClick={() => setTendencyModal(true)} 
           style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>
-          수정
+          선택
         </Button>
       </div>
       <div className={styles.IntroducContainer}>
