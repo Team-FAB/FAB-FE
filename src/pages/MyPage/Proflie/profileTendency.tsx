@@ -52,29 +52,29 @@ const ProfileTendency: React.FC = () => {
 
 
   // 서버 연결
-  // const updateProfileTendency = async (profileData: userProfileData, token: string) => {
+  const updateProfileTendency = async (profileData: userProfileData, token: string) => {
 
-  //   try {
-  //     const response = await fetch('https://.../api/profile', { // 주소 수정
-  //       method: 'PUT',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 포함
-  //       },
-  //       body: JSON.stringify(profileData),
-  //     });
+    try {
+      const response = await fetch('https://.../api/profile', { // 주소 수정
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`, // JWT 토큰을 헤더에 포함
+        },
+        body: JSON.stringify(profileData),
+      });
 
-  //     if (!response.ok) {
-  //       throw new Error('프로필 성향 정보 업데이트 실패');
-  //     }
+      if (!response.ok) {
+        throw new Error('프로필 성향 정보 업데이트 실패');
+      }
 
-  //     const updatedProfileTendency = await response.json();
-  //     return updatedProfileTendency;
-  //   } catch (error) {
-  //     console.error('프로필 성향 정보 업데이트 오류', error);
-  //     throw error;
-  //   }
-  // };
+      const updatedProfileTendency = await response.json();
+      return updatedProfileTendency;
+    } catch (error) {
+      console.error('프로필 성향 정보 업데이트 오류', error);
+      throw error;
+    }
+  };
 
   // 프로필 정보 업데이트 핸들러
   const handleUpdateProfile = async () => {
@@ -94,9 +94,9 @@ const ProfileTendency: React.FC = () => {
 
       console.log('사용자 입력 데이터:', profileData);
 
-      // const token = '여기에 JWT 토큰을 저장해둔다';
-      // const updatedProfile = await updateProfileTendency(profileData, token); // 토큰 값 변경 필요
-      // console.log('프로필 업데이트 성공', updatedProfile);
+      const token = '여기에 JWT 토큰을 저장해둔다';
+      const updatedProfile = await updateProfileTendency(profileData, token); // 토큰 값 변경 필요
+      console.log('프로필 업데이트 성공', updatedProfile);
     } catch (error) {
       console.error('프로필 업데이트 오류', error);
     }
