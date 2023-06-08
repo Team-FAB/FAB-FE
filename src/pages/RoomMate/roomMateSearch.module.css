@@ -24,6 +24,7 @@
   box-sizing: border-box;
   padding: 7px 15px;
   font-size: var(--font-size-sub2);
+  cursor: pointer;
 }
 
 .searchBar {
@@ -146,6 +147,7 @@
 
 .areaRadioGroup,
 .priceRadioGroup {
+  width: 140px;
   height: 200px;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
