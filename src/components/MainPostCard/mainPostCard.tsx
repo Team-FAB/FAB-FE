@@ -7,8 +7,7 @@ interface MainPostCardProps {
   post: any;
 }
 
-
-const MainPostCard: React.FC<MainPostCardProps> = ({ post, onClick}) => {
+const MainPostCard: React.FC<MainPostCardProps> = ({ post, onClick }) => {
   return (
     <div className={styles.cardContainer} onClick={onClick}>
       <Badge.Ribbon text="모집">
@@ -18,7 +17,11 @@ const MainPostCard: React.FC<MainPostCardProps> = ({ post, onClick}) => {
           </div>
           <div className={styles.author}>
             <span>{post.nickname}</span>
-            <UserOutlined style={{ color: "#ff0000" }} />
+            {post.gender === "여성" ? (
+              <UserOutlined style={{ color: "#ff0000" }} />
+            ) : (
+              <UserOutlined style={{ color: "#2858FF" }} />
+            )}
           </div>
           <div className={styles.date}>{post.createdDate}</div>
           <div className={styles.cardBadgeContainer}>

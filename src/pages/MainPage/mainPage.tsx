@@ -130,7 +130,7 @@ const MainPage: React.FC = () => {
           customRightArrow={<CustomRightArrow />}
           customLeftArrow={<CustomLeftArrow />}
         >
-          {posts.map((post) => (
+          {posts.slice(0, 12).map((post) => (
             <MainPostCard
               key={post.id}
               post={post}
@@ -151,7 +151,7 @@ const MainPage: React.FC = () => {
           customRightArrow={<CustomRightArrow />}
           customLeftArrow={<CustomLeftArrow />}
         >
-          {users.map((user) => (
+          {users.slice(0, 12).map((user) => (
             <RecommendPostCard
               key={user.id}
               user={user}
