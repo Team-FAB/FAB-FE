@@ -1,6 +1,5 @@
 export interface UserState {
   isLogged: boolean
-  status: string
   signUp: boolean
   data: {
     token: Token
@@ -92,7 +91,7 @@ export interface profileTendencyDropdown {
   activityTimeBoxOpen: boolean
 }
 
-export interface profileBasicValues { 
+export interface profileBasicValues {
   nickname?: string
   email?: string
 }
@@ -115,4 +114,3 @@ export interface userProfileData {
   hateTag?: string
   myText?: string
 }
-
