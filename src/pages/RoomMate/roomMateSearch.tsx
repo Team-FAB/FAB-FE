@@ -1,10 +1,10 @@
 import { SearchOutlined, CaretDownOutlined } from "@ant-design/icons"
 import { Badge, Button } from "antd"
 import styles from "./roomMateSearch.module.css"
-import { Radio } from "antd"
+import { Radio, RadioChangeEvent } from "antd"
 import { useState } from "react"
 import { region, gender, period, price } from "../../object/profileDropdown"
-import { userArticleRecent } from "../../api"
+import { userArticle } from "../../api"
 
 const RoomMateSearch = () => {
   const [searchBoxOpen, setSearchBoxOpen] = useState(false)
@@ -15,6 +15,13 @@ const RoomMateSearch = () => {
 
   const handleToggleSearchBox = () => {
     setSearchBoxOpen(!searchBoxOpen)
+  }
+  const handlePriceChange = (e: RadioChangeEvent) => {
+    const deposit = e.target.value
+    const selectedPriceDisplay = price.find(
+      (item) => item.deposit === deposit,
+    )?.display
+    setSelectedPrice(selectedPriceDisplay || "보증금")
   }
 
   const handleSearch = async () => {
@@ -28,7 +35,7 @@ const RoomMateSearch = () => {
     // const queryString = new URLSearchParams(searchParams).toString()
 
     try {
-      const response = await fetch(userArticleRecent)
+      const response = await fetch(userArticle)
 
       if (!response.ok) {
         throw new Error("서버 연결 안됨")
@@ -118,7 +125,7 @@ const RoomMateSearch = () => {
                   <Radio.Group
                     className={styles.priceRadioGroup}
                     value={selectedPrice}
-                    onChange={(e) => setSelectedPrice(e.target.value)}
+                    onChange={handlePriceChange}
                   >
                     {price.map((item, index) => (
                       <Radio
@@ -126,7 +133,7 @@ const RoomMateSearch = () => {
                         value={item.deposit}
                         className={styles.priceRadioBtn}
                       >
-                        {item.deposit}
+                        {item.display}
                       </Radio>
                     ))}
                   </Radio.Group>
