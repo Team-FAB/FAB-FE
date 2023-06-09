@@ -25,6 +25,7 @@ export interface Post {
   period: string
   price: number
   recruiting: boolean
+  props: Props
 }
 
 export interface User {
@@ -64,7 +65,8 @@ export interface Props {
     price: string
     isRecruit: boolean
   }>
-  showRecruitOnly?: boolean
+  currentPage: number
+  showRecruitOnly: boolean
 }
 
 export interface Token {

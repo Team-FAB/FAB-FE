@@ -6,7 +6,7 @@ import PostModal from "../PostModal/postModal"
 import { Props, Post } from "../../interface/interface"
 import { userArticle } from "../../api"
 
-const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
+const PostCard: React.FC<Props> = ({ currentPage, showRecruitOnly }) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [posts, setPosts] = useState<Post[]>([])
   const [messageApi, contextHolder] = message.useMessage()
@@ -32,7 +32,7 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${userArticle}?page=1&size=12&isRecruiting=false`,
+          `${userArticle}?page=${currentPage}&size=9&isRecruiting=false`,
           {
             method: "GET",
             headers: new Headers({
@@ -47,7 +47,6 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
 
         const data = await response.json()
         setPosts(data.data)
-        console.log(data.data)
       } catch (error) {
         console.error(error)
         messageApi.error("데이터 불러오기 오류")
@@ -55,7 +54,7 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
     }
 
     fetchData()
-  }, [messageApi])
+  }, [currentPage, showRecruitOnly, messageApi])
 
   const handlePostClick = (post: Post) => {
     setSelectedPost(post)
