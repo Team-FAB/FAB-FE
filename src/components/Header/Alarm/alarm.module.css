@@ -41,3 +41,50 @@
   padding: 5px 10px;
   font-size: var(--font-size-button);
 }
+
+/* proflie modal */
+.profileTitle {
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.profileBox {
+  width: 400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-row-gap: 5px;
+}
+
+.profileBox > div:last-child {
+  grid-column: span 3;
+}
+
+.profileTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.profileTitle > span {
+  font-size: var(--font-size-body1);
+}
+
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.profileSection > span {
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
+}
+
+.profileInput {
+  max-width: 472px;
+  word-wrap: break-word;
+}
