@@ -42,7 +42,7 @@ const App: React.FC = () => {
             <Route path="/Applicant" element={<Applicant />} />
             <Route path="/Favorite" element={<Favorite />} />
             <Route path="/WritePage" element={<WritePage />} />
-            <Route path="/editPage" element={<EditPage />} />
+            <Route path="/editPage/:postId" element={<EditPage />} />
           </Routes>
           <Footer />
         </BrowserRouter>

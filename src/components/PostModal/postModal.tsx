@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Modal, Badge, Button } from "antd"
 import styles from "./PostModal.module.css"
+import { useNavigate } from "react-router-dom"
 
 interface PostModalProps {
   post: any
@@ -9,6 +10,13 @@ interface PostModalProps {
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const [isSaved, setIsSaved] = useState(false)
+  const userEmail = localStorage.getItem("email")
+  const navigate = useNavigate()
+
+  const handleEditClick = () => {
+    navigate(`/editPage/${post.id}`, { state: { post } })
+  }
+
   const recruit = (isRecruit: boolean) => {
     if (isRecruit) {
       return "모집"
@@ -35,10 +43,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   }
 
   const formatPrice = (price: number): string => {
-    return (
-      "~" +
-      price.toLocaleString("ko-KR") + "원"
-    )
+    return "~" + price.toLocaleString("ko-KR") + "원"
   }
 
   return (
@@ -62,6 +67,14 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           </div>
           <div className={styles.content}>{post.content}</div>
           <div className={styles.ProfileContainer}>
+            {userEmail === post.email && ( // 추가된 부분
+              <div className={styles.buttonContainer}>
+                <Button className={styles.editButton} onClick={handleEditClick}>
+                  수정
+                </Button>
+                <Button className={styles.deleteButton}>삭제</Button>
+              </div>
+            )}
             <img
               className={styles.profileImg}
               src="https://via.placeholder.com/25"
@@ -95,6 +108,14 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           </div>
           <div className={styles.content}>{post.content}</div>
           <div className={styles.ProfileContainer}>
+            {userEmail === post.email && ( // 추가된 부분
+              <div className={styles.buttonContainer}>
+                <Button className={styles.editButton} onClick={handleEditClick}>
+                  수정
+                </Button>
+                <Button className={styles.deleteButton}>삭제</Button>
+              </div>
+            )}
             <img
               className={styles.profileImg}
               src="https://via.placeholder.com/25"

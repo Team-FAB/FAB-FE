@@ -23,6 +23,7 @@ interface Post {
   period: string
   price: string
   recruit: boolean
+  email: string
 }
 
 interface User {
@@ -75,12 +76,13 @@ const MainPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${userArticle}?page=1&size=12&isRecruiting=true`, {
+          `${userArticle}?page=1&size=12&isRecruiting=true`,
+          {
             method: "GET",
             headers: new Headers({
               "ngrok-skip-browser-warning": "69420",
-            })
-          }
+            }),
+          },
         )
         if (!response.ok) {
           throw new Error("서버에서 데이터를 가져오지 못했습니다")
@@ -95,7 +97,6 @@ const MainPage: React.FC = () => {
 
     fetchData()
   }, [messageApi])
-
 
   const adImages = [
     "https://via.placeholder.com/500x130",
