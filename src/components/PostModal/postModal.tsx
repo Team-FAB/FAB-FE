@@ -1,7 +1,9 @@
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { Modal, Badge, Button } from "antd"
 import styles from "./PostModal.module.css"
 import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { RootState } from "../../Redux/store"
 
 interface PostModalProps {
   post: any
@@ -29,10 +31,6 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     ? `${styles.save} ${styles.saveActive}`
     : styles.save
 
-  const handleSaveClick = () => {
-    setIsSaved(!isSaved)
-  }
-
   const formatDate = (dateString: string): string => {
     const options = {
       year: "numeric",
@@ -45,6 +43,75 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const formatPrice = (price: number): string => {
     return "~" + price.toLocaleString("ko-KR") + "원"
   }
+
+  /* 유진 추가 */
+  // const userToken = useSelector((state : RootState) => state.user.data.token)
+
+  // const [isModalOpen, setIsModalOpen] = useState(true) // 모달창 open 여부
+
+  const handleSaveClick = async () => {
+    setIsSaved((prevIsSaved) => !prevIsSaved)
+  }
+
+  // const handleSaveClick = useCallback(async () => {
+  //   setIsSaved((prevIsSaved) => !prevIsSaved) // true <-> false
+
+  //   // 모달이 열려있는 동안 POST 요청을 보내지 X
+  //   if (isModalOpen) {
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch(`api/article/favorite?id=${post.id}`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: userToken.atk.toString(),
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       throw new Error("찜하기를 처리하는데 실패했습니다.");
+  //     }
+
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }, [isModalOpen])
+
+  // const handleModalCancel = useCallback(() => {
+  //   setIsModalOpen(false) // 모달이 닫힘 추적
+  //   onClose() // onClose 이벤트 핸들러 호출
+  // }, [onClose])
+
+  // 모달창 오픈 시, 찜하기 상태 가져오기
+  // useEffect(() => {
+  //   const fetchFavoriteStatus = async () => {
+  //     try {
+  //       const response = await fetch(`api/article/favoriteStatus?id=${post.id}`, {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: userToken.atk.toString(),
+  //         },
+  //       });
+
+  //       if (response.ok) {
+  //         const data = await response.json()
+  //         setIsSaved(data.isSaved) // favorite?
+  //       } else {
+  //         throw new Error("찜 상태를 가져오는데 실패했습니다.")
+  //       }
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+
+  //   fetchFavoriteStatus()
+  // }, [post.id]) // 해당 post가 바뀔때마다
+
+  // onCancel={handleModalCancel} //추가하기
+  /* 유진 추가 */
 
   return (
     <Modal
