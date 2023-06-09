@@ -6,6 +6,7 @@ export interface UserState {
   }
   kakao: boolean
   google: boolean
+  email: string
 }
 
 export interface LoginValues {

@@ -22,9 +22,9 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
           `${userArticle}?page=1&size=12&isRecruiting=false`,
           {
             method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: new Headers({
+              "ngrok-skip-browser-warning": "69420",
+            }),
           },
         )
 
