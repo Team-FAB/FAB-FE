@@ -21,6 +21,7 @@ const initialState: UserState = loadFromLocalStorage() || {
   signUp: false,
   kakao: false,
   google: false,
+  email: "",
 }
 
 export const isTokenExpired = (token: Token) => {
@@ -151,11 +152,13 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.isLogged = true
       state.data.token = action.payload.data.token
+      // state.email = action.payload.email
       saveToLocalStorage(state)
     },
     logout: (state) => {
       state.isLogged = false
       state.data.token = { atk: "", rtk: "" }
+      localStorage.removeItem("email")
     },
     signUp: (state) => {
       state.signUp = false
