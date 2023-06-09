@@ -204,9 +204,9 @@
 
 .dropdownBadge {
   padding: 5px 10px;
+  border: 1px solid var(--black100);
   border-radius: var(--badge-border-radius);
-  color: var(--white);
-  background-color: var(--purple500);
+  background-color: inherit;
   margin-left: 5px;
 
   position: relative;

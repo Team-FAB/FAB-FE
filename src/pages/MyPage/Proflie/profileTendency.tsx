@@ -9,6 +9,8 @@ import { Radio } from "antd"
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { activityTime, age, ageGroup, gender, mbti, region, smoke, tendencyChoice } from '../../../object/profileDropdown';
 import { profileTendencyDropdown, userProfileData } from '../../../interface/interface';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../Redux/store';
 
 const ProfileTendency: React.FC = () => {
 
@@ -48,31 +50,41 @@ const ProfileTendency: React.FC = () => {
     } else {
       message.error('최대 5개까지 선택할 수 있습니다.');
     }
-  };
+  }
 
+  const userToken = useSelector((state : RootState) => state.user.data.token)
 
   // 서버 연결
-  const updateProfileTendency = async (profileData: userProfileData, token: string) => {
+  const updateProfileTendency = async (profileData: userProfileData) => {
 
     try {
       const response = await fetch('https://.../api/profile', { // 주소 수정
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `${token}`, // JWT 토큰을 헤더에 포함
+          // Authorization: userToken.atk.toString(), 
         },
         body: JSON.stringify(profileData),
-      });
+      })
 
       if (!response.ok) {
-        throw new Error('프로필 성향 정보 업데이트 실패');
+        console.log(response)
+        throw new Error('프로필 성향 정보 업데이트 실패')
+      } else {
+        Modal.success({
+          title: "프로필 작성 완료",
+          content: "프로필 수정이 완료되었습니다!",
+        });
       }
 
       const updatedProfileTendency = await response.json();
-      return updatedProfileTendency;
+      return updatedProfileTendency
     } catch (error) {
       console.error('프로필 성향 정보 업데이트 오류', error);
-      throw error;
+      // Modal.error({
+      //   title: "서버 오류",
+      //   content: "프로필 정보를 서버에 전송하는데 실패했습니다.",
+      // })
     }
   };
 
@@ -80,7 +92,7 @@ const ProfileTendency: React.FC = () => {
   const handleUpdateProfile = async () => {
     try {
       const profileData: userProfileData = {
-        gender: selectedGender === '성별' ? '' : selectedGender === '여성' ? 'F' : 'M',
+        gender: selectedGender,
         myAge: selectedAge,
         smoke: selectedSmoke ? true : false,
         MBTI: selectedMBTI,
@@ -94,8 +106,7 @@ const ProfileTendency: React.FC = () => {
 
       console.log('사용자 입력 데이터:', profileData);
 
-      const token = '여기에 JWT 토큰을 저장해둔다';
-      const updatedProfile = await updateProfileTendency(profileData, token); // 토큰 값 변경 필요
+      const updatedProfile = await updateProfileTendency(profileData); // 토큰 값 변경 필요
       console.log('프로필 업데이트 성공', updatedProfile);
     } catch (error) {
       console.error('프로필 업데이트 오류', error);
@@ -103,9 +114,8 @@ const ProfileTendency: React.FC = () => {
   };
 
   // useEffect(() => {
-  //   // 선택한 정보가 변경될 때마다 프로필 정보 업데이트
   //   handleUpdateProfile();
-  // }, [selectedGender, selectedAge, selectedSmoke, selectedMBTI, selectedregion, selectedAgeGroup, selectedActivityTime, favoriteTag]);
+  // }, []);
   
   return (
     <div className={styles.profileTenContainer}>
@@ -301,7 +311,7 @@ const ProfileTendency: React.FC = () => {
           </div>
           <div className={`${styles.tendencyBox} ${favoriteTag.length === 0 ? styles.tendencyNot : ''}`}>
             {favoriteTag.length === 0 ? (
-              <span className={styles.tendencyNotChoice}>성향을 선택해주세요</span>
+              <span className={styles.tendencyNotChoice}>성향을 선택해주세요 ⬇️</span>
             ) : (
               favoriteTag.map((item, index) => (
                 <span key={index}>#{item}</span>
