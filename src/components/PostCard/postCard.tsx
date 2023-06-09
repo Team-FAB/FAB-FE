@@ -53,7 +53,7 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
   }
 
   const postsToShow = showRecruitOnly
-    ? posts.filter((post) => post.recruiting)
+    ? posts.filter((data) => data.recruiting)
     : posts
 
   return (
