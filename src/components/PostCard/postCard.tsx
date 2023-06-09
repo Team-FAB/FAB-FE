@@ -15,6 +15,19 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
     return isRecruit ? "모집" : "마감"
   }
 
+  const formatDate = (dateString: string): string => {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    } as const
+    return new Date(dateString).toLocaleDateString(undefined, options)
+  }
+
+  const formatPrice = (price: number): string => {
+    return "~" + price.toLocaleString("ko-KR") + "원"
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,6 +69,11 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
     ? posts.filter((data) => data.recruiting)
     : posts
 
+  const decodeHTML = (html: string) => {
+    const doc = new DOMParser().parseFromString(html, "text/html")
+    return doc.body.textContent || ""
+  }
+
   return (
     <>
       {postsToShow.map((post) => (
@@ -68,7 +86,9 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
             <Card style={{ width: 250, marginTop: 16 }}>
               <div className={styles.cardText}>
                 <span className={styles.cardTitle}>{post.title}</span>
-                <span className={styles.cardContent}>{post.content}</span>
+                <span className={styles.cardContent}>
+                  {decodeHTML(post.content)}
+                </span>
               </div>
               <div className={styles.user}>
                 <div className={styles.author}>
@@ -79,12 +99,14 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
                     <UserOutlined style={{ color: "#2858FF" }} />
                   )}
                 </div>
-                <span>{post.createdDate}</span>
+                <span>{formatDate(post.createdDate)}</span>
               </div>
               <div className={styles.cardBadgeContainer}>
                 <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
                 <Badge className={styles.cardBadgePeriod}>{post.period}</Badge>
-                <Badge className={styles.cardBadgePrice}>{post.price}</Badge>
+                <Badge className={styles.cardBadgePrice}>
+                  {formatPrice(post.price)}
+                </Badge>
               </div>
             </Card>
           </Badge.Ribbon>

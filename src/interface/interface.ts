@@ -23,7 +23,7 @@ export interface Post {
   createdDate: string
   region: string
   period: string
-  price: string
+  price: number
   recruiting: boolean
 }
 
