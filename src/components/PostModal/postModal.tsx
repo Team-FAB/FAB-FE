@@ -23,7 +23,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     } else {
       return "마감"
     }
-  }
+  } 
 
   const saveClassName = isSaved
     ? `${styles.save} ${styles.saveActive}`

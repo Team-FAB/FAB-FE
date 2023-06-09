@@ -1,14 +1,13 @@
-import { Input, Button, Form, Upload } from "antd"
+import { Input, Button, Form, Upload, Modal } from "antd"
 import { UserOutlined, MailOutlined } from "@ant-design/icons"
 import styles from './profile.module.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/store";
 
 const ProfileBasic: React.FC = () => {
 
   // 로그인한 유저 가져오기
-  const isLogged = useSelector((state: RootState) => state.user.isLogged)
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
   // 사진 업로드
@@ -18,46 +17,82 @@ const ProfileBasic: React.FC = () => {
     //
   }
 
-  // 새로운 닉네임, 비밀번호 할당
+  // 새로운 닉네임 할당
   const [nickname, setNickname] = useState('');
-  const [email] = useState('');
+  const [email, setEmail] = useState('');
   
   const handleProfileBasicChange = async (values: { nickname: string }) => {
     const updatedProfileData = { name: values.nickname }
 
     console.log("입력된 닉네임:", values.nickname);
-    // console.log("입력된 비밀번호:", values.password);
 
     try {
-      const token = '여기에 JWT 토큰을 저장해둔다';
-      const updatedProfile = await updateProfile(updatedProfileData, token);
+      const updatedProfile = await updateProfile(updatedProfileData);
       console.log('프로필 업데이트 성공', updatedProfile);
     } catch (error) {
       console.error('프로필 업데이트 실패', error);
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://.../api/profile',
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: userToken.atk.toString(),
+            },
+          },
+        )
+
+        if (!response.ok) {
+          throw new Error(`서버 상태 응답 ${response.status}`)
+        }
+
+        const data = await response.json()
+        console.log(data)
+        setNickname(data.nickname)
+        setEmail(data.email)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   // 서버 연결
-  const updateProfile = async (profileData: { name: string }, token: string) => {
+  const updateProfile = async (profileData: { name: string }) => {
     try {
       const response = await fetch('https://.../api/profile', { // 주소 수정
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 포함
+          Authorization: userToken.atk.toString(),
         },
         body: JSON.stringify(profileData),
       });
 
       if (!response.ok) {
+        console.log(response)
         throw new Error('프로필 기본 정보 업데이트 실패');
+      } else {
+        Modal.success({
+          title: "닉네임 수정 완료",
+          content: "닉네임 수정이 완료되었습니다!",
+        })
       }
 
-      const updatedProfileBasic = await response.json();
-      return updatedProfileBasic;
+      const data = await response.json();
+      setNickname(data.nickname)
     } catch (error) {
       console.error('프로필 기본정보 업데이트 오류', error);
-      throw error;
+      // Modal.error({
+      //   title: "서버 오류",
+      //   content: "프로필 정보를 서버에 전송하는데 실패했습니다.",
+      // })
     }
   };
 
@@ -68,8 +103,8 @@ const ProfileBasic: React.FC = () => {
           accept="image/*"
           showUploadList={false}
           beforeUpload={(file) => {
-            handleImageUpload(file);
-            return false;
+            handleImageUpload(file)
+            return false
           }}>
           <img className={styles.profilePhoto} src={profilePhoto} alt="Profile" />
         </Upload>
