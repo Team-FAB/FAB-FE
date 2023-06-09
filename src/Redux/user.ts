@@ -55,7 +55,10 @@ export const loginUser = createAsyncThunk<
   { dispatch: Dispatch; state: RootState }
 >(
   "api/users/login",
-  async (credentials: { email: string; password: string }) => {
+  async (
+    credentials: { email: string; password: string },
+    { rejectWithValue },
+  ) => {
     try {
       const response = await fetch(userLogin, {
         method: "POST",
@@ -65,11 +68,18 @@ export const loginUser = createAsyncThunk<
         body: JSON.stringify(credentials),
       })
 
+      if (!response.ok) {
+        throw new Error("Login failed")
+      }
+
       const data: UserState = await response.json()
       return data
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("login failed", error)
-      throw error
+      if (error instanceof Error) {
+        return rejectWithValue(error.message)
+      }
+      return rejectWithValue("오류")
     }
   },
 )
