@@ -66,10 +66,9 @@ export const loginUser = createAsyncThunk<
       })
 
       const data: UserState = await response.json()
-
       return data
     } catch (error) {
-      console.error("login failed")
+      console.error("login failed", error)
       throw error
     }
   },
@@ -77,15 +76,18 @@ export const loginUser = createAsyncThunk<
 
 export const kakaologinUser = createAsyncThunk<
   { token: Token },
-  void,
+  string,
   { dispatch: Dispatch; state: RootState }
->("login/oauth2/kakao", async () => {
+>("login/oauth2/kakao", async (code) => {
   try {
     const response = await fetch(kakaoUserLogin, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        authorizationCode: code,
+      }),
     })
 
     const data: UserState = await response.json()
