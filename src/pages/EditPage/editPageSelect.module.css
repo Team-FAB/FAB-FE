@@ -1,0 +1,196 @@
+/* General */
+.searchContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  margin: 0 auto;
+  margin-bottom: 80px;
+  position: relative;
+}
+
+.searchIcon {
+  margin-right: 7px;
+  color: var(--purple600);
+}
+
+.searchBox {
+  position: relative;
+  display: flex;
+
+  border-radius: var(--badge-border-radius);
+  width: 800px;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 7px 15px;
+  font-size: var(--font-size-sub2);
+}
+
+.searchBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.searchBar div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  border-right: 1px solid var(--black100);
+}
+
+.searchBox .lastDiv {
+  border: none;
+}
+
+/* Post Card */
+.cardBadgeArea,
+.cardBadgePeriod,
+.cardBadgePrice,
+.cardBadgeGender {
+  color: var(--white);
+  padding: 5px 10px;
+  border-radius: var(--badge-border-radius);
+  margin-left: 5px;
+}
+
+.cardBadgeArea {
+  background-color: var(--purple200);
+}
+
+.cardBadgePeriod {
+  background-color: var(--purple300);
+}
+
+.cardBadgePrice {
+  background-color: var(--purple400);
+}
+
+.cardBadgeGender {
+  background-color: var(--purple500);
+}
+
+/* Search Choice Container */
+.searchChoiceContainer {
+  position: absolute;
+  top: 140%;
+  left: -27px;
+  width: 700px;
+  background-color: var(--white);
+  box-shadow: var(--shadow);
+  border-radius: var(--badge-border-radius);
+  padding: 30px;
+  z-index: 999;
+}
+
+.searchChoiceBox {
+  display: flex;
+  justify-content: center;
+  height: 230px;
+  margin-bottom: 10px;
+  gap: 50px;
+}
+
+.searchChoiceContainer > div > p {
+  font-size: var(--font-size-body1);
+  margin-bottom: 13px;
+}
+
+.searchChoiceArea > p {
+  margin-bottom: 10px;
+  color: var(--purple200);
+}
+
+.searchChoicePeriod > p {
+  margin-bottom: 10px;
+  color: var(--purple300);
+}
+
+.searchChoicePrice > p {
+  margin-bottom: 10px;
+  color: var(--purple400);
+}
+
+.searchChoiceGender > p {
+  margin-bottom: 10px;
+  color: var(--purple500);
+}
+
+.searchChoiceBtn {
+  display: flex;
+  width: 700px;
+  height: 40px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Radio Groups */
+.areaRadioGroup::-webkit-scrollbar-thumb,
+.priceRadioGroup::-webkit-scrollbar-thumb {
+  background-color: var(--black100);
+  border-radius: var(--badge-border-radius);
+}
+
+.areaRadioGroup::-webkit-scrollbar,
+.priceRadioGroup::-webkit-scrollbar {
+  background-color: inherit;
+}
+
+.periodRadioGroup::-webkit-scrollbar,
+.genderRadioGroup::-webkit-scrollbar {
+  display: none;
+}
+
+.areaRadioGroup,
+.priceRadioGroup {
+  height: 200px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.areaRadioBtn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 120px;
+  height: 40px;
+  font-size: var(--font-size-sub3);
+  margin: 0;
+}
+
+.periodRadioBtn,
+.priceRadioBtn {
+  display: flex;
+  height: 40px;
+  justify-items: start;
+  align-items: center;
+  font-size: var(--font-size-sub3);
+}
+
+.genderRadioGroup {
+  display: grid;
+  grid-template-rows: repeat(1, 40px 40px);
+  height: 100px;
+}
+
+.genderRadioBtn {
+  display: flex;
+  justify-items: start;
+  align-items: center;
+  width: 60px;
+}
+
+.searchChoiceGender {
+  height: 240px;
+}
+
+.require {
+  color: var(--red);
+}
+
+.searchChoiceContainerHide {
+  display: none;
+}

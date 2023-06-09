@@ -25,6 +25,22 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     setIsSaved(!isSaved)
   }
 
+  const formatDate = (dateString: string): string => {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    } as const
+    return new Date(dateString).toLocaleDateString(undefined, options)
+  }
+
+  const formatPrice = (price: number): string => {
+    return (
+      "~" +
+      price.toLocaleString("ko-KR") + "원"
+    )
+  }
+
   return (
     <Modal
       visible={true}
@@ -51,7 +67,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
               src="https://via.placeholder.com/25"
             ></img>
             <span className={styles.ProfileContent}>
-              {post.nickname} {post.createdDate}
+              {post.nickname} {formatDate(post.createdDate)}
             </span>
             <Button className={styles.apply} type="primary">
               신청하기
@@ -61,7 +77,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           <div className={styles.cardBadgeContainer}>
             <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
             <Badge className={styles.cardBadgePeriod}>{post.period}</Badge>
-            <Badge className={styles.cardBadgePrice}>{post.price}</Badge>
+            <Badge className={styles.cardBadgePrice}>
+              {formatPrice(post.price)}
+            </Badge>
           </div>
         </div>
       ) : (
@@ -82,7 +100,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
               src="https://via.placeholder.com/25"
             ></img>
             <span className={styles.ProfileContent}>
-              {post.nickname} {post.createdDate}
+              {post.nickname} {formatDate(post.createdDate)}
             </span>
             <Button className={styles.apply} type="primary">
               신청하기
@@ -92,7 +110,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           <div className={styles.cardBadgeContainer}>
             <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
             <Badge className={styles.cardBadgePeriod}>{post.period}</Badge>
-            <Badge className={styles.cardBadgePrice}>{post.price}</Badge>
+            <Badge className={styles.cardBadgePrice}>
+              {formatPrice(post.price)}
+            </Badge>
           </div>
         </div>
       )}
