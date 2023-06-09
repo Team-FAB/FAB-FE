@@ -75,13 +75,17 @@ const MainPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${userArticle}?page=1&size=12&isRecruiting=true`,
+          `${userArticle}?page=1&size=12&isRecruiting=true`, {
+            method: "GET",
+            headers: new Headers({
+              "ngrok-skip-browser-warning": "69420",
+            })
+          }
         )
         if (!response.ok) {
           throw new Error("서버에서 데이터를 가져오지 못했습니다")
         }
         const data = await response.json()
-        console.log(data)
         setPosts(data.data)
       } catch (error) {
         console.error(error)
@@ -93,7 +97,6 @@ const MainPage: React.FC = () => {
   }, [messageApi])
 
 
-  console.log(posts)
   const adImages = [
     "https://via.placeholder.com/500x130",
     "https://via.placeholder.com/500x130",
@@ -190,6 +193,7 @@ const MainPage: React.FC = () => {
           onClose={() => setSelectedUser(null)}
         />
       )}
+      {contextHolder}
     </div>
   )
 }

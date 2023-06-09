@@ -16,6 +16,7 @@ import Board from "./pages/MyPage/Board/board"
 import Applicant from "./pages/MyPage/Applicant/applicant"
 import Favorite from "./pages/MyPage/Favorites/favorite"
 import WritePage from "./pages/WritePage/writePage"
+import EditPage from "./pages/EditPage/editPage"
 
 const App: React.FC = () => {
   return (
@@ -41,6 +42,7 @@ const App: React.FC = () => {
             <Route path="/Applicant" element={<Applicant />} />
             <Route path="/Favorite" element={<Favorite />} />
             <Route path="/WritePage" element={<WritePage />} />
+            <Route path="/editPage" element={<EditPage />} />
           </Routes>
           <Footer />
         </BrowserRouter>
