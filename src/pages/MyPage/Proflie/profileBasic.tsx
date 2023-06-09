@@ -17,9 +17,9 @@ const ProfileBasic: React.FC = () => {
     //
   }
 
-  // 새로운 닉네임, 비밀번호 할당
+  // 새로운 닉네임 할당
   const [nickname, setNickname] = useState('');
-  const [email] = useState('');
+  const [email, setEmail] = useState('');
   
   const handleProfileBasicChange = async (values: { nickname: string }) => {
     const updatedProfileData = { name: values.nickname }
@@ -42,6 +42,7 @@ const ProfileBasic: React.FC = () => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
+              Authorization: userToken.atk.toString(),
             },
           },
         )
@@ -53,6 +54,7 @@ const ProfileBasic: React.FC = () => {
         const data = await response.json()
         console.log(data)
         setNickname(data.nickname)
+        setEmail(data.email)
       } catch (error) {
         console.error(error)
       }
@@ -80,11 +82,11 @@ const ProfileBasic: React.FC = () => {
         Modal.success({
           title: "닉네임 수정 완료",
           content: "닉네임 수정이 완료되었습니다!",
-        });
+        })
       }
 
-      const updatedProfileBasic = await response.json();
-      return updatedProfileBasic;
+      const data = await response.json();
+      setNickname(data.nickname)
     } catch (error) {
       console.error('프로필 기본정보 업데이트 오류', error);
       // Modal.error({
@@ -101,8 +103,8 @@ const ProfileBasic: React.FC = () => {
           accept="image/*"
           showUploadList={false}
           beforeUpload={(file) => {
-            handleImageUpload(file);
-            return false;
+            handleImageUpload(file)
+            return false
           }}>
           <img className={styles.profilePhoto} src={profilePhoto} alt="Profile" />
         </Upload>

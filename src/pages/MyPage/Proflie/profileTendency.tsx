@@ -62,7 +62,7 @@ const ProfileTendency: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Authorization: userToken.atk.toString(), 
+          Authorization: userToken.atk.toString(), 
         },
         body: JSON.stringify(profileData),
       })

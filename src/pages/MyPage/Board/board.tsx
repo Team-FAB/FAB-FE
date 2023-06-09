@@ -21,34 +21,34 @@ const Board: React.FC = () => {
     setSelectedPost(null)
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `${userArticle}?page=1&size=12&isRecruiting=false`, // 패치 주소 변경 필요
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-        )
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${userArticle}?page=1&size=12&isRecruiting=false`, // 패치 주소 변경 필요
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         },
+  //       )
 
-        if (!response.ok) {
-          throw new Error(`서버 상태 응답 ${response.status}`)
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`서버 상태 응답 ${response.status}`)
+  //       }
 
-        const data = await response.json()
-        setPosts(data.data)
-        console.log(data.data)
-      } catch (error) {
-        console.error(error)
-        messageApi.error("데이터 불러오기 오류")
-      }
-    }
+  //       const data = await response.json()
+  //       setPosts(data.data)
+  //       console.log(data.data)
+  //     } catch (error) {
+  //       console.error(error)
+  //       messageApi.error("데이터 불러오기 오류")
+  //     }
+  //   }
 
-    fetchData()
-  }, [messageApi])
+  //   fetchData()
+  // }, [messageApi])
 
   return (
     <>
