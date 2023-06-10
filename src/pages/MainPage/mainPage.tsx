@@ -99,10 +99,10 @@ const MainPage: React.FC = () => {
   }, [messageApi])
 
   const adImages = [
-    "https://via.placeholder.com/500x130",
-    "https://via.placeholder.com/500x130",
-    "https://via.placeholder.com/500x130",
-    "https://via.placeholder.com/500x130",
+    "src/assets/001.jpg",
+    "src/assets/002.jpg",
+    "src/assets/003.jpg",
+    "src/assets/004.jpg",
   ]
 
   const responsive = {
