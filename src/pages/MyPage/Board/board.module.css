@@ -1,9 +1,27 @@
 .boardContainer {
   width: 870px;
-  height: 100%;
-  display: grid;
+  min-height: 500px;
+  max-height: 750px;
+  display: grid;  
   grid-template-rows: repeat(3, 1fr);
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
-  margin: 30px auto;
+  margin: 15px auto;
+  overflow-y: scroll;
+
+  position: relative;
+}
+
+.boardContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.cardGrid{
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
 }

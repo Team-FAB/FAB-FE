@@ -20,7 +20,7 @@ const Board: React.FC = () => {
   return (
     <>
       <MyPage />
-      <div className={styles.favoriteContainer}>
+      <div className={styles.boardContainer}>
         <div className={styles.cardGrid}>
           {
             <PostCard link={userMyArticles} token={userToken.atk.toString()} posts={[]}/>

@@ -121,7 +121,7 @@ const PostCard: React.FC<Props> = ({ currentPage, showRecruitOnly, link, token})
           </Badge.Ribbon>
         </div>
       )) : (
-        <div>글이 존재하지 않습니다.</div>
+        <div className={styles.noPosts}>글이 존재하지 않습니다.</div>
       )}
       {selectedPost && (
         <PostModal post={selectedPost} onClose={handleCloseModal} />

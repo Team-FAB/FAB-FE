@@ -84,7 +84,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
 
         if (response.ok) {
           const data = await response.json()
-          setIsSaved(data.data) // favorite?
+          setIsSaved(data.data)
         } else {
           throw new Error("찜 상태를 가져오는데 실패했습니다.")
         }
