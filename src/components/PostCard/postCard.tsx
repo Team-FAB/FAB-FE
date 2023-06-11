@@ -6,7 +6,7 @@ import PostModal from "../PostModal/postModal"
 import { Props, Post } from "../../interface/interface"
 import { userArticle } from "../../api"
 
-const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
+const PostCard: React.FC<Props> = ({ currentPage, showRecruitOnly }) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [posts, setPosts] = useState<Post[]>([])
   const [messageApi, contextHolder] = message.useMessage()
@@ -15,26 +15,46 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
     return isRecruit ? "모집" : "마감"
   }
 
+  const formatDate = (dateString: string): string => {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    } as const
+    return new Date(dateString).toLocaleDateString(undefined, options)
+  }
+
+  const formatPrice = (price: number): string => {
+    return "~" + price.toLocaleString("ko-KR") + "원"
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${userArticle}?page=1&size=12&isRecruiting=true`,
+          `${userArticle}?page=${currentPage}&size=9&isRecruiting=false`,
+          {
+            method: "GET",
+            headers: new Headers({
+              "ngrok-skip-browser-warning": "69420",
+            }),
+          },
         )
+
         if (!response.ok) {
-          throw new Error("서버에서 데이터를 가져오지 못했습니다")
+          throw new Error(`서버 상태 응답 ${response.status}`)
         }
+
         const data = await response.json()
-        console.log(data)
         setPosts(data.data)
       } catch (error) {
         console.error(error)
-        messageApi.error("데이터를 로드하는 동안 오류가 발생했습니다")
+        messageApi.error("데이터 불러오기 오류")
       }
     }
 
     fetchData()
-  }, [messageApi])
+  }, [currentPage, showRecruitOnly, messageApi])
 
   const handlePostClick = (post: Post) => {
     setSelectedPost(post)
@@ -45,8 +65,13 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
   }
 
   const postsToShow = showRecruitOnly
-    ? posts.filter((post) => post.recruit)
+    ? posts.filter((data) => data.recruiting)
     : posts
+
+  const decodeHTML = (html: string) => {
+    const doc = new DOMParser().parseFromString(html, "text/html")
+    return doc.body.textContent || ""
+  }
 
   return (
     <>
@@ -56,11 +81,13 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
           className={styles.cardContainer}
           onClick={() => handlePostClick(post)}
         >
-          <Badge.Ribbon key={post.id} text={recruit(post.recruit)}>
+          <Badge.Ribbon key={post.id} text={recruit(post.recruiting)}>
             <Card style={{ width: 250, marginTop: 16 }}>
               <div className={styles.cardText}>
                 <span className={styles.cardTitle}>{post.title}</span>
-                <span className={styles.cardContent}>{post.content}</span>
+                <span className={styles.cardContent}>
+                  {decodeHTML(post.content)}
+                </span>
               </div>
               <div className={styles.user}>
                 <div className={styles.author}>
@@ -71,12 +98,14 @@ const PostCard: React.FC<Props> = ({ showRecruitOnly }) => {
                     <UserOutlined style={{ color: "#2858FF" }} />
                   )}
                 </div>
-                <span>{post.createdDate}</span>
+                <span>{formatDate(post.createdDate)}</span>
               </div>
               <div className={styles.cardBadgeContainer}>
                 <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
                 <Badge className={styles.cardBadgePeriod}>{post.period}</Badge>
-                <Badge className={styles.cardBadgePrice}>{post.price}</Badge>
+                <Badge className={styles.cardBadgePrice}>
+                  {formatPrice(post.price)}
+                </Badge>
               </div>
             </Card>
           </Badge.Ribbon>

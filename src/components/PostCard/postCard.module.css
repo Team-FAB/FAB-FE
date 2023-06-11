@@ -13,10 +13,18 @@
 }
 
 .cardTitle {
+  width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   font-size: var(--font-size-h6);
 }
 
 .cardContent {
+  width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   color: var(--black300);
 }
 
@@ -30,7 +38,8 @@
 .cardBadgePeriod,
 .cardBadgePrice {
   color: var(--white);
-  padding: 5px 8px;
+  padding: 5px;
+  font-size: 10px;
   border-radius: var(--badge-border-radius);
 }
 

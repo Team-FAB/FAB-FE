@@ -1,4 +1,54 @@
-/* General */
+.container {
+  position: relative;
+  align-items: center;
+  vertical-align: center;
+  margin: 0 auto;
+  width: 700px;
+  padding: 100px;
+}
+
+.title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 31px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.titleInput {
+  height: 35px;
+  border-radius: 10px;
+  border-color: var(--black200);
+  margin-bottom: 30px;
+}
+
+.require {
+  color: var(--red);
+  font-size: var(--font-size-sub2);
+  margin-bottom: 12px;
+}
+
+.textArea {
+  margin-top: -40px;
+  height: 400px;
+  z-index: 0;
+}
+
+.buttonContainer {
+  display: flex;
+  margin-top: 100px;
+}
+
+.submitButton {
+  margin: 0 auto;
+  width: 100px;
+  color: var(--white);
+  background-color: var(--purple600);
+  border-radius: var(--badge-border-radius);
+}
+
 .searchContainer {
   display: flex;
   justify-content: center;
@@ -7,6 +57,7 @@
   margin: 0 auto;
   margin-bottom: 80px;
   position: relative;
+  cursor: pointer;
 }
 
 .searchIcon {
@@ -17,13 +68,14 @@
 .searchBox {
   position: relative;
   display: flex;
-
+  border: 1px solid var(--white);
   border-radius: var(--badge-border-radius);
   width: 800px;
   height: 40px;
   box-sizing: border-box;
   padding: 7px 15px;
   font-size: var(--font-size-sub2);
+  
 }
 
 .searchBar {
@@ -45,7 +97,7 @@
   border: none;
 }
 
-/* Post Card */
+/* postCard.css */
 .cardBadgeArea,
 .cardBadgePeriod,
 .cardBadgePrice,
@@ -59,7 +111,6 @@
 .cardBadgeArea {
   background-color: var(--purple200);
 }
-
 .cardBadgePeriod {
   background-color: var(--purple300);
 }
@@ -71,13 +122,19 @@
 .cardBadgeGender {
   background-color: var(--purple500);
 }
+/* postCard.css */
 
-/* Search Choice Container */
 .searchChoiceContainer {
   position: absolute;
   top: 140%;
-  left: -27px;
-  width: 700px;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+  justify-content: center;
+  width: 650px;
+  height: 245px;
+  margin: 0 auto;
   background-color: var(--white);
   box-shadow: var(--shadow);
   border-radius: var(--badge-border-radius);
@@ -85,71 +142,52 @@
   z-index: 999;
 }
 
-.searchChoiceBox {
-  display: flex;
-  justify-content: center;
-  height: 230px;
-  margin-bottom: 10px;
-  gap: 50px;
-}
-
 .searchChoiceContainer > div > p {
   font-size: var(--font-size-body1);
   margin-bottom: 13px;
 }
 
+.searchChoiceArea,
+.searchChoicePeriod,
+.searchChoicePrice,
+.searchChoiceGender {
+  margin-right: 10px;
+}
+
 .searchChoiceArea > p {
-  margin-bottom: 10px;
   color: var(--purple200);
 }
 
 .searchChoicePeriod > p {
-  margin-bottom: 10px;
   color: var(--purple300);
 }
 
 .searchChoicePrice > p {
-  margin-bottom: 10px;
   color: var(--purple400);
 }
 
 .searchChoiceGender > p {
-  margin-bottom: 10px;
   color: var(--purple500);
 }
 
-.searchChoiceBtn {
-  display: flex;
-  width: 700px;
-  height: 40px;
-  margin: 0 auto;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Radio Groups */
-.areaRadioGroup::-webkit-scrollbar-thumb,
-.priceRadioGroup::-webkit-scrollbar-thumb {
+.areaRadioGroup::-webkit-scrollbar-thumb {
   background-color: var(--black100);
   border-radius: var(--badge-border-radius);
 }
 
-.areaRadioGroup::-webkit-scrollbar,
-.priceRadioGroup::-webkit-scrollbar {
+.areaRadioGroup::-webkit-scrollbar {
   background-color: inherit;
 }
 
 .periodRadioGroup::-webkit-scrollbar,
+.priceRadioGroup::-webkit-scrollbar,
 .genderRadioGroup::-webkit-scrollbar {
   display: none;
 }
 
-.areaRadioGroup,
-.priceRadioGroup {
-  width: 140px;
+.areaRadioGroup {
   height: 200px;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
 }
 
 .areaRadioBtn {
@@ -159,21 +197,30 @@
   width: 120px;
   height: 40px;
   font-size: var(--font-size-sub3);
-  margin: 0;
+  margin: 0px;
+}
+
+.periodRadioGroup,
+.priceRadioGroup {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  height: 200px;
+  overflow-y: scroll;
 }
 
 .periodRadioBtn,
 .priceRadioBtn {
   display: flex;
-  height: 40px;
   justify-items: start;
   align-items: center;
+  width: 120px;
+  height: 40px;
   font-size: var(--font-size-sub3);
 }
 
 .genderRadioGroup {
   display: grid;
-  grid-template-rows: repeat(1, 40px 40px);
+  grid-template-columns: repeat(1, 1fr);
   height: 100px;
 }
 
@@ -188,10 +235,10 @@
   height: 240px;
 }
 
-.require {
+.require{
   color: var(--red);
 }
 
-.searchChoiceContainerHide {
-  display: none;
+.priceInput{
+  margin-top: 10px;
 }

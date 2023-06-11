@@ -18,10 +18,10 @@ const initialState: UserState = loadFromLocalStorage() || {
       rtk: "",
     },
   },
-  status: "idle",
   signUp: false,
   kakao: false,
   google: false,
+  email: "",
 }
 
 export const isTokenExpired = (token: Token) => {
@@ -55,7 +55,10 @@ export const loginUser = createAsyncThunk<
   { dispatch: Dispatch; state: RootState }
 >(
   "api/users/login",
-  async (credentials: { email: string; password: string }) => {
+  async (
+    credentials: { email: string; password: string },
+    { rejectWithValue },
+  ) => {
     try {
       const response = await fetch(userLogin, {
         method: "POST",
@@ -65,36 +68,41 @@ export const loginUser = createAsyncThunk<
         body: JSON.stringify(credentials),
       })
 
-      const data: UserState = await response.json()
+      if (!response.ok) {
+        throw new Error("Login failed")
+      }
 
+      const data: UserState = await response.json()
       return data
-    } catch (error) {
-      console.error("login failed")
-      throw error
+    } catch (error: unknown) {
+      console.error("login failed", error)
+      if (error instanceof Error) {
+        return rejectWithValue(error.message)
+      }
+      return rejectWithValue("오류")
     }
   },
 )
 
 export const kakaologinUser = createAsyncThunk<
-  { token: string },
-  void,
+  { token: Token },
+  string,
   { dispatch: Dispatch; state: RootState }
->("login/oauth2/kakao", async (_, { dispatch, getState }) => {
+>("login/oauth2/kakao", async (code) => {
   try {
     const response = await fetch(kakaoUserLogin, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        authorizationCode: code,
+      }),
     })
 
-    const data = await response.json()
-    const { token } = data.data
+    const data: UserState = await response.json()
 
-    dispatch(loginSuccess({ data: { token } }))
-
-    saveToLocalStorage(getState().user)
-    return { token }
+    return { token: data.data.token }
   } catch (error) {
     console.error("login failed")
     throw error
@@ -102,10 +110,10 @@ export const kakaologinUser = createAsyncThunk<
 })
 
 export const googleloginUser = createAsyncThunk<
-  { token: string },
+  { token: Token },
   void,
   { dispatch: Dispatch; state: RootState }
->("login/oauth2/google", async (_, { dispatch, getState }) => {
+>("login/oauth2/google", async () => {
   try {
     const response = await fetch(googleUserLogin, {
       method: "GET",
@@ -115,11 +123,8 @@ export const googleloginUser = createAsyncThunk<
     })
 
     const data = await response.json()
-    const { token } = data
+    const { token } = data.data
 
-    dispatch(loginSuccess({ data: { token } }))
-
-    saveToLocalStorage(getState().user)
     return { token }
   } catch (error) {
     console.error("로그인 실패")
@@ -152,52 +157,48 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.isLogged = true
       state.data.token = action.payload.data.token
-      state.status = "fulfilled"
+      // state.email = action.payload.email
       saveToLocalStorage(state)
     },
     logout: (state) => {
       state.isLogged = false
       state.data.token = { atk: "", rtk: "" }
-      state.status = "fulfilled"
+      localStorage.removeItem("email")
     },
     signUp: (state) => {
       state.signUp = false
-      state.status = "idle"
     },
-    kakaoLogin: (state) => {
+    kakaoLogin: (state, action) => {
       state.isLogged = false
-      state.status = "idle"
+      state.data.token = action.payload.data.token
     },
-    googleLogin: (state) => {
+    googleLogin: (state, action) => {
       state.isLogged = false
-      state.status = "idle"
+      state.data.token = action.payload.data.token
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.isLogged = true
       state.data.token = action.payload.data.token
-      state.status = "fulfilled"
       saveToLocalStorage(state)
     })
 
     builder.addCase(loginUser.rejected, (state) => {
       state.isLogged = false
-      state.status = "rejected"
     })
 
     builder.addCase(registerUser.fulfilled, (state) => {
       state.signUp = true
-      state.status = "fulfilled"
     })
 
     builder.addCase(registerUser.rejected, (state) => {
       state.signUp = false
     })
 
-    builder.addCase(kakaologinUser.fulfilled, (state) => {
+    builder.addCase(kakaologinUser.fulfilled, (state, action) => {
       state.kakao = true
-      state.status = "fulfilled"
+      state.data.token = action.payload.token
       saveToLocalStorage(state)
     })
 
@@ -205,8 +206,9 @@ const userSlice = createSlice({
       state.kakao = false
     })
 
-    builder.addCase(googleloginUser.fulfilled, (state) => {
+    builder.addCase(googleloginUser.fulfilled, (state, action) => {
       state.google = true
+      state.data.token = action.payload.token
       saveToLocalStorage(state)
     })
 

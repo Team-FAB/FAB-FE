@@ -1,21 +1,23 @@
-import { Badge, Input, Form, RadioChangeEvent } from "antd"
-import styles from "./writePageSelect.module.css"
+import { Badge, Form, RadioChangeEvent } from "antd"
+import styles from "./editPageSelect.module.css"
 import { Radio } from "antd"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FormInstance } from "antd"
 import { region, gender, period, price } from "../../object/profileDropdown"
+import { useLocation } from "react-router-dom"
 
-interface WritePageSelectProps {
+interface EditPageSelectProps {
   form: FormInstance
 }
 
-const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
+const editPageSelect: React.FC<EditPageSelectProps> = ({ form }) => {
   const [searchBoxOpen, setSearchBoxOpen] = useState(false)
   const [selectedArea, setSelectedArea] = useState<string>("지역")
   const [selectedPeriod, setSelectedPeriod] = useState<string>("기간")
   const [selectedPrice, setSelectedPrice] = useState<String>("보증금")
-
   const [selectedGender, setSelectedGender] = useState<string>("성별")
+
+  const editPost = useLocation().state.post
 
   const handleRegionChange = (e: RadioChangeEvent) => {
     const region = e.target.value
@@ -47,6 +49,15 @@ const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
   const handleToggleSearchBox = () => {
     setSearchBoxOpen(!searchBoxOpen)
   }
+
+    useEffect(() => {
+      if (editPost) {
+        setSelectedArea(editPost.region)
+        setSelectedPeriod(editPost.period)
+        setSelectedPrice(editPost.price)
+        setSelectedGender(editPost.gender)
+      }
+    }, [editPost])
 
   return (
     <>
@@ -204,4 +215,4 @@ const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
   )
 }
 
-export default writePageSelect
+export default editPageSelect

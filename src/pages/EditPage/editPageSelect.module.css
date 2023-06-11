@@ -146,7 +146,6 @@
 
 .areaRadioGroup,
 .priceRadioGroup {
-  width: 140px;
   height: 200px;
   overflow: auto;
   -webkit-overflow-scrolling: touch;

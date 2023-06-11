@@ -23,7 +23,11 @@ const BoardCard: React.FC<BoardCard> = ({ post, onClick }) => {
             <div className={styles.user}>
               <div className={styles.author}>
                 <span>{post.nickname}</span>
-                <UserOutlined style={{ color: "#ff0000" }} />
+                {post.gender === "여성" ? (
+                  <UserOutlined style={{ color: "#ff0000" }} />
+                ) : (
+                  <UserOutlined style={{ color: "#2858FF" }} />
+                )}
               </div>
               <span>{post.createdDate}</span>
             </div>

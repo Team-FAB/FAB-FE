@@ -25,15 +25,6 @@ const RoomMate: React.FC = () => {
     setCurrentPage(page)
   }
 
-  const filteredPosts = showRecruitOnly
-    ? postsData.posts.filter((post) => post.isRecruit)
-    : postsData.posts
-
-  const start = (currentPage - 1) * pageSize
-  const end = start + pageSize
-
-  const postsToShow = filteredPosts.slice(start, end)
-
   const goToWritePage = () => {
     if (isLogged === true) {
       navigate("/WritePage")
@@ -41,6 +32,10 @@ const RoomMate: React.FC = () => {
       messageApi.info("로그인 후 사용 가능합니다.")
     }
   }
+
+  const filteredPosts = showRecruitOnly
+    ? postsData.posts.filter((post) => post.isRecruit)
+    : postsData.posts
 
   return (
     <div className={styles.roomMateContainer}>
@@ -57,7 +52,11 @@ const RoomMate: React.FC = () => {
         </div>
       </div>
       <div className={styles.cardGrid}>
-        <PostCard posts={postsToShow} />
+        <PostCard
+          posts={filteredPosts}
+          currentPage={currentPage}
+          showRecruitOnly={showRecruitOnly}
+        />
       </div>
       <Pagination
         className={styles.pagination}

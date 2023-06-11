@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux"
-import { RootState } from "../../Redux/store"
+// import { useSelector } from "react-redux"
+// import { RootState } from "../../Redux/store"
 import { LoginValues } from "../../interface/interface"
 import "antd"
 import styles from "../Login/login.module.css"
@@ -7,37 +7,40 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons"
 import { Button, Form, Input, message } from "antd"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
-import { googleloginUser, kakaologinUser, loginUser } from "../../Redux/user"
+import { loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { useEffect } from "react"
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
-  const isLogged = useSelector((state: RootState) => state.user.isLogged)
   const dispatch = useAppDispatch()
+  const KAKAO_AUTH_URL =
+    "https://kauth.kakao.com/oauth/authorize?client_id=fb1ad65de6bb1a0db1b3df64618fa991&redirect_uri=https://ea54-180-229-71-154.ngrok-free.app/login/oauth2/kakao&response_type=code"
 
-  const handleLogin = (values: LoginValues) => {
+  const handleLogin = async (values: LoginValues) => {
     const { email, password } = values
-    dispatch(loginUser({ email, password }))
-    if (isLogged === false) {
-      messageApi.info("이메일 또는 비밀번호를 확인하세요.")
+    const actionResult = await dispatch(loginUser({ email, password }))
+    if (loginUser.fulfilled.match(actionResult)) {
+      localStorage.setItem("email", email)
+      navigate("/MainPage")
+    } else {
+      messageApi.info("이메일과 비밀번호를 확인하세요.")
     }
   }
 
-  const handleKakaoLogin = () => {
-    dispatch(kakaologinUser())
-  }
-
-  const handleGoogleLogin = () => {
-    dispatch(googleloginUser())
+  const Kakao = () => {
+    window.location.href = KAKAO_AUTH_URL
   }
 
   useEffect(() => {
-    if (isLogged === true) {
-      navigate("/MainPage")
+    const url = new URL(window.location.href)
+    const code = url.searchParams.get("code")
+
+    if (code) {
+      console.log(code)
     }
-  }, [isLogged, navigate])
+  }, [])
 
   return (
     <>
@@ -97,14 +100,8 @@ const Login: React.FC = () => {
                 <span className={styles.title}>또는</span>
                 <span className={styles.line}></span>
               </div>
-              <img
-                src="src/assets/Kakao Login.svg"
-                onClick={handleKakaoLogin}
-              />
-              <img
-                src="src/assets/Google Login.svg"
-                onClick={handleGoogleLogin}
-              />
+              <img src="src/assets/Kakao Login.svg" onClick={Kakao} />
+              <img src="src/assets/Google Login.svg" />
             </div>
           </div>
         </div>
