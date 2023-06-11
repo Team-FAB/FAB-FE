@@ -16,14 +16,14 @@ const ProfileTendency: React.FC = () => {
 
   const [tendencyModal, setTendencyModal] = useState(false)
 
-  const [selectedGender, setSelectedGender] = useState("성별")
-  const [selectedAge, setSelectedAge] = useState(0)
-  const [selectedSmoke, setSelectedSmoke] = useState(false)
-  const [selectedMBTI, setSelectedMBTI] = useState("MBTI")
-  const [selectedregion, setSelectedregion] = useState("지역")
-  const [selectedAgeGroup, setSelectedAgeGroup] = useState("00 ~ 00")
-  const [selectedActivityTime, setSelectedActivityTime] = useState("활동시간")
-  const [mytext, setMytext] = useState('');
+  const [selectedGender, setSelectedGender] = useState(gender[0].name)
+  const [selectedAge, setSelectedAge] = useState(age[0].age)
+  const [selectedSmoke, setSelectedSmoke] = useState(smoke[0].smoke)
+  const [selectedMBTI, setSelectedMBTI] = useState(mbti[0].mbti)
+  const [selectedregion, setSelectedregion] = useState(region[0].region)
+  const [selectedAgeGroup, setSelectedAgeGroup] = useState(ageGroup[0].ageGroup)
+  const [selectedActivityTime, setSelectedActivityTime] = useState(activityTime[0].activityTime)
+  const [mytext, setMytext] = useState('추가로 하고 싶은 말을 자세히 적어주세요! :)');
 
   const [boxStates, setBoxStates] = useState({
     genderBoxOpen: false,
