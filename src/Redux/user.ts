@@ -23,6 +23,7 @@ const initialState: UserState = loadFromLocalStorage() || {
   kakao: false,
   google: false,
   email: "",
+  status: "idle",
 }
 
 export const refreshTokenIfNeeded = createAsyncThunk<
