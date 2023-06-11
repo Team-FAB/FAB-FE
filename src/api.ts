@@ -6,7 +6,7 @@ export const kakaoUserLogin = `${
 export const googleUserLogin = `${
   import.meta.env.VITE_API_KEY
 }/login/oauth2/google`
-export const userArticle = `${import.meta.env.VITE_API_KEY}/api/article`
+export const userArticle = `${import.meta.env.VITE_API_KEY}/api/articles`
 export const userFavorite = `${
   import.meta.env.VITE_API_KEY
 }/api/my/article/favorite`

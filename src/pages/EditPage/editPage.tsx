@@ -51,7 +51,6 @@ const editPage: React.FC = () => {
   ) => {
     setContent(content)
   }
-  console.log(editPost.id)
 
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
@@ -65,7 +64,6 @@ const editPage: React.FC = () => {
         },
         body: JSON.stringify(values), // values를 JSON 형식으로 변환
       })
-      console.log(values)
 
       if (!response.ok) {
         console.log(response)

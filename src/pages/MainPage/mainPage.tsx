@@ -89,6 +89,7 @@ const MainPage: React.FC = () => {
         }
         const data = await response.json()
         setPosts(data.data)
+        console.log(data)
       } catch (error) {
         console.error(error)
         messageApi.error("데이터를 로드하는 동안 오류가 발생했습니다")

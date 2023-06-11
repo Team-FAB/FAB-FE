@@ -1,22 +1,21 @@
-import { useEffect, useState } from 'react'
-import MyPage from '../myPage'
-import styles from './favorite.module.css'
-import { userFavorite } from '../../../api'
-import { Post } from '../../../interface/interface'
-import { message } from 'antd'
-import PostModal from '../../../components/PostModal/postModal'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../Redux/store'
-import PostCard from '../../../components/PostCard/postCard'
+import { useEffect, useState } from "react"
+import MyPage from "../myPage"
+import styles from "./favorite.module.css"
+import { userFavorite } from "../../../api"
+import { Post } from "../../../interface/interface"
+import { message } from "antd"
+import PostModal from "../../../components/PostModal/postModal"
+import { useSelector } from "react-redux"
+import { RootState } from "../../../Redux/store"
+import PostCard from "../../../components/PostCard/postCard"
 
 const Favorite = () => {
-
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [messageApi] = message.useMessage()
   const [favoriteArticles, setFavoriteArticles] = useState([]) // 배열로 받는 값들 확인 ex.<Article[]>
   const favoritePosts = favoriteArticles
 
-  const userToken = useSelector((state : RootState) => state.user.data.token)
+  const userToken = useSelector((state: RootState) => state.user.data.token)
 
   const handleCloseModal = () => {
     setSelectedPost(null)
@@ -42,7 +41,7 @@ const Favorite = () => {
 
   //     const data = await response.json()
   //     console.log(data)
-  //     return data.articles 
+  //     return data.articles
   //   } catch (error) {
   //     console.error(error)
   //     messageApi.error("찜한 목록 불러오기 오류")
@@ -63,19 +62,17 @@ const Favorite = () => {
   //   getFavoriteArticles();
   // }, []) // 삭제될 때 useEffect()
 
-  return(
+  return (
     <>
       <MyPage />
       <div className={styles.favoriteContainer}>
-        {
-          favoritePosts.length > 0 ? (
-            <div className={styles.cardGrid}>
-              <PostCard posts={[]} />
-            </div>
-          ) : (
-            <p>찜한 게시물이 없습니다.</p>
-          )
-        }
+        {favoritePosts.length > 0 ? (
+          <div className={styles.cardGrid}>
+            <PostCard posts={[]} />
+          </div>
+        ) : (
+          <p>찜한 게시물이 없습니다.</p>
+        )}
         {selectedPost && (
           <PostModal post={selectedPost} onClose={handleCloseModal} />
         )}

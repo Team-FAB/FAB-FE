@@ -10,6 +10,7 @@ import { userArticle } from "../../api";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 
+
 const WritePage: React.FC = () => {
   const [content, setContent] = useState("");
   const [form] = Form.useForm();
@@ -36,8 +37,10 @@ const WritePage: React.FC = () => {
     setContent(content);
   };
 
-  const userToken = useSelector((state : RootState) => state.user.data.token)
 
+    
+  const userToken = useSelector((state: RootState) => state.user.data.token)
+  
   const onFinish = async (values: Store) => {
     try {
       const response = await fetch(userArticle, {

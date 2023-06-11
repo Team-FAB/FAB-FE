@@ -50,14 +50,15 @@ const editPageSelect: React.FC<EditPageSelectProps> = ({ form }) => {
     setSearchBoxOpen(!searchBoxOpen)
   }
 
-    useEffect(() => {
-      if (editPost) {
-        setSelectedArea(editPost.region)
-        setSelectedPeriod(editPost.period)
-        setSelectedPrice(editPost.price)
-        setSelectedGender(editPost.gender)
-      }
-    }, [editPost])
+  useEffect(() => {
+    if (editPost) {
+      setSelectedArea(editPost.region)
+      setSelectedPeriod(editPost.period)
+      const formattedPrice = `~${parseInt(editPost.price).toLocaleString()}원`
+      setSelectedPrice(formattedPrice)
+      setSelectedGender(editPost.gender)
+    }
+  }, [editPost])
 
   return (
     <>

@@ -21,16 +21,15 @@
   display: flex;
   gap: 5px;
   margin-top: 20px;
-  flex-direction: column;
 }
 
 .cardBadgeArea,
 .cardBadgePeriod,
 .cardBadgePrice {
   color: var(--white);
-  padding: 5px 8px;
+  padding: 5px;
+  font-size: 10px;
   border-radius: var(--badge-border-radius);
-  margin: 0 auto;
 }
 
 .cardBadgeArea {

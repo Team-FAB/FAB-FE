@@ -25,7 +25,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     } else {
       return "마감"
     }
-  } 
+  }
 
   const saveClassName = isSaved
     ? `${styles.save} ${styles.saveActive}`
@@ -43,6 +43,12 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const formatPrice = (price: number): string => {
     return "~" + price.toLocaleString("ko-KR") + "원"
   }
+
+    const decodeHTML = (html: string) => {
+      const doc = new DOMParser().parseFromString(html, "text/html")
+      return doc.body.textContent || ""
+    }
+
 
   /* 유진 추가 */
   // const userToken = useSelector((state : RootState) => state.user.data.token)
@@ -115,7 +121,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
 
   return (
     <Modal
-      visible={true}
+      open={true}
       onOk={onClose}
       onCancel={onClose}
       cancelButtonProps={{ style: { display: "none" } }}
@@ -132,7 +138,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
               찜하기
             </span>
           </div>
-          <div className={styles.content}>{post.content}</div>
+          <div className={styles.content}>{decodeHTML(post.content)}</div>
           <div className={styles.ProfileContainer}>
             {userEmail === post.email && ( // 추가된 부분
               <div className={styles.buttonContainer}>
@@ -173,7 +179,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
               찜하기
             </span>
           </div>
-          <div className={styles.content}>{post.content}</div>
+          <div className={styles.content}>{decodeHTML(post.content)}</div>
           <div className={styles.ProfileContainer}>
             {userEmail === post.email && ( // 추가된 부분
               <div className={styles.buttonContainer}>
