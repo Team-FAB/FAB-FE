@@ -6,7 +6,7 @@ import PostModal from "../PostModal/postModal"
 import { Props, Post } from "../../interface/interface"
 import { userArticle } from "../../api"
 
-const PostCard: React.FC<Props> = ({ currentPage, showRecruitOnly }) => {
+const PostCard: React.FC<Props> = ({ currentPage, showRecruitOnly, link, token}) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [posts, setPosts] = useState<Post[]>([])
   const [messageApi, contextHolder] = message.useMessage()
@@ -31,7 +31,17 @@ const PostCard: React.FC<Props> = ({ currentPage, showRecruitOnly }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
+        const response = link && token ?  
+        await fetch(link,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          })
+        : await fetch(
           `${userArticle}?page=${currentPage}&size=9&isRecruiting=false`,
           {
             method: "GET",

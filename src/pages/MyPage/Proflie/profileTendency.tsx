@@ -129,7 +129,6 @@ const ProfileTendency = (props:profileTendencyProps) => {
             )}
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           props.setSelectedAge(e.target.value);
