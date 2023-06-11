@@ -44,6 +44,7 @@ export const refreshTokenIfNeeded = createAsyncThunk<
     throw new Error("Token format error")
   }
 
+  //한시간으로 설정 되어있음
   try {
     const tokenPayload = JSON.parse(atob(splitToken[1]))
     const expirationTime = tokenPayload.exp * 1000
@@ -110,9 +111,9 @@ export const refreshToken = createAsyncThunk<
       })
 
       if (!response.ok) {
-        throw new Error("Token refresh failed")
+        throw new Error("토큰 새로 고침 실패")
       }
-
+      // 로컬스토리지에 바뀐 data 저장 하기 추가
       const data: UserState = await response.json()
       return data
     } catch (error: unknown) {
