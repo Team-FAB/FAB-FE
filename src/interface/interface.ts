@@ -66,8 +66,10 @@ export interface Props {
     price: string
     isRecruit: boolean
   }>
-  currentPage: number
-  showRecruitOnly: boolean
+  currentPage?: number
+  showRecruitOnly?: boolean
+  link?:string
+  token?:string
 }
 
 export interface Token {

@@ -200,6 +200,8 @@
 .dropdownBox {
   display: flex;
   justify-content: center;
+
+  position: relative;
 }
 
 .dropdownBadge {
@@ -231,8 +233,9 @@
   overflow-y: scroll;
 
   position: absolute;
-  left: 47%;
-  z-index: 50
+  top: 100%;
+  left: 35%;
+  z-index: 50;
 }
 
 .mbtiRadio {
@@ -256,8 +259,9 @@
   overflow-y: scroll;
 
   position: absolute;
-  left: 48%;
-  z-index: 50
+  top: 100%;
+  left: 40%;
+  z-index: 50;
 }
 
 .regionRadio {
@@ -265,7 +269,7 @@
   justify-content: center;
   align-items: center;
   width: 80px;
-  margin: 4px;
+  margin: 4px;  
 }
 
 .RadioBtn {
@@ -280,8 +284,9 @@
   box-shadow: var(--shadow);
 
   position: absolute;
-  left: 48%;
-  z-index: 50
+  top: 100%;
+  left: 37%;
+  z-index: 50;
 }
 
 .Radio {
@@ -304,8 +309,9 @@
   box-shadow: var(--shadow);
 
   position: absolute;
-  left: 48%;
-  z-index: 50
+  top: 100%;
+  left: 38%;
+  z-index: 50;
 }
 
 .smokeRadio {
@@ -328,8 +334,9 @@
   box-shadow: var(--shadow);
 
   position: absolute;
-  left: 48%;
-  z-index: 50
+  top: 100%;
+  left: 45%;
+  z-index: 50;
 }
 
 .ageGroupRadio {
@@ -338,4 +345,21 @@
   align-items: center;
   width: 100px;
   margin: 7px;
+}
+
+.activityRadioBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75px;
+  height: 70px;
+  padding: 5px 0px;
+  border-radius: 10px;
+  background-color: var(--white);
+  box-shadow: var(--shadow);
+
+  position: absolute;
+  top: 100%;
+  left: 30%;
+  z-index: 50;
 }
