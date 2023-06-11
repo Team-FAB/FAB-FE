@@ -10,3 +10,4 @@ export const googleUserLogin = `${
 export const userArticle = `${import.meta.env.VITE_API_KEY}/api/articles`
 export const userFavorite = `${import.meta.env.VITE_API_KEY}/api/articles/favorites`
 export const userMyFavorite = `${import.meta.env.VITE_API_KEY}/api/my/favorites`
+export const userMyArticles = `${import.meta.env.VITE_API_KEY}/api/my/articles`

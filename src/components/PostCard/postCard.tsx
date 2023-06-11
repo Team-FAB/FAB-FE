@@ -85,7 +85,7 @@ const PostCard: React.FC<Props> = ({ currentPage, showRecruitOnly, link, token})
 
   return (
     <>
-      {postsToShow.map((post) => (
+      {postsToShow.length > 0 ? postsToShow.map((post) => (
         <div
           key={post.id}
           className={styles.cardContainer}
@@ -120,7 +120,9 @@ const PostCard: React.FC<Props> = ({ currentPage, showRecruitOnly, link, token})
             </Card>
           </Badge.Ribbon>
         </div>
-      ))}
+      )) : (
+        <div>글이 존재하지 않습니다.</div>
+      )}
       {selectedPost && (
         <PostModal post={selectedPost} onClose={handleCloseModal} />
       )}

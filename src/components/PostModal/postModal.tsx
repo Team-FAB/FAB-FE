@@ -48,15 +48,8 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
-  const [isModalOpen, setIsModalOpen] = useState(true) // 모달창 open 여부
-
   const handleSaveClick = async () => {
     setIsSaved((prevIsSaved) => !prevIsSaved)
-
-    // 모달이 열려있는 동안 POST 요청을 보내지 X
-    // if (isModalOpen) {
-    //   return;
-    // }
 
     try {
       const response = await fetch(`${userFavorite}/${post.id}`, {
@@ -75,11 +68,6 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       console.error(error)
     }
   }
-
-  const handleModalCancel = useCallback(() => {
-    setIsModalOpen(false) // 모달이 닫힘 추적
-    onClose() // onClose 이벤트 핸들러 호출
-  }, [onClose])
 
   // 찜하기 상태 가져오기
   useEffect(() => {
@@ -107,8 +95,6 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
 
     fetchFavoriteStatus()
   }, [post.id])
-
-  // onCancel={handleModalCancel} //추가하기
 
   return (
     <Modal
