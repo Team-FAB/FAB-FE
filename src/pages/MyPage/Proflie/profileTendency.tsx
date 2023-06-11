@@ -72,10 +72,6 @@ const ProfileTendency = (props:profileTendencyProps) => {
       return updatedProfileTendency
     } catch (error) {
       console.error('프로필 성향 정보 업데이트 오류', error);
-      // Modal.error({
-      //   title: "서버 오류",
-      //   content: "프로필 정보를 서버에 전송하는데 실패했습니다.",
-      // })
     }
   };
 
@@ -102,11 +98,7 @@ const ProfileTendency = (props:profileTendencyProps) => {
     } catch (error) {
       console.error('프로필 업데이트 오류', error)
     }
-  };
-
-  // useEffect(() => {
-  //   handleUpdateProfile();
-  // }, []);
+  }
   
   return (
     <div className={styles.profileTenContainer}>
@@ -122,21 +114,22 @@ const ProfileTendency = (props:profileTendencyProps) => {
             <div onClick={() => handleToggleBox("genderBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{props.selectedGender}</Badge>
             </div>
+            {boxStates.genderBoxOpen && (
+              <div className={styles.RadioBtn}>
+                {gender.map((item, index) => (
+                  <Radio
+                    key={index}
+                    value={item.name}
+                    className={styles.Radio}
+                  >
+                    {item.name}
+                  </Radio>
+                ))}
+              </div>
+            )}
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          {boxStates.genderBoxOpen && (
-            <div className={styles.RadioBtn}>
-              {gender.map((item, index) => (
-                <Radio
-                  key={index}
-                  value={item.name}
-                  className={styles.Radio}
-                >
-                  {item.name}
-                </Radio>
-              ))}
-            </div>
-          )}
+          
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           props.setSelectedAge(e.target.value);
@@ -147,20 +140,20 @@ const ProfileTendency = (props:profileTendencyProps) => {
             <div onClick={() => handleToggleBox("ageBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{props.selectedAge}</Badge>
             </div>
+            {boxStates.ageBoxOpen && (
+              <div className={styles.RadioBtn}> 
+                {age.map((item, index) => (
+                  <Radio
+                    key={index}
+                    value={item.age}
+                    className={styles.Radio}>
+                      {item.age}
+                  </Radio>
+                ))}
+              </div>
+            )}
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          {boxStates.ageBoxOpen && (
-            <div className={styles.RadioBtn}> 
-              {age.map((item, index) => (
-                <Radio
-                  key={index}
-                  value={item.age}
-                  className={styles.Radio}>
-                    {item.age}
-                </Radio>
-              ))}
-            </div>
-          )}
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           props.setSelectedSmoke(e.target.value);
@@ -169,21 +162,21 @@ const ProfileTendency = (props:profileTendencyProps) => {
           <div className={styles.dropdownBox}> 
             <p className={styles.dropdownP}> 저는 흡연을</p>
             <div onClick={() => handleToggleBox("smokeBoxOpen")}>
-            <Badge className={styles.dropdownBadge}>{props.selectedSmoke ? "합니다" : "하지 않습니다"}</Badge>
+            <Badge className={styles.dropdownBadge}>{props.selectedSmoke}</Badge>
             </div>
+            {boxStates.smokeBoxOpen && (
+              <div className={styles.smokeRadioBtn}> 
+                {smoke.map((item, index) => (
+                  <Radio
+                    key={index}
+                    value={item.smoke}
+                    className={styles.smokeRadio}>
+                      {item.smoke}
+                  </Radio>
+                ))}
+              </div>
+            )}
           </div>
-          {boxStates.smokeBoxOpen && (
-            <div className={styles.smokeRadioBtn}> 
-              {smoke.map((item, index) => (
-                <Radio
-                  key={index}
-                  value={item.smoke}
-                  className={styles.smokeRadio}>
-                    {item.smoke}
-                </Radio>
-              ))}
-            </div>
-          )}
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           props.setSelectedMBTI(e.target.value);
@@ -194,20 +187,20 @@ const ProfileTendency = (props:profileTendencyProps) => {
             <div onClick={() => handleToggleBox("MBTIBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{props.selectedMBTI}</Badge>
             </div>
+            {boxStates.MBTIBoxOpen && (
+              <div className={styles.mbtiRadioBtn}> 
+                {mbti.map((item, index) => (
+                  <Radio
+                    key={index}
+                    value={item.mbti}
+                    className={styles.mbtiRadio}>
+                      {item.mbti}
+                  </Radio>
+                ))}
+              </div>
+            )}
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          {boxStates.MBTIBoxOpen && (
-            <div className={styles.mbtiRadioBtn}> 
-              {mbti.map((item, index) => (
-                <Radio
-                  key={index}
-                  value={item.mbti}
-                  className={styles.mbtiRadio}>
-                    {item.mbti}
-                </Radio>
-              ))}
-            </div>
-          )}
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           props.setSelectedregion(e.target.value);
@@ -218,20 +211,20 @@ const ProfileTendency = (props:profileTendencyProps) => {
             <div onClick={() => handleToggleBox("regionBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{props.selectedregion}</Badge>
             </div>
+            {boxStates.regionBoxOpen && (
+              <div className={styles.regionRadioBtn}> 
+                {region.map((item, index) => (
+                  <Radio
+                    key={index}
+                    value={item.region}
+                    className={styles.regionRadio}>
+                      {item.region}
+                  </Radio>
+                ))}
+              </div>
+            )}
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          {boxStates.regionBoxOpen && (
-            <div className={styles.regionRadioBtn}> 
-              {region.map((item, index) => (
-                <Radio
-                  key={index}
-                  value={item.region}
-                  className={styles.regionRadio}>
-                    {item.region}
-                </Radio>
-              ))}
-            </div>
-          )}
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           props.setSelectedAgeGroup(e.target.value);
@@ -242,20 +235,20 @@ const ProfileTendency = (props:profileTendencyProps) => {
             <div onClick={() => handleToggleBox("ageGroupBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{props.selectedAgeGroup}</Badge>
             </div>
+            {boxStates.ageGroupBoxOpen && (
+              <div className={styles.ageGroupRadioBtn}> 
+                {ageGroup.map((item, index) => (
+                  <Radio
+                    key={index}
+                    value={item.ageGroup}
+                    className={styles.ageGroupRadio}>
+                      {item.ageGroup}
+                  </Radio>
+                ))}
+              </div>
+            )}
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
-          {boxStates.ageGroupBoxOpen && (
-            <div className={styles.ageGroupRadioBtn}> 
-              {ageGroup.map((item, index) => (
-                <Radio
-                  key={index}
-                  value={item.ageGroup}
-                  className={styles.ageGroupRadio}>
-                    {item.ageGroup}
-                </Radio>
-              ))}
-            </div>
-          )}
         </Radio.Group>
         <Radio.Group onChange={(e) => {
           props.setSelectedActivityTime(e.target.value);
@@ -266,20 +259,20 @@ const ProfileTendency = (props:profileTendencyProps) => {
             <div onClick={() => handleToggleBox("activityTimeBoxOpen")}>
               <Badge className={styles.dropdownBadge}>{props.selectedActivityTime}</Badge>
             </div>
+            {boxStates.activityTimeBoxOpen && (
+              <div className={styles.activityRadioBtn}> 
+                {activityTime.map((item, index) => (
+                  <Radio
+                    key={index}
+                    value={item.activityTime}
+                    className={styles.Radio}>
+                      {item.activityTime}
+                  </Radio>
+                ))}
+              </div>
+            )}
             <p className={styles.dropdownP}> 에 활동합니다 ☺️</p>
           </div>
-          {boxStates.activityTimeBoxOpen && (
-            <div className={styles.RadioBtn}> 
-              {activityTime.map((item, index) => (
-                <Radio
-                  key={index}
-                  value={item.activityTime}
-                  className={styles.Radio}>
-                    {item.activityTime}
-                </Radio>
-              ))}
-            </div>
-          )}
         </Radio.Group>
       </div>
       <div className={styles.tagContainer}>
