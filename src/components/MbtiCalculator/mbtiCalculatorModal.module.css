@@ -13,8 +13,8 @@
   margin-bottom: 15px;
 }
 
-.select{
-    width: 200px;
+.select {
+  width: 200px;
 }
 
 .button {
@@ -30,9 +30,15 @@
   font-size: 15px;
 }
 
-.result{
-    text-align: center;
-    margin-top: 15px;
-    font-size: 20px;
-    font-weight: bold;
+.result {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.informContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
 }

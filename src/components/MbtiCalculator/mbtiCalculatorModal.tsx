@@ -68,7 +68,7 @@ const MbitCalculatorModal: React.FC<MbitCalculatorModalProps> = ({
         <div className={styles.title}>MBTI 궁합 계산기</div>
         <div className={styles.selectContainer}>
           <Select
-            placeholder="첫번째 MBTI 유형을 선택하세요"
+            placeholder="내 MBTI를 선택해주세요."
             onChange={(value) => setMbtiType1(value)}
             className={styles.select}
           >
@@ -79,7 +79,7 @@ const MbitCalculatorModal: React.FC<MbitCalculatorModalProps> = ({
             ))}
           </Select>
           <Select
-            placeholder="두번째 MBTI 유형을 선택하세요"
+            placeholder="룸메이트 MBTI를 선택해주세요."
             onChange={(value) => setMbtiType2(value)}
             className={styles.select}
           >
@@ -94,6 +94,15 @@ const MbitCalculatorModal: React.FC<MbitCalculatorModalProps> = ({
           궁합 계산하기
         </Button>
         <div className={styles.result}>{compatibility}</div>
+        <div className={styles.informContainer}>
+          <span style={{ color: "#0052FF" }}>* 우리 궁합은 천생연분!</span>
+          <span style={{ color: "#04F4D7" }}>* 좋은 관계로 발전 가능!</span>
+          <span style={{ color: "#79E103" }}>* 안맞는 것 맞는것, 반반!</span>
+          <span style={{ color: "#E2670C" }}>
+            * 최악은 아니지만 좋지도 않아요.
+          </span>
+          <span style={{ color: "#FF0C00" }}>* 우리 궁합 다시 생각해봐요.</span>
+        </div>
       </Modal>
     </>
   )
