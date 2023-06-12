@@ -14,7 +14,7 @@ const Favorite = () => {
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
   const handleCloseModal = () => {
-    setSelectedPost(null)
+    setSelectedPost(null);
   }
 
   return(
@@ -23,7 +23,10 @@ const Favorite = () => {
       <div className={styles.favoriteContainer}>
         <div className={styles.cardGrid}>
           {
-            <PostCard link={userMyFavorite} token={userToken.atk.toString()} posts={[]}/>
+            <PostCard 
+              link={userMyFavorite} 
+              token={userToken.atk.toString()} 
+              posts={[]}/>
           }
         </div>
         {selectedPost && (
