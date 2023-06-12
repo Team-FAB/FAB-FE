@@ -1,37 +1,45 @@
-.badgePresent{
-  color: var(--white);
-  padding: 5px 8px;
-  border-radius: var(--badge-border-radius);
+.profileTitle {
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
 }
 
-.badgePresent {
-  background-color: var(--purple400);
+.profileBox {
+  width: 400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-row-gap: 5px;
 }
 
-.ProfileContainer {
-  position: relative;
+.profileBox > div:last-child {
+  grid-column: span 3;
 }
 
-.profileImg {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background-color: var(--black100);
-  margin-top: 2px;
+.profileTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-.ProfileContent {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  margin-left: 5px;
-  font-size: var(--font-size-sub2);
-  color: var(--black300);
+.profileTitle > span {
+  font-size: var(--font-size-body1);
 }
 
-.box {
-  width: 17px;
-  height: 17px;
-  background-color: var(--purple400);
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
+.profileSection > span {
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
+}
+
+.profileInput {
+  max-width: 472px;
+  word-wrap: break-word;
+}
