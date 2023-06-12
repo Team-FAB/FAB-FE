@@ -65,6 +65,7 @@ const MainPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([])
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [messageApi, contextHolder] = message.useMessage()
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   useEffect(() => {
     fetch("src/assets/users.json")
@@ -121,11 +122,15 @@ const MainPage: React.FC = () => {
 
   const handleCloseModal = () => {
     setSelectedPost(null)
+    setIsModalVisible(false)
   }
 
   const handleUserClick = (user: User) => {
     setSelectedUser(user)
+    setIsModalVisible(true)
   }
+
+  
 
   return (
     <div className={styles.conatainer}>
@@ -193,6 +198,7 @@ const MainPage: React.FC = () => {
       {selectedUser && (
         <RecommendModal
           user={selectedUser}
+          visible={isModalVisible}
           onClose={() => setSelectedUser(null)}
         />
       )}
