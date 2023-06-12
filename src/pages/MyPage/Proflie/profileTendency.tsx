@@ -51,7 +51,8 @@ const ProfileTendency = (props:profileTendencyProps) => {
   const updateProfileTendency = async (profileData: userProfileData) => {
 
     try {
-      const response = await fetch(userMyprofile, {
+      console.log(JSON.stringify(profileData))
+      const response = await fetch(`/api/${userMyprofile}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -71,6 +72,7 @@ const ProfileTendency = (props:profileTendencyProps) => {
       }
 
       const updatedProfileTendency = await response.json()
+      console.log(updatedProfileTendency)
       return updatedProfileTendency
     } catch (error) {
       console.error('프로필 성향 정보 업데이트 오류', error);
@@ -80,11 +82,11 @@ const ProfileTendency = (props:profileTendencyProps) => {
   // 프로필 정보 업데이트 핸들러
   const handleUpdateProfile = async () => {
     if (
-      props.selectedGender === '성별' ||
+      props.selectedGender === '남여' ||
       props.selectedAge === 0 ||
       props.selectedSmoke === '할까요?' ||
       props.selectedMBTI === 'mbti' ||
-      props.selectedregion === '지역' ||
+      props.selectedregion === '여기' ||
       props.selectedAgeGroup === '0 ~ 0' ||
       props.selectedActivityTime === '오전오후' ||
       props.favoriteTag.length === 0
@@ -97,18 +99,17 @@ const ProfileTendency = (props:profileTendencyProps) => {
         gender: props.selectedGender,
         myAge: props.selectedAge,
         smoke: props.selectedSmoke === "합니다" ? true : false,
-        MBTI: props.selectedMBTI,
+        mbti: props.selectedMBTI,
         region: props.selectedregion,
         minAge: Number(props.selectedAgeGroup.split('-')[0]),
         maxAge: Number(props.selectedAgeGroup.split('-')[1]),
-        activityTime: props.selectedActivityTime,
+        activityTime: props.selectedActivityTime === '오전' ? 'MORNING' : 'MIDNIGHT',
         myText: props.mytext,
         favoriteTag: props.favoriteTag
       };
       console.log('사용자 입력 데이터:', profileData)
 
-      const updatedProfile = await updateProfileTendency(profileData) // 토큰 값 변경 필요
-      console.log('프로필 업데이트 성공', updatedProfile)
+      updateProfileTendency(profileData) // 토큰 값 변경 필요
       props.handleUpdateProfileSuccess()
     } catch (error) {
       console.error('프로필 업데이트 오류', error)
@@ -307,8 +308,8 @@ const ProfileTendency = (props:profileTendencyProps) => {
               </div>
             </Modal>
           </div>
-          <div className={`${styles.tendencyBox} ${props.favoriteTag.length === 0 ? styles.tendencyNot : ''}`}>
-            {props.favoriteTag.length === 0 ? (
+          <div className={`${styles.tendencyBox} ${props.favoriteTag === undefined ? styles.tendencyNot : ''}`}>
+            {props.favoriteTag === undefined ? (
               <span className={styles.tendencyNotChoice}>성향을 선택해주세요 ⬇️</span>
             ) : (
               props.favoriteTag.map((item, index) => (
@@ -322,11 +323,11 @@ const ProfileTendency = (props:profileTendencyProps) => {
             <span>성향을 선택해주세요 ☺️</span>
           </div>
           <div className={styles.tendencyBox}>
-            {tendencyChoice
+            {/* {tendencyChoice
             .filter((option) => !props.favoriteTag.includes(option.value))
             .map((item, index) => (
               <span key={index}>#{item.value}</span>
-            ))}
+            ))} */}
           </div>
         </div>
         <Button 
