@@ -136,10 +136,14 @@ export const kakaologinUser = createAsyncThunk<
     const response = await fetch(kakaoUserLogin, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
       },
       body: JSON.stringify({
         authorizationCode: code,
+        // grant_type: ,
+        // client_id:  ,
+        // redirect_uri: ,
+        // code:,
       }),
     })
 
@@ -151,6 +155,10 @@ export const kakaologinUser = createAsyncThunk<
     throw error
   }
 })
+// 1. 인가 코드를 카카오로 다시 넘기기
+// 2. atk 토큰을 백엔드로 다시 보내기
+// 3. oauth / token
+// 4. api/users/login/kakao 최종적으로 받는 토큰 위치
 
 export const googleloginUser = createAsyncThunk<
   { token: Token },
