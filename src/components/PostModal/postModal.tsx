@@ -35,10 +35,6 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     }
   }
 
-  const saveClassName = isSaved
-    ? `${styles.save} ${styles.saveActive}`
-    : styles.save
-
   const formatDate = (dateString: string): string => {
     const options = {
       year: "numeric",
@@ -52,28 +48,41 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     return "~" + price.toLocaleString("ko-KR") + "원"
   }
 
-  const userToken = useSelector((state: RootState) => state.user.data.token)
+  const [newIsSaved, setNewIsSaved] = useState(false)
+  const userToken = useSelector((state : RootState) => state.user.data.token)
 
-  const handleSaveClick = async () => {
-    setIsSaved((prevIsSaved) => !prevIsSaved)
-
-    try {
-      const response = await fetch(`${userFavorite}/${post.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: userToken.atk.toString(),
-        },
-      })
-
-      if (!response.ok) {
-        throw new Error("찜하기를 처리하는데 실패했습니다.")
-      }
-    } catch (error) {
-      console.error(error)
-    }
+  const saveClassName = newIsSaved
+  ? `${styles.save} ${styles.saveActive}`
+  : styles.save
+    
+  const handleSaveClick = () => {
+    setNewIsSaved((prevIsSaved) => !prevIsSaved)
   }
 
+  const handleOnCancel = useCallback(async () => {
+    if (newIsSaved !== isSaved) {
+      try {
+        const response = await fetch(`${userFavorite}/${post.id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: userToken.atk.toString(),
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("찜하기를 처리하는데 실패했습니다.")
+        }
+
+        setIsSaved(newIsSaved)
+      } catch (error) {
+        console.error(error)
+        setNewIsSaved(isSaved)
+      }
+    }
+    onClose()
+    }, [newIsSaved, isSaved, onClose])
+  
   // 찜하기 상태 가져오기
   useEffect(() => {
     const fetchFavoriteStatus = async () => {
@@ -90,6 +99,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
         if (response.ok) {
           const data = await response.json()
           setIsSaved(data.data)
+          setNewIsSaved(data.data)
         } else {
           throw new Error("찜 상태를 가져오는데 실패했습니다.")
         }
@@ -99,6 +109,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     }
 
     fetchFavoriteStatus()
+
   }, [post.id])
 
   //
@@ -150,7 +161,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     <Modal
       open={true}
       onOk={onClose}
-      onCancel={onClose}
+      onCancel={handleOnCancel}
       cancelButtonProps={{ style: { display: "none" } }}
       okButtonProps={{ style: { display: "none" } }}
     >
