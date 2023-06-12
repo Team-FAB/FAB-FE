@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { Modal, Badge, Button } from "antd"
 import styles from "./PostModal.module.css"
 import { useNavigate } from "react-router-dom"

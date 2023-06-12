@@ -11,11 +11,13 @@ import { activityTime, age, ageGroup, gender, mbti, region, smoke, tendencyChoic
 import { profileTendencyDropdown, profileTendencyProps, userProfileData } from '../../../interface/interface'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
+import { userMyprofile } from '../../../api'
 
 const ProfileTendency = (props:profileTendencyProps) => {
 
   // radio버튼 모달창
   const [tendencyModal, setTendencyModal] = useState(false)
+  const [choiceModal, setChoiceModal] = useState(false)
 
   const [boxStates, setBoxStates] = useState({
     genderBoxOpen: false,
@@ -37,9 +39,9 @@ const ProfileTendency = (props:profileTendencyProps) => {
 
   const handleTendencyChange = (checkedValues: CheckboxValueType[]) => {
     if (checkedValues.length <= 5) {
-      props.setFavoriteTag(checkedValues as string[]);
+      props.setFavoriteTag(checkedValues as string[])
     } else {
-      message.error('최대 5개까지 선택할 수 있습니다.');
+      message.error('최대 5개까지 선택할 수 있습니다.')
     }
   }
 
@@ -49,8 +51,8 @@ const ProfileTendency = (props:profileTendencyProps) => {
   const updateProfileTendency = async (profileData: userProfileData) => {
 
     try {
-      const response = await fetch('https://.../api/profile', { // 주소 수정
-        method: 'POST',
+      const response = await fetch(userMyprofile, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: userToken.atk.toString(), 
@@ -68,7 +70,7 @@ const ProfileTendency = (props:profileTendencyProps) => {
         });
       }
 
-      const updatedProfileTendency = await response.json();
+      const updatedProfileTendency = await response.json()
       return updatedProfileTendency
     } catch (error) {
       console.error('프로필 성향 정보 업데이트 오류', error);
@@ -77,6 +79,19 @@ const ProfileTendency = (props:profileTendencyProps) => {
 
   // 프로필 정보 업데이트 핸들러
   const handleUpdateProfile = async () => {
+    if (
+      props.selectedGender === '성별' ||
+      props.selectedAge === 0 ||
+      props.selectedSmoke === '할까요?' ||
+      props.selectedMBTI === 'mbti' ||
+      props.selectedregion === '지역' ||
+      props.selectedAgeGroup === '0 ~ 0' ||
+      props.selectedActivityTime === '오전오후' ||
+      props.favoriteTag.length === 0
+    ) {
+      setChoiceModal(true)
+        return
+    }
     try {
       const profileData: userProfileData = {
         gender: props.selectedGender,
@@ -344,6 +359,16 @@ const ProfileTendency = (props:profileTendencyProps) => {
           </Button>
         </div>
       </div>
+      {choiceModal && (
+        <Modal
+          title="알림"
+          open={choiceModal}
+          onOk={() => setChoiceModal(false)}
+          onCancel={() => setChoiceModal(false)}
+        >
+          <p>모든 항목을 선택해주세요.</p>
+        </Modal>
+      )}
     </div>
   )
 }
