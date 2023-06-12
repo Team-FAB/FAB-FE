@@ -17,6 +17,7 @@ import Applicant from "./pages/MyPage/Applicant/applicant"
 import Favorite from "./pages/MyPage/Favorites/favorite"
 import WritePage from "./pages/WritePage/writePage"
 import EditPage from "./pages/EditPage/editPage"
+import MbitCalculator from "./components/MbtiCalculator/mbitCalculator"
 
 const App: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ const App: React.FC = () => {
         <BrowserRouter>
           <Chat />
           <Header />
+          <MbitCalculator />
           <Routes>
             <Route path="/RoomMate" element={<RoomMate />} />
             <Route path="/" element={<Login />} />

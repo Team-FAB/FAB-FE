@@ -33,6 +33,8 @@
   font-size: var(--font-size-sub1);
   height: 70px;
   line-height: 16px;
+  color: var(--black300);
+  margin-top: 5px;
 }
 
 .titleContainer{
