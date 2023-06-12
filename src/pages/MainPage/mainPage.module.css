@@ -1,5 +1,5 @@
 .conatainer {
-  width: 100vw;
+  margin-top: 10px;
 }
 
 .carousel {
@@ -7,7 +7,8 @@
 }
 
 .adContainer {
-  margin-top: 10px;
+  display: flex;
+  margin: 0 auto;
 }
 
 .mainPost {
@@ -16,7 +17,7 @@
   vertical-align: center;
   margin: 0 auto;
   width: 1200px;
-  padding: 30px 30px 30px 50px;
+  padding: 30px 30px 30px 30px;
 }
 
 .recommendPost {
@@ -25,7 +26,7 @@
   vertical-align: center;
   margin: 0 auto;
   width: 1200px;
-  padding: 30px 30px 30px 50px;
+  padding: 30px 30px 30px 30px;
   margin-bottom: 50px;
 }
 

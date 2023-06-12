@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Modal, Badge, Button } from "antd"
 import styles from "./PostModal.module.css"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
-import { userFavorite } from '../../api'
-
+import { userFavorite } from "../../api"
+import { userArticle } from "../../api"
 
 interface PostModalProps {
   post: any
@@ -14,8 +14,14 @@ interface PostModalProps {
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const [isSaved, setIsSaved] = useState(false)
+  const [isDeleted, setIsDeleted] = useState(false)
   const userEmail = localStorage.getItem("email")
   const navigate = useNavigate()
+
+  const decodeHTML = (html: string) => {
+    const doc = new DOMParser().parseFromString(html, "text/html")
+    return doc.body.textContent || ""
+  }
 
   const handleEditClick = () => {
     navigate(`/editPage/${post.id}`, { state: { post } })
@@ -27,7 +33,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     } else {
       return "마감"
     }
-  } 
+  }
 
   const saveClassName = isSaved
     ? `${styles.save} ${styles.saveActive}`
@@ -46,7 +52,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     return "~" + price.toLocaleString("ko-KR") + "원"
   }
 
-  const userToken = useSelector((state : RootState) => state.user.data.token)
+  const userToken = useSelector((state: RootState) => state.user.data.token)
 
   const handleSaveClick = async () => {
     setIsSaved((prevIsSaved) => !prevIsSaved)
@@ -58,12 +64,11 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           "Content-Type": "application/json",
           Authorization: userToken.atk.toString(),
         },
-      });
+      })
 
       if (!response.ok) {
-        throw new Error("찜하기를 처리하는데 실패했습니다.");
+        throw new Error("찜하기를 처리하는데 실패했습니다.")
       }
-
     } catch (error) {
       console.error(error)
     }
@@ -96,9 +101,54 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     fetchFavoriteStatus()
   }, [post.id])
 
+  //
+  const handleDeleteClick = async () => {
+    Modal.confirm({
+      title: "이 포스트를 정말로 삭제하시겠습니까?",
+      okText: "네",
+      okType: "danger",
+      cancelText: "아니오",
+      onOk: async () => {
+        try {
+          const response = await fetch(`${userArticle}/${post.id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: userToken.atk.toString(),
+            },
+          })
+
+          if (response.ok) {
+            setIsDeleted(true)
+          } else {
+            throw new Error("포스트를 삭제하는데 실패했습니다.")
+          }
+        } catch (error) {
+          Modal.error({
+            title: "에러 발생",
+            content:
+              "포스트를 삭제하는데 오류가 발생했습니다. 다시 시도해 주세요.",
+          })
+        }
+      },
+    })
+  }
+
+  useEffect(() => {
+    if (isDeleted) {
+      Modal.success({
+        title: "성공적으로 삭제되었습니다.",
+        content: "이 포스트는 삭제되었습니다.",
+        onOk: () => {
+          window.location.reload()
+        },
+      })
+    }
+  }, [isDeleted])
+
   return (
     <Modal
-      visible={true}
+      open={true}
       onOk={onClose}
       onCancel={onClose}
       cancelButtonProps={{ style: { display: "none" } }}
@@ -111,20 +161,14 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           </Badge>
           <div className={styles.titleContainer}>
             <span className={styles.title}>{post.title}</span>
-            <span className={saveClassName} onClick={handleSaveClick}>
-              찜하기
-            </span>
-          </div>
-          <div className={styles.content}>{post.content}</div>
-          <div className={styles.ProfileContainer}>
-            {userEmail === post.email && ( // 추가된 부분
-              <div className={styles.buttonContainer}>
-                <Button className={styles.editButton} onClick={handleEditClick}>
-                  수정
-                </Button>
-                <Button className={styles.deleteButton}>삭제</Button>
-              </div>
+            {userEmail !== post.email && (
+              <span className={saveClassName} onClick={handleSaveClick}>
+                찜하기
+              </span>
             )}
+          </div>
+          <div className={styles.content}>{decodeHTML(post.content)}</div>
+          <div className={styles.ProfileContainer}>
             <img
               className={styles.profileImg}
               src="https://via.placeholder.com/25"
@@ -132,9 +176,23 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             <span className={styles.ProfileContent}>
               {post.nickname} {formatDate(post.createdDate)}
             </span>
-            <Button className={styles.apply} type="primary">
-              신청하기
-            </Button>
+            {userEmail === post.email ? (
+              <div className={styles.buttonContainer}>
+                <Button className={styles.editButton} onClick={handleEditClick}>
+                  수정
+                </Button>
+                <Button
+                  className={styles.deleteButton}
+                  onClick={handleDeleteClick}
+                >
+                  삭제
+                </Button>
+              </div>
+            ) : (
+              <Button className={styles.apply} type="primary">
+                신청하기
+              </Button>
+            )}
           </div>
           <div className={styles.line}></div>
           <div className={styles.cardBadgeContainer}>
@@ -152,20 +210,14 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           </Badge>
           <div className={styles.titleContainer}>
             <span className={styles.title}>{post.title}</span>
-            <span className={saveClassName} onClick={handleSaveClick}>
-              찜하기
-            </span>
-          </div>
-          <div className={styles.content}>{post.content}</div>
-          <div className={styles.ProfileContainer}>
-            {userEmail === post.email && ( // 추가된 부분
-              <div className={styles.buttonContainer}>
-                <Button className={styles.editButton} onClick={handleEditClick}>
-                  수정
-                </Button>
-                <Button className={styles.deleteButton}>삭제</Button>
-              </div>
+            {userEmail !== post.email && (
+              <span className={saveClassName} onClick={handleSaveClick}>
+                찜하기
+              </span>
             )}
+          </div>
+          <div className={styles.content}>{decodeHTML(post.content)}</div>
+          <div className={styles.ProfileContainer}>
             <img
               className={styles.profileImg}
               src="https://via.placeholder.com/25"
@@ -173,9 +225,23 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             <span className={styles.ProfileContent}>
               {post.nickname} {formatDate(post.createdDate)}
             </span>
-            <Button className={styles.apply} type="primary">
-              신청하기
-            </Button>
+            {userEmail === post.email ? (
+              <div className={styles.buttonContainer}>
+                <Button className={styles.editButton} onClick={handleEditClick}>
+                  수정
+                </Button>
+                <Button
+                  className={styles.deleteButton}
+                  onClick={handleDeleteClick}
+                >
+                  삭제
+                </Button>
+              </div>
+            ) : (
+              <Button className={styles.apply} type="primary">
+                신청하기
+              </Button>
+            )}
           </div>
           <div className={styles.line}></div>
           <div className={styles.cardBadgeContainer}>
