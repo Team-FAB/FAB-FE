@@ -3,9 +3,9 @@ import MyPage from '../myPage'
 import styles from './profile.module.css'
 import ProfileBasic from './profileBasic'
 import ProfileTendency from './profileTendency'
-import { activityTime, age, ageGroup, gender, mbti, region, smoke } from '../../../object/profileDropdown'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
+import { userMyprofile } from '../../../api'
 
 const Profile: React.FC = () => {
 
@@ -14,13 +14,13 @@ const Profile: React.FC = () => {
   const [email, setEmail] = useState('')
 
   // profileTendency
-  const [selectedGender, setSelectedGender] = useState(gender[0].name)
-  const [selectedAge, setSelectedAge] = useState(age[0].age)
-  const [selectedSmoke, setSelectedSmoke] = useState(smoke[0].smoke)
-  const [selectedMBTI, setSelectedMBTI] = useState(mbti[0].mbti)
-  const [selectedregion, setSelectedregion] = useState(region[0].region)
-  const [selectedAgeGroup, setSelectedAgeGroup] = useState(ageGroup[0].ageGroup)
-  const [selectedActivityTime, setSelectedActivityTime] = useState(activityTime[0].activityTime)
+  const [selectedGender, setSelectedGender] = useState('남여')
+  const [selectedAge, setSelectedAge] = useState(0)
+  const [selectedSmoke, setSelectedSmoke] = useState('할까요?')
+  const [selectedMBTI, setSelectedMBTI] = useState('mbti')
+  const [selectedregion, setSelectedregion] = useState('여기')
+  const [selectedAgeGroup, setSelectedAgeGroup] = useState('0 ~ 0')
+  const [selectedActivityTime, setSelectedActivityTime] = useState('오전오후')
   const [mytext, setMytext] = useState('추가로 하고 싶은 말을 자세히 적어주세요! :)')
   const [favoriteTag, setfavoriteTag] = useState<string[]>([])
 
@@ -37,7 +37,7 @@ const Profile: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://.../api/profile',
+        const response = await fetch(`/api/${userMyprofile}`,
           {
             method: "GET",
             headers: {
@@ -52,9 +52,16 @@ const Profile: React.FC = () => {
         }
 
         const data = await response.json()
-        console.log(data)
-        setNickname(data.nickname)
-        setEmail(data.email)
+        console.log(data.data)
+        setNickname(data.data.nickname)
+        setEmail(data.data.email)
+        setSelectedSmoke(data.data.isSmoker)
+        setSelectedMBTI(data.data.mbti)
+        setSelectedregion(data.data.region)
+        // setSelectedAgeGroup(`${Number(data.data.minAge)} ~ ${Number(data.data.maxAge)}`)
+        setSelectedActivityTime(data.data.activityTime)
+        setMytext(data.data.detail)
+        setfavoriteTag(data.data.tags)
       } catch (error) {
         console.error(error)
       }

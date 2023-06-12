@@ -110,7 +110,7 @@ export interface userProfileData {
   password?: string
   gender?: string
   smoke?: boolean
-  MBTI?: string
+  mbti?: string
   region?: string
   minAge?: number
   maxAge?: number

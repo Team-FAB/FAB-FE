@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../Redux/store"
 import { ProfileBasicProps } from "../../../interface/interface"
+import { userMyprofileNickname } from '../../../api'
 
 const ProfileBasic = (props: ProfileBasicProps) => {
 
@@ -33,8 +34,8 @@ const ProfileBasic = (props: ProfileBasicProps) => {
   // 서버 연결
   const updateProfile = async (profileData: { nickname: string }) => {
     try {
-      const response = await fetch('https://.../api/profile', { // 주소 수정
-        method: 'POST',
+      const response = await fetch(`/api/${userMyprofileNickname}`, { // 주소 수정
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: userToken.atk.toString(),
