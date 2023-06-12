@@ -137,6 +137,8 @@ const MainPage: React.FC = () => {
           autoPlay
           interval={3000}
           showIndicators={false}
+          showStatus={false}
+          showArrows={false}
         >
           {adImages.map((url, index) => (
             <div key={index}>

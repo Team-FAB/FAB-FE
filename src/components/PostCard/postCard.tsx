@@ -57,6 +57,7 @@ const PostCard: React.FC<Props> = ({ currentPage, showRecruitOnly, link, token})
 
         const data = await response.json()
         setPosts(data.data)
+        console.log(data.data)
       } catch (error) {
         console.error(error)
         messageApi.error("데이터 불러오기 오류")

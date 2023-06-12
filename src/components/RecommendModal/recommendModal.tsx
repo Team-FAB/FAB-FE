@@ -1,34 +1,34 @@
-import React from "react";
-import { Modal, Badge, Button } from "antd";
-import styles from "./recommendModal.module.css";
+import React from "react"
+import { Modal, Badge, Button } from "antd"
+import styles from "./recommendModal.module.css"
 
 interface User {
-  id: number;
-  nickname: string;
-  image: string;
-  email: string;
-  gender: string;
-  smoke: boolean;
-  MBTI: string;
-  region: string;
-  minAge: number;
-  maxAge: number;
-  myAge: number;
-  activityTime: string;
-  faviteTag: string;
-  hateTag: string;
-  myText: string;
+  id: number
+  nickname: string
+  image: string
+  email: string
+  gender: string
+  smoke: boolean
+  MBTI: string
+  region: string
+  minAge: number
+  maxAge: number
+  myAge: number
+  activityTime: string
+  faviteTag: string
+  hateTag: string
+  myText: string
 }
 
 interface RecommendModalProps {
-  user: User;
-  onClose: () => void;
+  user: User
+  onClose: () => void
 }
 
 const RecommendModal: React.FC<RecommendModalProps> = ({ user, onClose }) => {
   return (
     <Modal
-      visible={true}
+      open={true}
       onOk={onClose}
       onCancel={onClose}
       cancelButtonProps={{ style: { display: "none" } }}
@@ -47,16 +47,17 @@ const RecommendModal: React.FC<RecommendModalProps> = ({ user, onClose }) => {
       <div className={styles.information}>
         <div className={styles.time}>
           <div className={styles.timeTitle}>활동시간</div>
-          <span>오전</span> <span className={styles.box}></span> <span>오후</span> <span className={styles.box}></span>
+          <span>오전</span> <span className={styles.box}></span>{" "}
+          <span>오후</span> <span className={styles.box}></span>
         </div>
         <div className={styles.smoke}>
           <div className={styles.smokeTitle}>흡연</div>
-          <span>오전</span> <span className={styles.box}></span> <span>오후</span> <span className={styles.box}></span>
+          <span>오전</span> <span className={styles.box}></span>{" "}
+          <span>오후</span> <span className={styles.box}></span>
         </div>
       </div>
-
     </Modal>
-  );
-};
+  )
+}
 
-export default RecommendModal;
+export default RecommendModal

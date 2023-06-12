@@ -66,6 +66,10 @@
   float: right;
 }
 
+.buttonContainer {
+  float: right;
+}
+
 .line {
   border-bottom: 1px solid var(--black200);
   width: 470px;
@@ -91,4 +95,10 @@
 
 .isBadgePresent {
   background-color: var(--black200);
+}
+
+.editButton,
+.deleteButton{
+  border: none;
+  box-shadow: none;
 }
