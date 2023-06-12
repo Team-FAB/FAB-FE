@@ -1,11 +1,12 @@
 import { Input, Button, Form, Upload, Modal } from "antd"
 import { UserOutlined, MailOutlined } from "@ant-design/icons"
 import styles from './profile.module.css'
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Redux/store";
+import { useState } from "react"
+import { useSelector } from "react-redux"
+import { RootState } from "../../../Redux/store"
+import { ProfileBasicProps } from "../../../interface/interface"
 
-const ProfileBasic: React.FC = () => {
+const ProfileBasic = (props: ProfileBasicProps) => {
 
   // 로그인한 유저 가져오기
   const userToken = useSelector((state : RootState) => state.user.data.token)
@@ -16,55 +17,21 @@ const ProfileBasic: React.FC = () => {
   const handleImageUpload = async (file: File | Blob) => {
     //
   }
-
-  // 새로운 닉네임 할당
-  const [nickname, setNickname] = useState('');
-  const [email, setEmail] = useState('');
   
-  const handleProfileBasicChange = async (values: { nickname: string }) => {
-    const updatedProfileData = { name: values.nickname }
+  const handleProfileBasicChange = async ({ nickname, email }: { nickname: string, email: string }) => {
+    const updatedProfileData = { nickname: nickname }
 
-    console.log("입력된 닉네임:", values.nickname);
+    console.log("입력된 닉네임:", nickname)
 
     try {
-      const updatedProfile = await updateProfile(updatedProfileData);
-      console.log('프로필 업데이트 성공', updatedProfile);
+      await updateProfile(updatedProfileData)
     } catch (error) {
-      console.error('프로필 업데이트 실패', error);
+      console.error('프로필 업데이트 실패', error)
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://.../api/profile',
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: userToken.atk.toString(),
-            },
-          },
-        )
-
-        if (!response.ok) {
-          throw new Error(`서버 상태 응답 ${response.status}`)
-        }
-
-        const data = await response.json()
-        console.log(data)
-        setNickname(data.nickname)
-        setEmail(data.email)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchData()
-  }, [])
-
   // 서버 연결
-  const updateProfile = async (profileData: { name: string }) => {
+  const updateProfile = async (profileData: { nickname: string }) => {
     try {
       const response = await fetch('https://.../api/profile', { // 주소 수정
         method: 'POST',
@@ -86,13 +53,9 @@ const ProfileBasic: React.FC = () => {
       }
 
       const data = await response.json();
-      setNickname(data.nickname)
+      props.setNickname(data.nickname)
     } catch (error) {
       console.error('프로필 기본정보 업데이트 오류', error);
-      // Modal.error({
-      //   title: "서버 오류",
-      //   content: "프로필 정보를 서버에 전송하는데 실패했습니다.",
-      // })
     }
   };
 
@@ -124,8 +87,8 @@ const ProfileBasic: React.FC = () => {
           <Input
             prefix={<UserOutlined />}
             placeholder="새로운 닉네임을 입력하세요."
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)} // 닉네임 변경 핸들러 설정
+            value={props.nickname}
+            onChange={(e) => e.target.value}
             style={{ width: 200, height: 40 }}/>
         </Form.Item>
         <Form.Item
@@ -134,7 +97,7 @@ const ProfileBasic: React.FC = () => {
             prefix={<MailOutlined />}
             placeholder="이메일입니다."
             type="email"
-            value={email}
+            value={props.email}
             style={{ width: 200, height: 40 }}
             readOnly />
         </Form.Item>

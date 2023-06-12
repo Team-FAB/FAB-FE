@@ -12,41 +12,63 @@ const RoomMateSearch = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("기간")
   const [selectedPrice, setSelectedPrice] = useState("보증금")
   const [selectedGender, setSelectedGender] = useState("성별")
+  const [selectedDeposit, setSelectedDeposit] = useState<string | undefined>(
+    undefined,
+  )
 
   const handleToggleSearchBox = () => {
+    if (!searchBoxOpen) {
+      setSelectedArea(region[0].region)
+      setSelectedPeriod(period[0].quarter)
+      setSelectedPrice(price[0].display)
+      setSelectedGender(gender[0].name)
+    }
+
     setSearchBoxOpen(!searchBoxOpen)
   }
+
   const handlePriceChange = (e: RadioChangeEvent) => {
     const deposit = e.target.value
+    setSelectedDeposit(deposit)
+
     const selectedPriceDisplay = price.find(
       (item) => item.deposit === deposit,
     )?.display
-    setSelectedPrice(selectedPriceDisplay || "보증금")
+
+    setSelectedPrice(selectedPriceDisplay || "Deposit")
   }
 
-  const handleSearch = async () => {
-    // const searchParams = {
-    //   region: selectedArea,
-    //   period: selectedPeriod,
-    //   price: selectedPrice,
-    //   gender: selectedGender,
-    // }
+  const handleSearch = async (page = 1, size = 5) => {
+    const searchParams = {
+      region: selectedArea,
+      period: selectedPeriod,
+      price: selectedDeposit?.toString() ?? "",
+      gender: selectedGender,
+      page: page.toString(),
+      size: size.toString(),
+    }
 
-    // const queryString = new URLSearchParams(searchParams).toString()
+    const queryString = new URLSearchParams(searchParams).toString()
 
     try {
-      const response = await fetch(userArticle)
+      const response = await fetch(`${userArticle}/filter?${queryString}`, {
+        method: "GET",
+        headers: new Headers({
+          "ngrok-skip-browser-warning": "69420",
+        }),
+      })
 
       if (!response.ok) {
-        throw new Error("서버 연결 안됨")
+        throw new Error("서버 연결 실패")
       }
 
       const data = await response.json()
+
       setSearchBoxOpen(!searchBoxOpen)
       console.log(data)
     } catch (error) {
       setSearchBoxOpen(!searchBoxOpen)
-      console.error("데이터 불러오기 오류", error)
+      console.error("에러", error)
     }
   }
 
@@ -77,7 +99,7 @@ const RoomMateSearch = () => {
             </div>
             <CaretDownOutlined
               className={styles.lastDiv}
-              onClick={handleToggleSearchBox}
+              onClick={() => handleSearch()}
               style={{ color: "#4c2ad3" }}
             />
           </div>
@@ -124,7 +146,7 @@ const RoomMateSearch = () => {
                   <p>보증금</p>
                   <Radio.Group
                     className={styles.priceRadioGroup}
-                    value={selectedPrice}
+                    value={selectedDeposit}
                     onChange={handlePriceChange}
                   >
                     {price.map((item, index) => (
@@ -160,7 +182,7 @@ const RoomMateSearch = () => {
               <Button
                 className={styles.searchChoiceBtn}
                 type="primary"
-                onClick={handleSearch}
+                onClick={() => handleSearch()}
               >
                 검색하기
               </Button>

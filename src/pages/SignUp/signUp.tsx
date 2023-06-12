@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom"
 import { registerUser } from "../../Redux/user"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
-import { useEffect } from "react"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 
 const SignUp: React.FC = () => {
@@ -16,23 +15,21 @@ const SignUp: React.FC = () => {
     navigate("/MainPage")
   }
 
-  const onFinish = (values: {
+  const onFinish = async (values: {
     email: string
     password: string
     nickname: string
   }) => {
-    dispatch(registerUser(values))
+    await dispatch(registerUser(values))
+
+    if (registerUserStatus === true) {
+      navigate("/")
+    }
   }
 
   const registerUserStatus = useSelector(
-    (state: RootState) => state.user.status,
+    (state: RootState) => state.user.signUp,
   )
-
-  useEffect(() => {
-    if (registerUserStatus === "fulfilled") {
-      navigate("/")
-    }
-  }, [registerUserStatus, navigate])
 
   return (
     <div className={styles.signUpContainer}>

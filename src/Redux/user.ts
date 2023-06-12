@@ -2,10 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { Token, UserState } from "../interface/interface"
 import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage"
 import { Dispatch } from "redux"
-import { RootState } from "./store"
+import { RootState, AppDispatch } from "./store"
 import {
   googleUserLogin,
   kakaoUserLogin,
+  refreshApiUrl,
   userLogin,
   userRegister,
 } from "../api"
@@ -22,32 +23,42 @@ const initialState: UserState = loadFromLocalStorage() || {
   kakao: false,
   google: false,
   email: "",
+  status: "idle",
 }
 
-export const isTokenExpired = (token: Token) => {
+export const refreshTokenIfNeeded = createAsyncThunk<
+  void,
+  void,
+  { dispatch: AppDispatch; state: RootState }
+>("api/users/refreshIfNeeded", async (_, { getState, dispatch }) => {
+  const { token } = getState().user.data
+
   if (!token || !token.atk) {
     console.error("토큰 없음")
-    return true
+    throw new Error("No token")
   }
 
   const splitToken = token.atk.split(".")
 
   if (splitToken.length < 2) {
     console.error("토큰 형식 오류:", token.atk)
-    return true
+    throw new Error("Token format error")
   }
 
+  //한시간으로 설정 되어있음
   try {
     const tokenPayload = JSON.parse(atob(splitToken[1]))
     const expirationTime = tokenPayload.exp * 1000
     const currentTime = new Date().getTime()
 
-    return currentTime > expirationTime
+    if (currentTime > expirationTime) {
+      await dispatch(refreshToken({ refreshToken: token.rtk }))
+    }
   } catch (error) {
     console.error("Error decoding access token:", error)
-    return true
+    throw error
   }
-}
+})
 
 export const loginUser = createAsyncThunk<
   UserState,
@@ -76,6 +87,38 @@ export const loginUser = createAsyncThunk<
       return data
     } catch (error: unknown) {
       console.error("login failed", error)
+      if (error instanceof Error) {
+        return rejectWithValue(error.message)
+      }
+      return rejectWithValue("오류")
+    }
+  },
+)
+
+export const refreshToken = createAsyncThunk<
+  UserState,
+  { refreshToken: string },
+  { dispatch: Dispatch; state: RootState }
+>(
+  "api/users/refresh",
+  async (credentials: { refreshToken: string }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(refreshApiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      })
+
+      if (!response.ok) {
+        throw new Error("토큰 새로 고침 실패")
+      }
+      // 로컬스토리지에 바뀐 data 저장 하기 추가
+      const data: UserState = await response.json()
+      return data
+    } catch (error: unknown) {
+      console.error("token refresh failed", error)
       if (error instanceof Error) {
         return rejectWithValue(error.message)
       }
@@ -220,8 +263,7 @@ const userSlice = createSlice({
 
 const storedtoken = localStorage.getItem("token")
 if (storedtoken) {
-  const parsedToken = JSON.parse(storedtoken)
-  if (isTokenExpired(parsedToken)) {
+  if (refreshTokenIfNeeded()) {
     userSlice.actions.logout()
   }
 }

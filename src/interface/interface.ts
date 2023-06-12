@@ -7,6 +7,7 @@ export interface UserState {
   kakao: boolean
   google: boolean
   email: string
+  status: "idle" | "loading" | "fulfilled" | "error"
 }
 
 export interface LoginValues {
@@ -65,8 +66,10 @@ export interface Props {
     price: string
     isRecruit: boolean
   }>
-  currentPage: number
-  showRecruitOnly: boolean
+  currentPage?: number
+  showRecruitOnly?: boolean
+  link?:string
+  token?:string
 }
 
 export interface Token {
@@ -116,4 +119,32 @@ export interface userProfileData {
   favoriteTag?: string[]
   hateTag?: string
   myText?: string
+}
+
+export interface ProfileBasicProps {
+  nickname: string
+  email: string
+  setNickname: React.Dispatch<React.SetStateAction<string>>
+}
+
+export interface profileTendencyProps {
+  selectedGender: string
+  setSelectedGender: React.Dispatch<React.SetStateAction<string>>
+  selectedAge: number
+  setSelectedAge: React.Dispatch<React.SetStateAction<number>>
+  selectedSmoke: string
+  setSelectedSmoke: React.Dispatch<React.SetStateAction<string>>
+  selectedMBTI: string
+  setSelectedMBTI: React.Dispatch<React.SetStateAction<string>>
+  selectedregion: string
+  setSelectedregion: React.Dispatch<React.SetStateAction<string>>
+  selectedAgeGroup: string
+  setSelectedAgeGroup: React.Dispatch<React.SetStateAction<string>>
+  selectedActivityTime: string
+  setSelectedActivityTime: React.Dispatch<React.SetStateAction<string>>
+  mytext: string
+  setMytext: React.Dispatch<React.SetStateAction<string>>
+  favoriteTag: string[]
+  setFavoriteTag: React.Dispatch<React.SetStateAction<string[]>>
+  handleUpdateProfileSuccess: () => void
 }
