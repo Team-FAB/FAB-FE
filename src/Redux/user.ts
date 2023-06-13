@@ -155,10 +155,7 @@ export const kakaologinUser = createAsyncThunk<
     throw error
   }
 })
-// 1. 인가 코드를 카카오로 다시 넘기기
-// 2. atk 토큰을 백엔드로 다시 보내기
-// 3. oauth / token
-// 4. api/users/login/kakao 최종적으로 받는 토큰 위치
+// 1. 인가 코드를 백엔드로 넘기기
 
 export const googleloginUser = createAsyncThunk<
   { token: Token },
