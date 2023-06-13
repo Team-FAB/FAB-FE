@@ -34,7 +34,6 @@ const Profile: React.FC = () => {
   // 로그인한 user
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,14 +53,14 @@ const Profile: React.FC = () => {
 
         
         const data = await response.json()
-        // console.log(data.data)
+        console.log(data.data)
         setSelectedGender(data.data.gender === 'null' ? '성별' : data.data.gender)
         setNickname(data.data.nickname)
         setSelectedAge(data.data.myAge)
         setEmail(data.data.email)
         setSelectedSmoke(data.data.isSmoker === true ? '합니다' : '하지 않습니다')
-        setSelectedMBTI(data.data.mbti === 'null' ? 'mbti' : data.data.mbti)
-        setSelectedregion(data.data.region === 'null' ? '성별' : data.data.region)
+        setSelectedMBTI(data.data.mbti === null ? 'mbti' : data.data.mbti)
+        setSelectedregion(data.data.region === 'null' ? '여기' : data.data.region)
         // setSelectedAgeGroup(`${Number(data.data.minAge)} ~ ${Number(data.data.maxAge)}`)
         setSelectedActivityTime(data.data.activityTime === 'null' ? '오전오후' : data.data.activityTime)
         setMytext(data.data.detail ?? '추가로 하고 싶은 말을 적어주세요! :)')

@@ -62,7 +62,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const handleOnCancel = useCallback(async () => {
     if (newIsSaved !== isSaved) {
       try {
-        const response = await fetch(`${userFavorite}/${post.id}`, {
+        const response = await fetch(`/api/${userFavorite}/${post.id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -87,7 +87,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   useEffect(() => {
     const fetchFavoriteStatus = async () => {
       try {
-        const response = await fetch(`${userFavorite}/${post.id}`, {
+        const response = await fetch(`/api/${userFavorite}/${post.id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
