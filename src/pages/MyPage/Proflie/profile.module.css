@@ -11,7 +11,7 @@
   flex-direction: column;
   align-items: center;
   width: 385px;
-  height: 300px;
+  height: 310px;
 }
 
 .profilePhoto {
@@ -64,6 +64,7 @@
 .profileTenContainer > p {
   font-size: var(--font-size-h6);
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .profileTenContainer > span {
@@ -92,17 +93,17 @@
   align-items: center;
   width: 385px;
   margin: 0 auto;
+  margin-bottom: 10px;
 }
 
 .tagContainer > div {
-  margin-bottom: 26px;
+  margin-bottom: 15px;
 }
 
 .tendencyDesc {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 6px;
   margin-top: 10px;
 }
 
@@ -119,10 +120,18 @@
 
 .tendencyBox {
   width: 330px;
-  height: 100px;
-  padding-left: 10px;
+  height: 90px;
   overflow-y: scroll;
-  transform: translateX(10px);
+  transform: translateX(20px);
+}
+
+.tendencyNotChoice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 120px;
+  margin: 0 auto;
 }
 
 .tendencyNot {
@@ -130,8 +139,8 @@
   justify-content: center;
   align-items: center;
   width: 330px;
-  height: 120px;
-  padding-left: 10px;
+  height: 90px;
+  transform: translateX(-6px);
 }
 
 .tendencyBox::-webkit-scrollbar {
@@ -166,14 +175,11 @@
   font-size: var(--font-size-sub3);
 }
 
-.tendencyNotChoice {
-  transform: translateX(-15px);
-}
-
 .IntroducContainer > p {
   font-size: var(--font-size-sub3);
   font-weight: var(--font-weight-h4-bold);
   margin-bottom: 6px;
+  margin-top: 8px;
 }
 
 .IntroducContainer > div {
@@ -360,4 +366,17 @@
   top: 100%;
   left: 30%;
   z-index: 50;
+}
+
+.originNickname {
+  color: var(--black300);
+  font-weight: var(--font-weight-h1);
+  font-size: var(--font-size-sub3);
+  margin-bottom: 5px;
+}
+
+.basicBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -45,7 +45,13 @@ const ProfileBasic = (props: ProfileBasicProps) => {
 
       if (!response.ok) {
         console.log(response)
-        throw new Error('프로필 기본 정보 업데이트 실패');
+        if (response.status === 400) {
+          Modal.error({
+            title: "오류",
+            content: "닉네임이 중복되었습니다.",
+          })
+        } 
+        throw new Error('프로필 기본 정보 업데이트 실패')
       } else {
         Modal.success({
           title: "닉네임 수정 완료",
@@ -53,10 +59,10 @@ const ProfileBasic = (props: ProfileBasicProps) => {
         })
       }
 
-      const data = await response.json();
+      const data = await response.json()
       props.setNickname(data.data.nickname)
     } catch (error) {
-      console.error('프로필 기본정보 업데이트 오류', error);
+      console.error('프로필 기본정보 업데이트 오류', error)
     }
   };
 
@@ -78,7 +84,14 @@ const ProfileBasic = (props: ProfileBasicProps) => {
         initialValues={{ remember: true }}
         onFinish={handleProfileBasicChange}
         className={styles.profileformBox}>
-          <div>{props.nickname}님</div>
+          <div className={styles.originNickname}>{props.nickname} 님</div>
+          <Input
+            prefix={<MailOutlined />}
+            placeholder="이메일입니다."
+            type="email"
+            value={props.email}
+            style={{ width: 200, height: 40, textAlign: 'center', marginBottom: 12 }}
+            readOnly />
           <Form.Item
             name="nickname"
             initialValue={props.nickname}
@@ -91,21 +104,14 @@ const ProfileBasic = (props: ProfileBasicProps) => {
             prefix={<UserOutlined />}
             placeholder="새로운 닉네임을 입력하세요."
             onChange={(e) => e.target.value }
-            style={{ width: 200, height: 40 }}/>
+            style={{ width: 200, height: 40, textAlign: 'center' }}/>
           </Form.Item>
-          <Input
-            prefix={<MailOutlined />}
-            placeholder="이메일입니다."
-            type="email"
-            value={props.email}
-            style={{ width: 200, height: 40 }}
-            readOnly />
           <Button 
             className={styles.basicBtn} 
             type="primary" 
             htmlType="submit" 
             style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>
-            수정
+            닉네임 수정
           </Button>
       </Form>
     </div>

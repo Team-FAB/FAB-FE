@@ -52,22 +52,21 @@ const Profile: React.FC = () => {
           throw new Error(`서버 상태 응답 ${response.status}`)
         }
 
+        
         const data = await response.json()
-        console.log(data.data)
-        // form.setFieldsValue(data.data.nickname)
-        setSelectedGender(data.data.gender)
+        // console.log(data.data)
+        setSelectedGender(data.data.gender === 'null' ? '성별' : data.data.gender)
         setNickname(data.data.nickname)
         setSelectedAge(data.data.myAge)
         setEmail(data.data.email)
         setSelectedSmoke(data.data.isSmoker === true ? '합니다' : '하지 않습니다')
-        setSelectedMBTI(data.data.mbti)
-        setSelectedregion(data.data.region)
+        setSelectedMBTI(data.data.mbti === 'null' ? 'mbti' : data.data.mbti)
+        setSelectedregion(data.data.region === 'null' ? '성별' : data.data.region)
         // setSelectedAgeGroup(`${Number(data.data.minAge)} ~ ${Number(data.data.maxAge)}`)
-        setSelectedActivityTime(data.data.activityTime)
-        setMytext(data.data.detail)
+        setSelectedActivityTime(data.data.activityTime === 'null' ? '오전오후' : data.data.activityTime)
+        setMytext(data.data.detail ?? '추가로 하고 싶은 말을 적어주세요! :)')
         setfavoriteTag(data.data.tags)
 
-        // window.location.reload()
       } catch (error) {
         console.error(error)
       }
