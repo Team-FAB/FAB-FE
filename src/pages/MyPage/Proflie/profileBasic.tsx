@@ -54,7 +54,7 @@ const ProfileBasic = (props: ProfileBasicProps) => {
       }
 
       const data = await response.json();
-      props.setNickname(data.nickname)
+      props.setNickname(data.data.nickname)
     } catch (error) {
       console.error('프로필 기본정보 업데이트 오류', error);
     }
@@ -73,27 +73,26 @@ const ProfileBasic = (props: ProfileBasicProps) => {
           <img className={styles.profilePhoto} src={profilePhoto} alt="Profile" />
         </Upload>
       </div>
-
       <Form
         name="profileBasicUpdate"
         initialValues={{ remember: true }}
         onFinish={handleProfileBasicChange}
         className={styles.profileformBox}>
-        <Form.Item
-          name="nickname"
-          rules={[
-            { required: true, message: "새로운 닉네임을 입력하세요." },
-            { type: "string", message: "기존 닉네임과 같습니다." },
-          ]}>
-          <Input
+          <div>{props.nickname}님</div>
+          <Form.Item
+            name="nickname"
+            initialValue={props.nickname}
+            rules={[
+              { required: true, message: "새로운 닉네임을 입력하세요." },
+              { type: "string", message: "기존 닉네임과 같습니다." },
+            ]}
+          >
+            <Input
             prefix={<UserOutlined />}
             placeholder="새로운 닉네임을 입력하세요."
-            value={props.nickname}
-            onChange={(e) => e.target.value}
+            onChange={(e) => e.target.value }
             style={{ width: 200, height: 40 }}/>
-        </Form.Item>
-        <Form.Item
-          name="email">
+          </Form.Item>
           <Input
             prefix={<MailOutlined />}
             placeholder="이메일입니다."
@@ -101,8 +100,6 @@ const ProfileBasic = (props: ProfileBasicProps) => {
             value={props.email}
             style={{ width: 200, height: 40 }}
             readOnly />
-        </Form.Item>
-        <Form.Item>
           <Button 
             className={styles.basicBtn} 
             type="primary" 
@@ -110,7 +107,6 @@ const ProfileBasic = (props: ProfileBasicProps) => {
             style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>
             수정
           </Button>
-        </Form.Item>
       </Form>
     </div>
   )
