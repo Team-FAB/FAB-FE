@@ -1,4 +1,3 @@
-
 export interface UserState {
   isLogged: boolean
   signUp: boolean
@@ -26,8 +25,7 @@ export interface Post {
   region: string
   period: string
   price: number
-  recruiting: boolean
-  props: Props
+  isRecruiting: boolean
 }
 
 export interface User {
@@ -64,13 +62,15 @@ export interface Props {
     createdDate: string
     region: string
     period: string
-    price: string
-    isRecruit: boolean
+    price: number
+    isRecruiting: boolean
   }>
   currentPage?: number
-  showRecruitOnly?: boolean
-  link?:string
-  token?:string
+  showRecruiting?: boolean
+  link?: string
+  token?: string
+  isSearched?: boolean
+  initialPosts?: string
 }
 
 export interface Token {
@@ -149,4 +149,8 @@ export interface profileTendencyProps {
   favoriteTag: string[]
   setFavoriteTag: React.Dispatch<React.SetStateAction<string[]>>
   handleUpdateProfileSuccess: () => void
+}
+
+export interface RoomMateSearchProps {
+  onSearch: (results: Post[]) => void
 }
