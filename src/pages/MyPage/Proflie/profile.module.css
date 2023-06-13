@@ -3,7 +3,7 @@
   height: 100%;
   margin: 0 auto;
   margin-top: 35px;
-  min-height: 1300px;
+  min-height: 1000px;
 }
 
 .profilePhotoBox {
@@ -11,7 +11,7 @@
   flex-direction: column;
   align-items: center;
   width: 385px;
-  height: 330px;
+  height: 300px;
 }
 
 .profilePhoto {
@@ -96,7 +96,6 @@
 
 .tagContainer > div {
   margin-bottom: 26px;
-  /* margin-left: 20px; */
 }
 
 .tendencyDesc {
@@ -116,12 +115,11 @@
   justify-content: center;
   align-items: center;
   margin-left: 5px;
-  margin-bottom: 30px;
 }
 
 .tendencyBox {
   width: 330px;
-  height: 120px;
+  height: 100px;
   padding-left: 10px;
   overflow-y: scroll;
   transform: translateX(10px);

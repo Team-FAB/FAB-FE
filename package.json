@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@toast-ui/editor-plugin-chart": "^3.0.1",
     "@toast-ui/editor-plugin-uml": "^3.0.1",
+    "@types/http-proxy-middleware": "^1.0.0",
     "@types/jest": "^29.5.1",
     "@types/node": "^20.2.5",
     "@types/react-redux": "^7.1.25",

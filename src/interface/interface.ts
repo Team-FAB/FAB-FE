@@ -1,3 +1,4 @@
+
 export interface UserState {
   isLogged: boolean
   signUp: boolean
@@ -124,6 +125,7 @@ export interface userProfileData {
 export interface ProfileBasicProps {
   nickname: string
   email: string
+  setEmail: React.Dispatch<React.SetStateAction<string>>
   setNickname: React.Dispatch<React.SetStateAction<string>>
 }
 

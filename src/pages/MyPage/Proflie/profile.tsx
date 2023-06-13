@@ -34,6 +34,7 @@ const Profile: React.FC = () => {
   // 로그인한 user
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,22 +54,27 @@ const Profile: React.FC = () => {
 
         const data = await response.json()
         console.log(data.data)
+        // form.setFieldsValue(data.data.nickname)
+        setSelectedGender(data.data.gender)
         setNickname(data.data.nickname)
+        setSelectedAge(data.data.myAge)
         setEmail(data.data.email)
-        setSelectedSmoke(data.data.isSmoker)
+        setSelectedSmoke(data.data.isSmoker === true ? '합니다' : '하지 않습니다')
         setSelectedMBTI(data.data.mbti)
         setSelectedregion(data.data.region)
         // setSelectedAgeGroup(`${Number(data.data.minAge)} ~ ${Number(data.data.maxAge)}`)
         setSelectedActivityTime(data.data.activityTime)
         setMytext(data.data.detail)
         setfavoriteTag(data.data.tags)
+
+        // window.location.reload()
       } catch (error) {
         console.error(error)
       }
     }
 
     fetchData()
-  }, [userToken.atk, nickname, profileUpdated])
+  }, [nickname, profileUpdated])
 
   return (
     <>
@@ -77,7 +83,8 @@ const Profile: React.FC = () => {
         <ProfileBasic 
           nickname={nickname} 
           setNickname={setNickname}
-          email={email}/>
+          email={email}
+          setEmail={setEmail}/>
         <ProfileTendency
           selectedGender={selectedGender} 
           setSelectedGender={setSelectedGender}

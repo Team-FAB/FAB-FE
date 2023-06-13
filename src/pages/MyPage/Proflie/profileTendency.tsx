@@ -72,6 +72,7 @@ const ProfileTendency = (props:profileTendencyProps) => {
       }
 
       const updatedProfileTendency = await response.json()
+      props.handleUpdateProfileSuccess()
       console.log(updatedProfileTendency)
       return updatedProfileTendency
     } catch (error) {
@@ -110,7 +111,6 @@ const ProfileTendency = (props:profileTendencyProps) => {
       console.log('사용자 입력 데이터:', profileData)
 
       updateProfileTendency(profileData) // 토큰 값 변경 필요
-      props.handleUpdateProfileSuccess()
     } catch (error) {
       console.error('프로필 업데이트 오류', error)
     }
@@ -293,6 +293,18 @@ const ProfileTendency = (props:profileTendencyProps) => {
       <div className={styles.tagContainer}>
         <div>
           <div className={styles.tendencyDesc}>
+            <span>성향을 선택해주세요 ☺️</span>
+            <Button 
+              className={styles.tendencyBtn} 
+              type="primary" 
+              onClick={() => setTendencyModal(true)} 
+              style={{ width: 50, height: 23, fontSize: 10, borderRadius: 20 }}>
+              선택
+            </Button>
+          </div>
+        </div>
+        <div>
+          <div className={styles.tendencyDesc}>
             <span>이런 룸메이트가 좋아요 🥰</span>
             <Modal
               title="이런 룸메이트가 좋아요 🥰 (1개 ~ 최대 5개 선택)"
@@ -309,7 +321,7 @@ const ProfileTendency = (props:profileTendencyProps) => {
             </Modal>
           </div>
           <div className={`${styles.tendencyBox} ${props.favoriteTag === undefined ? styles.tendencyNot : ''}`}>
-            {props.favoriteTag === undefined ? (
+            {props.favoriteTag.length === 0 ? (
               <span className={styles.tendencyNotChoice}>성향을 선택해주세요 ⬇️</span>
             ) : (
               props.favoriteTag.map((item, index) => (
@@ -318,25 +330,6 @@ const ProfileTendency = (props:profileTendencyProps) => {
             )}
           </div>
         </div>
-        <div>
-          <div className={styles.tendencyDesc}>
-            <span>성향을 선택해주세요 ☺️</span>
-          </div>
-          <div className={styles.tendencyBox}>
-            {/* {tendencyChoice
-            .filter((option) => !props.favoriteTag.includes(option.value))
-            .map((item, index) => (
-              <span key={index}>#{item.value}</span>
-            ))} */}
-          </div>
-        </div>
-        <Button 
-          className={styles.tendencyBtn} 
-          type="primary" 
-          onClick={() => setTendencyModal(true)} 
-          style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>
-          선택
-        </Button>
       </div>
       <div className={styles.IntroducContainer}>
         <p>본인 소개</p>
