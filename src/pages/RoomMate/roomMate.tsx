@@ -9,19 +9,28 @@ import { RootState } from "../../Redux/store"
 import roomMateTitle from "../../assets/RoommateTitle.svg"
 import { userArticle } from "../../api"
 import { Post } from "../../interface/interface"
+import { RoomMateSearchProps } from "../../interface/interface"
 
-const RoomMate: React.FC = () => {
+const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [showRecruitOnly, setShowRecruitOnly] = useState(false)
-  const [posts, setPosts] = useState([])
+  const [showRecruiting, setShowRecruiting] = useState(false)
+  const [posts, setPosts] = useState<Post[]>([])
   const [count, setCount] = useState(0)
   const isLogged = useSelector((state: RootState) => state.user.isLogged)
   const pageSize = 9
   const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
+  const [isSearched, setIsSearched] = useState(false)
+  const [initialPosts, setInitialPosts] = useState<Post[]>([])
+
+  // 검색 결과를 저장하고, 검색 여부를 업데이트
+  const handleSearchResults = (results: Post[]) => {
+    setPosts(results)
+    setIsSearched(true) // 검색이 완료되었음을 표시
+  }
 
   const toggleRecruitOnly = () => {
-    setShowRecruitOnly(!showRecruitOnly)
+    setShowRecruiting(!showRecruiting)
   }
 
   const handlePageChange = (page: number) => {
@@ -52,6 +61,23 @@ const RoomMate: React.FC = () => {
 
         const data = await response.json()
         setCount(data.data)
+
+        const initialPostsResponse = await fetch(
+          `${userArticle}?page=${currentPage}&size=9&isRecruiting=false`,
+          {
+            method: "GET",
+            headers: new Headers({
+              "ngrok-skip-browser-warning": "69420",
+            }),
+          },
+        )
+
+        if (!initialPostsResponse.ok) {
+          throw new Error(`서버 상태 응답 ${initialPostsResponse.status}`)
+        }
+
+        const initialPostsData = await initialPostsResponse.json()
+        setInitialPosts(initialPostsData.data)
       } catch (error) {
         console.error(error)
         messageApi.error("데이터 불러오기 오류")
@@ -61,18 +87,14 @@ const RoomMate: React.FC = () => {
     fetchData()
   }, [messageApi])
 
-  const filteredPosts = showRecruitOnly
-    ? posts.filter((post: Post) => post.recruiting)
-    : posts
-
   return (
     <div className={styles.roomMateContainer}>
-      <RoomMateSearch />
+      <RoomMateSearch onSearch={handleSearchResults} />
       <div className={styles.roomMateTitle}>
         <img src={roomMateTitle} />
         <div className={styles.roomMateBtn}>
           <Button type="primary" onClick={toggleRecruitOnly}>
-            {showRecruitOnly ? "전체보기" : "모집글만"}
+            {showRecruiting ? "전체보기" : "모집글만"}
           </Button>
           <Button type="primary" onClick={goToWritePage}>
             글쓰기
@@ -81,9 +103,9 @@ const RoomMate: React.FC = () => {
       </div>
       <div className={styles.cardGrid}>
         <PostCard
-          posts={filteredPosts}
+          posts={posts}
           currentPage={currentPage}
-          showRecruitOnly={showRecruitOnly}
+          showRecruiting={showRecruiting}
         />
       </div>
       <Pagination

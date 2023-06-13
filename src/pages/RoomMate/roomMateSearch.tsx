@@ -5,8 +5,9 @@ import { Radio, RadioChangeEvent } from "antd"
 import { useState } from "react"
 import { region, gender, period, price } from "../../object/profileDropdown"
 import { userArticle } from "../../api"
+import { RoomMateSearchProps } from "../../interface/interface"
 
-const RoomMateSearch = () => {
+const RoomMateSearch: React.FC<RoomMateSearchProps> = ({ onSearch }) => {
   const [searchBoxOpen, setSearchBoxOpen] = useState(false)
   const [selectedArea, setSelectedArea] = useState("지역")
   const [selectedPeriod, setSelectedPeriod] = useState("기간")
@@ -63,6 +64,9 @@ const RoomMateSearch = () => {
       }
 
       const data = await response.json()
+      const searchResults = data.data
+      setSearchBoxOpen(!searchBoxOpen)
+      onSearch(searchResults)
 
       setSearchBoxOpen(!searchBoxOpen)
       console.log(data)
