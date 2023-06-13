@@ -51,7 +51,6 @@ const ProfileTendency = (props:profileTendencyProps) => {
   const updateProfileTendency = async (profileData: userProfileData) => {
 
     try {
-      console.log(JSON.stringify(profileData))
       const response = await fetch(`/api/${userMyprofile}`, {
         method: 'PATCH',
         headers: {
@@ -73,7 +72,6 @@ const ProfileTendency = (props:profileTendencyProps) => {
 
       const updatedProfileTendency = await response.json()
       props.handleUpdateProfileSuccess()
-      console.log(updatedProfileTendency)
       return updatedProfileTendency
     } catch (error) {
       console.error('프로필 성향 정보 업데이트 오류', error);
@@ -305,7 +303,6 @@ const ProfileTendency = (props:profileTendencyProps) => {
         </div>
         <div>
           <div className={styles.tendencyDesc}>
-            <span>이런 룸메이트가 좋아요 🥰</span>
             <Modal
               title="이런 룸메이트가 좋아요 🥰 (1개 ~ 최대 5개 선택)"
               centered
@@ -320,9 +317,9 @@ const ProfileTendency = (props:profileTendencyProps) => {
               </div>
             </Modal>
           </div>
-          <div className={`${styles.tendencyBox} ${props.favoriteTag === undefined ? styles.tendencyNot : ''}`}>
+          <div className={`${styles.tendencyBox} ${props.favoriteTag.length === 0 ? styles.tendencyNot : ''}`}>
             {props.favoriteTag.length === 0 ? (
-              <span className={styles.tendencyNotChoice}>성향을 선택해주세요 ⬇️</span>
+              <span className={styles.tendencyNotChoice}>성향을 선택해주세요</span>
             ) : (
               props.favoriteTag.map((item, index) => (
                 <span key={index}>#{item}</span>
@@ -337,7 +334,7 @@ const ProfileTendency = (props:profileTendencyProps) => {
           <TextArea
             showCount
             maxLength={200}
-            style={{ width:330, height: 110, resize: 'none', background:'#E5E5E5' }}
+            style={{ width:300, height: 110, resize: 'none', background:'#E5E5E5' }}
             onChange={(e) => props.setMytext(e.target.value)}
             value={props.mytext}
             placeholder={`  추가로 하고 싶은 말을 자세히 적어주세요!
