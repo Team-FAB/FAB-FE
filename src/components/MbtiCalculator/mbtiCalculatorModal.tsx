@@ -90,7 +90,11 @@ const MbitCalculatorModal: React.FC<MbitCalculatorModalProps> = ({
             ))}
           </Select>
         </div>
-        <Button onClick={calculateCompatibility} className={styles.button}>
+        <Button
+          onClick={calculateCompatibility}
+          className={styles.button}
+          type="primary"
+        >
           궁합 계산하기
         </Button>
         <div className={styles.result}>{compatibility}</div>

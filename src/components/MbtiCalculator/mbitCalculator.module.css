@@ -10,7 +10,6 @@
   border: none;
   box-shadow: var(--shadow);
   position: fixed;
-
   left: 90%;
   top: 50%;
   z-index: 2;
