@@ -42,6 +42,7 @@ const Header: React.FC = () => {
         </div>
         <Alarm />
       </div>
+      <div className={styles.line}></div>
     </>
   )
 }
