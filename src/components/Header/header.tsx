@@ -4,6 +4,8 @@ import Alarm from "./Alarm/alarm"
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "../../Redux/store"
 import { logout } from "../../Redux/user"
+import { Avatar, Dropdown } from "antd"
+import { MenuOutlined, UserOutlined } from "@ant-design/icons"
 
 const Header: React.FC = () => {
   const isLogged = useSelector((state: RootState) => state.user.isLogged)
@@ -12,6 +14,38 @@ const Header: React.FC = () => {
   const handleLogout = () => {
     dispatch(logout())
   }
+
+  const items = [
+    {
+      key: "마이페이지",
+      label: (
+        <Link to="/mypage" className={styles.mypage}>
+          마이페이지
+        </Link>
+      ),
+    },
+    isLogged === true
+      ? {
+          key: "로그아웃",
+          label: (
+            <Link to="/" className={styles.logout} onClick={handleLogout}>
+              로그아웃
+            </Link>
+          ),
+        }
+      : {
+          key: "로그인",
+          label: (
+            <Link to="/" className={styles.logout}>
+              로그인
+            </Link>
+          ),
+        },
+    {
+      key: "alarm",
+      label: <Alarm />,
+    },
+  ]
 
   return (
     <>
@@ -25,22 +59,22 @@ const Header: React.FC = () => {
               <li>룸메이트 구해요</li>
             </Link>
             {isLogged === true ? (
-              <>
-                <Link to="/MyPage">
-                  <li>마이페이지</li>
-                </Link>
-                <Link to="/" onClick={handleLogout}>
-                  <li>로그아웃</li>
-                </Link>
-              </>
+              <Dropdown menu={{ items }} placement="bottomRight">
+                <li className={styles.user}>
+                  <MenuOutlined size={50} />
+                  <Avatar size="small" icon={<UserOutlined />} />
+                </li>
+              </Dropdown>
             ) : (
-              <Link to="/">
-                <li>로그인</li>
-              </Link>
+              <Dropdown menu={{ items }} placement="bottomRight">
+                <li className={styles.user}>
+                  <MenuOutlined size={50} />
+                  <Avatar size="small" icon={<UserOutlined />} />
+                </li>
+              </Dropdown>
             )}
           </ul>
         </div>
-        <Alarm />
       </div>
       <div className={styles.line}></div>
     </>

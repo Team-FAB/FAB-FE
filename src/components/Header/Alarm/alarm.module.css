@@ -3,17 +3,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
   cursor: pointer;
 }
 
 .alarmIcon {
-  transition: transform 0.2s ease-in-out;
-  fill: var(--purple600);
-}
-
-.alarmIcon:hover {
-  transform: scale(1.2);
+  font-size: var(--font-size-sub1);
 }
 
 .alarmModal {
