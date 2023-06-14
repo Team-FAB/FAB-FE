@@ -1,6 +1,6 @@
-export const userLogin = `${import.meta.env.VITE_API_KEY}/api/users/login`
-export const refreshApiUrl = `${import.meta.env.VITE_API_KEY}/api/users/login`
-export const userRegister = `${import.meta.env.VITE_API_KEY}/api/users/register`
+export const userLogin = `/api/users/login`
+export const refreshApiUrl = `/api/users/login`
+export const userRegister = `/api/users/register`
 export const kakaoUserLogin = `${
   import.meta.env.KAKAO_AUTH_URL
 }/login/oauth2/kakao`

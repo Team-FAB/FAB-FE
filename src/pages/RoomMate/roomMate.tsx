@@ -10,6 +10,7 @@ import roomMateTitle from "../../assets/RoommateTitle.svg"
 import { userArticle } from "../../api"
 import { Post } from "../../interface/interface"
 import { RoomMateSearchProps } from "../../interface/interface"
+import { RedoOutlined } from "@ant-design/icons"
 
 const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -93,12 +94,11 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
       <div className={styles.roomMateTitle}>
         <img src={roomMateTitle} />
         <div className={styles.roomMateBtn}>
-          <Button type="primary" onClick={toggleRecruitOnly}>
+          <Button shape="circle" icon={<RedoOutlined />} />
+          <Button onClick={toggleRecruitOnly}>
             {showRecruiting ? "전체보기" : "모집글만"}
           </Button>
-          <Button type="primary" onClick={goToWritePage}>
-            글쓰기
-          </Button>
+          <Button onClick={goToWritePage}>글쓰기</Button>
         </div>
       </div>
       <div className={styles.cardGrid}>
