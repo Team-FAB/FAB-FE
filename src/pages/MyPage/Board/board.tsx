@@ -23,7 +23,7 @@ const Board: React.FC = () => {
       <div className={styles.boardContainer}>
         <div className={styles.cardGrid}>
           {
-            <PostCard link={userMyArticles} token={userToken.atk.toString()} posts={[]}/>
+            <PostCard link={`/api/${userMyArticles}`} token={userToken.atk.toString()} posts={[]}/>
           }
         </div>
         {selectedPost && (

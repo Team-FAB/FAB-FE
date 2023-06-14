@@ -8,10 +8,8 @@ export const googleUserLogin = `${
   import.meta.env.VITE_API_KEY
 }/login/oauth2/google`
 export const userArticle = `${import.meta.env.VITE_API_KEY}/api/articles`
-export const userFavorite = `${
-  import.meta.env.VITE_API_KEY
-}/api/articles/favorites`
-export const userMyFavorite = `${import.meta.env.VITE_API_KEY}/api/my/favorites`
-export const userMyArticles = `${import.meta.env.VITE_API_KEY}/api/my/articles`
-export const userMyprofile = "my"
-export const userMyprofileNickname = "my/nickname"
+export const userFavorite = 'articles/favorites'
+export const userMyFavorite = 'my/favorites'
+export const userMyArticles = 'my/articles'
+export const userMyprofile = 'my'
+export const userMyprofileNickname = 'my/nickname'

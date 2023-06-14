@@ -11,8 +11,10 @@ export const ageGroup = [
 export const smoke = [{ smoke: "합니다" }, { smoke: "하지 않습니다" }];
 
 export const activityTime = [
-  { activityTime: "오전" },
+  { activityTime: "아침" },
   { activityTime: "오후" },
+  { activityTime: "저녁" },
+  { activityTime: "밤" },
 ];
 
 export const mbti = [

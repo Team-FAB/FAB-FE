@@ -1,23 +1,16 @@
-import { Input, Button, Form, Upload, Modal } from "antd"
+import { Input, Button, Form, Modal } from "antd"
 import { UserOutlined, MailOutlined } from "@ant-design/icons"
 import styles from './profile.module.css'
-import { useState } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../Redux/store"
 import { ProfileBasicProps } from "../../../interface/interface"
 import { userMyprofileNickname } from '../../../api'
+import ProfileFile from "./profileFile"
 
 const ProfileBasic = (props: ProfileBasicProps) => {
 
   // 로그인한 유저 가져오기
   const userToken = useSelector((state : RootState) => state.user.data.token)
-
-  // 사진 업로드
-  const [profilePhoto, setProfilePhoto] = useState<string>('https://via.placeholder.com/120')
-
-  const handleImageUpload = async (file: File | Blob) => {
-    //
-  }
   
   const handleProfileBasicChange = async ({ nickname, email }: { nickname: string, email: string }) => {
     const updatedProfileData = { nickname: nickname }
@@ -69,15 +62,7 @@ const ProfileBasic = (props: ProfileBasicProps) => {
   return (
     <div className={styles.profilePhotoBox}>
       <div>
-        <Upload
-          accept="image/*"
-          showUploadList={false}
-          beforeUpload={(file) => {
-            handleImageUpload(file)
-            return false
-          }}>
-          <img className={styles.profilePhoto} src={profilePhoto} alt="Profile" />
-        </Upload>
+        <ProfileFile />
       </div>
       <Form
         name="profileBasicUpdate"
