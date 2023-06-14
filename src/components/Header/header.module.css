@@ -8,7 +8,11 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  border-bottom: 1px solid var(--black300);
+}
+
+.line {
+  width: 100vw;
+  border-bottom: 0.5px solid var(--black100);
 }
 
 .alarmBox {
@@ -25,7 +29,7 @@
   width: 98px;
   height: 60px;
   margin-right: 469px;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease-in-out;
   opacity: 1;
 }
 
@@ -40,10 +44,15 @@
 }
 
 .nav li {
+  display: flex;
+  align-items: center;
+  height: 30px;
   color: var(--black500);
   cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 
 .nav li:hover {
   color: var(--purple600);
+  transform: scale(1.1);
 }
