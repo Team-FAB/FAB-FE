@@ -184,7 +184,7 @@ export const registerUser = createAsyncThunk(
   "api/users/register",
   async (userInfo: { email: string; password: string; nickname: string }) => {
     try {
-      await fetch(userRegister, {
+      await fetch(`/api/${userRegister}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
