@@ -22,7 +22,6 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
   const [isSearched, setIsSearched] = useState(false)
-  const [initialPosts, setInitialPosts] = useState<Post[]>([])
 
   // 검색 결과를 저장하고, 검색 여부를 업데이트
   const handleSearchResults = (results: Post[]) => {
