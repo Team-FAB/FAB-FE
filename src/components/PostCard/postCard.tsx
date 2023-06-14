@@ -5,6 +5,8 @@ import { Badge, Card, message } from "antd"
 import PostModal from "../PostModal/postModal"
 import { Props, Post } from "../../interface/interface"
 import { userArticle } from "../../api"
+import { useSelector } from "react-redux"
+import { RootState } from "../../Redux/store"
 
 const PostCard: React.FC<Props> = ({
   currentPage,
@@ -17,6 +19,7 @@ const PostCard: React.FC<Props> = ({
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [posts, setPosts] = useState<Post[]>([])
   const [messageApi, contextHolder] = message.useMessage()
+  const isLogged = useSelector((state: RootState) => state.user.isLogged)
 
   const recruit = (isRecruit: boolean) => {
     return isRecruit ? "모집" : "마감"
@@ -33,6 +36,23 @@ const PostCard: React.FC<Props> = ({
 
   const formatPrice = (price: number): string => {
     return "~" + price.toLocaleString("ko-KR") + "원"
+  }
+
+  const handlePostClick = (post: Post) => {
+    if (isLogged) {
+      setSelectedPost(post)
+    } else {
+      messageApi.error("로그인이 필요합니다.")
+    }
+  }
+
+  const handleCloseModal = () => {
+    setSelectedPost(null)
+  }
+
+  const decodeHTML = (html: string) => {
+    const doc = new DOMParser().parseFromString(html, "text/html")
+    return doc.body.textContent || ""
   }
 
   useEffect(() => {
@@ -71,20 +91,8 @@ const PostCard: React.FC<Props> = ({
     }
 
     fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, showRecruiting, messageApi])
-
-  const handlePostClick = (post: Post) => {
-    setSelectedPost(post)
-  }
-
-  const handleCloseModal = () => {
-    setSelectedPost(null)
-  }
-
-  const decodeHTML = (html: string) => {
-    const doc = new DOMParser().parseFromString(html, "text/html")
-    return doc.body.textContent || ""
-  }
 
   return (
     <>
