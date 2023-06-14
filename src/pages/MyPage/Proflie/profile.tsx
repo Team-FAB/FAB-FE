@@ -12,6 +12,7 @@ const Profile: React.FC = () => {
   // profileBasic
   const [nickname, setNickname] = useState('')
   const [email, setEmail] = useState('')
+  const [profileImage, setProfileImage] = useState('https://via.placeholder.com/120')
 
   // profileTendency
   const [selectedGender, setSelectedGender] = useState('남여')
@@ -58,8 +59,9 @@ const Profile: React.FC = () => {
         setNickname(data.data.nickname)
         setSelectedAge(data.data.myAge)
         setEmail(data.data.email)
+        setProfileImage(data.data.image === null ? 'https://via.placeholder.com/120' : data.data.image)
         setSelectedSmoke(data.data.isSmoker === true ? '합니다' : '하지 않습니다')
-        setSelectedMBTI(data.data.mbti === null ? 'mbti' : data.data.mbti)
+        setSelectedMBTI(data.data.mbti === 'null' ? 'mbti' : data.data.mbti)
         setSelectedregion(data.data.region === 'null' ? '여기' : data.data.region)
         // setSelectedAgeGroup(`${Number(data.data.minAge)} ~ ${Number(data.data.maxAge)}`)
         setSelectedActivityTime(data.data.activityTime === 'null' ? '오전오후' : data.data.activityTime)
@@ -82,7 +84,9 @@ const Profile: React.FC = () => {
           nickname={nickname} 
           setNickname={setNickname}
           email={email}
-          setEmail={setEmail}/>
+          setEmail={setEmail}
+          profileImage={profileImage}
+          setProfileImage={setProfileImage}/>
         <ProfileTendency
           selectedGender={selectedGender} 
           setSelectedGender={setSelectedGender}

@@ -127,6 +127,13 @@ export interface ProfileBasicProps {
   email: string
   setEmail: React.Dispatch<React.SetStateAction<string>>
   setNickname: React.Dispatch<React.SetStateAction<string>>
+  profileImage: string
+  setProfileImage: React.Dispatch<React.SetStateAction<string>>
+}
+
+export interface ProfileFileProps {
+  profileImage: string
+  setProfileImage: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface profileTendencyProps {

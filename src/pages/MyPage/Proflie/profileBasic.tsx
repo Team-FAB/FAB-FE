@@ -62,7 +62,7 @@ const ProfileBasic = (props: ProfileBasicProps) => {
   return (
     <div className={styles.profilePhotoBox}>
       <div>
-        <ProfileFile />
+        <ProfileFile profileImage={props.profileImage} setProfileImage={props.setProfileImage}/>
       </div>
       <Form
         name="profileBasicUpdate"
