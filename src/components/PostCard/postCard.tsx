@@ -94,13 +94,14 @@ const PostCard: React.FC<Props> = ({
 
   return (
     <>
-      {posts.length > 0 ? (
-        posts.map((post) => (
-          <div
-            key={post.id}
-            className={styles.cardContainer}
-            onClick={() => handlePostClick(post)}
-          >
+      {/* {posts.length > 0 ? ( */}
+      {posts.map((post) => (
+        <div
+          key={post.id}
+          className={styles.cardContainer}
+          onClick={() => handlePostClick(post)}
+        >
+          {post.recruiting === true ? (
             <Badge.Ribbon key={post.id} text={recruit(post.recruiting)}>
               <Card style={{ width: 250, marginTop: 16 }}>
                 <div className={styles.cardText}>
@@ -131,11 +132,47 @@ const PostCard: React.FC<Props> = ({
                 </div>
               </Card>
             </Badge.Ribbon>
-          </div>
-        ))
-      ) : (
-        <div className={styles.noPosts}>글이 존재하지 않습니다.</div>
-      )}
+          ) : (
+            <Badge.Ribbon
+              key={post.id}
+              text={recruit(post.recruiting)}
+              style={{ background: "#8a8a8a", color: "#8a8a8a" }}
+            >
+              <Card style={{ width: 250, marginTop: 16 }}>
+                <div className={styles.cardText}>
+                  <span className={styles.cardTitle}>{post.title}</span>
+                  <span className={styles.cardContent}>
+                    {decodeHTML(post.content)}
+                  </span>
+                </div>
+                <div className={styles.user}>
+                  <div className={styles.author}>
+                    <span>{post.nickname}</span>
+                    {post.gender === "여성" ? (
+                      <UserOutlined style={{ color: "#ff0000" }} />
+                    ) : (
+                      <UserOutlined style={{ color: "#2858FF" }} />
+                    )}
+                  </div>
+                  <span>{formatDate(post.createdDate)}</span>
+                </div>
+                <div className={styles.cardBadgeContainer}>
+                  <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
+                  <Badge className={styles.cardBadgePeriod}>
+                    {post.period}
+                  </Badge>
+                  <Badge className={styles.cardBadgePrice}>
+                    {formatPrice(post.price)}
+                  </Badge>
+                </div>
+              </Card>
+            </Badge.Ribbon>
+          )}
+        </div>
+      ))}
+      {/* ) : (
+       <div className={styles.noPosts}>글이 존재하지 않습니다.</div> */}
+      {/* ) */}
       {selectedPost && (
         <PostModal post={selectedPost} onClose={handleCloseModal} />
       )}
