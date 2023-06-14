@@ -15,9 +15,6 @@ const Login: React.FC = () => {
   const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
   const dispatch = useAppDispatch()
-  const KAKAO_AUTH_URL =
-    "https://kauth.kakao.com/oauth/authorize?client_id=fb1ad65de6bb1a0db1b3df64618fa991&redirect_uri=https://ea54-180-229-71-154.ngrok-free.app/login/oauth2/kakao&response_type=code"
-
   const handleLogin = async (values: LoginValues) => {
     const { email, password } = values
     const actionResult = await dispatch(loginUser({ email, password }))
