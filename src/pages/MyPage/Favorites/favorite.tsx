@@ -24,7 +24,7 @@ const Favorite = () => {
         <div className={styles.cardGrid}>
           {
             <PostCard 
-              link={userMyFavorite} 
+              link={`/api/${userMyFavorite}`} 
               token={userToken.atk.toString()} 
               posts={[]}/>
           }
