@@ -30,10 +30,6 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     setIsSearched(true) // 검색이 완료되었음을 표시
   }
 
-  const toggleRecruitOnly = () => {
-    setShowRecruiting(!showRecruiting)
-  }
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
   }
@@ -44,6 +40,14 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     } else {
       messageApi.info("로그인 후 사용 가능합니다.")
     }
+  }
+
+  const refresh = () => {
+    window.location.reload()
+  }
+
+  const toggleRecruitOnly = () => {
+    setShowRecruiting(!showRecruiting)
   }
 
   useEffect(() => {
@@ -64,7 +68,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
         setCount(data.data)
 
         const initialPostsResponse = await fetch(
-          `${userArticle}?page=${currentPage}&size=9&isRecruiting=false`,
+          `${userArticle}?page=${currentPage}&size=${pageSize}&isRecruiting=${showRecruiting}`,
           {
             method: "GET",
             headers: new Headers({
@@ -86,7 +90,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     }
 
     fetchData()
-  }, [messageApi])
+  }, [currentPage, showRecruiting, messageApi])
 
   return (
     <div className={styles.roomMateContainer}>
@@ -94,7 +98,9 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
       <div className={styles.roomMateTitle}>
         <img src={roomMateTitle} />
         <div className={styles.roomMateBtn}>
-          <Button shape="circle" icon={<RedoOutlined />} />
+          <Button className={styles.circleBtn} shape="circle" onClick={refresh}>
+            <RedoOutlined />
+          </Button>
           <Button onClick={toggleRecruitOnly}>
             {showRecruiting ? "전체보기" : "모집글만"}
           </Button>
