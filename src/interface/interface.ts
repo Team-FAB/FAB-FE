@@ -25,7 +25,7 @@ export interface Post {
   region: string
   period: string
   price: number
-  isRecruiting: boolean
+  recruiting: boolean
 }
 
 export interface User {
@@ -63,7 +63,7 @@ export interface Props {
     region: string
     period: string
     price: number
-    isRecruiting: boolean
+    recruiting: boolean
   }>
   currentPage?: number
   showRecruiting?: boolean
@@ -152,5 +152,5 @@ export interface profileTendencyProps {
 }
 
 export interface RoomMateSearchProps {
-  onSearch: (results: Post[]) => void
+  onSearch?: (results: Post[]) => void
 }

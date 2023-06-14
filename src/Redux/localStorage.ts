@@ -6,7 +6,6 @@ export const saveToLocalStorage = (state: UserState) => {
 
     if (token) {
       const stateString = JSON.stringify(state)
-      //       const encryptedState = btoa(stateString)
 
       localStorage.setItem("state", stateString)
     }
