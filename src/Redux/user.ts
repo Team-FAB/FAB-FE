@@ -71,7 +71,7 @@ export const loginUser = createAsyncThunk<
     { rejectWithValue },
   ) => {
     try {
-      const response = await fetch(userLogin, {
+      const response = await fetch(`/api/${userLogin}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +103,7 @@ export const refreshToken = createAsyncThunk<
   "api/users/refresh",
   async (credentials: { refreshToken: string }, { rejectWithValue }) => {
     try {
-      const response = await fetch(refreshApiUrl, {
+      const response = await fetch(`/api/${refreshApiUrl}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -184,7 +184,7 @@ export const registerUser = createAsyncThunk(
   "api/users/register",
   async (userInfo: { email: string; password: string; nickname: string }) => {
     try {
-      await fetch(userRegister, {
+      await fetch(`/api/${userRegister}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

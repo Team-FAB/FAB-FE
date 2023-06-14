@@ -1,6 +1,6 @@
-export const userLogin = `/api/users/login`
-export const refreshApiUrl = `/api/users/login`
-export const userRegister = `/api/users/register`
+export const userLogin = 'users/login'
+export const refreshApiUrl = 'users/login'
+export const userRegister = 'users/register'
 export const kakaoUserLogin = `${
   import.meta.env.KAKAO_AUTH_URL
 }/login/oauth2/kakao`
