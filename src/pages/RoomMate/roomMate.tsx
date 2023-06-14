@@ -53,7 +53,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${userArticle}/total`, {
+        const response = await fetch(`/api/${userArticle}/total`, {
           method: "GET",
           headers: new Headers({
             "ngrok-skip-browser-warning": "69420",
@@ -66,23 +66,6 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
 
         const data = await response.json()
         setCount(data.data)
-
-        const initialPostsResponse = await fetch(
-          `${userArticle}?page=${currentPage}&size=${pageSize}&isRecruiting=${showRecruiting}`,
-          {
-            method: "GET",
-            headers: new Headers({
-              "ngrok-skip-browser-warning": "69420",
-            }),
-          },
-        )
-
-        if (!initialPostsResponse.ok) {
-          throw new Error(`서버 상태 응답 ${initialPostsResponse.status}`)
-        }
-
-        const initialPostsData = await initialPostsResponse.json()
-        setInitialPosts(initialPostsData.data)
       } catch (error) {
         console.error(error)
         messageApi.error("데이터 불러오기 오류")

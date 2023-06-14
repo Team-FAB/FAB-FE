@@ -9,7 +9,8 @@ import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { useEffect } from "react"
+// import { useEffect } from "react"
+import { kakaoUserLogin } from "../../api"
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
@@ -27,17 +28,17 @@ const Login: React.FC = () => {
   }
 
   const Kakao = () => {
-    window.location.href = KAKAO_AUTH_URL
+    window.location.href = kakaoUserLogin
   }
 
-  useEffect(() => {
-    const url = new URL(window.location.href)
-    const code = url.searchParams.get("code")
+  // useEffect(() => {
+  //   const url = new URL(window.location.href)
+  //   const code = url.searchParams.get("code")
 
-    if (code) {
-      console.log(code)
-    }
-  }, [])
+  //   if (code) {
+  //     console.log(code)
+  //   }
+  // }, [])
 
   return (
     <>

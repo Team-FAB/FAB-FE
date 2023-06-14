@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { Token, UserState } from "../interface/interface"
 import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage"
@@ -5,7 +6,7 @@ import { Dispatch } from "redux"
 import { RootState, AppDispatch } from "./store"
 import {
   googleUserLogin,
-  kakaoUserLogin,
+  kakaoLogin,
   refreshApiUrl,
   userLogin,
   userRegister,
@@ -130,32 +131,29 @@ export const refreshToken = createAsyncThunk<
 export const kakaologinUser = createAsyncThunk<
   { token: Token },
   string,
-  { dispatch: Dispatch; state: RootState }
->("login/oauth2/kakao", async (code) => {
+  { dispatch: AppDispatch; state: RootState }
+>("/kakao", async (code, { rejectWithValue }) => {
   try {
-    const response = await fetch(kakaoUserLogin, {
-      method: "GET",
+    const response = await fetch(`/api/${kakaoLogin}`, {
+      method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        authorizationCode: code,
-        // grant_type: ,
-        // client_id:  ,
-        // redirect_uri: ,
-        // code:,
-      }),
+      body: JSON.stringify(code),
     })
+
+    if (!response.ok) {
+      throw new Error("네트워크 응답이 올바르지 않습니다")
+    }
 
     const data: UserState = await response.json()
 
+    console.log("카카오 보내는 코드")
     return { token: data.data.token }
-  } catch (error) {
-    console.error("login failed")
-    throw error
+  } catch (error: any) {
+    return rejectWithValue(error.message)
   }
 })
-// 1. 인가 코드를 백엔드로 넘기기
 
 export const googleloginUser = createAsyncThunk<
   { token: Token },
