@@ -38,7 +38,34 @@
 }
 
 .informContainer {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  gap: 5px;
+}
+
+.mbtiBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mbtiIcon {
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mbtiResult {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.mbtiResult span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
