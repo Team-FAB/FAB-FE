@@ -160,7 +160,7 @@ export interface RoomMateSearchProps {
   onSearch?: (results: Post[]) => void
 }
 
-export interface Apply {
+export interface ApplyProps {
   applyId: number
   leader: boolean
   articleId: number

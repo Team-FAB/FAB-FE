@@ -7,7 +7,7 @@ import MyPage from '../myPage'
 import { userMyApply } from '../../../api'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
-import { Apply } from '../../../interface/interface'
+import { ApplyProps } from '../../../interface/interface'
 
 const Apply: React.FC = () => {
 
@@ -16,7 +16,7 @@ const Apply: React.FC = () => {
   const [count, setCount] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 3
-  const [applyPosts, setApplyPosts] = useState<Apply[]>([])
+  const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
 
   const toggleRecruitOnly = () => {
     setShowApplicant(!showApplicant)
