@@ -1,18 +1,25 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styles from "../Header/header.module.css"
 import Alarm from "./Alarm/alarm"
 import { useSelector, useDispatch } from "react-redux"
-import { RootState } from "../../Redux/store"
-import { logout } from "../../Redux/user"
+import { AppDispatch, RootState } from "../../Redux/store"
 import { Avatar, Dropdown } from "antd"
 import { MenuOutlined, UserOutlined } from "@ant-design/icons"
+import { logOutUser } from "../../Redux/user"
 
 const Header: React.FC = () => {
   const isLogged = useSelector((state: RootState) => state.user.isLogged)
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
+  const navigator = useNavigate()
+  const userToken = useSelector((state: RootState) => state.user.data.token.atk)
 
-  const handleLogout = () => {
-    dispatch(logout())
+  const handleLogout = async () => {
+    try {
+      await dispatch(logOutUser({ userToken }))
+      navigator("/")
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const items = [

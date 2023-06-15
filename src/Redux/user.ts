@@ -9,6 +9,7 @@ import {
   kakaoLogin,
   refreshApiUrl,
   userLogin,
+  userLogout,
   userRegister,
 } from "../api"
 
@@ -21,8 +22,6 @@ const initialState: UserState = loadFromLocalStorage() || {
     },
   },
   signUp: false,
-  kakao: false,
-  google: false,
   email: "",
   status: "idle",
 }
@@ -85,7 +84,8 @@ export const loginUser = createAsyncThunk<
       }
 
       const data: UserState = await response.json()
-      return data
+
+      return { ...data, email: credentials.email }
     } catch (error: unknown) {
       console.error("login failed", error)
       if (error instanceof Error) {
@@ -95,6 +95,37 @@ export const loginUser = createAsyncThunk<
     }
   },
 )
+
+export const logOutUser = createAsyncThunk<
+  UserState,
+  { userToken: string },
+  { dispatch: AppDispatch; rejectValue: string; state: RootState }
+>("api/users/logout", async ({ userToken }, thunkApi) => {
+  try {
+    const response = await fetch(`/api/${userLogout}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: userToken.toString(),
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error("Logout failed")
+    }
+
+    const data: UserState = await response.json()
+
+    thunkApi.dispatch(logout())
+
+    return data
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return thunkApi.rejectWithValue(error.message)
+    }
+    return thunkApi.rejectWithValue("오류")
+  }
+})
 
 export const refreshToken = createAsyncThunk<
   UserState,
@@ -148,7 +179,6 @@ export const kakaologinUser = createAsyncThunk<
 
     const data: UserState = await response.json()
 
-    console.log("카카오 보내는 코드")
     return { token: data.data.token }
   } catch (error: any) {
     return rejectWithValue(error.message)
@@ -203,12 +233,13 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.isLogged = true
       state.data.token = action.payload.data.token
-      // state.email = action.payload.email
+      state.email = action.payload.email
       saveToLocalStorage(state)
     },
     logout: (state) => {
       state.isLogged = false
       state.data.token = { atk: "", rtk: "" }
+      state.email = ""
       localStorage.removeItem("email")
     },
     signUp: (state) => {
@@ -227,6 +258,7 @@ const userSlice = createSlice({
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.isLogged = true
       state.data.token = action.payload.data.token
+      state.email = action.payload.email
       saveToLocalStorage(state)
     })
 
@@ -234,32 +266,36 @@ const userSlice = createSlice({
       state.isLogged = false
     })
 
+    builder.addCase(logOutUser.fulfilled, (state) => {
+      state.isLogged = false
+    })
+
     builder.addCase(registerUser.fulfilled, (state) => {
-      state.signUp = true
+      state.isLogged = true
     })
 
     builder.addCase(registerUser.rejected, (state) => {
-      state.signUp = false
+      state.isLogged = false
     })
 
     builder.addCase(kakaologinUser.fulfilled, (state, action) => {
-      state.kakao = true
+      state.isLogged = true
       state.data.token = action.payload.token
       saveToLocalStorage(state)
     })
 
     builder.addCase(kakaologinUser.rejected, (state) => {
-      state.kakao = false
+      state.isLogged = false
     })
 
     builder.addCase(googleloginUser.fulfilled, (state, action) => {
-      state.google = true
+      state.isLogged = true
       state.data.token = action.payload.token
       saveToLocalStorage(state)
     })
 
     builder.addCase(googleloginUser.rejected, (state) => {
-      state.google = false
+      state.isLogged = false
     })
   },
 })
