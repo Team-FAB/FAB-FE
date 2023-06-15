@@ -18,6 +18,7 @@ import Favorite from "./pages/MyPage/Favorites/favorite"
 import WritePage from "./pages/WritePage/writePage"
 import EditPage from "./pages/EditPage/editPage"
 import MbitCalculator from "./components/MbtiCalculator/mbitCalculator"
+import Kakao from "./components/Kakao/kakao"
 
 const App: React.FC = () => {
   return (
@@ -45,6 +46,7 @@ const App: React.FC = () => {
             <Route path="/Favorite" element={<Favorite />} />
             <Route path="/WritePage" element={<WritePage />} />
             <Route path="/editPage/:postId" element={<EditPage />} />
+            <Route path="/kakao" element={<Kakao />} />
           </Routes>
           <Footer />
         </BrowserRouter>

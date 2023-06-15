@@ -13,16 +13,14 @@ const PostCard: React.FC<Props> = ({
   showRecruiting,
   link,
   token,
-  isSearched,
-  initialPosts,
 }) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [posts, setPosts] = useState<Post[]>([])
   const [messageApi, contextHolder] = message.useMessage()
   const isLogged = useSelector((state: RootState) => state.user.isLogged)
 
-  const recruit = (isRecruit: boolean) => {
-    return isRecruit ? "모집" : "마감"
+  const recruit = (recruiting: boolean) => {
+    return recruiting ? "모집" : "마감"
   }
 
   const formatDate = (dateString: string): string => {
@@ -69,14 +67,14 @@ const PostCard: React.FC<Props> = ({
                 },
               })
             : await fetch(
-                `${userArticle}?page=${currentPage}&size=9&isRecruiting=false`,
+                `/api/${userArticle}?page=${currentPage}&size=9&isRecruiting=${showRecruiting}`,
                 {
                   method: "GET",
                   headers: new Headers({
                     "ngrok-skip-browser-warning": "69420",
                   }),
                 },
-              ) // 모집글 전체글 패치 URL isRecruting 값만 변경되게 하기.
+              )
 
         if (!response.ok) {
           throw new Error(`서버 상태 응답 ${response.status}`)
@@ -96,14 +94,15 @@ const PostCard: React.FC<Props> = ({
 
   return (
     <>
-      {posts.length > 0 ? (
-        posts.map((post) => (
-          <div
-            key={post.id}
-            className={styles.cardContainer}
-            onClick={() => handlePostClick(post)}
-          >
-            <Badge.Ribbon key={post.id} text={recruit(post.isRecruiting)}>
+      {/* {posts.length > 0 ? ( */}
+      {posts.map((post) => (
+        <div
+          key={post.id}
+          className={styles.cardContainer}
+          onClick={() => handlePostClick(post)}
+        >
+          {post.recruiting === true ? (
+            <Badge.Ribbon key={post.id} text={recruit(post.recruiting)}>
               <Card style={{ width: 250, marginTop: 16 }}>
                 <div className={styles.cardText}>
                   <span className={styles.cardTitle}>{post.title}</span>
@@ -133,11 +132,47 @@ const PostCard: React.FC<Props> = ({
                 </div>
               </Card>
             </Badge.Ribbon>
-          </div>
-        ))
-      ) : (
-        <div className={styles.noPosts}>글이 존재하지 않습니다.</div>
-      )}
+          ) : (
+            <Badge.Ribbon
+              key={post.id}
+              text={recruit(post.recruiting)}
+              style={{ background: "#8a8a8a", color: "#8a8a8a" }}
+            >
+              <Card style={{ width: 250, marginTop: 16 }}>
+                <div className={styles.cardText}>
+                  <span className={styles.cardTitle}>{post.title}</span>
+                  <span className={styles.cardContent}>
+                    {decodeHTML(post.content)}
+                  </span>
+                </div>
+                <div className={styles.user}>
+                  <div className={styles.author}>
+                    <span>{post.nickname}</span>
+                    {post.gender === "여성" ? (
+                      <UserOutlined style={{ color: "#ff0000" }} />
+                    ) : (
+                      <UserOutlined style={{ color: "#2858FF" }} />
+                    )}
+                  </div>
+                  <span>{formatDate(post.createdDate)}</span>
+                </div>
+                <div className={styles.cardBadgeContainer}>
+                  <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
+                  <Badge className={styles.cardBadgePeriod}>
+                    {post.period}
+                  </Badge>
+                  <Badge className={styles.cardBadgePrice}>
+                    {formatPrice(post.price)}
+                  </Badge>
+                </div>
+              </Card>
+            </Badge.Ribbon>
+          )}
+        </div>
+      ))}
+      {/* ) : (
+       <div className={styles.noPosts}>글이 존재하지 않습니다.</div> */}
+      {/* ) */}
       {selectedPost && (
         <PostModal post={selectedPost} onClose={handleCloseModal} />
       )}

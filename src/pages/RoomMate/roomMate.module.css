@@ -1,6 +1,6 @@
 .roomMateContainer {
   width: 800px;
-  height: calc(100vh - 230px);
+  height: 100vh;
   padding: 60px;
   margin: 0 auto;
 }
@@ -29,7 +29,7 @@
 }
 
 .pagination {
-  margin-top: 30px;
+  margin-bottom: 100px;
   display: flex;
   justify-content: center;
 }
