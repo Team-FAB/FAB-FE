@@ -77,7 +77,7 @@ const MainPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${userArticle}?page=1&size=12&isRecruiting=true`,
+          `/api/${userArticle}?page=1&size=12&isRecruiting=true`,
           {
             method: "GET",
             headers: new Headers({
@@ -129,8 +129,6 @@ const MainPage: React.FC = () => {
     setSelectedUser(user)
     setIsModalVisible(true)
   }
-
-  
 
   return (
     <div className={styles.conatainer}>
