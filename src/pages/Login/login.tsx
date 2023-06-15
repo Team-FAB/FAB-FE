@@ -1,5 +1,3 @@
-// import { useSelector } from "react-redux"
-// import { RootState } from "../../Redux/store"
 import { LoginValues } from "../../interface/interface"
 import "antd"
 import styles from "../Login/login.module.css"
@@ -9,7 +7,6 @@ import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-// import { useEffect } from "react"
 import { kakaoUserLogin } from "../../api"
 
 const Login: React.FC = () => {
@@ -20,7 +17,6 @@ const Login: React.FC = () => {
     const { email, password } = values
     const actionResult = await dispatch(loginUser({ email, password }))
     if (loginUser.fulfilled.match(actionResult)) {
-      localStorage.setItem("email", email)
       navigate("/MainPage")
     } else {
       messageApi.info("이메일과 비밀번호를 확인하세요.")
@@ -30,15 +26,6 @@ const Login: React.FC = () => {
   const Kakao = () => {
     window.location.href = kakaoUserLogin
   }
-
-  // useEffect(() => {
-  //   const url = new URL(window.location.href)
-  //   const code = url.searchParams.get("code")
-
-  //   if (code) {
-  //     console.log(code)
-  //   }
-  // }, [])
 
   return (
     <>
