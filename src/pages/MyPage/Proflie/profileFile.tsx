@@ -1,37 +1,38 @@
 import styles from './profile.module.css'
 import { Upload } from "antd"
-import { useState } from "react"
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
+import { userMyprofileFile } from '../../../api'
+import { ProfileFileProps } from '../../../interface/interface'
 
 
-const ProfileFile = () => {
+const ProfileFile = (props: ProfileFileProps) => {
 
   // 사진 업로드
-  const [profilePhoto, setProfilePhoto] = useState<string>('https://via.placeholder.com/120')
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setProfilePhoto(event.target.files[0])
-  // }
-
   const handleImageUpload = async (file: File | Blob) => {
-    const formData = new FormData();
-    formData.append("file", file);
+    const formData = new FormData()
+    formData.append("file", file)
 
     try {
-      const response = await fetch("/api/image", {
+      const response = await fetch(`/api/${userMyprofileFile}`, {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: userToken.atk.toString(),
         },
         body: formData,
       })
-      const data = await response.json();
-      console.log(data);
+      const data = await response.json()
+
+      if(data && data.url) {
+        props.setProfileImage(data.url)
+      }
+      console.log(data)
+
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 
@@ -42,10 +43,9 @@ const ProfileFile = () => {
         showUploadList={false}
         beforeUpload={(file) => {
           handleImageUpload(file)
-          // handleFileChange
           return false
         }}>
-        <img className={styles.profilePhoto} src={profilePhoto} alt="Profile" />
+        <img className={styles.profilePhoto} src={props.profileImage} alt="Profile" />
       </Upload>
     </>
   )

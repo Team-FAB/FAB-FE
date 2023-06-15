@@ -11,4 +11,6 @@ export const userMyFavorite = "my/favorites"
 export const userMyArticles = "my/articles"
 export const userMyprofile = "my"
 export const userMyprofileNickname = "my/nickname"
+export const userMyprofileFile = "image"
 export const kakaoLogin = "users/login/kakao"
+
