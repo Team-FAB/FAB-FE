@@ -38,3 +38,9 @@
   /* margin: 70px auto; */
   margin: 0px auto;
 }
+
+.pagination {
+  margin-bottom: 100px;
+  display: flex;
+  justify-content: center;
+}

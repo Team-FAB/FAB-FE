@@ -161,3 +161,27 @@ export interface profileTendencyProps {
 export interface RoomMateSearchProps {
   onSearch?: (results: Post[]) => void
 }
+
+export interface Apply {
+  applyId: number
+  leader: boolean
+  articleId: number
+  articleTitle: string
+  otherUserId: number
+  otherUserName: string
+  matchStatus: string
+}
+
+export interface ApplicantProps {
+  applyPosts: Array<{
+    applyId: number
+    leader: boolean
+    articleId: number
+    articleTitle: string
+    otherUserId: number
+    otherUserName: string
+    matchStatus: string
+  }>
+  currentPage?: number
+  showApplicant?: boolean
+}

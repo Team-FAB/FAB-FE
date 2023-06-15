@@ -2,8 +2,44 @@ import styles from './applicant.module.css'
 import { Badge, Card } from "antd"
 import { IdcardOutlined, CloseOutlined, WechatOutlined, FileDoneOutlined, CheckOutlined } from "@ant-design/icons"
 import Meta from "antd/es/card/Meta"
+import { ApplicantProps, Apply } from '../../../interface/interface'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../Redux/store'
+import { useEffect, useState } from 'react'
+import { userMyApply } from '../../../api'
 
-const Applicant = () => {
+const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApplicant }) => {
+
+  const userToken = useSelector((state : RootState) => state.user.data.token)
+  const [applyPosts, setApplyPosts] = useState<Apply[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/api/${userMyApply}/?page=${currentPage}&size=3&isApplicant=${showApplicant}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: userToken.atk.toString(),
+              },
+            },
+          )
+
+        if (!response.ok) {
+          throw new Error(`서버 상태 응답 ${response.status}`)
+        }
+
+        const data = await response.json()
+        setApplyPosts(data.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [currentPage, showApplicant])
 
   return (
     <>

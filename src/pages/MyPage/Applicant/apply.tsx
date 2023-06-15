@@ -1,14 +1,22 @@
 import { RedoOutlined } from '@ant-design/icons'
 import styles from './applicant.module.css'
-import { Button } from 'antd'
+import { Button, Pagination } from 'antd'
 import { useEffect, useState } from 'react'
 import Applicant from './applicant'
 import MyPage from '../myPage'
 import { userMyApply } from '../../../api'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../Redux/store'
+import { Apply } from '../../../interface/interface'
 
-const Apply = () => {
+const Apply: React.FC = () => {
 
+  const userToken = useSelector((state : RootState) => state.user.data.token)
   const [showApplicant, setShowApplicant] = useState(false)
+  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 3
+  const [applyPosts, setApplyPosts] = useState<Apply[]>([])
 
   const toggleRecruitOnly = () => {
     setShowApplicant(!showApplicant)
@@ -18,14 +26,19 @@ const Apply = () => {
     window.location.reload()
   }
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/${userMyApply}/total`, {
           method: "GET",
-          headers: new Headers({
-            "ngrok-skip-browser-warning": "69420",
-          }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: userToken.atk.toString(),
+          },
         })
 
         if (!response.ok) {
@@ -33,14 +46,14 @@ const Apply = () => {
         }
 
         const data = await response.json()
-        // setCount(data.data)
+        setCount(data.data)
       } catch (error) {
         console.error(error)
       }
     }
 
     fetchData()
-  }, [])
+  }, [currentPage, showApplicant])
 
   return (
     <>
@@ -59,8 +72,17 @@ const Apply = () => {
         </div>
         <div className={styles.applicantContainer}>
           <Applicant
+            applyPosts={applyPosts}
+            currentPage={currentPage}
+            showApplicant={showApplicant}
           />
         </div>
+        <Pagination 
+          className={styles.pagination}
+          current={currentPage}
+          onChange={handlePageChange}
+          total={count}
+          pageSize={pageSize} />
       </div>
     </>
   )
