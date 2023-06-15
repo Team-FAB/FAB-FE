@@ -16,7 +16,7 @@
   align-items: center;
   vertical-align: center;
   margin: 0 auto;
-  width: 1200px;
+  max-width: 1200px;
   padding: 30px 30px 30px 30px;
 }
 
@@ -25,15 +25,20 @@
   align-items: center;
   vertical-align: center;
   margin: 0 auto;
-  width: 1200px;
+  max-width: 1200px;
   padding: 30px 30px 30px 30px;
   margin-bottom: 50px;
 }
 
+.carouselWrapper {
+  position: relative;
+  padding-right: 50px; /* Adjust this to move the arrow left or right */
+}
+
 .customRightArrow {
   position: absolute;
-  right: 42px;
-  top: 53%;
+  right: 2.4%;
+  top: 50%;
   transform: translateY(-50%);
   width: 30px;
   height: 30px;
