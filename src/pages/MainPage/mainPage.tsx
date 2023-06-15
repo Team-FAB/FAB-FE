@@ -107,10 +107,25 @@ const MainPage: React.FC = () => {
   ]
 
   const responsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
+    XLarge: {
+      breakpoint: { max: 18000, min: 1200 },
       items: 4,
       slidesToSlide: 4,
+    },
+    Large: {
+      breakpoint: { max: 1200, min: 950 },
+      items: 3,
+      slidesToSlide: 3,
+    },
+    midiuem: {
+      breakpoint: { max: 950, min: 700 },
+      items: 2,
+      slidesToSlide: 2,
+    },
+    small: {
+      breakpoint: { max: 700, min: 0 },
+      items: 1,
+      slidesToSlide: 1,
     },
   }
 
@@ -152,43 +167,47 @@ const MainPage: React.FC = () => {
       </div>
       <div className={styles.mainPost}>
         <div className={styles.title}>룸메이트 구해요 👋</div>
-        <MultiCarousel
-          responsive={responsive}
-          infinite={true}
-          draggable={true}
-          showDots={false}
-          customRightArrow={<CustomRightArrow />}
-          customLeftArrow={<CustomLeftArrow />}
-        >
-          {posts.slice(0, 12).map((post) => (
-            <MainPostCard
-              key={post.id}
-              post={post}
-              onClick={() => handlePostClick(post)}
-            />
-          ))}
-        </MultiCarousel>
+        <div className={styles.carouselWrapper}>
+          <MultiCarousel
+            responsive={responsive}
+            infinite={true}
+            draggable={true}
+            showDots={false}
+            customRightArrow={<CustomRightArrow />}
+            customLeftArrow={<CustomLeftArrow />}
+          >
+            {posts.slice(0, 12).map((post) => (
+              <MainPostCard
+                key={post.id}
+                post={post}
+                onClick={() => handlePostClick(post)}
+              />
+            ))}
+          </MultiCarousel>
+        </div>
       </div>
       <div className={styles.recommendPost}>
         <div className={styles.title}>
           방갑고에서 추천하는 룸메이트를 만나보세요 💌
         </div>
-        <MultiCarousel
-          responsive={responsive}
-          infinite={true}
-          draggable={true}
-          showDots={false}
-          customRightArrow={<CustomRightArrow />}
-          customLeftArrow={<CustomLeftArrow />}
-        >
-          {users.slice(0, 12).map((user) => (
-            <RecommendPostCard
-              key={user.id}
-              user={user}
-              onClick={() => handleUserClick(user)}
-            />
-          ))}
-        </MultiCarousel>
+        <div className={styles.carouselWrapper}>
+          <MultiCarousel
+            responsive={responsive}
+            infinite={true}
+            draggable={true}
+            showDots={false}
+            customRightArrow={<CustomRightArrow />}
+            customLeftArrow={<CustomLeftArrow />}
+          >
+            {users.slice(0, 12).map((user) => (
+              <RecommendPostCard
+                key={user.id}
+                user={user}
+                onClick={() => handleUserClick(user)}
+              />
+            ))}
+          </MultiCarousel>
+        </div>
       </div>
       {selectedPost && (
         <PostModal post={selectedPost} onClose={handleCloseModal} />
