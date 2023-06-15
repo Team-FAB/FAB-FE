@@ -8,7 +8,6 @@ const MbitCalculator: React.FC = () => {
 
   const showModal = () => {
     setIsModalVisible(true)
-    console.log("Button clicked!")
   }
 
   const handleOk = () => {

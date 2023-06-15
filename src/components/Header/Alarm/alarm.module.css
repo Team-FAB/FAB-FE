@@ -7,7 +7,13 @@
 }
 
 .alarmIcon {
+  transition: transform 0.2s ease-in-out;
   font-size: var(--font-size-sub1);
+}
+
+.alarmIcon:hover {
+  transform: scale(1.3);
+  cursor: pointer;
 }
 
 .alarmModal {

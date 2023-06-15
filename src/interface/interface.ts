@@ -4,8 +4,6 @@ export interface UserState {
   data: {
     token: Token
   }
-  kakao: boolean
-  google: boolean
   email: string
   status: "idle" | "loading" | "fulfilled" | "error"
 }

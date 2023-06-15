@@ -2,8 +2,8 @@
 
 .chatContainer {
   position: fixed;
-  width: 500px;
-  height: 500px;
+  width: 80px;
+  height: 80px;
   left: 90%;
   top: 60%;
   z-index: 999;
@@ -21,7 +21,7 @@
   border-radius: var(--badge-border-radius);
 }
 
-.iconButton:hover{
+.iconButton:hover {
   opacity: 0.8;
 }
 
@@ -44,8 +44,8 @@
   font-size: 19px;
   font-weight: bold;
   color: var(--white);
-  bottom: 96%;
-  left: 11%;
+  bottom: 78%;
+  left: 75%;
 }
 
 .chatBox {
@@ -53,10 +53,9 @@
   width: 300px;
   height: 400px;
 
-  bottom: 50%; 
-  right: 50%; 
-  bottom: 90%;
-  right: 90%;
+  bottom: 50%;
+  right: 50%;
+  bottom: 50%;
   background-color: var(--white);
   z-index: 1000;
   box-shadow: var(--shadow);

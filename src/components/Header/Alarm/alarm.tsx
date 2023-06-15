@@ -1,5 +1,6 @@
 import { useState } from "react"
 import {
+  BellFilled,
   CheckOutlined,
   CloseOutlined,
   IdcardOutlined,
@@ -52,7 +53,7 @@ const Alarm: React.FC = () => {
   return (
     <div className={styles.alarmContainer}>
       <div className={styles.alarmIcon} onClick={showDrawer}>
-        <span>알림</span>
+        <BellFilled style={{ color: "#6231ef" }} size={50} />
       </div>
       <Drawer title="알림" placement="right" onClose={onClose} open={open}>
         <Card

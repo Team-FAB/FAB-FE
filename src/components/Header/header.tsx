@@ -1,32 +1,41 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styles from "../Header/header.module.css"
 import Alarm from "./Alarm/alarm"
 import { useSelector, useDispatch } from "react-redux"
-import { RootState } from "../../Redux/store"
-import { logout } from "../../Redux/user"
+import { AppDispatch, RootState } from "../../Redux/store"
 import { Avatar, Dropdown } from "antd"
 import { MenuOutlined, UserOutlined } from "@ant-design/icons"
+import { logOutUser } from "../../Redux/user"
 
 const Header: React.FC = () => {
   const isLogged = useSelector((state: RootState) => state.user.isLogged)
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
+  const navigator = useNavigate()
+  const userToken = useSelector((state: RootState) => state.user.data.token.atk)
 
-  const handleLogout = () => {
-    dispatch(logout())
+  const handleLogout = async () => {
+    try {
+      await dispatch(logOutUser({ userToken }))
+      navigator("/")
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const items = [
-    {
-      key: "마이페이지",
-      label: (
-        <Link to="/mypage" className={styles.mypage}>
-          마이페이지
-        </Link>
-      ),
-    },
-    isLogged === true
+    isLogged
       ? {
-          key: "로그아웃",
+          key: "My Page",
+          label: (
+            <Link to="/mypage" className={styles.mypage}>
+              내 정보
+            </Link>
+          ),
+        }
+      : null,
+    isLogged
+      ? {
+          key: "logout",
           label: (
             <Link to="/" className={styles.logout} onClick={handleLogout}>
               로그아웃
@@ -34,18 +43,24 @@ const Header: React.FC = () => {
           ),
         }
       : {
-          key: "로그인",
+          key: "login",
           label: (
             <Link to="/" className={styles.logout}>
               로그인
             </Link>
           ),
         },
-    {
-      key: "alarm",
-      label: <Alarm />,
-    },
-  ]
+    isLogged
+      ? null
+      : {
+          key: "signUp",
+          label: (
+            <Link to="/SignUp" className={styles.logout}>
+              회원가입
+            </Link>
+          ),
+        },
+  ].filter((item) => item !== null)
 
   return (
     <>
@@ -58,6 +73,7 @@ const Header: React.FC = () => {
             <Link to="/RoomMate">
               <li>룸메이트 구해요</li>
             </Link>
+            <Alarm />
             {isLogged === true ? (
               <Dropdown menu={{ items }} placement="bottomRight">
                 <li className={styles.user}>
