@@ -8,7 +8,7 @@ import { RootState } from '../../../Redux/store'
 import { useEffect, useState } from 'react'
 import { userMyApply } from '../../../api'
 
-const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApplicant }) => {
+const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply }) => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
   const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
@@ -17,7 +17,7 @@ const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApplicant }) => 
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/api/${userMyApply}/?page=${currentPage}&size=3&isApplicant=${showApplicant}`,
+          `/api/${userMyApply}/?page=${currentPage}&size=3&isApplicant=${showApply}`,
             {
               method: "GET",
               headers: {
@@ -39,7 +39,7 @@ const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApplicant }) => 
     }
 
     fetchData()
-  }, [currentPage, showApplicant])
+  }, [currentPage, showApply])
 
   return (
     <>

@@ -12,14 +12,14 @@ import { ApplyProps } from '../../../interface/interface'
 const Apply: React.FC = () => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
-  const [showApplicant, setShowApplicant] = useState(false)
+  const [showApply, setShowApply] = useState(true)
   const [count, setCount] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 3
   const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
 
-  const toggleRecruitOnly = () => {
-    setShowApplicant(!showApplicant)
+  const toggleShowApply = () => {
+    setShowApply(!showApply)
   }
 
   const refresh = () => {
@@ -32,8 +32,16 @@ const Apply: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      let apiEndpoint
+
+      if (showApply) {
+        apiEndpoint = `/api/${userMyApply}/total`
+      } else {
+        apiEndpoint = `/api/${userMyApply}/total`
+      }
+
       try {
-        const response = await fetch(`/api/${userMyApply}/total`, {
+        const response = await fetch(apiEndpoint, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -53,7 +61,7 @@ const Apply: React.FC = () => {
     }
 
     fetchData()
-  }, [currentPage, showApplicant])
+  }, [currentPage, showApply])
 
   return (
     <>
@@ -65,8 +73,8 @@ const Apply: React.FC = () => {
             <Button className={styles.circleBtn} shape="circle" onClick={refresh}>
               <RedoOutlined />
             </Button>
-            <Button style={{ width: 90, display: 'flex', justifyContent: 'center' }} onClick={toggleRecruitOnly}>
-              {showApplicant ? "신청 받았어요" : "신청 했어요"}
+            <Button style={{ width: 90, display: 'flex', justifyContent: 'center' }} onClick={toggleShowApply}>
+              {showApply ? "신청 받았어요" : "신청 했어요"}
             </Button>
           </div>
         </div>
@@ -74,7 +82,7 @@ const Apply: React.FC = () => {
           <Applicant
             applyPosts={applyPosts}
             currentPage={currentPage}
-            showApplicant={showApplicant}
+            showApply={showApply}
           />
         </div>
         <Pagination 

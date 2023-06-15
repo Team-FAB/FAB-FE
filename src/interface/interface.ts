@@ -181,5 +181,5 @@ export interface ApplicantProps {
     matchStatus: string
   }>
   currentPage?: number
-  showApplicant?: boolean
+  showApply?: boolean
 }
