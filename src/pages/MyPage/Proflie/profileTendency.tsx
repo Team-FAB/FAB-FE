@@ -30,11 +30,16 @@ const ProfileTendency = (props:profileTendencyProps) => {
   })
 
   const handleToggleBox = (boxName: keyof profileTendencyDropdown) => {
-    setBoxStates((prevState) => ({
-      ...prevState,
-      [boxName]: !prevState[boxName]
-    }))
-  }
+    setBoxStates((prevState) => {
+      const newState = Object.keys(prevState).reduce((state, key) => {
+        return {...state, [key]: key === boxName};
+      }, {} as typeof prevState);
+  
+      newState[boxName] = !prevState[boxName];
+      
+      return newState;
+    })
+  } 
 
 
   const handleTendencyChange = (checkedValues: CheckboxValueType[]) => {

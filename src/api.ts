@@ -15,5 +15,7 @@ export const userMyprofileNickname = "my/nickname"
 export const userMyprofileFile = "image"
 export const kakaoLogin = "users/login/kakao"
 export const userMyApply = "my/apply"
-export const userApplicant = "applicant"
+export const userApplicant = "applicant/apply"
+export const userAprove = "applicant/approve"
+export const userRefuse = "applicant/refuse"
 
