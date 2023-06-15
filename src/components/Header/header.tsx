@@ -16,17 +16,19 @@ const Header: React.FC = () => {
   }
 
   const items = [
-    {
-      key: "마이페이지",
-      label: (
-        <Link to="/mypage" className={styles.mypage}>
-          마이페이지
-        </Link>
-      ),
-    },
-    isLogged === true
+    isLogged
       ? {
-          key: "로그아웃",
+          key: "My Page",
+          label: (
+            <Link to="/mypage" className={styles.mypage}>
+              내 정보
+            </Link>
+          ),
+        }
+      : null,
+    isLogged
+      ? {
+          key: "logout",
           label: (
             <Link to="/" className={styles.logout} onClick={handleLogout}>
               로그아웃
@@ -34,18 +36,24 @@ const Header: React.FC = () => {
           ),
         }
       : {
-          key: "로그인",
+          key: "login",
           label: (
             <Link to="/" className={styles.logout}>
               로그인
             </Link>
           ),
         },
-    {
-      key: "alarm",
-      label: <Alarm />,
-    },
-  ]
+    isLogged
+      ? null
+      : {
+          key: "signUp",
+          label: (
+            <Link to="/SignUp" className={styles.logout}>
+              회원가입
+            </Link>
+          ),
+        },
+  ].filter((item) => item !== null)
 
   return (
     <>
@@ -58,6 +66,7 @@ const Header: React.FC = () => {
             <Link to="/RoomMate">
               <li>룸메이트 구해요</li>
             </Link>
+            <Alarm />
             {isLogged === true ? (
               <Dropdown menu={{ items }} placement="bottomRight">
                 <li className={styles.user}>
