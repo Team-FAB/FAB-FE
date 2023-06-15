@@ -1,9 +1,40 @@
+.applyContainer {
+  width: 700px;
+  min-height: 1200px;
+  height: 100vh;
+  padding: 60px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.applyTitle {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-button);
+}
+
+.applyBtn {
+  display: flex;
+  gap: 10px;
+}
+
+.circleBtn {
+  transform: rotate(-30deg);
+  transition: transform 1s;
+}
+
+.circleBtn:hover {
+  transform: rotate(360deg);
+}
+
 .applicantContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 870px;
   height: 100%;
-  margin: 30px auto;
+  /* margin: 70px auto; */
+  margin: 0px auto;
 }
