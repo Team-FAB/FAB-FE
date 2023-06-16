@@ -190,3 +190,10 @@ export interface RecommendModalProps {
   visible: boolean
   onClose: () => void
 }
+
+export interface SaveButtonProps {
+  post: Post
+  isSaved: boolean
+  userFavorite: string
+  onClose: () => void
+}
