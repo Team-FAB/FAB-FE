@@ -25,7 +25,7 @@ const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply }) => {
                     cover={<Badge.Ribbon text={post.matchStatus} />}
                     style={{ width: 530, marginBottom: 30 }}
                     actions={[
-                      <IdcardOutlined title="프로필" />,
+                      <IdcardOutlined title="프로필" />,  
                       <CheckOutlined />,
                       <CloseOutlined />,
                     ]}

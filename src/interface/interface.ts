@@ -66,8 +66,6 @@ export interface Props {
   }>
   currentPage?: number
   showRecruiting?: boolean
-  link?: string
-  token?: string
   isSearched?: boolean
   initialPosts?: string
 }
