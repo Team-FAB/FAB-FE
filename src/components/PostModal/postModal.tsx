@@ -15,7 +15,7 @@ interface PostModalProps {
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const [isSaved, setIsSaved] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
-  const userEmail = localStorage.getItem("email")
+  const userEmail = useSelector((state : RootState ) => state.user.email)
   const navigate = useNavigate()
 
   const decodeHTML = (html: string) => {
