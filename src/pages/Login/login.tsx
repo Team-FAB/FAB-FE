@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom"
 import { loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { kakaoUserLogin } from "../../api"
+import video from "../../assets/bg.mp4"
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
@@ -34,7 +35,9 @@ const Login: React.FC = () => {
           <img className={styles.logo} src="src/assets/logo.svg" />
         </Link>
         <div className={styles.loginBox}>
-          <div className={styles.videoBox}></div>
+          <div className={styles.videoBox}>
+            <video src={video} autoPlay loop muted />
+          </div>
           <div className={styles.formBox}>
             <span className={styles.Logintitle}>로그인</span>
             <Form
