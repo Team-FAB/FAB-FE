@@ -1,27 +1,16 @@
 import styles from "./roomMate.module.css"
 import PostCard from "../../components/PostCard/postCard"
-import {
-  Badge,
-  Button,
-  Pagination,
-  Radio,
-  RadioChangeEvent,
-  message,
-} from "antd"
+import { Button, Pagination, message } from "antd"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
 import roomMateTitle from "../../assets/RoommateTitle.svg"
 import { userArticle } from "../../api"
-import { Post } from "../../interface/interface"
+import { Post, SearchQuery } from "../../interface/interface"
 import { RoomMateSearchProps } from "../../interface/interface"
-import {
-  CaretDownOutlined,
-  RedoOutlined,
-  SearchOutlined,
-} from "@ant-design/icons"
-import { region, period, price, gender } from "../../object/profileDropdown"
+import { RedoOutlined } from "@ant-design/icons"
+import SearchBar from "../../components/SearchBar/searchBar"
 
 const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -31,16 +20,10 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const isLogged = useSelector((state: RootState) => state.user.isLogged)
   const pageSize = 9
   const navigate = useNavigate()
+  const [searchResults] = useState([])
   const [messageApi, contextHolder] = message.useMessage()
-  const [isSearched, setIsSearched] = useState(false)
+  const [, setIsSearched] = useState(false)
   const [searchBoxOpen, setSearchBoxOpen] = useState(false)
-  const [selectedArea, setSelectedArea] = useState("지역")
-  const [selectedPeriod, setSelectedPeriod] = useState("기간")
-  const [selectedPrice, setSelectedPrice] = useState("보증금")
-  const [selectedGender, setSelectedGender] = useState("성별")
-  const [selectedDeposit, setSelectedDeposit] = useState<string | undefined>(
-    undefined,
-  )
 
   const handleSearchResults = (results: Post[]) => {
     setPosts(results)
@@ -70,32 +53,15 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     setShowRecruiting(!showRecruiting)
   }
 
-  // 검색
-  const handleToggleSearchBox = () => {
-    setSearchBoxOpen(!searchBoxOpen)
-  }
-
-  // 검색 모달 금액
-  const handlePriceChange = (e: RadioChangeEvent) => {
-    const deposit = e.target.value
-    setSelectedDeposit(deposit)
-
-    const selectedPriceDisplay = price.find(
-      (item) => item.deposit === deposit,
-    )?.display
-
-    setSelectedPrice(selectedPriceDisplay || "Deposit")
-  }
-
   // 검색 필터링
-  const handleSearch = async (page = 1, size = 5) => {
+  const handleSearch = async (query: SearchQuery, page = 1, size = 5) => {
     const searchParams = {
       page: page.toString(),
       size: size.toString(),
-      region: selectedArea.toString(),
-      period: selectedPeriod.toString(),
-      price: selectedDeposit?.toString() ?? "",
-      gender: selectedGender.toString(),
+      region: query.area,
+      period: query.period,
+      price: query.price?.toString() ?? "",
+      gender: query.gender.toString(),
     }
 
     const queryString = new URLSearchParams(searchParams).toString()
@@ -120,7 +86,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
         throw new Error("API Error: " + data.msg)
       }
     } catch (error: unknown) {
-      console.error("에러", error)
+      console.error("에러", searchParams)
       setSearchBoxOpen(!searchBoxOpen)
       messageApi.error("검색 오류" + error)
     }
@@ -167,122 +133,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
 
   return (
     <>
-      <div className={styles.searchContainer}>
-        <SearchOutlined
-          className={styles.searchIcon}
-          style={{ fontSize: 28 }}
-        />
-        <div className={styles.searchBox}>
-          <div className={styles.searchBar} onClick={handleToggleSearchBox}>
-            <div>
-              <p>지역</p>
-              <Badge className={styles.cardBadgeArea}>{selectedArea}</Badge>
-            </div>
-            <div>
-              <p>기간</p>
-              <Badge className={styles.cardBadgePeriod}>{selectedPeriod}</Badge>
-            </div>
-            <div>
-              <p>보증금</p>
-              <Badge className={styles.cardBadgePrice}>{selectedPrice}</Badge>
-            </div>
-            <div className={styles.lastDiv}>
-              <p>성별</p>
-              <Badge className={styles.cardBadgeGender}>{selectedGender}</Badge>
-            </div>
-            <CaretDownOutlined
-              className={styles.lastDiv}
-              onClick={() => handleSearch()}
-              style={{ color: "#4c2ad3" }}
-            />
-          </div>
-          {searchBoxOpen && (
-            <div className={styles.searchChoiceContainer}>
-              <div className={styles.searchChoiceBox}>
-                <div className={styles.searchChoiceArea}>
-                  <p>지역</p>
-                  <div className={styles.areaRadioGroup}>
-                    <Radio.Group
-                      onChange={(e) => setSelectedArea(e.target.value)}
-                    >
-                      {region.map((item, index) => (
-                        <Radio
-                          key={index}
-                          value={item.region}
-                          className={styles.areaRadioBtn}
-                        >
-                          {item.region}
-                        </Radio>
-                      ))}
-                    </Radio.Group>
-                  </div>
-                </div>
-                <div className={styles.searchChoicePeriod}>
-                  <p>기간</p>
-                  <Radio.Group
-                    className={styles.periodRadioGroup}
-                    value={selectedPeriod}
-                    onChange={(e) => setSelectedPeriod(e.target.value)}
-                  >
-                    {period.map((item, index) => (
-                      <Radio
-                        key={index}
-                        value={item.quarter}
-                        className={styles.periodRadioBtn}
-                      >
-                        {item.quarter}
-                      </Radio>
-                    ))}
-                  </Radio.Group>
-                </div>
-                <div className={styles.searchChoicePrice}>
-                  <p>보증금</p>
-                  <Radio.Group
-                    className={styles.priceRadioGroup}
-                    value={selectedDeposit}
-                    onChange={(e) => setSelectedPrice(e.target.value)}
-                  >
-                    {price.map((item, index) => (
-                      <Radio
-                        key={index}
-                        value={item.deposit}
-                        className={styles.priceRadioBtn}
-                      >
-                        {item.display}
-                      </Radio>
-                    ))}
-                  </Radio.Group>
-                </div>
-                <div className={styles.searchChoiceGender}>
-                  <p>성별</p>
-                  <Radio.Group
-                    className={styles.genderRadioGroup}
-                    value={selectedGender}
-                    onChange={(e) => setSelectedGender(e.target.value)}
-                  >
-                    {gender.map((item, index) => (
-                      <Radio
-                        key={index}
-                        value={item.name}
-                        className={styles.genderRadioBtn}
-                      >
-                        {item.name}
-                      </Radio>
-                    ))}
-                  </Radio.Group>
-                </div>
-              </div>
-              <Button
-                className={styles.searchChoiceBtn}
-                type="primary"
-                onClick={() => handleSearch()}
-              >
-                검색하기
-              </Button>
-            </div>
-          )}
-        </div>
-      </div>
+      <SearchBar onSearch={handleSearch} />
       <div className={styles.roomMateContainer}>
         <div className={styles.roomMateTitle}>
           <img src={roomMateTitle} />
@@ -303,6 +154,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
         <div className={styles.cardGrid}>
           <PostCard
             posts={posts}
+            Resultsposts={searchResults}
             currentPage={currentPage}
             showRecruiting={showRecruiting}
           />
