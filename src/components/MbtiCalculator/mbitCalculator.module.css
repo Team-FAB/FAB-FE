@@ -5,12 +5,16 @@
   align-items: center;
   border-radius: var(--badge-border-radius);
   bottom: 20px;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border: none;
   box-shadow: var(--shadow);
   position: fixed;
-  left: 90%;
-  top: 50%;
+  left: 93%;
+  top: 70%;
   z-index: 2;
+}
+
+.mbtiIcon {
+  width: 40px;
 }

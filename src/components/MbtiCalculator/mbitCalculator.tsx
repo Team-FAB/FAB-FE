@@ -21,7 +21,11 @@ const MbitCalculator: React.FC = () => {
   return (
     <>
       <Button className={styles.logoButton} onClick={showModal} type="primary">
-        <img src="src/assets/mbti.svg" alt="mbti로고" />
+        <img
+          className={styles.mbtiIcon}
+          src="src/assets/mbti.svg"
+          alt="mbti로고"
+        />
       </Button>
       <MbitCalculatorModal
         isModalVisible={isModalVisible}
