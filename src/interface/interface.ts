@@ -65,6 +65,7 @@ export interface Props {
   showRecruiting?: boolean
   isSearched?: boolean
   initialPosts?: string
+  Resultsposts?: Post[]
 }
 
 export interface GlobalState extends UserState {
@@ -138,10 +139,18 @@ export interface profileTendencyProps {
   handleUpdateProfileSuccess: () => void
 }
 
+export interface SearchQuery {
+  area: string
+  period: string
+  price: string | undefined
+  gender: string
+}
+
 export interface RoomMateSearchProps {
-  onSearch?: (results: Post[]) => void
-  post: Post
-  onClick: () => void
+  onSearch?: (query: SearchQuery, page?: number, size?: number) => Promise<void>
+  post?: Post
+  onClick?: () => void
+  query?: Post[]
 }
 
 export interface ApplyProps {
