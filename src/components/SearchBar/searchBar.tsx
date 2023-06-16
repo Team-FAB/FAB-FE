@@ -24,6 +24,7 @@ const SearchBar: React.FC<RoomMateSearchProps> = ({ onSearch }) => {
     }
 
     onSearch?.(query)
+    setSearchBoxOpen(!searchBoxOpen)
   }
 
   // 검색
