@@ -1,3 +1,8 @@
+export interface Token {
+  atk: string
+  rtk: string
+}
+
 export interface UserState {
   isLogged: boolean
   signUp: boolean
@@ -45,41 +50,25 @@ export interface User {
   myText: string
 }
 
-export interface PostModalProps {
-  post: Post
+export interface ModalProps {
   visible?: boolean
   onClose: () => void
 }
 
+export interface PostModalProps extends ModalProps {
+  post: Post
+}
+
 export interface Props {
-  posts: Array<{
-    id: number
-    title: string
-    nickname: string
-    content: string
-    gender: string
-    createdDate: string
-    region: string
-    period: string
-    price: number
-    recruiting: boolean
-  }>
+  posts: Post[]
   currentPage?: number
   showRecruiting?: boolean
   isSearched?: boolean
   initialPosts?: string
 }
 
-export interface Token {
-  atk: string
-  rtk: string
-}
-
-export interface GlobalState {
-  isLogged: boolean
+export interface GlobalState extends UserState {
   msg: string
-  status: string
-  signUp: boolean
   kakao: boolean
   google: boolean
   token: Token
@@ -100,11 +89,7 @@ export interface profileBasicValues {
   email?: string
 }
 
-export interface userProfileData {
-  // id: number
-  // image: string
-  nickname?: string
-  email?: string
+export interface userProfileData extends profileBasicValues {
   password?: string
   gender?: string
   smoke?: boolean
@@ -119,9 +104,7 @@ export interface userProfileData {
   myText?: string
 }
 
-export interface ProfileBasicProps {
-  nickname: string
-  email: string
+export interface ProfileBasicProps extends profileBasicValues {
   setEmail: React.Dispatch<React.SetStateAction<string>>
   setNickname: React.Dispatch<React.SetStateAction<string>>
   profileImage: string
@@ -172,21 +155,11 @@ export interface ApplyProps {
 }
 
 export interface ApplicantProps {
-  applyPosts: Array<{
-    applyId: number
-    leader: boolean
-    articleId: number
-    articleTitle: string
-    otherUserId: number
-    otherUserName: string
-    matchStatus: string
-  }>
+  applyPosts: ApplyProps[]
   currentPage?: number
   showApply?: boolean
 }
 
-export interface RecommendModalProps {
+export interface RecommendModalProps extends ModalProps {
   user: User
-  visible: boolean
-  onClose: () => void
 }
