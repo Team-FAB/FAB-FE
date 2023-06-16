@@ -46,7 +46,6 @@ const SearchBar: React.FC<RoomMateSearchProps> = ({ onSearch }) => {
 
   return (
     <div className={styles.searchContainer}>
-      <SearchOutlined className={styles.searchIcon} style={{ fontSize: 28 }} />
       <div className={styles.searchBox}>
         <div className={styles.searchBar} onClick={handleToggleSearchBox}>
           <div>
@@ -65,10 +64,10 @@ const SearchBar: React.FC<RoomMateSearchProps> = ({ onSearch }) => {
             <p>성별</p>
             <Badge className={styles.cardBadgeGender}>{selectedGender}</Badge>
           </div>
-          <CaretDownOutlined
-            className={styles.lastDiv}
+          <SearchOutlined
+            className={styles.searchIcon}
             onClick={() => handleSearch()}
-            style={{ color: "#4c2ad3" }}
+            style={{ fontSize: 20, color: "#b9b9b9" }}
           />
         </div>
         {searchBoxOpen && (
