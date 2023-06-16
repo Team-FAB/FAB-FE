@@ -3,19 +3,36 @@ import { SiNotion } from "react-icons/si"
 import { BsYoutube } from "react-icons/bs"
 import { ImGithub } from "react-icons/im"
 import img from "../../assets/logo(w).svg"
+import { Button, Dropdown } from "antd"
+import { GithubOutlined } from "@ant-design/icons"
 
 const Footer: React.FC = () => {
-  const owner = [
-    { name: "BE_윤장원", gitAddress: "https://github.com/yjjjwww" },
-    { name: "BE_서원호", gitAddress: "https://github.com/wonho-seo" },
-    { name: "BE_고지민", gitAddress: "https://github.com/FeelingXD" },
-    { name: "FE_조유진", gitAddress: "https://github.com/YouJin-Cho" },
-    { name: "FE_황지민", gitAddress: "https://github.com/HwangJiMinn" },
-    { name: "FE_권선아", gitAddress: "https://github.com/kwonseona" },
+  const items = [
+    {
+      key: "BE_윤장원",
+      label: <a href="https://github.com/yjjjwww">BE_윤장원</a>,
+    },
+    {
+      key: "BE_서원호",
+      label: <a href="https://github.com/wonho-seo">BE_서원호</a>,
+    },
+    {
+      key: "BE_고지민",
+      label: <a href="https://github.com/FeelingXD">BE_고지민</a>,
+    },
+    {
+      key: "FE_조유진",
+      label: <a href="https://github.com/YouJin-Cho">FE_조유진</a>,
+    },
+    {
+      key: "FE_황지민",
+      label: <a href="https://github.com/HwangJiMinn">FE_황지민</a>,
+    },
+    {
+      key: "FE_권선아",
+      label: <a href="https://github.com/kwonseona">FE_권선아</a>,
+    },
   ]
-
-  const backOwners = owner.filter((item) => item.name.includes("BE"))
-  const frontOwners = owner.filter((item) => item.name.includes("FE"))
 
   return (
     <>
@@ -23,57 +40,39 @@ const Footer: React.FC = () => {
         <div className={styles.footerBox}>
           <div className={styles.footerDesc}>
             <img src={img} />
-            <p>COMPANY NAME: 방갑고</p>
-            <p>OWNER: First And Best</p>
-            <p>Copyright © 2023 - All right reserved</p>
+            <div className={styles.info}>
+              <p>COMPANY NAME: 방갑고</p>
+              <p>Team: First And Best</p>
+            </div>
+            <p>
+              Copyright ⓒ 2023 by First And Best All Pictures cannot be copied
+              without permission
+            </p>
           </div>
           <div className={styles.footerOwner}>
-            <p>방갑고 Owner</p>
             <div className={styles.footerGit}>
-              <p>Back-End</p>
-              {backOwners.map((item) => (
-                <div key={item.name}>
-                  <p>{item.name}</p>
-                  <a
-                    href={item.gitAddress}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <ImGithub className={styles.bs} />
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className={styles.footerOwner}>
-            <p>방갑고 Owner</p>
-            <div className={styles.footerGit}>
-              <p>Front-End</p>
-              {frontOwners.map((item) => (
-                <div key={item.name}>
-                  <p>{item.name}</p>
-                  <a
-                    href={item.gitAddress}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <ImGithub className={styles.bs} />
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className={styles.footerSns}>
-            <p>방갑고 SNS</p>
-            <div className={styles.snsBox}>
-              <div>
-                <p>History</p>
-                <SiNotion className={styles.snsIcon} />
-              </div>
-              <div>
-                <p>Youtube</p>
-                <BsYoutube className={styles.snsIcon} />
-              </div>
+              <Dropdown menu={{ items }} placement="top">
+                <Button
+                  shape="circle"
+                  icon={
+                    <GithubOutlined
+                      style={{ fontSize: "20px", color: "#6231ef" }}
+                    />
+                  }
+                />
+              </Dropdown>
+              <Button
+                shape="circle"
+                icon={
+                  <SiNotion style={{ fontSize: "20px", color: "#6231ef" }} />
+                }
+              />
+              <Button
+                shape="circle"
+                icon={
+                  <BsYoutube style={{ fontSize: "20px", color: "#6231ef" }} />
+                }
+              />
             </div>
           </div>
         </div>
