@@ -1,4 +1,4 @@
-import { SearchOutlined, CaretDownOutlined } from "@ant-design/icons"
+import { SearchOutlined } from "@ant-design/icons"
 import { Badge, Radio, Button, RadioChangeEvent } from "antd"
 import { region, period, price, gender } from "../../object/profileDropdown"
 import styles from "../../components/SearchBar/searchBar.module.css"
