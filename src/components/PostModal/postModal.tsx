@@ -88,7 +88,6 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           headers: {
             "Content-Type": "application/json",
             Authorization: userToken.atk.toString(),
-            "ngrok-skip-browser-warning": "69420",
           },
         })
 

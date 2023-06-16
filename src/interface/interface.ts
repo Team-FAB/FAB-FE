@@ -163,3 +163,10 @@ export interface ApplicantProps {
 export interface RecommendModalProps extends ModalProps {
   user: User
 }
+
+export interface SaveButtonProps {
+  post: Post
+  isSaved: boolean
+  userFavorite: string
+  onClose: () => void
+}
