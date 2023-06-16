@@ -42,12 +42,10 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     undefined,
   )
 
-  // 검색 결과를 저장하고, 검색 여부를 업데이트
   const handleSearchResults = (results: Post[]) => {
     setPosts(results)
-    setIsSearched(true) // 검색이 완료되었음을 표시
+    setIsSearched(true)
   }
-
   // 페이지네이션
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -99,42 +97,38 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   // 검색 필터링
   const handleSearch = async (page = 1, size = 5) => {
     const searchParams = {
-      region: selectedArea.toString(),
-      period: selectedPeriod.toString(),
-      price: selectedDeposit?.toString() ?? "",
-      gender: selectedGender.toString(),
       page: page.toString(),
       size: size.toString(),
+      region: selectedArea,
+      period: selectedPeriod,
+      price: selectedDeposit?.toString() ?? "",
+      gender: selectedGender,
     }
 
-    const queryString = new URLSearchParams(searchParams) // 고쳐야함
+    const queryString = new URLSearchParams(searchParams).toString()
 
-    console.log(queryString)
     try {
-      const response = await fetch(
-        `/api/${userArticle}/filter?${queryString}`, // 고쳐야함
-        {
-          method: "GET",
-          headers: new Headers({
-            "ngrok-skip-browser-warning": "69420",
-          }),
-        },
-      )
+      const response = await fetch(`/api/articles/filter?${queryString}`, {
+        method: "GET",
+        headers: new Headers({
+          "ngrok-skip-browser-warning": "69420",
+        }),
+      })
 
       if (!response.ok) {
         throw new Error("서버 연결 실패")
       }
 
       const data = await response.json()
-      const searchResults = data.data
-      setSearchBoxOpen(!searchBoxOpen)
-      searchResults(searchResults)
-
-      setSearchBoxOpen(!searchBoxOpen)
-      console.log(data)
-    } catch (error) {
-      setSearchBoxOpen(!searchBoxOpen)
+      if (data.code === "RESPONSE_SUCCESS" && data.status === "OK") {
+        handleSearchResults(data.data)
+      } else {
+        throw new Error("API Error: " + data.msg)
+      }
+    } catch (error: unknown) {
       console.error("에러", error)
+      setSearchBoxOpen(!searchBoxOpen)
+      messageApi.error("검색 오류" + error)
     }
   }
 
