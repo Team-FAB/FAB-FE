@@ -99,19 +99,20 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   // 검색 필터링
   const handleSearch = async (page = 1, size = 5) => {
     const searchParams = {
-      region: selectedArea,
-      period: selectedPeriod,
+      region: selectedArea.toString(),
+      period: selectedPeriod.toString(),
       price: selectedDeposit?.toString() ?? "",
-      gender: selectedGender,
+      gender: selectedGender.toString(),
       page: page.toString(),
       size: size.toString(),
     }
 
-    const queryString = new URLSearchParams(searchParams).toString()
+    const queryString = new URLSearchParams(searchParams) // 고쳐야함
 
+    console.log(queryString)
     try {
       const response = await fetch(
-        `/api/${userArticle}/filter?${queryString}`,
+        `/api/${userArticle}/filter?${queryString}`, // 고쳐야함
         {
           method: "GET",
           headers: new Headers({
