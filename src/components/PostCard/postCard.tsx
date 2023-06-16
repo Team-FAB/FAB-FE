@@ -1,21 +1,14 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { UserOutlined } from "@ant-design/icons"
 import styles from "./postCard.module.css"
 import { Badge, Card, message } from "antd"
 import PostModal from "../PostModal/postModal"
 import { Props, Post } from "../../interface/interface"
-import { userArticle } from "../../api"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
 
-const PostCard: React.FC<Props> = ({
-  currentPage,
-  showRecruiting,
-  link,
-  token,
-}) => {
+const PostCard: React.FC<Props> = ({ posts }) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
-  const [posts, setPosts] = useState<Post[]>([])
   const [messageApi, contextHolder] = message.useMessage()
   const isLogged = useSelector((state: RootState) => state.user.isLogged)
 
@@ -53,48 +46,47 @@ const PostCard: React.FC<Props> = ({
     return doc.body.textContent || ""
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response =
-          link && token
-            ? await fetch(link, {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: token,
-                  "ngrok-skip-browser-warning": "69420",
-                },
-              })
-            : await fetch(
-                `/api/${userArticle}?page=${currentPage}&size=9&isRecruiting=${showRecruiting}`,
-                {
-                  method: "GET",
-                  headers: new Headers({
-                    "ngrok-skip-browser-warning": "69420",
-                  }),
-                },
-              )
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response =
+  //         link && token
+  //           ? await fetch(link, {
+  //               method: "GET",
+  //               headers: {
+  //                 "Content-Type": "application/json",
+  //                 Authorization: token,
+  //                 "ngrok-skip-browser-warning": "69420",
+  //               },
+  //             })
+  //           : await fetch(
+  //               `/api/${userArticle}?page=${currentPage}&size=9&isRecruiting=${showRecruiting}`,
+  //               {
+  //                 method: "GET",
+  //                 headers: new Headers({
+  //                   "ngrok-skip-browser-warning": "69420",
+  //                 }),
+  //               },
+  //             )
 
-        if (!response.ok) {
-          throw new Error(`서버 상태 응답 ${response.status}`)
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`서버 상태 응답 ${response.status}`)
+  //       }
 
-        const data = await response.json()
-        setPosts(data.data)
-      } catch (error) {
-        console.error(error)
-        messageApi.error("데이터 불러오기 오류")
-      }
-    }
+  //       const data = await response.json()
+  //       setPosts(data.data)
+  //     } catch (error) {
+  //       console.error(error)
+  //       messageApi.error("데이터 불러오기 오류")
+  //     }
+  //   }
 
-    fetchData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, showRecruiting, messageApi])
+  //   fetchData()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [currentPage, showRecruiting, messageApi])
 
   return (
     <>
-      {/* {posts.length > 0 ? ( */}
       {posts.map((post) => (
         <div
           key={post.id}
@@ -170,9 +162,7 @@ const PostCard: React.FC<Props> = ({
           )}
         </div>
       ))}
-      {/* ) : (
-       <div className={styles.noPosts}>글이 존재하지 않습니다.</div> */}
-      {/* ) */}
+
       {selectedPost && (
         <PostModal post={selectedPost} onClose={handleCloseModal} />
       )}
