@@ -46,45 +46,6 @@ const PostCard: React.FC<Props> = ({ posts }) => {
     return doc.body.textContent || ""
   }
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response =
-  //         link && token
-  //           ? await fetch(link, {
-  //               method: "GET",
-  //               headers: {
-  //                 "Content-Type": "application/json",
-  //                 Authorization: token,
-  //                 "ngrok-skip-browser-warning": "69420",
-  //               },
-  //             })
-  //           : await fetch(
-  //               `/api/${userArticle}?page=${currentPage}&size=9&isRecruiting=${showRecruiting}`,
-  //               {
-  //                 method: "GET",
-  //                 headers: new Headers({
-  //                   "ngrok-skip-browser-warning": "69420",
-  //                 }),
-  //               },
-  //             )
-
-  //       if (!response.ok) {
-  //         throw new Error(`서버 상태 응답 ${response.status}`)
-  //       }
-
-  //       const data = await response.json()
-  //       setPosts(data.data)
-  //     } catch (error) {
-  //       console.error(error)
-  //       messageApi.error("데이터 불러오기 오류")
-  //     }
-  //   }
-
-  //   fetchData()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [currentPage, showRecruiting, messageApi])
-
   return (
     <>
       {posts.map((post) => (
