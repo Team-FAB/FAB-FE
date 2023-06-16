@@ -6,6 +6,7 @@ import { registerUser } from "../../Redux/user"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
+import video from "../../assets/bg.mp4"
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -39,7 +40,9 @@ const SignUp: React.FC = () => {
         onClick={mainpageLink}
       />
       <div className={styles.signUpBox}>
-        <div className={styles.videoBox}></div>
+        <div className={styles.videoBox}>
+          <video src={video} autoPlay loop muted />
+        </div>
         <div className={styles.inputBox}>
           <span className={styles.title}>회원가입</span>
           <Form
