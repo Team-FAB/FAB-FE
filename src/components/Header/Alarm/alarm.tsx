@@ -17,13 +17,13 @@ const Alarm: React.FC = () => {
   const [checkedSmoking, setCheckedSmoking] = useState(["Apple"])
   const readOnly = true
 
-  const handleChange = (checkedValues: any[]) => {
+  const handleChange = () => {
     if (readOnly) {
       setChecked(["female"])
     }
   }
 
-  const handleSmokingChange = (checkedValues: any[]) => {
+  const handleSmokingChange = () => {
     if (readOnly) {
       setCheckedSmoking(["Apple"])
     }

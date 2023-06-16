@@ -1,33 +1,9 @@
 import React, { useState } from "react"
-import { Badge, Button, Checkbox, Input, Modal } from "antd"
+import { Button, Checkbox, Input, Modal } from "antd"
 import styles from "./recommendModal.module.css"
+import { RecommendModalProps } from "../../interface/interface"
 
-
-interface User {
-  id: number
-  nickname: string
-  image: string
-  email: string
-  gender: string
-  smoke: boolean
-  MBTI: string
-  region: string
-  minAge: number
-  maxAge: number
-  myAge: number
-  activityTime: string
-  faviteTag: string
-  hateTag: string
-  myText: string
-}
-
-interface RecommendModalProps {
-  user: User
-  visible: boolean
-  onClose: () => void
-}
 const RecommendModal: React.FC<RecommendModalProps> = ({
-  user,
   visible,
   onClose,
 }) => {
@@ -35,13 +11,13 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
   const [checkedSmoking, setCheckedSmoking] = useState(["Apple"])
   const readOnly = true
 
-  const handleChange = (checkedValues: any[]) => {
+  const handleChange = () => {
     if (readOnly) {
       setChecked(["female"])
     }
   }
 
-  const handleSmokingChange = (checkedValues: any[]) => {
+  const handleSmokingChange = () => {
     if (readOnly) {
       setCheckedSmoking(["Apple"])
     }
