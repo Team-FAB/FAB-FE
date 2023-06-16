@@ -12,28 +12,41 @@ import { ApplyProps } from '../../../interface/interface'
 const Apply: React.FC = () => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
-  const [showApplicant, setShowApplicant] = useState(false)
+  const [showApply, setShowApply] = useState(true)
   const [count, setCount] = useState(0)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [isLeaderCurrentPage, setIsLeaderCurrentPage] = useState(1)
+  const [isNotLeaderCurrentPage, setIsNotLeaderCurrentPage] = useState(1)
   const pageSize = 3
   const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
 
-  const toggleRecruitOnly = () => {
-    setShowApplicant(!showApplicant)
+  const toggleShowApply = () => {
+    setShowApply(!showApply)
   }
 
   const refresh = () => {
     window.location.reload()
   }
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
+  const handleisLeaderPage = (page: number) => {
+    setIsLeaderCurrentPage(page)
+  }
+
+  const handleisNotLeaderPage = (page: number) => {
+    setIsNotLeaderCurrentPage(page)
   }
 
   useEffect(() => {
     const fetchData = async () => {
+      let apiEndpoint
+
+      if (showApply) {
+        apiEndpoint = `/api/${userMyApply}?page=${isLeaderCurrentPage}&size=3&isLeader=true`
+      } else {
+        apiEndpoint = `/api/${userMyApply}?page=${isNotLeaderCurrentPage}&size=3&isLeader=false`
+      }
+
       try {
-        const response = await fetch(`/api/${userMyApply}/total`, {
+        const response = await fetch(apiEndpoint, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -46,14 +59,15 @@ const Apply: React.FC = () => {
         }
 
         const data = await response.json()
-        setCount(data.data)
+        setCount(data.data) // 개수로 수정
+        setApplyPosts(data.data)
       } catch (error) {
         console.error(error)
       }
     }
 
     fetchData()
-  }, [currentPage, showApplicant])
+  }, [isLeaderCurrentPage, isNotLeaderCurrentPage, showApply])
 
   return (
     <>
@@ -65,24 +79,39 @@ const Apply: React.FC = () => {
             <Button className={styles.circleBtn} shape="circle" onClick={refresh}>
               <RedoOutlined />
             </Button>
-            <Button style={{ width: 90, display: 'flex', justifyContent: 'center' }} onClick={toggleRecruitOnly}>
-              {showApplicant ? "신청 받았어요" : "신청 했어요"}
+            <Button style={{ width: 90, display: 'flex', justifyContent: 'center' }} onClick={toggleShowApply}>
+              {showApply ? "신청 받았어요" : "신청 했어요"}
             </Button>
           </div>
         </div>
         <div className={styles.applicantContainer}>
-          <Applicant
-            applyPosts={applyPosts}
-            currentPage={currentPage}
-            showApplicant={showApplicant}
-          />
+          {
+            applyPosts.map((post) => (
+              <div key={post.applyId}>
+                <Applicant
+                  applyPosts={applyPosts}
+                  currentPage={showApply ? isLeaderCurrentPage : isNotLeaderCurrentPage}
+                  showApply={showApply} />
+              </div>
+            ))
+          }
+          {showApply ? (
+            <Pagination 
+              className={styles.pagination}
+              current={isLeaderCurrentPage}
+              onChange={handleisLeaderPage}
+              total={count}
+              pageSize={pageSize} />
+          ) : (
+            <Pagination 
+              className={styles.pagination}
+              current={isNotLeaderCurrentPage}
+              onChange={handleisNotLeaderPage}
+              total={count}
+              pageSize={pageSize} />
+          )}
         </div>
-        <Pagination 
-          className={styles.pagination}
-          current={currentPage}
-          onChange={handlePageChange}
-          total={count}
-          pageSize={pageSize} />
+        
       </div>
     </>
   )

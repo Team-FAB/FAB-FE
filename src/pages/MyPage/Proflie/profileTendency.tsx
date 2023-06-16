@@ -30,11 +30,16 @@ const ProfileTendency = (props:profileTendencyProps) => {
   })
 
   const handleToggleBox = (boxName: keyof profileTendencyDropdown) => {
-    setBoxStates((prevState) => ({
-      ...prevState,
-      [boxName]: !prevState[boxName]
-    }))
-  }
+    setBoxStates((prevState) => {
+      const newState = Object.keys(prevState).reduce((state, key) => {
+        return {...state, [key]: key === boxName};
+      }, {} as typeof prevState);
+  
+      newState[boxName] = !prevState[boxName];
+      
+      return newState;
+    })
+  } 
 
 
   const handleTendencyChange = (checkedValues: CheckboxValueType[]) => {
@@ -61,7 +66,7 @@ const ProfileTendency = (props:profileTendencyProps) => {
       })
 
       if (!response.ok) {
-        console.log(response)
+        console.log(response.json())
         throw new Error('프로필 성향 정보 업데이트 실패')
       } else {
         Modal.success({
@@ -102,7 +107,7 @@ const ProfileTendency = (props:profileTendencyProps) => {
         region: props.selectedregion,
         minAge: Number(props.selectedAgeGroup.split('-')[0]),
         maxAge: Number(props.selectedAgeGroup.split('-')[1]),
-        activityTime: props.selectedActivityTime === '오전' ? 'MORNING' : 'MIDNIGHT',
+        activityTime: props.selectedActivityTime,
         myText: props.mytext,
         favoriteTag: props.favoriteTag
       };
