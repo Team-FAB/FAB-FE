@@ -175,15 +175,15 @@
 
 .genderRadioGroup {
   display: grid;
-  grid-template-rows: repeat(1, 40px 40px);
-  height: 100px;
+  grid-template-rows: repeat(1, 40px 40px 40px);
+  width: 100px;
 }
 
 .genderRadioBtn {
   display: flex;
   justify-items: start;
   align-items: center;
-  width: 60px;
+  width: 100px;
 }
 
 .searchChoiceGender {
