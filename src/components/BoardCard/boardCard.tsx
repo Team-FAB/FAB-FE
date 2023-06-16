@@ -1,18 +1,13 @@
-import styles from './boardCard.module.css'
-import { UserOutlined } from "@ant-design/icons";
-import { Badge, Card } from "antd";
+import styles from "./boardCard.module.css"
+import { UserOutlined } from "@ant-design/icons"
+import { Badge, Card } from "antd"
+import { RoomMateSearchProps } from "../../interface/interface"
 
-interface BoardCard {
-  onClick: () => void;
-  post: any;
-}
-
-const BoardCard: React.FC<BoardCard> = ({ post, onClick }) => {
-
+const BoardCard: React.FC<RoomMateSearchProps> = ({ post, onClick }) => {
   return (
-    <div className={styles.boardCardContainer}  onClick={onClick}>
+    <div className={styles.boardCardContainer} onClick={onClick}>
       <div className={styles.cardContainer}>
-        <Badge.Ribbon text="마감" style={{ background:'#8a8a8a' }}>
+        <Badge.Ribbon text="마감" style={{ background: "#8a8a8a" }}>
           <Card style={{ width: 250, marginTop: 16 }}>
             <div className={styles.cardText}>
               <div className={styles.cardTitleBox}>

@@ -27,12 +27,7 @@ const WritePage: React.FC = () => {
     ],
   }
 
-  const handleChange = (
-    content: string,
-    delta: any,
-    source: any,
-    editor: any,
-  ) => {
+  const handleChange = (content: string) => {
     setContent(content)
   }
 
@@ -67,7 +62,7 @@ const WritePage: React.FC = () => {
     }
   }
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo)
     Modal.error({
       title: "입력 오류",

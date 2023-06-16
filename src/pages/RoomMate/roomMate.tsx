@@ -72,13 +72,6 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
 
   // 검색
   const handleToggleSearchBox = () => {
-    if (!searchBoxOpen) {
-      setSelectedArea(region[0].region)
-      setSelectedPeriod(period[0].quarter)
-      setSelectedPrice(price[0].display)
-      setSelectedGender(gender[0].name)
-    }
-
     setSearchBoxOpen(!searchBoxOpen)
   }
 
@@ -99,10 +92,10 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     const searchParams = {
       page: page.toString(),
       size: size.toString(),
-      region: selectedArea,
-      period: selectedPeriod,
+      region: selectedArea.toString(),
+      period: selectedPeriod.toString(),
       price: selectedDeposit?.toString() ?? "",
-      gender: selectedGender,
+      gender: selectedGender.toString(),
     }
 
     const queryString = new URLSearchParams(searchParams).toString()
@@ -247,7 +240,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
                   <Radio.Group
                     className={styles.priceRadioGroup}
                     value={selectedDeposit}
-                    onChange={handlePriceChange}
+                    onChange={(e) => setSelectedPrice(e.target.value)}
                   >
                     {price.map((item, index) => (
                       <Radio

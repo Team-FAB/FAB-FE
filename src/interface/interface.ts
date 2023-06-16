@@ -159,6 +159,8 @@ export interface profileTendencyProps {
 
 export interface RoomMateSearchProps {
   onSearch?: (results: Post[]) => void
+  post: Post
+  onClick: () => void
 }
 
 export interface ApplyProps {
@@ -183,4 +185,10 @@ export interface ApplicantProps {
   }>
   currentPage?: number
   showApply?: boolean
+}
+
+export interface RecommendModalProps {
+  user: User
+  visible: boolean
+  onClose: () => void
 }
