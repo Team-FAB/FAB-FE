@@ -11,38 +11,7 @@ import PostModal from "../../components/PostModal/postModal"
 import RecommendModal from "../../components/RecommendModal/recommendModal"
 import { userArticle } from "../../api"
 import { message } from "antd"
-
-interface Post {
-  id: number
-  title: string
-  nickname: string
-  content: string
-  gender: string
-  createdDate: string
-  region: string
-  period: string
-  price: string
-  recruit: boolean
-  email: string
-}
-
-interface User {
-  id: number
-  nickname: string
-  image: string
-  email: string
-  gender: string
-  smoke: boolean
-  MBTI: string
-  region: string
-  minAge: number
-  maxAge: number
-  myAge: number
-  activityTime: string
-  faviteTag: string
-  hateTag: string
-  myText: string
-}
+import { Post, User } from "../../interface/interface"
 
 const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (

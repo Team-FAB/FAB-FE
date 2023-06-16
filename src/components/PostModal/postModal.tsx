@@ -6,16 +6,12 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
 import { userFavorite } from "../../api"
 import { userArticle } from "../../api"
-
-interface PostModalProps {
-  post: any
-  onClose: () => void
-}
+import { PostModalProps } from "../../interface/interface"
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const [isSaved, setIsSaved] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
-  const userEmail = localStorage.getItem("email")
+  const userEmail = useSelector((state: RootState) => state.user.email)
   const navigate = useNavigate()
 
   const decodeHTML = (html: string) => {
@@ -27,8 +23,8 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     navigate(`/editPage/${post.id}`, { state: { post } })
   }
 
-  const recruit = (isRecruit: boolean) => {
-    if (isRecruit) {
+  const recruit = (recruiting: boolean) => {
+    if (recruiting) {
       return "모집"
     } else {
       return "마감"
@@ -49,12 +45,12 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   }
 
   const [newIsSaved, setNewIsSaved] = useState(false)
-  const userToken = useSelector((state : RootState) => state.user.data.token)
+  const userToken = useSelector((state: RootState) => state.user.data.token)
 
   const saveClassName = newIsSaved
-  ? `${styles.save} ${styles.saveActive}`
-  : styles.save
-    
+    ? `${styles.save} ${styles.saveActive}`
+    : styles.save
+
   const handleSaveClick = () => {
     setNewIsSaved((prevIsSaved) => !prevIsSaved)
   }
@@ -68,7 +64,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             "Content-Type": "application/json",
             Authorization: userToken.atk.toString(),
           },
-        });
+        })
 
         if (!response.ok) {
           throw new Error("찜하기를 처리하는데 실패했습니다.")
@@ -81,8 +77,8 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       }
     }
     onClose()
-    }, [newIsSaved, isSaved, onClose])
-  
+  }, [newIsSaved, isSaved, onClose])
+
   // 찜하기 상태 가져오기
   useEffect(() => {
     const fetchFavoriteStatus = async () => {
@@ -109,7 +105,6 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     }
 
     fetchFavoriteStatus()
-
   }, [post.id])
 
   //
@@ -165,10 +160,10 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       cancelButtonProps={{ style: { display: "none" } }}
       okButtonProps={{ style: { display: "none" } }}
     >
-      {post.isRecruit === true ? (
+      {post.recruiting === true ? (
         <div>
           <Badge className={styles.badgePresent}>
-            {recruit(post.isRecruit)}
+            {recruit(post.recruiting)}
           </Badge>
           <div className={styles.titleContainer}>
             <span className={styles.title}>{post.title}</span>
@@ -217,7 +212,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       ) : (
         <div>
           <Badge className={styles.isBadgePresent}>
-            {recruit(post.isRecruit)}
+            {recruit(post.recruiting)}
           </Badge>
           <div className={styles.titleContainer}>
             <span className={styles.title}>{post.title}</span>

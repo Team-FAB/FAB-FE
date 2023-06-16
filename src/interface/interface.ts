@@ -15,6 +15,7 @@ export interface LoginValues {
 
 export interface Post {
   id: number
+  email?: string
   title: string
   nickname: string
   content: string
@@ -45,8 +46,8 @@ export interface User {
 }
 
 export interface PostModalProps {
-  post: string
-  visible: boolean
+  post: Post
+  visible?: boolean
   onClose: () => void
 }
 
