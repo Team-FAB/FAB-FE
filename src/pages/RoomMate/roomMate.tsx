@@ -122,6 +122,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
       const data = await response.json()
       if (data.code === "RESPONSE_SUCCESS" && data.status === "OK") {
         handleSearchResults(data.data)
+        setSearchBoxOpen(!searchBoxOpen)
       } else {
         throw new Error("API Error: " + data.msg)
       }

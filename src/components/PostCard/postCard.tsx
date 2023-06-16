@@ -162,7 +162,6 @@ const PostCard: React.FC<Props> = ({ posts }) => {
           )}
         </div>
       ))}
-
       {selectedPost && (
         <PostModal post={selectedPost} onClose={handleCloseModal} />
       )}
