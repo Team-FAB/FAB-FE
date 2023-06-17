@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { kakaoUserLogin } from "../../api"
+import { googleUserLogin, kakaoUserLogin } from "../../api"
 import video from "../../assets/bg.mp4"
 
 const Login: React.FC = () => {
@@ -24,8 +24,13 @@ const Login: React.FC = () => {
     }
   }
 
-  const Kakao = () => {
+  const kakao = () => {
     window.location.href = kakaoUserLogin
+  }
+
+  const google = () => {
+    window.location.href = googleUserLogin
+    console.log(document.URL)
   }
 
   return (
@@ -88,8 +93,8 @@ const Login: React.FC = () => {
                 <span className={styles.title}>또는</span>
                 <span className={styles.line}></span>
               </div>
-              <img src="src/assets/Kakao Login.svg" onClick={Kakao} />
-              <img src="src/assets/Google Login.svg" />
+              <img src="src/assets/Kakao Login.svg" onClick={kakao} />
+              <img src="src/assets/Google Login.svg" onClick={google} />
             </div>
           </div>
         </div>

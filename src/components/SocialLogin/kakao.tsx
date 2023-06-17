@@ -11,10 +11,10 @@ const Kakao = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const urlCode = new URL(window.location.href).searchParams.get("code")
+    const code = new URL(window.location.href).searchParams.get("code")
 
-    if (urlCode) {
-      dispatch(kakaologinUser(urlCode))
+    if (code) {
+      dispatch(kakaologinUser({ code: code }))
         .then((action: PayloadAction<{ token: Token } | unknown>) => {
           if (kakaologinUser.fulfilled.match(action)) {
             navigate("/MainPage")
@@ -27,6 +27,8 @@ const Kakao = () => {
         })
     }
   }, [dispatch, navigate])
+
+  return null
 }
 
 export default Kakao
