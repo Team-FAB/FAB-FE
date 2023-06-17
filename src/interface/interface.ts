@@ -11,6 +11,7 @@ export interface UserState {
   }
   email: string
   status: "idle" | "loading" | "fulfilled" | "error"
+  accessToken?: string
 }
 
 export interface LoginValues {

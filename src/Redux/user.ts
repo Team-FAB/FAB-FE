@@ -164,6 +164,7 @@ export const kakaologinUser = createAsyncThunk<
     email: string
     token: Token
   },
+  { code: string },
   { dispatch: AppDispatch; state: RootState }
 >("/kakao", async (code, { rejectWithValue }) => {
   try {
@@ -189,15 +190,18 @@ export const kakaologinUser = createAsyncThunk<
 
 export const googleloginUser = createAsyncThunk<
   { token: Token },
-  void,
+  { accessToken: string },
   { dispatch: Dispatch; state: RootState }
->("login/oauth2/google", async () => {
+>("login/oauth2/google", async (_, thunkAPI) => {
   try {
-    const response = await fetch(googleUserLogin, {
-      method: "GET",
+    const state = thunkAPI.getState() as RootState
+    const accessToken = state.user.accessToken
+    const response = await fetch(`/api/${googleUserLogin}`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ access_token: accessToken }),
     })
 
     const data = await response.json()
