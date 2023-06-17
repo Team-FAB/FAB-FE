@@ -54,7 +54,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   }
 
   // 검색 필터링
-  const handleSearch = async (query: SearchQuery, page = 1, size = 5) => {
+  const handleSearch = async (query: SearchQuery, page = 1, size = 9) => {
     const searchParams = {
       page: page.toString(),
       size: size.toString(),
@@ -66,7 +66,6 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
 
     const queryString = new URLSearchParams(searchParams).toString()
 
-    console.log(searchParams)
     try {
       const response = await fetch(`/api/articles/filter?${queryString}`, {
         method: "GET",
@@ -89,7 +88,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     } catch (error: unknown) {
       console.error("에러", searchParams)
       setSearchBoxOpen(!searchBoxOpen)
-      messageApi.error("검색 오류" + error)
+      messageApi.error("검색된 결과가 없습니다.")
     }
   }
 
