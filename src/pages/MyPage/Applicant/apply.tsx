@@ -4,7 +4,7 @@ import { Button, Pagination } from 'antd'
 import { useEffect, useState } from 'react'
 import Applicant from './applicant'
 import MyPage from '../myPage'
-import { userMyApply } from '../../../api'
+import { userMyToApplicants, userMyFromApplicants } from '../../../api'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
 import { ApplyProps } from '../../../interface/interface'
@@ -14,8 +14,8 @@ const Apply: React.FC = () => {
   const userToken = useSelector((state : RootState) => state.user.data.token)
   const [showApply, setShowApply] = useState(true)
   const [count, setCount] = useState(0)
-  const [isLeaderCurrentPage, setIsLeaderCurrentPage] = useState(1)
-  const [isNotLeaderCurrentPage, setIsNotLeaderCurrentPage] = useState(1)
+  const [toCurrentPage, setToCurrentPage] = useState(1)
+  const [fromCurrentPage, setFromCurrentPage] = useState(1)
   const pageSize = 3
   const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
 
@@ -27,12 +27,12 @@ const Apply: React.FC = () => {
     window.location.reload()
   }
 
-  const handleisLeaderPage = (page: number) => {
-    setIsLeaderCurrentPage(page)
+  const handleToPageChange = (page: number) => {
+    setToCurrentPage(page)
   }
 
-  const handleisNotLeaderPage = (page: number) => {
-    setIsNotLeaderCurrentPage(page)
+  const handleFromPageChange = (page: number) => {
+    setFromCurrentPage(page)
   }
 
   useEffect(() => {
@@ -40,9 +40,9 @@ const Apply: React.FC = () => {
       let apiEndpoint
 
       if (showApply) {
-        apiEndpoint = `/api/${userMyApply}?page=${isLeaderCurrentPage}&size=3&isLeader=true`
+        apiEndpoint = `/api/${userMyToApplicants}?page=${toCurrentPage}&size=3`
       } else {
-        apiEndpoint = `/api/${userMyApply}?page=${isNotLeaderCurrentPage}&size=3&isLeader=false`
+        apiEndpoint = `/api/${userMyFromApplicants}?page=${fromCurrentPage}&size=3`
       }
 
       try {
@@ -67,7 +67,7 @@ const Apply: React.FC = () => {
     }
 
     fetchData()
-  }, [isLeaderCurrentPage, isNotLeaderCurrentPage, showApply])
+  }, [toCurrentPage, fromCurrentPage, showApply])
 
   return (
     <>
@@ -90,7 +90,7 @@ const Apply: React.FC = () => {
               <div key={post.applyId}>
                 <Applicant
                   applyPosts={applyPosts}
-                  currentPage={showApply ? isLeaderCurrentPage : isNotLeaderCurrentPage}
+                  currentPage={showApply ? toCurrentPage : fromCurrentPage}
                   showApply={showApply} />
               </div>
             ))
@@ -98,15 +98,15 @@ const Apply: React.FC = () => {
           {showApply ? (
             <Pagination 
               className={styles.pagination}
-              current={isLeaderCurrentPage}
-              onChange={handleisLeaderPage}
+              current={toCurrentPage}
+              onChange={handleToPageChange}
               total={count}
               pageSize={pageSize} />
           ) : (
             <Pagination 
               className={styles.pagination}
-              current={isNotLeaderCurrentPage}
-              onChange={handleisNotLeaderPage}
+              current={fromCurrentPage}
+              onChange={handleFromPageChange}
               total={count}
               pageSize={pageSize} />
           )}

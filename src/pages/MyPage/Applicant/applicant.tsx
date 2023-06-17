@@ -1,17 +1,76 @@
 import styles from './applicant.module.css'
-import { Badge, Card } from "antd"
+import { Badge, Card, Modal } from "antd"
 import { IdcardOutlined, CloseOutlined, WechatOutlined, FileDoneOutlined, CheckOutlined } from "@ant-design/icons"
 import Meta from "antd/es/card/Meta"
 import { ApplicantProps, ApplyProps } from '../../../interface/interface'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
-import { useState } from 'react'
+import { userAprove, userRefuse } from '../../../api'
 
-const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply }) => {
+const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply, applyPosts }) => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
-  const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
+  // const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
 
+  // 승인
+  const updateApprove = async () => {
+    try {
+      const response = await fetch(`/api/${userAprove}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userToken.atk.toString(), 
+        },
+        body: JSON.stringify(applyPosts.map((item) => item.articleId)),
+      })
+
+      if (!response.ok) {
+        throw new Error('매칭 승인 실패')
+      } else {
+        Modal.success({
+          title: "룸메이트 매칭 성공!",
+          content: "룸메이트 매칭을 승인하였습니다.",
+        });
+      }
+
+      const approveData = await response.json()
+      window.location.reload() // Modal이 있기 때문에 새로고침 안해도 되는지 확인
+      return approveData
+
+    } catch (error) {
+      console.error('룸메이트 매칭 승인 오류', error)
+    }
+  }
+
+  // 거절
+  const updateRefuse = async () => {
+    try {
+      const response = await fetch(`/api/${userRefuse}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userToken.atk.toString(), 
+        },
+        body: JSON.stringify(applyPosts.map((item) => item.articleId)),
+      })
+
+      if (!response.ok) {
+        throw new Error('매칭 거절 실패')
+      } else {
+        Modal.success({
+          title: "룸메이트 매칭 거절!",
+          content: "룸메이트 매칭을 거절하였습니다.",
+        });
+      }
+
+      const refuseData = await response.json()
+      window.location.reload()
+      return refuseData
+
+    } catch (error) {
+      console.error('룸메이트 매칭 거절 오류', error)
+    }
+  }
 
   return (
     <>
@@ -26,8 +85,8 @@ const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply }) => {
                     style={{ width: 530, marginBottom: 30 }}
                     actions={[
                       <IdcardOutlined title="프로필" />,  
-                      <CheckOutlined />,
-                      <CloseOutlined />,
+                      <CheckOutlined onClick={updateApprove} />,
+                      <CloseOutlined onClick={updateRefuse}/>,
                     ]}
                   >
                     <Meta
