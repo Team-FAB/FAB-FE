@@ -32,10 +32,10 @@ const Favorite = () => {
         throw new Error(`서버 상태 응답 ${response.status}`)
       }
 
-      const data = await response.json()
-      setPosts(data.data)
+      const responseData = await response.json()
+      setPosts(responseData.data)
 
-      if(data.data.newIsSaved === false) {
+      if(responseData.data.newIsSaved === false) {
         window.location.reload()
       }
 

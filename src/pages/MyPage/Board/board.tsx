@@ -33,8 +33,8 @@ const Board: React.FC = () => {
           throw new Error(`서버 상태 응답 ${response.status}`)
         }
 
-        const data = await response.json()
-        setPosts(data.data)
+        const responseData = await response.json()
+        setPosts(responseData.data)
       } catch (error) {
         console.error(error)
       }
