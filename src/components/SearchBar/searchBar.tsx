@@ -1,6 +1,11 @@
 import { SearchOutlined } from "@ant-design/icons"
 import { Badge, Radio, Button, RadioChangeEvent } from "antd"
-import { region, period, price, gender } from "../../object/profileDropdown"
+import {
+  Searchregion,
+  Searchperiod,
+  Searchprice,
+  Searchgender,
+} from "../../object/profileDropdown"
 import styles from "../../components/SearchBar/searchBar.module.css"
 import { useState } from "react"
 import { RoomMateSearchProps } from "../../interface/interface"
@@ -37,7 +42,7 @@ const SearchBar: React.FC<RoomMateSearchProps> = ({ onSearch }) => {
     const deposit = e.target.value
     setSelectedDeposit(deposit)
 
-    const selectedPriceDisplay = price.find(
+    const selectedPriceDisplay = Searchprice.find(
       (item) => item.deposit === deposit,
     )?.display
 
@@ -79,7 +84,7 @@ const SearchBar: React.FC<RoomMateSearchProps> = ({ onSearch }) => {
                   <Radio.Group
                     onChange={(e) => setSelectedArea(e.target.value)}
                   >
-                    {region.map((item, index) => (
+                    {Searchregion.map((item, index) => (
                       <Radio
                         key={index}
                         value={item.region}
@@ -98,7 +103,7 @@ const SearchBar: React.FC<RoomMateSearchProps> = ({ onSearch }) => {
                   value={selectedPeriod}
                   onChange={(e) => setSelectedPeriod(e.target.value)}
                 >
-                  {period.map((item, index) => (
+                  {Searchperiod.map((item, index) => (
                     <Radio
                       key={index}
                       value={item.quarter}
@@ -116,7 +121,7 @@ const SearchBar: React.FC<RoomMateSearchProps> = ({ onSearch }) => {
                   value={selectedDeposit}
                   onChange={handlePriceChange}
                 >
-                  {price.map((item, index) => (
+                  {Searchprice.map((item, index) => (
                     <Radio
                       key={index}
                       value={item.deposit}
@@ -134,7 +139,7 @@ const SearchBar: React.FC<RoomMateSearchProps> = ({ onSearch }) => {
                   value={selectedGender}
                   onChange={(e) => setSelectedGender(e.target.value)}
                 >
-                  {gender.map((item, index) => (
+                  {Searchgender.map((item, index) => (
                     <Radio
                       key={index}
                       value={item.name}
