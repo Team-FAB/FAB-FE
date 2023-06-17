@@ -18,4 +18,5 @@ export const userMyApply = "my/apply"
 export const userApplicant = "applicant/apply"
 export const userAprove = "applicant/approve"
 export const userRefuse = "applicant/refuse"
+export const usersRecommend = "users/recommend"
 

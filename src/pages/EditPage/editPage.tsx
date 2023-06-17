@@ -57,7 +57,7 @@ const editPage: React.FC = () => {
 
   const onFinish = async (values: Store) => {
     try {
-      const response = await fetch(`${userArticle}/${editPost.id}`, {
+      const response = await fetch(`/api/${userArticle}/${editPost.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
