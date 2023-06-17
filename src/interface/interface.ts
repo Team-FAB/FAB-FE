@@ -1,12 +1,16 @@
+export interface Token {
+  atk: string
+  rtk: string
+}
+
 export interface UserState {
   isLogged: boolean
   signUp: boolean
   data: {
     token: Token
   }
-  kakao: boolean
-  google: boolean
   email: string
+  status: "idle" | "loading" | "fulfilled" | "error"
 }
 
 export interface LoginValues {
@@ -16,6 +20,7 @@ export interface LoginValues {
 
 export interface Post {
   id: number
+  email?: string
   title: string
   nickname: string
   content: string
@@ -25,7 +30,6 @@ export interface Post {
   period: string
   price: number
   recruiting: boolean
-  props: Props
 }
 
 export interface User {
@@ -35,7 +39,7 @@ export interface User {
   email: string
   gender: string
   smoke: boolean
-  MBTI: string
+  mbti: string
   region: string
   minAge: number
   maxAge: number
@@ -44,41 +48,29 @@ export interface User {
   faviteTag: string
   hateTag: string
   myText: string
+  post: Post
 }
 
-export interface PostModalProps {
-  post: string
-  visible: boolean
+export interface ModalProps {
+  visible?: boolean
   onClose: () => void
 }
 
+export interface PostModalProps extends ModalProps {
+  post: Post
+}
+
 export interface Props {
-  posts: Array<{
-    id: number
-    title: string
-    nickname: string
-    content: string
-    gender: string
-    createdDate: string
-    region: string
-    period: string
-    price: string
-    isRecruit: boolean
-  }>
-  currentPage: number
-  showRecruitOnly: boolean
+  posts: Post[]
+  currentPage?: number
+  showRecruiting?: boolean
+  isSearched?: boolean
+  initialPosts?: string
+  Resultsposts?: Post[]
 }
 
-export interface Token {
-  atk: string
-  rtk: string
-}
-
-export interface GlobalState {
-  isLogged: boolean
+export interface GlobalState extends UserState {
   msg: string
-  status: string
-  signUp: boolean
   kakao: boolean
   google: boolean
   token: Token
@@ -99,15 +91,11 @@ export interface profileBasicValues {
   email?: string
 }
 
-export interface userProfileData {
-  // id: number
-  // image: string
-  nickname?: string
-  email?: string
+export interface userProfileData extends profileBasicValues {
   password?: string
   gender?: string
   smoke?: boolean
-  MBTI?: string
+  mbti?: string
   region?: string
   minAge?: number
   maxAge?: number
@@ -116,4 +104,79 @@ export interface userProfileData {
   favoriteTag?: string[]
   hateTag?: string
   myText?: string
+}
+
+export interface ProfileBasicProps extends profileBasicValues {
+  setEmail: React.Dispatch<React.SetStateAction<string>>
+  setNickname: React.Dispatch<React.SetStateAction<string>>
+  profileImage: string
+  setProfileImage: React.Dispatch<React.SetStateAction<string>>
+}
+
+export interface ProfileFileProps {
+  profileImage: string
+  setProfileImage: React.Dispatch<React.SetStateAction<string>>
+}
+
+export interface profileTendencyProps {
+  selectedGender: string
+  setSelectedGender: React.Dispatch<React.SetStateAction<string>>
+  selectedAge: number
+  setSelectedAge: React.Dispatch<React.SetStateAction<number>>
+  selectedSmoke: string
+  setSelectedSmoke: React.Dispatch<React.SetStateAction<string>>
+  selectedMBTI: string
+  setSelectedMBTI: React.Dispatch<React.SetStateAction<string>>
+  selectedregion: string
+  setSelectedregion: React.Dispatch<React.SetStateAction<string>>
+  selectedAgeGroup: string
+  setSelectedAgeGroup: React.Dispatch<React.SetStateAction<string>>
+  selectedActivityTime: string
+  setSelectedActivityTime: React.Dispatch<React.SetStateAction<string>>
+  mytext: string
+  setMytext: React.Dispatch<React.SetStateAction<string>>
+  favoriteTag: string[]
+  setFavoriteTag: React.Dispatch<React.SetStateAction<string[]>>
+  handleUpdateProfileSuccess: () => void
+}
+
+export interface SearchQuery {
+  area: string
+  period: string
+  price: string | undefined
+  gender: string
+}
+
+export interface RoomMateSearchProps {
+  onSearch?: (query: SearchQuery, page?: number, size?: number) => Promise<void>
+  post?: Post
+  onClick?: () => void
+  query?: Post[]
+}
+
+export interface ApplyProps {
+  applyId: number
+  leader: boolean
+  articleId: number
+  articleTitle: string
+  otherUserId: number
+  otherUserName: string
+  matchStatus: string
+}
+
+export interface ApplicantProps {
+  applyPosts: ApplyProps[]
+  currentPage?: number
+  showApply?: boolean
+}
+
+export interface RecommendModalProps extends ModalProps {
+  user: User
+}
+
+export interface SaveButtonProps {
+  post: Post
+  isSaved: boolean
+  userFavorite: string
+  onClose: () => void
 }

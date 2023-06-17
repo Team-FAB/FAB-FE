@@ -13,10 +13,12 @@ import SignUp from "./pages/SignUp/signUp"
 import Profile from "./pages/MyPage/Proflie/profile"
 import RoomMate from "./pages/RoomMate/roomMate"
 import Board from "./pages/MyPage/Board/board"
-import Applicant from "./pages/MyPage/Applicant/applicant"
 import Favorite from "./pages/MyPage/Favorites/favorite"
 import WritePage from "./pages/WritePage/writePage"
 import EditPage from "./pages/EditPage/editPage"
+import MbitCalculator from "./components/MbtiCalculator/mbitCalculator"
+import Kakao from "./components/Kakao/kakao"
+import Apply from "./pages/MyPage/Applicant/apply"
 
 const App: React.FC = () => {
   return (
@@ -32,6 +34,7 @@ const App: React.FC = () => {
         <BrowserRouter>
           <Chat />
           <Header />
+          <MbitCalculator />
           <Routes>
             <Route path="/RoomMate" element={<RoomMate />} />
             <Route path="/" element={<Login />} />
@@ -39,10 +42,11 @@ const App: React.FC = () => {
             <Route path="/SignUp" element={<SignUp />} />
             <Route path="/MyPage" element={<Profile />} />
             <Route path="/Board" element={<Board />} />
-            <Route path="/Applicant" element={<Applicant />} />
+            <Route path="/Apply" element={<Apply />} />
             <Route path="/Favorite" element={<Favorite />} />
             <Route path="/WritePage" element={<WritePage />} />
             <Route path="/editPage/:postId" element={<EditPage />} />
+            <Route path="/kakao" element={<Kakao />} />
           </Routes>
           <Footer />
         </BrowserRouter>

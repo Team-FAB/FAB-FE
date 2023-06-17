@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import styles from "./writePage.module.css";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import WritePageSelect from "./writePageSelect";
-import { Button, Input, Form, Modal } from "antd";
-import { useNavigate } from "react-router-dom";
-import { Store } from "antd/lib/form/interface";
-import { userArticle } from "../../api";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Redux/store";
+import React, { useState } from "react"
+import styles from "./writePage.module.css"
+import ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css"
+import WritePageSelect from "./writePageSelect"
+import { Button, Input, Form, Modal } from "antd"
+import { useNavigate } from "react-router-dom"
+import { Store } from "antd/lib/form/interface"
+import { userArticle } from "../../api"
+import { useSelector } from "react-redux"
+import { RootState } from "../../Redux/store"
 
 const WritePage: React.FC = () => {
-  const [content, setContent] = useState("");
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
+  const [content, setContent] = useState("")
+  const [form] = Form.useForm()
+  const navigate = useNavigate()
 
   const modules = {
     toolbar: [
@@ -25,55 +25,50 @@ const WritePage: React.FC = () => {
       [{ align: [] }],
       ["clean"],
     ],
-  };
+  }
 
-  const handleChange = (
-    content: string,
-    delta: any,
-    source: any,
-    editor: any
-  ) => {
-    setContent(content);
-  };
+  const handleChange = (content: string) => {
+    setContent(content)
+  }
 
-  const userToken = useSelector((state : RootState) => state.user.data.token)
+  const userToken = useSelector((state: RootState) => state.user.data.token)
 
   const onFinish = async (values: Store) => {
     try {
-      const response = await fetch(userArticle, {
+      const response = await fetch(`/api/${userArticle}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: userToken.atk.toString(),
         },
-        body: JSON.stringify(values), // values를 JSON 형식으로 변환
+        body: JSON.stringify(values),
       })
 
       if (!response.ok) {
-        console.log(response);
+        console.log(response)
       } else {
-        navigate("/RoomMate");
+        navigate("/RoomMate")
         Modal.success({
           title: "게시글 작성 완료",
           content: "게시글 작성이 완료되었습니다!",
-        });
+        })
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error:", error)
       Modal.error({
         title: "서버 오류",
         content: "게시글을 서버에 전송하는데 실패했습니다.",
-      });
+      })
     }
-  };
+  }
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+  const onFinishFailed = (errorInfo: unknown) => {
+    console.log("Failed:", errorInfo)
     Modal.error({
       title: "입력 오류",
       content: "모든 입력을 완료해 주세요.",
-    });
-  };
+    })
+  }
 
   return (
     <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
@@ -110,7 +105,7 @@ const WritePage: React.FC = () => {
         </div>
       </div>
     </Form>
-  );
-};
+  )
+}
 
-export default WritePage;
+export default WritePage

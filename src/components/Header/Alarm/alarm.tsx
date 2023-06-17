@@ -17,13 +17,13 @@ const Alarm: React.FC = () => {
   const [checkedSmoking, setCheckedSmoking] = useState(["Apple"])
   const readOnly = true
 
-  const handleChange = (checkedValues: any[]) => {
+  const handleChange = () => {
     if (readOnly) {
       setChecked(["female"])
     }
   }
 
-  const handleSmokingChange = (checkedValues: any[]) => {
+  const handleSmokingChange = () => {
     if (readOnly) {
       setCheckedSmoking(["Apple"])
     }
@@ -53,9 +53,7 @@ const Alarm: React.FC = () => {
   return (
     <div className={styles.alarmContainer}>
       <div className={styles.alarmIcon} onClick={showDrawer}>
-        <Badge dot>
-          <BellFilled style={{ fontSize: 18, color: "#6231ef" }} />
-        </Badge>
+        <BellFilled style={{ color: "#6231ef" }} size={50} />
       </div>
       <Drawer title="알림" placement="right" onClose={onClose} open={open}>
         <Card

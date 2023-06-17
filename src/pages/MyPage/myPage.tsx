@@ -13,7 +13,7 @@ const MyPage: React.FC = () => {
             <Link to='/Board'>작성한 글</Link>
           </li>
           <li>
-            <Link to='/Applicant'>신청 현황</Link>
+            <Link to='/Apply'>신청 현황</Link>
           </li>
           <li>
             <Link to='/Favorite'>찜한 목록</Link>

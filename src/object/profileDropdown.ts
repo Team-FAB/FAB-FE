@@ -1,19 +1,25 @@
-export const gender = [{ name: "여성" }, { name: "남성" }];
+export const gender = [
+  { name: "상관 없음" },
+  { name: "여성" },
+  { name: "남성" },
+]
 
-export const age = [{ age: 20 }, { age: 30 }];
+export const age = [{ age: 20 }, { age: 30 }]
 
 export const ageGroup = [
   { ageGroup: "20-25" },
   { ageGroup: "25-30" },
   { ageGroup: "30-35" },
-];
+]
 
-export const smoke = [{ smoke: "합니다" }, { smoke: "하지 않습니다" }];
+export const smoke = [{ smoke: "합니다" }, { smoke: "하지 않습니다" }]
 
 export const activityTime = [
-  { activityTime: "오전" },
+  { activityTime: "아침" },
   { activityTime: "오후" },
-];
+  { activityTime: "저녁" },
+  { activityTime: "밤" },
+]
 
 export const mbti = [
   { mbti: "ISTJ" },
@@ -32,9 +38,10 @@ export const mbti = [
   { mbti: "ESFJ" },
   { mbti: "ENFJ" },
   { mbti: "ENTJ" },
-];
+]
 
 export const region = [
+  { region: "상관 없음" },
   { region: "마포구" },
   { region: "서대문구" },
   { region: "은평구" },
@@ -60,7 +67,7 @@ export const region = [
   { region: "강남구" },
   { region: "송파구" },
   { region: "강동구" },
-];
+]
 
 export const tendencyChoice = [
   { label: "밥 같이 먹는", value: "밥 같이 먹는" },
@@ -78,17 +85,19 @@ export const tendencyChoice = [
   { label: "조용한 분위기를 좋아하는", value: "조용한 분위기를 좋아하는" },
   { label: "동물을 좋아하는", value: "동물을 좋아하는" },
   { label: "동물을 좋아하지 않는", value: "동물을 좋아하지 않는" },
-];
+]
 
 export const period = [
+  { quarter: "상관 없음" },
   { quarter: "1개월 ~ 3개월" },
   { quarter: "3개월 ~ 6개월" },
   { quarter: "6개월 ~ 9개월" },
   { quarter: "9개월 ~ 12개월" },
   { quarter: "1년 이상 ~" },
-];
+]
 
 export const price = [
+  { deposit: "상관 없음", display: "상관 없음" },
   { deposit: 1000000, display: "~1,000,000원" },
   { deposit: 2000000, display: "~2,000,000원" },
   { deposit: 3000000, display: "~3,000,000원" },
@@ -109,4 +118,4 @@ export const price = [
   { deposit: 18000000, display: "~18,000,000원" },
   { deposit: 19000000, display: "~19,000,000원" },
   { deposit: 20000000, display: "~20,000,000원" },
-];
+]

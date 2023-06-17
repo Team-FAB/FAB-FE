@@ -43,3 +43,19 @@
   text-align: center;
   color: var(--black200);
 }
+
+.mbtiResult{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.mbtiIcon {
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

@@ -1,27 +1,25 @@
-import React, { useState } from "react";
-import { RiMessage3Fill } from "react-icons/ri";
-import { IoCloseSharp } from "react-icons/io5";
-import styles from "./Chat.module.css";
+import React, { useState } from "react"
+import { RiMessage3Fill } from "react-icons/ri"
+import { IoCloseSharp } from "react-icons/io5"
+import styles from "./Chat.module.css"
 
 const Chat: React.FC = () => {
-
-  const [chatOpen, setChatOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false)
 
   const ButtonClick = () => {
-    setChatOpen(!chatOpen);
-  };
-  
+    setChatOpen(!chatOpen)
+  }
+
   const ButtonClose = () => {
-    setChatOpen(false);
-  };
-  
+    setChatOpen(false)
+  }
+
   return (
     <div className={styles.chatContainer}>
       <button className={styles.iconButton} onClick={ButtonClick}>
-        <RiMessage3Fill className={styles.icon} size={50} />
-        <div className={styles.alarm}>1</div>
+        <RiMessage3Fill className={styles.icon} size={30} />
       </button>
-      
+
       <div
         className={`${styles.chatBox} ${chatOpen ? styles.chatBoxOpen : ""}`}
       >
@@ -38,7 +36,7 @@ const Chat: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Chat;
+export default Chat

@@ -1,13 +1,9 @@
 import { UserOutlined } from "@ant-design/icons"
 import styles from "./mainpostCard.module.css"
 import { Badge, Card } from "antd"
+import { RoomMateSearchProps } from "../../interface/interface"
 
-interface MainPostCardProps {
-  onClick: () => void
-  post: any
-}
-
-const MainPostCard: React.FC<MainPostCardProps> = ({ post, onClick }) => {
+const MainPostCard: React.FC<RoomMateSearchProps> = ({ post, onClick }) => {
   const formatDate = (dateString: string): string => {
     const options = {
       year: "numeric",
@@ -18,12 +14,8 @@ const MainPostCard: React.FC<MainPostCardProps> = ({ post, onClick }) => {
   }
 
   const formatPrice = (price: number): string => {
-    return (
-      "~" +
-      price.toLocaleString("ko-KR") + "원"
-    )
+    return "~" + price.toLocaleString("ko-KR") + "원"
   }
-
 
   return (
     <div className={styles.cardContainer} onClick={onClick}>

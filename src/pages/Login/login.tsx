@@ -1,5 +1,3 @@
-// import { useSelector } from "react-redux"
-// import { RootState } from "../../Redux/store"
 import { LoginValues } from "../../interface/interface"
 import "antd"
 import styles from "../Login/login.module.css"
@@ -9,20 +7,17 @@ import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { useEffect } from "react"
+import { kakaoUserLogin } from "../../api"
+import video from "../../assets/bg.mp4"
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
   const dispatch = useAppDispatch()
-  const KAKAO_AUTH_URL =
-    "https://kauth.kakao.com/oauth/authorize?client_id=fb1ad65de6bb1a0db1b3df64618fa991&redirect_uri=https://ea54-180-229-71-154.ngrok-free.app/login/oauth2/kakao&response_type=code"
-
   const handleLogin = async (values: LoginValues) => {
     const { email, password } = values
     const actionResult = await dispatch(loginUser({ email, password }))
     if (loginUser.fulfilled.match(actionResult)) {
-      localStorage.setItem("email", email)
       navigate("/MainPage")
     } else {
       messageApi.info("이메일과 비밀번호를 확인하세요.")
@@ -30,17 +25,8 @@ const Login: React.FC = () => {
   }
 
   const Kakao = () => {
-    window.location.href = KAKAO_AUTH_URL
+    window.location.href = kakaoUserLogin
   }
-
-  useEffect(() => {
-    const url = new URL(window.location.href)
-    const code = url.searchParams.get("code")
-
-    if (code) {
-      console.log(code)
-    }
-  }, [])
 
   return (
     <>
@@ -49,7 +35,9 @@ const Login: React.FC = () => {
           <img className={styles.logo} src="src/assets/logo.svg" />
         </Link>
         <div className={styles.loginBox}>
-          <div className={styles.videoBox}></div>
+          <div className={styles.videoBox}>
+            <video src={video} autoPlay loop muted />
+          </div>
           <div className={styles.formBox}>
             <span className={styles.Logintitle}>로그인</span>
             <Form

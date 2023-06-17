@@ -3,7 +3,7 @@
   height: 100%;
   margin: 0 auto;
   margin-top: 35px;
-  min-height: 1300px;
+  min-height: 1000px;
 }
 
 .profilePhotoBox {
@@ -11,7 +11,7 @@
   flex-direction: column;
   align-items: center;
   width: 385px;
-  height: 330px;
+  height: 310px;
 }
 
 .profilePhoto {
@@ -64,6 +64,7 @@
 .profileTenContainer > p {
   font-size: var(--font-size-h6);
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .profileTenContainer > span {
@@ -92,18 +93,17 @@
   align-items: center;
   width: 385px;
   margin: 0 auto;
+  margin-bottom: 10px;
 }
 
 .tagContainer > div {
-  margin-bottom: 26px;
-  /* margin-left: 20px; */
+  margin-bottom: 15px;
 }
 
 .tendencyDesc {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 6px;
   margin-top: 10px;
 }
 
@@ -116,15 +116,22 @@
   justify-content: center;
   align-items: center;
   margin-left: 5px;
-  margin-bottom: 30px;
 }
 
 .tendencyBox {
   width: 330px;
-  height: 120px;
-  padding-left: 10px;
+  height: 90px;
   overflow-y: scroll;
-  transform: translateX(10px);
+  transform: translateX(20px);
+}
+
+.tendencyNotChoice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 120px;
+  margin: 0 auto;
 }
 
 .tendencyNot {
@@ -132,8 +139,8 @@
   justify-content: center;
   align-items: center;
   width: 330px;
-  height: 120px;
-  padding-left: 10px;
+  height: 90px;
+  transform: translateX(-6px);
 }
 
 .tendencyBox::-webkit-scrollbar {
@@ -168,14 +175,11 @@
   font-size: var(--font-size-sub3);
 }
 
-.tendencyNotChoice {
-  transform: translateX(-15px);
-}
-
 .IntroducContainer > p {
   font-size: var(--font-size-sub3);
   font-weight: var(--font-weight-h4-bold);
   margin-bottom: 6px;
+  margin-top: 8px;
 }
 
 .IntroducContainer > div {
@@ -200,6 +204,8 @@
 .dropdownBox {
   display: flex;
   justify-content: center;
+
+  position: relative;
 }
 
 .dropdownBadge {
@@ -231,8 +237,9 @@
   overflow-y: scroll;
 
   position: absolute;
-  left: 47%;
-  z-index: 50
+  top: 100%;
+  left: 35%;
+  z-index: 50;
 }
 
 .mbtiRadio {
@@ -256,8 +263,9 @@
   overflow-y: scroll;
 
   position: absolute;
-  left: 48%;
-  z-index: 50
+  top: 100%;
+  left: 40%;
+  z-index: 50;
 }
 
 .regionRadio {
@@ -265,7 +273,7 @@
   justify-content: center;
   align-items: center;
   width: 80px;
-  margin: 4px;
+  margin: 4px;  
 }
 
 .RadioBtn {
@@ -280,8 +288,9 @@
   box-shadow: var(--shadow);
 
   position: absolute;
-  left: 48%;
-  z-index: 50
+  top: 100%;
+  left: 37%;
+  z-index: 50;
 }
 
 .Radio {
@@ -304,8 +313,9 @@
   box-shadow: var(--shadow);
 
   position: absolute;
-  left: 48%;
-  z-index: 50
+  top: 100%;
+  left: 38%;
+  z-index: 50;
 }
 
 .smokeRadio {
@@ -328,8 +338,9 @@
   box-shadow: var(--shadow);
 
   position: absolute;
-  left: 48%;
-  z-index: 50
+  top: 100%;
+  left: 45%;
+  z-index: 50;
 }
 
 .ageGroupRadio {
@@ -338,4 +349,34 @@
   align-items: center;
   width: 100px;
   margin: 7px;
+}
+
+.activityRadioBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75px;
+  height: 140px;
+  padding: 5px 0px;
+  border-radius: 10px;
+  background-color: var(--white);
+  box-shadow: var(--shadow);
+
+  position: absolute;
+  top: 100%;
+  left: 30%;
+  z-index: 50;
+}
+
+.originNickname {
+  color: var(--black300);
+  font-weight: var(--font-weight-h1);
+  font-size: var(--font-size-sub3);
+  margin-bottom: 5px;
+}
+
+.basicBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

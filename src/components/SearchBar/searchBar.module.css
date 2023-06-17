@@ -1,3 +1,5 @@
+/* RoomMate Search */
+
 /* General */
 .searchContainer {
   display: flex;
@@ -5,19 +7,18 @@
   align-items: center;
   height: 50px;
   margin: 0 auto;
-  margin-bottom: 80px;
+  margin-top: 50px;
   position: relative;
 }
 
-.searchIcon {
-  margin-right: 7px;
-  color: var(--purple600);
+.searchIcon:hover {
+  opacity: 0.8;
 }
 
 .searchBox {
   position: relative;
   display: flex;
-  border: 1px solid var(--purple600);
+  border: 1px solid var(--black200);
   border-radius: var(--badge-border-radius);
   width: 800px;
   height: 40px;
@@ -78,7 +79,7 @@
   position: absolute;
   top: 140%;
   left: 0;
-  width: 700px;
+  width: 740px;
   background-color: var(--white);
   box-shadow: var(--shadow);
   border-radius: var(--badge-border-radius);
@@ -174,15 +175,15 @@
 
 .genderRadioGroup {
   display: grid;
-  grid-template-rows: repeat(1, 40px 40px);
-  height: 100px;
+  grid-template-rows: repeat(1, 40px 40px 40px);
+  width: 100px;
 }
 
 .genderRadioBtn {
   display: flex;
   justify-items: start;
   align-items: center;
-  width: 60px;
+  width: 100px;
 }
 
 .searchChoiceGender {

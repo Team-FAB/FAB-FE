@@ -1,5 +1,6 @@
 .roomMateContainer {
   width: 800px;
+  height: calc(100vh - 120px);
   padding: 60px;
   margin: 0 auto;
 }
@@ -28,7 +29,15 @@
 }
 
 .pagination {
-  margin-top: 30px;
   display: flex;
   justify-content: center;
+}
+
+.circleBtn {
+  transform: rotate(-30deg);
+  transition: transform 1s;
+}
+
+.circleBtn:hover {
+  transform: rotate(360deg);
 }

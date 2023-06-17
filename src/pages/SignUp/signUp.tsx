@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom"
 import { registerUser } from "../../Redux/user"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
-import { useEffect } from "react"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
+import video from "../../assets/bg.mp4"
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -16,23 +16,21 @@ const SignUp: React.FC = () => {
     navigate("/MainPage")
   }
 
-  const onFinish = (values: {
+  const onFinish = async (values: {
     email: string
     password: string
     nickname: string
   }) => {
-    dispatch(registerUser(values))
+    await dispatch(registerUser(values))
+
+    if (registerUserStatus === true) {
+      navigate("/")
+    }
   }
 
   const registerUserStatus = useSelector(
-    (state: RootState) => state.user.status,
+    (state: RootState) => state.user.signUp,
   )
-
-  useEffect(() => {
-    if (registerUserStatus === "fulfilled") {
-      navigate("/")
-    }
-  }, [registerUserStatus, navigate])
 
   return (
     <div className={styles.signUpContainer}>
@@ -42,7 +40,9 @@ const SignUp: React.FC = () => {
         onClick={mainpageLink}
       />
       <div className={styles.signUpBox}>
-        <div className={styles.videoBox}></div>
+        <div className={styles.videoBox}>
+          <video src={video} autoPlay loop muted />
+        </div>
         <div className={styles.inputBox}>
           <span className={styles.title}>회원가입</span>
           <Form

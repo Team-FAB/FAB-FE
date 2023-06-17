@@ -68,3 +68,8 @@
   display: flex;
   gap: 3px;
 }
+
+.noPosts {
+  position: absolute;
+  left: 45%;
+}
