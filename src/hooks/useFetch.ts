@@ -1,13 +1,22 @@
 import { useState, useEffect } from "react"
 
-const useFetch = (
+const useFetch = <T = unknown>(
   initialUrl: string,
   initialMethod: string,
   initialHeaders: HeadersInit,
   initialBody: BodyInit | null,
   initialParams: RequestInit,
-) => {
-  const [data, setData] = useState<unknown>(null)
+): {
+  data: T | null
+  isLoading: boolean
+  error: unknown
+  setUrl: Function
+  setHeaders: Function
+  setParams: Function
+  setMethod: Function
+  setBody: Function
+} => {
+  const [data, setData] = useState<T | null>(null)
   const [url, setUrl] = useState(initialUrl)
   const [headers, setHeaders] = useState<HeadersInit>(initialHeaders)
   const [params, setParams] = useState(initialParams)
@@ -18,10 +27,14 @@ const useFetch = (
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!method || !url) {
+        return
+      }
+
       setIsLoading(true)
       try {
         const response = await fetch(url, {
-          method: initialMethod,
+          method: method,
           headers: headers,
           body: JSON.stringify(body),
           ...params,
