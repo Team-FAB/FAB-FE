@@ -200,7 +200,7 @@ const MainPage: React.FC = () => {
             {users.slice(0, 12).map(
               (user) =>
                 data && (
-                  <RecommendPostCard // data가 null이 아닐 때만 컴포넌트 렌더링
+                  <RecommendPostCard 
                     key={user.id}
                     user={user}
                     onClick={() => handleUserClick(user)}

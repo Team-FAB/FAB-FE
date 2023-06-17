@@ -45,9 +45,6 @@ const editPage: React.FC = () => {
 
   const handleChange = (
     content: string,
-    delta: any,
-    source: any,
-    editor: any,
   ) => {
     setContent(content)
   }

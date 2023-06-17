@@ -39,7 +39,7 @@ export interface User {
   email: string
   gender: string
   smoke: boolean
-  MBTI: string
+  mbti: string
   region: string
   minAge: number
   maxAge: number
