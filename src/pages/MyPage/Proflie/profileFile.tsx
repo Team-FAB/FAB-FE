@@ -13,23 +13,23 @@ const ProfileFile = (props: ProfileFileProps) => {
 
   const handleImageUpload = async (file: File | Blob) => {
     const formData = new FormData()
-    formData.append("file", file)
+    formData.append("image", file)
 
     try {
       const response = await fetch(`/api/${userMyprofileFile}`, {
         method: "POST",
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: userToken.atk.toString(),
         },
         body: formData,
       })
-      const data = await response.json()
+      const responseData = await response.json()
 
-      if(data && data.url) {
-        props.setProfileImage(data.url)
+      if(responseData.data.image) {
+        props.setProfileImage(responseData.data.image)
+        console.log(props.profileImage)
       }
-      console.log(data)
+      console.log(responseData)
 
     } catch (error) {
       console.error(error)
