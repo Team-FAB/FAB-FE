@@ -63,7 +63,7 @@ const Profile: React.FC = () => {
         setSelectedSmoke(data.data.isSmoker === true ? '합니다' : '하지 않습니다')
         setSelectedMBTI(data.data.mbti === 'null' ? 'mbti' : data.data.mbti)
         setSelectedregion(data.data.region === 'null' ? '여기' : data.data.region)
-        // setSelectedAgeGroup(`${Number(data.data.minAge)} ~ ${Number(data.data.maxAge)}`)
+        setSelectedAgeGroup(`${Number(data.data.minAge)}-${Number(data.data.maxAge)}`)
         setSelectedActivityTime(data.data.activityTime === 'null' ? '오전오후' : data.data.activityTime)
         setMytext(data.data.detail ?? '추가로 하고 싶은 말을 적어주세요! :)')
         setfavoriteTag(data.data.tags)
