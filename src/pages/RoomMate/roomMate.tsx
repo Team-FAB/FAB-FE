@@ -66,6 +66,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
 
     const queryString = new URLSearchParams(searchParams).toString()
 
+    console.log(searchParams)
     try {
       const response = await fetch(`/api/articles/filter?${queryString}`, {
         method: "GET",
