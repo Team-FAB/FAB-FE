@@ -9,9 +9,11 @@ import "react-multi-carousel/lib/styles.css"
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai"
 import PostModal from "../../components/PostModal/postModal"
 import RecommendModal from "../../components/RecommendModal/recommendModal"
-import { userArticle } from "../../api"
+import { userArticle, usersRecommend } from "../../api"
 import { message } from "antd"
 import { Post, User } from "../../interface/interface"
+import { useSelector } from "react-redux"
+import { RootState } from "../../Redux/store"
 
 const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
@@ -35,12 +37,39 @@ const MainPage: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [messageApi, contextHolder] = message.useMessage()
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [data, setData] = useState<null | {
+    mbti: string
+    recommendDtoList: { id: number; nickname: string; mbti: string }[]
+  }>(null)
+
+  const userToken = useSelector((state: RootState) => state.user.data.token)
 
   useEffect(() => {
-    fetch("src/assets/users.json")
-      .then((response) => response.json())
-      .then((data) => setUsers(data.user))
-  }, [])
+    const fetchRecommendedUsers = async () => {
+      try {
+        const response = await fetch(`/api/${usersRecommend}?size=9`, {
+          method: "GET",
+          headers: new Headers({
+            "ngrok-skip-browser-warning": "69420",
+            Authorization: userToken.atk.toString(),
+          }),
+        })
+
+        if (!response.ok) {
+          throw new Error("서버에서 사용자 데이터를 가져오지 못했습니다.")
+        }
+
+        const data = await response.json()
+        setUsers(data.data.recommendDtoList)
+        setData(data.data)
+      } catch (error) {
+        console.error(error)
+        messageApi.error("사용자 데이터를 로드하는 동안 오류가 발생했습니다.")
+      }
+    }
+
+    fetchRecommendedUsers()
+  }, [messageApi])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -168,13 +197,17 @@ const MainPage: React.FC = () => {
             customRightArrow={<CustomRightArrow />}
             customLeftArrow={<CustomLeftArrow />}
           >
-            {users.slice(0, 12).map((user) => (
-              <RecommendPostCard
-                key={user.id}
-                user={user}
-                onClick={() => handleUserClick(user)}
-              />
-            ))}
+            {users.slice(0, 12).map(
+              (user) =>
+                data && (
+                  <RecommendPostCard // data가 null이 아닐 때만 컴포넌트 렌더링
+                    key={user.id}
+                    user={user}
+                    onClick={() => handleUserClick(user)}
+                    data={data}
+                  />
+                ),
+            )}
           </MultiCarousel>
         </div>
       </div>

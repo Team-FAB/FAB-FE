@@ -48,6 +48,7 @@ export interface User {
   faviteTag: string
   hateTag: string
   myText: string
+  post: Post
 }
 
 export interface ModalProps {

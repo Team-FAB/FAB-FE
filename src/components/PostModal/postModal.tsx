@@ -115,7 +115,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       cancelText: "아니오",
       onOk: async () => {
         try {
-          const response = await fetch(`${userArticle}/${post.id}`, {
+          const response = await fetch(`/api/${userArticle}/${post.id}`, {
             method: "DELETE",
             headers: {
               "Content-Type": "application/json",
