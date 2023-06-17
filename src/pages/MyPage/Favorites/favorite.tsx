@@ -15,34 +15,39 @@ const Favorite = () => {
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
   const handleCloseModal = () => {
-    setSelectedPost(null);
+    setSelectedPost(null)
+  }
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`/api/${userMyFavorite}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userToken.atk.toString()
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`서버 상태 응답 ${response.status}`)
+      }
+
+      const data = await response.json()
+      setPosts(data.data)
+
+      if(data.data.newIsSaved === false) {
+        window.location.reload()
+      }
+
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/${userMyFavorite}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: userToken.atk.toString()
-          },
-        })
-
-        if (!response.ok) {
-          throw new Error(`서버 상태 응답 ${response.status}`)
-        }
-
-        const data = await response.json()
-        setPosts(data.data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
     fetchData()
   }, [])
-
+  
   return(
     <>
       <MyPage />
@@ -51,7 +56,8 @@ const Favorite = () => {
           <PostCard posts={posts}/>
         </div>
         {selectedPost && (
-          <PostModal post={selectedPost} onClose={handleCloseModal} />
+          <PostModal
+            post={selectedPost} onClose={handleCloseModal} />
         )}
       </div>
     </>
