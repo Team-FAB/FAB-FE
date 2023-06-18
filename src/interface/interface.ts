@@ -11,6 +11,7 @@ export interface UserState {
   }
   email: string
   status: "idle" | "loading" | "fulfilled" | "error"
+  accessToken?: string
 }
 
 export interface LoginValues {
@@ -174,9 +175,3 @@ export interface RecommendModalProps extends ModalProps {
   user: User
 }
 
-// export interface SaveButtonProps {
-//   post: Post
-//   isSaved: boolean
-//   userFavorite: string
-//   onClose: () => void
-// }

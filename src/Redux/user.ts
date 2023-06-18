@@ -160,8 +160,11 @@ export const refreshToken = createAsyncThunk<
 )
 
 export const kakaologinUser = createAsyncThunk<
-  { token: Token },
-  string,
+  {
+    email: string
+    token: Token
+  },
+  { code: string },
   { dispatch: AppDispatch; state: RootState }
 >("/kakao", async (code, { rejectWithValue }) => {
   try {
@@ -179,7 +182,7 @@ export const kakaologinUser = createAsyncThunk<
 
     const data: UserState = await response.json()
 
-    return { token: data.data.token }
+    return { email: data.email, token: data.data.token }
   } catch (error: any) {
     return rejectWithValue(error.message)
   }
@@ -187,15 +190,18 @@ export const kakaologinUser = createAsyncThunk<
 
 export const googleloginUser = createAsyncThunk<
   { token: Token },
-  void,
+  { accessToken: string },
   { dispatch: Dispatch; state: RootState }
->("login/oauth2/google", async () => {
+>("login/oauth2/google", async (_, thunkAPI) => {
   try {
-    const response = await fetch(googleUserLogin, {
-      method: "GET",
+    const state = thunkAPI.getState() as RootState
+    const accessToken = state.user.accessToken
+    const response = await fetch(`/api/${googleUserLogin}`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ access_token: accessToken }),
     })
 
     const data = await response.json()
@@ -240,7 +246,6 @@ const userSlice = createSlice({
       state.isLogged = false
       state.data.token = { atk: "", rtk: "" }
       state.email = ""
-      localStorage.removeItem("email")
     },
     signUp: (state) => {
       state.signUp = false
@@ -248,6 +253,8 @@ const userSlice = createSlice({
     kakaoLogin: (state, action) => {
       state.isLogged = false
       state.data.token = action.payload.data.token
+      state.email = action.payload.email
+      saveToLocalStorage(state)
     },
     googleLogin: (state, action) => {
       state.isLogged = false
@@ -281,6 +288,7 @@ const userSlice = createSlice({
     builder.addCase(kakaologinUser.fulfilled, (state, action) => {
       state.isLogged = true
       state.data.token = action.payload.token
+      state.email = action.payload.email
       saveToLocalStorage(state)
     })
 
