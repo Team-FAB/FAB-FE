@@ -1,6 +1,7 @@
 .applyContainer {
   width: 700px;
-  min-height: 1200px;
+  min-height: 600px;
+  max-height: 600px;
   height: 100vh;
   padding: 60px;
   margin: 0 auto;

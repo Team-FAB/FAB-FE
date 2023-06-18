@@ -28,9 +28,17 @@ const Favorite = () => {
     <>
       <MyPage />
       <div className={styles.favoriteContainer}>
-        <div className={styles.cardGrid}>
-          <PostCard posts={favorites}/>
-        </div>
+        {
+          favorites.length === 0 ? (
+            <div className={styles.emptyFavorites}>
+              관심 있는 게시물을 담아보세요 🙌🏻
+            </div>
+          ) : (
+            <div className={styles.cardGrid}>
+              <PostCard posts={favorites}/>
+            </div>
+          )
+        }
         {selectedPost && (
           <PostModal
             post={selectedPost} onClose={handleCloseModal} />

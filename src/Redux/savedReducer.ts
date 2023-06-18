@@ -7,7 +7,7 @@ const savedFavoriteSlice = createSlice({
   name: 'saved',
   initialState,
   reducers: {
-    setSaved(state, action: PayloadAction<{postId: string, isSaved: boolean}>) {
+    setSaved(state, action: PayloadAction<{postId: number, isSaved: boolean}>) {
       const { postId, isSaved } = action.payload
       state[postId] = isSaved
     },

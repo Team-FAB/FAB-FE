@@ -6,7 +6,7 @@ import { setSaved } from "../../Redux/savedReducer"
 import { fetchFavorites } from './favoritesThunk'
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit"
 
-const useFavorite = (postId: string) => {
+const useFavorite = (postId: number) => {
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>()
   const isSaved = useSelector((state: RootState) => state.saved[postId])
   const userToken = useSelector((state : RootState) => state.user.data.token)

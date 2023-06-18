@@ -46,7 +46,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
 
   // 찜하기 수정
   const userToken = useSelector((state: RootState) => state.user.data.token)
-  const [isSaved, toggleFavorite] = useFavorite(String(post.id))
+  const [isSaved, toggleFavorite] = useFavorite(post.id)
   const [localIsSaved, setLocalIsSaved] = useState(false)
 
   const handleSaveClick = useCallback(async () => {
@@ -56,15 +56,11 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     } catch (error) {
       console.error(error)
     }
-  }, [onClose])
+  }, [])
 
   const saveClassName = localIsSaved
   ? `${styles.save} ${styles.saveActive}`
   : styles.save
-    
-  const handleOnCancel = () => {
-    onClose()
-  }
 
   // 찜하기 상태 가져오기
   useEffect(() => {
@@ -141,7 +137,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     <Modal
       open={true}
       onOk={onClose}
-      onCancel={handleOnCancel}
+      onCancel={onClose}
       cancelButtonProps={{ style: { display: "none" } }}
       okButtonProps={{ style: { display: "none" } }}
     >
