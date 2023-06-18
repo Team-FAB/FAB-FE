@@ -6,7 +6,7 @@
 
 .footerContainer {
   bottom: 0%;
-  width: 100%;
+  min-width: 1077px;
   background: var(--purple500);
 }
 

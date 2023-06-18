@@ -1,7 +1,9 @@
 .myPageContainer {
-  min-width: 1045px;
-  max-width: 1045px;
+  min-width: 1077px;
+  max-width: 1077px;
   margin: 0 auto;
+  height: 100%;
+  position: relative;
 }
 
 .myPageBox {
