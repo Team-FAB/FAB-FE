@@ -27,9 +27,7 @@ const ProfileFile = (props: ProfileFileProps) => {
 
       if(responseData.data.image) {
         props.setProfileImage(responseData.data.image)
-        console.log(props.profileImage)
       }
-      console.log(responseData)
 
     } catch (error) {
       console.error(error)

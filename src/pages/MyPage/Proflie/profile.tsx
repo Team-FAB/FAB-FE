@@ -52,9 +52,7 @@ const Profile: React.FC = () => {
           throw new Error(`서버 상태 응답 ${response.status}`)
         }
 
-        
         const responseData = await response.json()
-        console.log(responseData.data)
         setSelectedGender(responseData.data.gender === 'null' ? '성별' : responseData.data.gender)
         setNickname(responseData.data.nickname)
         setSelectedAge(responseData.data.myAge)
