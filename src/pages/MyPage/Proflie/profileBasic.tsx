@@ -52,8 +52,8 @@ const ProfileBasic = (props: ProfileBasicProps) => {
         })
       }
 
-      const data = await response.json()
-      props.setNickname(data.data.nickname)
+      const responseData = await response.json()
+      props.setNickname(responseData.data.nickname)
     } catch (error) {
       console.error('프로필 기본정보 업데이트 오류', error)
     }

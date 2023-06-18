@@ -7,9 +7,9 @@ import { RootState } from "../../Redux/store"
 import { userFavorite } from "../../api"
 import { userArticle } from "../../api"
 import { PostModalProps } from "../../interface/interface"
+import useFavorite from "../Favorite/useFavorite"
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
-  const [isSaved, setIsSaved] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
   const userEmail = useSelector((state: RootState) => state.user.email)
   const navigate = useNavigate()
@@ -44,40 +44,27 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     return "~" + price.toLocaleString("ko-KR") + "원"
   }
 
-  const [newIsSaved, setNewIsSaved] = useState(false)
+  // 찜하기 수정
   const userToken = useSelector((state: RootState) => state.user.data.token)
+  const [isSaved, toggleFavorite] = useFavorite(String(post.id))
+  const [localIsSaved, setLocalIsSaved] = useState(false)
 
-  const saveClassName = newIsSaved
-    ? `${styles.save} ${styles.saveActive}`
-    : styles.save
-
-  const handleSaveClick = () => {
-    setNewIsSaved((prevIsSaved) => !prevIsSaved)
-  }
-
-  const handleOnCancel = useCallback(async () => {
-    if (newIsSaved !== isSaved) {
-      try {
-        const response = await fetch(`/api/${userFavorite}/${post.id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: userToken.atk.toString(),
-          },
-        })
-
-        if (!response.ok) {
-          throw new Error("찜하기를 처리하는데 실패했습니다.")
-        }
-
-        setIsSaved(newIsSaved)
-      } catch (error) {
-        console.error(error)
-        setNewIsSaved(isSaved)
-      }
+  const handleSaveClick = useCallback(async () => {
+    try {
+      await toggleFavorite()
+      setLocalIsSaved((prevIsSaved) => !prevIsSaved)
+    } catch (error) {
+      console.error(error)
     }
+  }, [onClose])
+
+  const saveClassName = localIsSaved
+  ? `${styles.save} ${styles.saveActive}`
+  : styles.save
+    
+  const handleOnCancel = () => {
     onClose()
-  }, [newIsSaved, isSaved, onClose])
+  }
 
   // 찜하기 상태 가져오기
   useEffect(() => {
@@ -93,8 +80,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
 
         if (response.ok) {
           const data = await response.json()
-          setIsSaved(data.data)
-          setNewIsSaved(data.data)
+          setLocalIsSaved(data.data)
         } else {
           throw new Error("찜 상태를 가져오는데 실패했습니다.")
         }
@@ -166,11 +152,8 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           </Badge>
           <div className={styles.titleContainer}>
             <span className={styles.title}>{post.title}</span>
-            {userEmail !== post.email && (
-              <span className={saveClassName} onClick={handleSaveClick}>
-                찜하기
-              </span>
-            )}
+            {userEmail !== post.email &&
+              <button onClick={handleSaveClick} className={saveClassName}>찜하기</button>}
           </div>
           <div className={styles.content}>{decodeHTML(post.content)}</div>
           <div className={styles.ProfileContainer}>
@@ -216,9 +199,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           <div className={styles.titleContainer}>
             <span className={styles.title}>{post.title}</span>
             {userEmail !== post.email && (
-              <span className={saveClassName} onClick={handleSaveClick}>
-                찜하기
-              </span>
+              <button onClick={handleSaveClick} className={saveClassName}>찜하기</button>
             )}
           </div>
           <div className={styles.content}>{decodeHTML(post.content)}</div>
