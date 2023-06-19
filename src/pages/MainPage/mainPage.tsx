@@ -47,7 +47,7 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     const fetchRecommendedUsers = async () => {
       try {
-        const response = await fetch(`/api/${usersRecommend}?size=9`, {
+        const response = await fetch(`/api/${usersRecommend}?size=12`, {
           method: "GET",
           headers: new Headers({
             "ngrok-skip-browser-warning": "69420",

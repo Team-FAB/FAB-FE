@@ -60,9 +60,8 @@ const editPage: React.FC = () => {
           "Content-Type": "application/json",
           Authorization: userToken.atk.toString(),
         },
-        body: JSON.stringify(values), // values를 JSON 형식으로 변환
+        body: JSON.stringify(values),
       })
-      console.log(values)
 
       if (!response.ok) {
         console.log(response)

@@ -32,7 +32,6 @@
 
 .carouselWrapper {
   position: relative;
-  padding-right: 50px; /* Adjust this to move the arrow left or right */
 }
 
 .customRightArrow {
