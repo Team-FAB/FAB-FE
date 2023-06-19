@@ -58,6 +58,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     const searchParams = {
       page: page.toString(),
       size: size.toString(),
+      isRecruiting: false.toString(),
       region: query.area,
       period: query.period,
       price: query.price?.toString() ?? "",
@@ -80,8 +81,9 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
 
       const data = await response.json()
       if (data.code === "RESPONSE_SUCCESS" && data.status === "OK") {
-        handleSearchResults(data.data)
+        handleSearchResults(data.data.articleList)
         setSearchBoxOpen(!searchBoxOpen)
+        setCount(data.data.totalCnt)
       } else {
         throw new Error("API Error: " + data.msg)
       }
@@ -105,22 +107,13 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
           },
         )
 
-        const countResponse = await fetch(`/api/${userArticle}/total`, {
-          method: "GET",
-          headers: new Headers({
-            "ngrok-skip-browser-warning": "69420",
-          }),
-        })
-
-        if (!response.ok || !countResponse.ok) {
+        if (!response.ok) {
           throw new Error(`서버 상태 응답 ${response.status}`)
         }
 
         const data = await response.json()
-        const countData = await countResponse.json()
-
-        setPosts(data.data)
-        setCount(countData.data)
+        setPosts(data.data.articleList)
+        setCount(data.data.totalCnt)
       } catch (error) {
         console.error(error)
         messageApi.error("데이터 불러오기 오류")
