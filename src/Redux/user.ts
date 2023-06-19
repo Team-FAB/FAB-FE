@@ -6,7 +6,6 @@ import { Dispatch } from "redux"
 import { RootState, AppDispatch } from "./store"
 import {
   googleLogin,
-  googleUserLogin,
   kakaoLogin,
   refreshApiUrl,
   userLogin,
@@ -193,10 +192,9 @@ export const googleloginUser = createAsyncThunk<
   { token: Token },
   { accessToken: string },
   { dispatch: Dispatch; state: RootState }
->("login/oauth2/google", async (_, thunkAPI) => {
+>("login/oauth2/google", async (arg) => {
   try {
-    const state = thunkAPI.getState() as RootState
-    const accessToken = state.user.accessToken
+    const { accessToken } = arg
     const response = await fetch(`/api/${googleLogin}`, {
       method: "POST",
       headers: {
@@ -206,8 +204,7 @@ export const googleloginUser = createAsyncThunk<
     })
 
     const data = await response.json()
-
-    return { email: data.email, token: data.data.token }
+    return { token: data.data.token }
   } catch (error) {
     console.error("로그인 실패", error)
     throw error
