@@ -58,9 +58,9 @@ const Apply: React.FC = () => {
           throw new Error(`서버 상태 응답 ${response.status}`)
         }
 
-        const data = await response.json()
-        setCount(data.data) // 개수로 수정
-        setApplyPosts(data.data)
+        const responeData = await response.json()
+        setCount(responeData.count) // 개수로 수정
+        setApplyPosts(responeData.data)
       } catch (error) {
         console.error(error)
       }
@@ -80,7 +80,7 @@ const Apply: React.FC = () => {
               <RedoOutlined />
             </Button>
             <Button style={{ width: 90, display: 'flex', justifyContent: 'center' }} onClick={toggleShowApply}>
-              {showApply ? "신청 받았어요" : "신청 했어요"}
+              {showApply ? "신청 했어요" : "신청 받았어요"}
             </Button>
           </div>
         </div>
@@ -89,7 +89,7 @@ const Apply: React.FC = () => {
             applyPosts.map((post) => (
               <div key={post.applyId}>
                 <Applicant
-                  applyPosts={applyPosts}
+                  post={post}
                   currentPage={showApply ? toCurrentPage : fromCurrentPage}
                   showApply={showApply} />
               </div>

@@ -157,7 +157,6 @@ export interface RoomMateSearchProps {
 
 export interface ApplyProps {
   applyId: number
-  leader: boolean
   articleId: number
   articleTitle: string
   otherUserId: number
@@ -166,7 +165,7 @@ export interface ApplyProps {
 }
 
 export interface ApplicantProps {
-  applyPosts: ApplyProps[]
+  post: ApplyProps
   currentPage?: number
   showApply?: boolean
 }
