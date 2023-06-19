@@ -14,6 +14,7 @@ import { message } from "antd"
 import { Post, User } from "../../interface/interface"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
+import { mbtiGraph } from "../../object/mbtiGraph"
 
 const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
@@ -47,6 +48,16 @@ const MainPage: React.FC = () => {
 
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
+  // 로그인 상태 체크
+  const isLogged = useSelector((state: RootState) => state.user.isLogged)
+
+  // 추천 룸메이트 표시 제목
+  let recommendTitle = "방갑고에서 추천하는 룸메이트를 만나보세요 💌"
+  // 로그인이 안된 경우
+  if (!isLogged) {
+    recommendTitle = "로그인 시 추천을 해드립니다."
+  }
+
   //추천 룸메이트
   useEffect(() => {
     const fetchRecommendedUsers = async () => {
@@ -68,7 +79,6 @@ const MainPage: React.FC = () => {
         setData(data.data)
       } catch (error) {
         console.error(error)
-        messageApi.error("사용자 데이터를 로드하는 동안 오류가 발생했습니다.")
       }
     }
 
@@ -101,8 +111,6 @@ const MainPage: React.FC = () => {
 
     fetchData()
   }, [messageApi])
-
-  
 
   // 추천 룸메이트 정보
   useEffect(() => {
@@ -226,32 +234,40 @@ const MainPage: React.FC = () => {
         </div>
       </div>
       <div className={styles.recommendPost}>
-        <div className={styles.title}>
-          방갑고에서 추천하는 룸메이트를 만나보세요 💌
-        </div>
+        <div className={styles.title}>{recommendTitle}</div>
         <div className={styles.carouselWrapper}>
-          <MultiCarousel
-            responsive={responsive}
-            infinite={true}
-            draggable={true}
-            showDots={false}
-            customRightArrow={<CustomRightArrow />}
-            customLeftArrow={<CustomLeftArrow />}
-          >
-            {users
-              .slice(0, 12)
-              .map(
-                (user) =>
-                  data && (
+          {users.length > 0 ? (
+            <MultiCarousel
+              responsive={responsive}
+              infinite={true}
+              draggable={true}
+              showDots={false}
+              customRightArrow={<CustomRightArrow />}
+              customLeftArrow={<CustomLeftArrow />}
+            >
+              {users
+                .filter(
+                  (user) =>
+                    data &&
+                    `${data.mbti}-${user.mbti}` in mbtiGraph &&
+                    mbtiGraph[`${data.mbti}-${user.mbti}`] >= 2 &&
+                    mbtiGraph[`${data.mbti}-${user.mbti}`] <= 4,
+                )
+                .slice(0, 12)
+                .map((user) =>
+                  data ? (
                     <RecommendPostCard
                       key={user.id}
                       user={user}
                       onClick={() => handleUserClick(user)}
                       data={data}
                     />
-                  ),
-              )}
-          </MultiCarousel>
+                  ) : null,
+                )}
+            </MultiCarousel>
+          ) : (
+            <p>추천하는 사람이 없습니다.</p>
+          )}
         </div>
       </div>
       {selectedPost && (
