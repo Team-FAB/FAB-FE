@@ -9,7 +9,7 @@ import "react-multi-carousel/lib/styles.css"
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai"
 import PostModal from "../../components/PostModal/postModal"
 import RecommendModal from "../../components/RecommendModal/recommendModal"
-import { userArticle, usersRecommend } from "../../api"
+import { userArticle, usersRecommend, usersProfile } from "../../api"
 import { message } from "antd"
 import { Post, User } from "../../interface/interface"
 import { useSelector } from "react-redux"
@@ -35,6 +35,9 @@ const MainPage: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([])
   const [users, setUsers] = useState<User[]>([])
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [selectedUserProfile, setSelectedUserProfile] = useState<User | null>(
+    null,
+  )
   const [messageApi, contextHolder] = message.useMessage()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [data, setData] = useState<null | {
@@ -44,6 +47,7 @@ const MainPage: React.FC = () => {
 
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
+  //추천 룸메이트
   useEffect(() => {
     const fetchRecommendedUsers = async () => {
       try {
@@ -71,6 +75,7 @@ const MainPage: React.FC = () => {
     fetchRecommendedUsers()
   }, [messageApi])
 
+  //메인페이지 게시글
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -96,6 +101,42 @@ const MainPage: React.FC = () => {
 
     fetchData()
   }, [messageApi])
+
+  
+
+  // 추천 룸메이트 정보
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        if (selectedUser) {
+          const response = await fetch(
+            `/api/${usersProfile}/${selectedUser.id}`,
+            {
+              method: "GET",
+              headers: new Headers({
+                "ngrok-skip-browser-warning": "69420",
+                Authorization: userToken.atk.toString(),
+              }),
+            },
+          )
+
+          if (!response.ok) {
+            throw new Error("서버에서 유저 프로필을 가져오지 못했습니다.")
+          }
+
+          const data = await response.json()
+          setSelectedUserProfile(data.data)
+        }
+      } catch (error) {
+        console.error(error)
+        messageApi.error("유저 프로필을 로드하는 동안 오류가 발생했습니다.")
+      }
+    }
+
+    if (selectedUser) {
+      fetchUserProfile()
+    }
+  }, [selectedUser, messageApi, userToken])
 
   const adImages = [
     "src/assets/001.jpg",
@@ -197,17 +238,19 @@ const MainPage: React.FC = () => {
             customRightArrow={<CustomRightArrow />}
             customLeftArrow={<CustomLeftArrow />}
           >
-            {users.slice(0, 12).map(
-              (user) =>
-                data && (
-                  <RecommendPostCard 
-                    key={user.id}
-                    user={user}
-                    onClick={() => handleUserClick(user)}
-                    data={data}
-                  />
-                ),
-            )}
+            {users
+              .slice(0, 12)
+              .map(
+                (user) =>
+                  data && (
+                    <RecommendPostCard
+                      key={user.id}
+                      user={user}
+                      onClick={() => handleUserClick(user)}
+                      data={data}
+                    />
+                  ),
+              )}
           </MultiCarousel>
         </div>
       </div>
@@ -217,6 +260,7 @@ const MainPage: React.FC = () => {
       {selectedUser && (
         <RecommendModal
           user={selectedUser}
+          userProfile={selectedUserProfile}
           visible={isModalVisible}
           onClose={() => setSelectedUser(null)}
         />

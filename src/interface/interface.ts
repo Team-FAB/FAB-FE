@@ -39,7 +39,7 @@ export interface User {
   image: string
   email: string
   gender: string
-  smoke: boolean
+  issmoke: boolean
   mbti: string
   region: string
   minAge: number
@@ -50,6 +50,7 @@ export interface User {
   hateTag: string
   myText: string
   post: Post
+  detail: string
 }
 
 export interface ModalProps {
@@ -171,6 +172,43 @@ export interface ApplicantProps {
 }
 
 export interface RecommendModalProps extends ModalProps {
+  userProfile: User | null
   user: User
 }
 
+export interface Data {
+  mbti: string
+  recommendDtoList: {
+    id: number
+    nickname: string
+    mbti: string
+  }[]
+}
+
+
+export interface RecommendUser {
+  id: number
+  nickname: string
+  mbti: string
+}
+
+export interface UserProfile {
+  email: string
+  nickname: string
+  image: string
+  isSmoker: boolean
+  activityTime: string
+  gender: string
+  region: string
+  mbti: string
+  tags: [string]
+  minAge: number
+  maxAge: number
+  myAge: number
+  detail: string
+}
+
+export interface Article {
+  id: number
+  title: string
+}

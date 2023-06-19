@@ -2,24 +2,11 @@ import { useState, useEffect } from "react"
 import styles from "./recommendCard.module.css"
 import { Badge, Card, Button } from "antd"
 import { mbtiGraph } from "../../object/mbtiGraph"
+import { RecommendUser, Data } from "../../interface/interface"
 
-interface User {
-  id: number
-  nickname: string
-  mbti: string
-}
-
-interface Data {
-  mbti: string
-  recommendDtoList: {
-    id: number
-    nickname: string
-    mbti: string
-  }[]
-}
 
 interface Props {
-  user: User
+  user: RecommendUser
   onClick?: () => void
   data: Data
 }
@@ -57,7 +44,8 @@ const RecommendPostCard: React.FC<Props> = ({ user, onClick, data }) => {
     calculateCompatibility()
   }, [data.mbti, user.mbti])
 
-  console.log(data.mbti)
+
+
   return (
     <div onClick={onClick} className={styles.cardContainer}>
       <Badge.Ribbon text="추천">
