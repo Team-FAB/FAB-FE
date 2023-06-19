@@ -4,6 +4,7 @@ export const refreshApiUrl = "users/login"
 export const userRegister = "users/register"
 export const kakaoUserLogin = import.meta.env.VITE_KAKAO_LOGIN
 export const googleUserLogin = import.meta.env.VITE_GOOGLE_LOGIN
+export const googleLogin = "users/login/google"
 export const userArticle = `articles`
 export const userFavorite = "articles/favorites"
 export const userMyFavorite = "my/favorites"

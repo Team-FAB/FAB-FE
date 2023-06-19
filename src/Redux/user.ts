@@ -5,6 +5,7 @@ import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage"
 import { Dispatch } from "redux"
 import { RootState, AppDispatch } from "./store"
 import {
+  googleLogin,
   googleUserLogin,
   kakaoLogin,
   refreshApiUrl,
@@ -196,20 +197,19 @@ export const googleloginUser = createAsyncThunk<
   try {
     const state = thunkAPI.getState() as RootState
     const accessToken = state.user.accessToken
-    const response = await fetch(`/api/${googleUserLogin}`, {
+    const response = await fetch(`/api/${googleLogin}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ access_token: accessToken }),
+      body: JSON.stringify({ code: accessToken }),
     })
 
     const data = await response.json()
-    const { token } = data.data
 
-    return { token }
+    return { email: data.email, token: data.data.token }
   } catch (error) {
-    console.error("로그인 실패")
+    console.error("로그인 실패", error)
     throw error
   }
 })
@@ -278,11 +278,11 @@ const userSlice = createSlice({
     })
 
     builder.addCase(registerUser.fulfilled, (state) => {
-      state.isLogged = true
+      state.signUp = true
     })
 
     builder.addCase(registerUser.rejected, (state) => {
-      state.isLogged = false
+      state.signUp = false
     })
 
     builder.addCase(kakaologinUser.fulfilled, (state, action) => {
