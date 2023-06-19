@@ -16,6 +16,10 @@ const SignUp: React.FC = () => {
     navigate("/MainPage")
   }
 
+  const registerUserStatus = useSelector(
+    (state: RootState) => state.user.signUp,
+  )
+
   const onFinish = async (values: {
     email: string
     password: string
@@ -27,10 +31,6 @@ const SignUp: React.FC = () => {
       navigate("/")
     }
   }
-
-  const registerUserStatus = useSelector(
-    (state: RootState) => state.user.signUp,
-  )
 
   return (
     <div className={styles.signUpContainer}>
