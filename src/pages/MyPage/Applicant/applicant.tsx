@@ -7,10 +7,9 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
 import { userAprove, userRefuse } from '../../../api'
 
-const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply, post }) => {
+const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
-  // const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
 
   // 승인
   const updateApprove = async () => {
@@ -73,7 +72,7 @@ const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply, post }) =
   }
 
   // 삭제
-  
+  // const updateDelete = async () => {}
 
   return (
     <>
@@ -120,7 +119,9 @@ const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply, post }) =
               <Card
                 cover={<Badge.Ribbon text={post.matchStatus} />}
                 style={{ width: 530, marginBottom: 30 }}
-                actions={[<WechatOutlined />]}
+                actions={[
+                  <WechatOutlined title="채팅" />,
+                  <IdcardOutlined title="프로필" />]}
               >
                 <Meta
                   title={`${post.articleTitle} 게시물 룸메이트 매칭이 되었습니다.`}
@@ -171,7 +172,9 @@ const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply, post }) =
             <Card
               cover={<Badge.Ribbon text={post.matchStatus} />}
               style={{ width: 530, marginBottom: 30 }}
-              actions={[<WechatOutlined />]}
+              actions={[
+                <WechatOutlined title="채팅" />,
+                <IdcardOutlined title="프로필" />]}
             >
               <Meta
                 title={`${post.articleTitle} 게시물 룸메이트 매칭이 되었습니다.`}

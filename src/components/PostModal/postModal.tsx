@@ -8,6 +8,7 @@ import { userFavorite } from "../../api"
 import { userArticle } from "../../api"
 import { PostModalProps } from "../../interface/interface"
 import useFavorite from "../Favorite/useFavorite"
+import { userArticleApply } from '../../api'
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const [isDeleted, setIsDeleted] = useState(false)
@@ -48,6 +49,11 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const userToken = useSelector((state: RootState) => state.user.data.token)
   const [isSaved, toggleFavorite] = useFavorite(post.id)
   const [localIsSaved, setLocalIsSaved] = useState(false)
+  const saveClassName = localIsSaved ? `${styles.save} ${styles.saveActive}` : styles.save
+
+  // 신청 상태
+  const [applyIsSaved, setApplyIsSaved] = useState(false)
+  const applySave = applyIsSaved ? `${styles.apply} ${styles.applyActive}` : styles.apply
 
   const handleSaveClick = useCallback(async () => {
     try {
@@ -57,11 +63,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       console.error(error)
     }
   }, [])
-
-  const saveClassName = localIsSaved
-  ? `${styles.save} ${styles.saveActive}`
-  : styles.save
-
+  
   // 찜하기 상태 가져오기
   useEffect(() => {
     const fetchFavoriteStatus = async () => {
@@ -73,7 +75,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             Authorization: userToken.atk.toString(),
           },
         })
-
+  
         if (response.ok) {
           const data = await response.json()
           setLocalIsSaved(data.data)
@@ -84,11 +86,59 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
         console.error(error)
       }
     }
-
+  
     fetchFavoriteStatus()
   }, [post.id])
 
-  //
+  // 신청하기
+  const handleOnApply = async () => {
+    try {
+      const response = await fetch(`/api/${userArticleApply}/${post.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userToken.atk.toString(),
+        },
+      })
+  
+      if (!response.ok) {
+        throw new Error("신청하기를 실패했습니다.")
+      }
+  
+      setApplyIsSaved((prevIsSaved) => !prevIsSaved)
+    } catch (error) {
+      console.error(error)
+    }
+    onClose()
+  }
+
+  // 신청 상태 가져오기 
+  const fetchApplyStatus = async () => {
+    try {
+      const response = await fetch(`/api/${userArticleApply}/${post.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userToken.atk.toString(),
+        },
+      })
+
+      if (response.ok) {
+        const responseData = await response.json()
+        setApplyIsSaved(responseData.data)
+      } else {
+        throw new Error("신청현황을 가져오는데 실패했습니다.")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  // useEffect(() => {
+  //   fetchApplyStatus()
+  // }, [post.id])
+
+  // 삭제하기
   const handleDeleteClick = async () => {
     Modal.confirm({
       title: "이 포스트를 정말로 삭제하시겠습니까?",
@@ -173,9 +223,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
                 </Button>
               </div>
             ) : (
-              <Button className={styles.apply} type="primary">
+              <button className={applySave} style={{ float: 'right' }} onClick={handleOnApply}>
                 신청하기
-              </Button>
+              </button>
             )}
           </div>
           <div className={styles.line}></div>
@@ -220,9 +270,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
                 </Button>
               </div>
             ) : (
-              <Button className={styles.apply} type="primary">
+              <button className={applySave} style={{ float: 'right' }} onClick={handleOnApply}>
                 신청하기
-              </Button>
+              </button>
             )}
           </div>
           <div className={styles.line}></div>

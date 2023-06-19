@@ -20,8 +20,16 @@
   cursor: pointer;
 }
 
-.saveActive {
+.apply {
+  background-color: var(--black200);
+  float: right;
+  cursor: pointer;
+}
+
+.saveActive,
+.applyActive {
   background-color: var(--purple600);
+  cursor: pointer;
 }
 
 .title {
@@ -61,11 +69,6 @@
   margin-left: 5px;
   font-size: var(--font-size-sub2);
   color: var(--black300);
-}
-
-.apply {
-  background-color: var(--black200);
-  float: right;
 }
 
 .buttonContainer {
