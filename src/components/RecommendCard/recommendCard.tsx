@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react"
 import styles from "./recommendCard.module.css"
 import { Badge, Card, Button } from "antd"
 import { mbtiGraph } from "../../object/mbtiGraph"
 import { RecommendUser, Data } from "../../interface/interface"
-
 
 interface Props {
   user: RecommendUser
@@ -12,15 +10,9 @@ interface Props {
 }
 
 const RecommendPostCard: React.FC<Props> = ({ user, onClick, data }) => {
-  const [compatibility, setCompatibility] = useState<React.ReactNode>("")
-
   const compatibilityLevels = [
-    <div style={{ color: "#F04333" }} className={styles.mbtiResult}>
-      <img src="src/assets/mbti4.svg" className={styles.mbtiIcon} />
-    </div>,
-    <div style={{ color: "#F07933" }} className={styles.mbtiResult}>
-      <img src="src/assets/mbti2.svg" className={styles.mbtiIcon} />
-    </div>,
+    <div></div>,
+    <div></div>,
     <div style={{ color: "#F0CB33" }} className={styles.mbtiResult}>
       <img src="src/assets/mbti5.svg" className={styles.mbtiIcon} />
     </div>,
@@ -32,19 +24,14 @@ const RecommendPostCard: React.FC<Props> = ({ user, onClick, data }) => {
     </div>,
   ]
 
-  const calculateCompatibility = () => {
-    const key1 = `${data.mbti}-${user.mbti}`
-    if (key1 in mbtiGraph) {
-      setCompatibility(compatibilityLevels[mbtiGraph[key1]])
-    } else {
-      setCompatibility("해당 궁합 정보를 찾을 수 없습니다.")
-    }
-  }
-  useEffect(() => {
-    calculateCompatibility()
-  }, [data.mbti, user.mbti])
-
-
+  const compatibilityKey = `${data.mbti}-${user.mbti}`
+  
+  const compatibility =
+    compatibilityKey in mbtiGraph &&
+    mbtiGraph[compatibilityKey] >= 2 &&
+    mbtiGraph[compatibilityKey] <= 4
+      ? compatibilityLevels[mbtiGraph[compatibilityKey]]
+      : compatibilityLevels[0]
 
   return (
     <div onClick={onClick} className={styles.cardContainer}>
