@@ -18,7 +18,6 @@ const Google = () => {
       dispatch(googleloginUser({ accessToken }))
         .then((action: PayloadAction<{ token: Token } | unknown>) => {
           if (googleloginUser.fulfilled.match(action)) {
-            console.log(accessToken)
             navigate("/MainPage")
           } else {
             console.error("로그인 실패")
