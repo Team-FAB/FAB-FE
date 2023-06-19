@@ -30,7 +30,6 @@ const Login: React.FC = () => {
 
   const google = () => {
     window.location.href = googleUserLogin
-    console.log(document.URL)
   }
 
   return (
