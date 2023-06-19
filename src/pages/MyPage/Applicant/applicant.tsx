@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
 import { userAprove, userRefuse } from '../../../api'
 
-const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply, applyPosts }) => {
+const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply, post }) => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
   // const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
@@ -21,7 +21,7 @@ const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply, applyPost
           'Content-Type': 'application/json',
           Authorization: userToken.atk.toString(), 
         },
-        body: JSON.stringify(applyPosts.map((item) => item.articleId)),
+        body: JSON.stringify(post.articleId),
       })
 
       if (!response.ok) {
@@ -51,7 +51,7 @@ const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply, applyPost
           'Content-Type': 'application/json',
           Authorization: userToken.atk.toString(), 
         },
-        body: JSON.stringify(applyPosts.map((item) => item.articleId)),
+        body: JSON.stringify(post.articleId),
       })
 
       if (!response.ok) {
@@ -72,126 +72,117 @@ const Applicant: React.FC<ApplicantProps> = ({ currentPage, showApply, applyPost
     }
   }
 
+  // 삭제
+  
+
   return (
     <>
       {
-        applyPosts.map((post) => {
-          if(showApply) {
-            if(post.matchStatus === '대기') {
-              return (
-                <div key={post.applyId}>
-                  <Card
-                    cover={<Badge.Ribbon text={post.matchStatus} />}
-                    style={{ width: 530, marginBottom: 30 }}
-                    actions={[
-                      <IdcardOutlined title="프로필" />,  
-                      <CheckOutlined onClick={updateApprove} />,
-                      <CloseOutlined onClick={updateRefuse}/>,
-                    ]}
-                  >
-                    <Meta
-                      title={`${post.otherUserName}님이 룸메이트 신청을 하였습니다.`}
-                      description={`${post.articleTitle} 게시물에 신청이 도착했습니다 💌`}
-                    />
-                    <div>
-                      <p className={styles.content}></p>
-                    </div>
-                  </Card>
+        showApply ? (
+          post.matchStatus === '대기' ? (
+            <div key={post.applyId}>
+              <Card
+                cover={<Badge.Ribbon text={post.matchStatus} />}
+                style={{ width: 530, marginBottom: 30 }}
+                actions={[
+                  <IdcardOutlined title="프로필" />,  
+                  <CheckOutlined onClick={updateApprove} />,
+                  <CloseOutlined onClick={updateRefuse}/>,
+                ]}
+              >
+                <Meta
+                  title={`${post.otherUserName}님이 룸메이트 신청을 하였습니다.`}
+                  description={`${post.articleTitle} 게시물에 신청이 도착했습니다 💌`}
+                />
+                <div>
+                  <p className={styles.content}></p>
                 </div>
-              )
-            } else if(post.matchStatus === '거절') {
-              return (
-                <div key={post.applyId}>
-                  <Card
-                    cover={<Badge.Ribbon text={post.matchStatus} />}
-                    style={{ width: 530, marginBottom: 30 }}
-                    actions={[<CloseOutlined key="close" />]}
-                  >
-                    <Meta
-                      title={`${post.otherUserName}님의 룸메이트 매칭을 거절 하였습니다.`}
-                      description="다른 룸메이트를 구해보세요 🥲"
-                    />
-                    <div>
-                      <p className={styles.content}></p>
-                    </div>
-                  </Card>
+              </Card>
+            </div>
+          ) : post.matchStatus === '거절' ? (
+            <div key={post.applyId}>
+              <Card
+                cover={<Badge.Ribbon text={post.matchStatus} />}
+                style={{ width: 530, marginBottom: 30 }}
+                actions={[<CloseOutlined key="close" />]}
+              >
+                <Meta
+                  title={`${post.otherUserName}님의 룸메이트 매칭을 거절 하였습니다.`}
+                  description="다른 룸메이트를 구해보세요 🥲"
+                />
+                <div>
+                  <p className={styles.content}></p>
                 </div>
-              )
-            } else if(post.matchStatus === '승인') {
-              return (
-                <Card
-                  cover={<Badge.Ribbon text={post.matchStatus} />}
-                  style={{ width: 530, marginBottom: 30 }}
-                  actions={[<WechatOutlined />]}
-                >
-                  <Meta
-                    title={`${post.articleTitle} 게시물 룸메이트 매칭이 되었습니다.`}
-                    description="1:1 채팅으로 원활한 대화를 나눠보세요 👏🏻"
-                  />
-                  <div>
-                    <p className={styles.content}></p>
-                  </div>
-                </Card>
-              )
-            }
-          } else {
-            if(post.matchStatus === '대기') {
-              return (
-                <div key={post.applyId}>
-                  <Card
-                    cover={<Badge.Ribbon text={post.matchStatus} />}
-                    style={{ width: 530, marginBottom: 30 }}
-                    actions={[
-                      <IdcardOutlined title="프로필" />, 
-                      <FileDoneOutlined key="게시물" />]}
-                  >
-                    <Meta
-                      title={`${post.articleTitle} 게시물에 룸메이트 신청을 하였습니다.`}
-                      description="룸메이트 매칭 결과를 기다리세요 🙌🏻"
-                    />
-                    <div>
-                      <p className={styles.content}></p>
-                    </div>
-                  </Card>
+              </Card>
+            </div>
+          ) : post.matchStatus === '승인' ? (
+            <div key={post.applyId}>
+              <Card
+                cover={<Badge.Ribbon text={post.matchStatus} />}
+                style={{ width: 530, marginBottom: 30 }}
+                actions={[<WechatOutlined />]}
+              >
+                <Meta
+                  title={`${post.articleTitle} 게시물 룸메이트 매칭이 되었습니다.`}
+                  description="1:1 채팅으로 원활한 대화를 나눠보세요 👏🏻"
+                />
+                <div>
+                  <p className={styles.content}></p>
                 </div>
-              )
-            } else if(post.matchStatus === '거절') {
-              return (
-                <div key={post.applyId}>
-                  <Card
-                    cover={<Badge.Ribbon text={post.matchStatus} />}
-                    style={{ width: 530, marginBottom: 30 }}
-                    actions={[<CloseOutlined key="close" />]}
-                  >
-                    <Meta
-                      title={`${post.articleTitle} 게시물 룸메이트 매칭이 거절 되었습니다.`}
-                      description="아쉽네요. 다른 룸메이트를 구해보세요 🥲"
-                    />
-                    <div>
-                      <p className={styles.content}></p>
-                    </div>
-                  </Card>
+              </Card>
+            </div>
+          ) : null 
+        ) : (
+          post.matchStatus === '대기' ? (
+            <div key={post.applyId}>
+              <Card
+                cover={<Badge.Ribbon text={post.matchStatus} />}
+                style={{ width: 530, marginBottom: 30 }}
+                actions={[
+                  <IdcardOutlined title="프로필" />, 
+                  <FileDoneOutlined key="게시물" />]}
+              >
+                <Meta
+                  title={`${post.articleTitle} 게시물에 룸메이트 신청을 하였습니다.`}
+                  description="룸메이트 매칭 결과를 기다리세요 🙌🏻"
+                />
+                <div>
+                  <p className={styles.content}></p>
                 </div>
-              )
-            } else if(post.matchStatus === '승인') {
-              return (
-                <Card
-                  cover={<Badge.Ribbon text={post.matchStatus} />}
-                  style={{ width: 530, marginBottom: 30 }}
-                  actions={[<WechatOutlined />]}
-                >
-                  <Meta
-                    title={`${post.articleTitle} 게시물 룸메이트 매칭이 되었습니다.`}
-                    description="1:1 채팅으로 원활한 대화를 나눠보세요 👏🏻"
-                  />
-                  <div>
-                    <p className={styles.content}></p>
-                  </div>
-                </Card>
-              )
-            }
-          }
-        })
+              </Card>
+            </div>
+          ) : post.matchStatus === '거절' ? (
+            <div key={post.applyId}>
+              <Card
+                cover={<Badge.Ribbon text={post.matchStatus} />}
+                style={{ width: 530, marginBottom: 30 }}
+                actions={[<CloseOutlined key="close" />]}
+              >
+                <Meta
+                  title={`${post.articleTitle} 게시물 룸메이트 매칭이 거절 되었습니다.`}
+                  description="아쉽네요. 다른 룸메이트를 구해보세요 🥲"
+                />
+                <div>
+                  <p className={styles.content}></p>
+                </div>
+              </Card>
+            </div>
+          ) : post.matchStatus === '승인' ? (
+            <Card
+              cover={<Badge.Ribbon text={post.matchStatus} />}
+              style={{ width: 530, marginBottom: 30 }}
+              actions={[<WechatOutlined />]}
+            >
+              <Meta
+                title={`${post.articleTitle} 게시물 룸메이트 매칭이 되었습니다.`}
+                description="1:1 채팅으로 원활한 대화를 나눠보세요 👏🏻"
+              />
+              <div>
+                <p className={styles.content}></p>
+              </div>
+            </Card>
+          ) : null
+        ) 
       }
     </>
   )

@@ -53,9 +53,10 @@ const Profile: React.FC = () => {
         }
 
         const responseData = await response.json()
+        
         setSelectedGender(responseData.data.gender === 'null' ? '성별' : responseData.data.gender)
         setNickname(responseData.data.nickname)
-        setSelectedAge(responseData.data.myAge)
+        setSelectedAge(responseData.data.myAge === null ? '20' : responseData.data.myAge)
         setEmail(responseData.data.email)
         setProfileImage(responseData.data.image === null ? 'https://via.placeholder.com/120' : responseData.data.image)
         setSelectedSmoke(responseData.data.isSmoker === true ? '합니다' : '하지 않습니다')
@@ -65,7 +66,6 @@ const Profile: React.FC = () => {
         setSelectedActivityTime(responseData.data.activityTime === 'null' ? '오전오후' : responseData.data.activityTime)
         setMytext(responseData.data.detail ?? '추가로 하고 싶은 말을 적어주세요! :)')
         setfavoriteTag(responseData.data.tags)
-
       } catch (error) {
         console.error(error)
       }
