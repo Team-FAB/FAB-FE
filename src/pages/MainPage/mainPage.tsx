@@ -15,6 +15,7 @@ import { Post, User } from "../../interface/interface"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
 import { mbtiGraph } from "../../object/mbtiGraph"
+import useFetch from "../../hooks/useFetch"
 
 const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
@@ -102,10 +103,9 @@ const MainPage: React.FC = () => {
           throw new Error("서버에서 데이터를 가져오지 못했습니다")
         }
         const data = await response.json()
-        setPosts(data.data)
+        setPosts(data.data.articleList)
       } catch (error) {
         console.error(error)
-        messageApi.error("데이터를 로드하는 동안 오류가 발생했습니다")
       }
     }
 
@@ -137,7 +137,6 @@ const MainPage: React.FC = () => {
         }
       } catch (error) {
         console.error(error)
-        messageApi.error("유저 프로필을 로드하는 동안 오류가 발생했습니다.")
       }
     }
 

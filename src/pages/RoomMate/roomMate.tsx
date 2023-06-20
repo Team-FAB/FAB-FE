@@ -112,7 +112,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
         }
 
         const data = await response.json()
-        setPosts(data.data)
+        setPosts(data.data.articleList)
         setCount(data.data.totalCnt)
       } catch (error) {
         console.error(error)

@@ -6,7 +6,7 @@ const useFetch = <T = unknown>(
   initialHeaders: HeadersInit,
   initialBody: BodyInit | null,
 ): {
-  data: T | null
+  datas: T | null
   isLoading: boolean
   isSuccess: boolean
   error: unknown
@@ -15,7 +15,7 @@ const useFetch = <T = unknown>(
   setMethod: Function
   setBody: Function
 } => {
-  const [data, setData] = useState<T | null>(null)
+  const [datas, setDatas] = useState<T | null>(null)
   const [url, setUrl] = useState(initialUrl)
   const [headers, setHeaders] = useState<HeadersInit>(initialHeaders)
   const [isLoading, setIsLoading] = useState(false)
@@ -41,7 +41,7 @@ const useFetch = <T = unknown>(
           throw new Error(`서버 상태 응답 ${response.status}`)
         }
         const result = await response.json()
-        setData(result.data)
+        setDatas(result.data)
         setIsSuccess(true)
       } catch (error) {
         setError(error)
@@ -53,7 +53,7 @@ const useFetch = <T = unknown>(
   }, [url, method, headers, body])
 
   return {
-    data,
+    datas,
     isLoading,
     error,
     isSuccess,
