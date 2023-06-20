@@ -56,6 +56,7 @@ const Apply: React.FC = () => {
         })
 
         if (!response.ok) {
+          console.log(response)
           throw new Error(`서버 상태 응답 ${response.status}`)
         }
 
@@ -75,13 +76,13 @@ const Apply: React.FC = () => {
       <MyPage />
       <div className={styles.applyContainer}>
         <div className={styles.applyTitle}>
-          <h3>룸메이트를 찾아보세요 👋🏻</h3>
+          {showApply ? <h3>신청한 현황입니다 👋🏻</h3> : <h3>신청 받은 현황입니다 👋🏻</h3>}
           <div className={styles.applyBtn}>
             <Button className={styles.circleBtn} shape="circle" onClick={refresh}>
               <RedoOutlined />
             </Button>
             <Button style={{ width: 90, display: 'flex', justifyContent: 'center' }} onClick={toggleShowApply}>
-              {showApply ? "신청 했어요" : "신청 받았어요"}
+              {showApply ? "신청 받았어요" : "신청 했어요"}
             </Button>
           </div>
         </div>

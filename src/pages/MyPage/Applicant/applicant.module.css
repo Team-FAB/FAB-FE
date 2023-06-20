@@ -1,7 +1,7 @@
 .applyContainer {
   width: 700px;
   min-height: 600px;
-  max-height: 600px;
+  max-height: 700px;
   height: 100vh;
   padding: 60px;
   margin: 0 auto;
@@ -36,12 +36,15 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  /* margin: 70px auto; */
   margin: 0px auto;
+
+  position: relative;
 }
 
 .pagination {
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   display: flex;
   justify-content: center;
+  position: absolute;
+  bottom: -6%;
 }

@@ -107,12 +107,13 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       })
 
       if (!response.ok) {
+        console.log(response)
         throw new Error("신청하기를 실패했습니다.")
       }
 
       const responeData = await response.json()
       console.log(responeData.data)
-      setApplyIsSaved((prevIsSaved) => !prevIsSaved)
+      setApplyIsSaved((responseData) => !responseData)
 
     } catch (error) {
       console.error(error)
@@ -133,6 +134,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
 
       if (response.ok) {
         const responseData = await response.json()
+        console.log(responseData.data)
         setApplyIsSaved(responseData.data)
       } else {
         throw new Error("신청현황을 가져오는데 실패했습니다.")
@@ -142,9 +144,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     }
   }
 
-  // useEffect(() => {
-  //   fetchApplyStatus()
-  // }, [post.id])
+  useEffect(() => {
+    fetchApplyStatus()
+  }, [post.id])
 
   // 삭제하기
 //  datas: recommendDatas,
@@ -292,13 +294,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             </span>
             {userEmail === post.email ? (
               <div className={styles.buttonContainer}>
-                <Button className={styles.editButton} onClick={handleEditClick}>
-                  수정
-                </Button>
                 <Button
                   className={styles.deleteButton}
-                  onClick={handleDeleteClick}
-                >
+                  onClick={handleDeleteClick}> 
                   삭제
                 </Button>
               </div>
