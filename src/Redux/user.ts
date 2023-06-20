@@ -268,6 +268,7 @@ const userSlice = createSlice({
 
     builder.addCase(loginUser.rejected, (state) => {
       state.isLogged = false
+      state.email = ""
     })
 
     builder.addCase(logOutUser.fulfilled, (state) => {
@@ -291,6 +292,7 @@ const userSlice = createSlice({
 
     builder.addCase(kakaologinUser.rejected, (state) => {
       state.isLogged = false
+      state.email = ""
     })
 
     builder.addCase(googleloginUser.fulfilled, (state, action) => {
@@ -301,6 +303,7 @@ const userSlice = createSlice({
 
     builder.addCase(googleloginUser.rejected, (state) => {
       state.isLogged = false
+      state.email = ""
     })
   },
 })

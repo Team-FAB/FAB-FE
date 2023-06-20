@@ -30,7 +30,7 @@ const PostCard: React.FC<Props> = ({ posts }) => {
   }
 
   const handlePostClick = (post: Post) => {
-    if (isLogged) {
+    if (isLogged === true) {
       setSelectedPost(post)
     } else {
       messageApi.error("로그인이 필요합니다.")
