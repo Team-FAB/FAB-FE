@@ -2,10 +2,11 @@ import styles from './applicant.module.css'
 import { Badge, Card, Modal } from "antd"
 import { IdcardOutlined, CloseOutlined, WechatOutlined, FileDoneOutlined, CheckOutlined } from "@ant-design/icons"
 import Meta from "antd/es/card/Meta"
-import { ApplicantProps, ApplyProps } from '../../../interface/interface'
+import { ApplicantProps } from '../../../interface/interface'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
 import { userAprove, userRefuse } from '../../../api'
+import { userApplicant } from '../../../api'
 
 const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
 
@@ -20,7 +21,10 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
           'Content-Type': 'application/json',
           Authorization: userToken.atk.toString(), 
         },
-        body: JSON.stringify(post.articleId),
+        body: JSON.stringify([
+          post.articleId, 
+          post.otherUserId
+        ]),
       })
 
       if (!response.ok) {
@@ -34,7 +38,8 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
 
       const approveData = await response.json()
       window.location.reload() // Modal이 있기 때문에 새로고침 안해도 되는지 확인
-      return approveData
+      console.log(approveData.data)
+      // return approveData
 
     } catch (error) {
       console.error('룸메이트 매칭 승인 오류', error)
@@ -44,7 +49,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
   // 거절
   const updateRefuse = async () => {
     try {
-      const response = await fetch(`/api/${userRefuse}`, {
+      const response = await fetch(`/api/${userRefuse}?applyId=${post.applyId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -64,6 +69,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
 
       const refuseData = await response.json()
       window.location.reload()
+      console.log(refuseData.data)
       return refuseData
 
     } catch (error) {
@@ -72,7 +78,34 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
   }
 
   // 삭제
-  // const updateDelete = async () => {}
+  const updateDelete = async () => {
+    try {
+      const response = await fetch(`/api/${userApplicant}/${post.applyId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userToken.atk.toString(), 
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error('삭제 실패')
+      } else {
+        Modal.success({
+          title: "신청현황 삭제!",
+          content: "룸메이트 신청현황을 삭제하였습니다.",
+        });
+      }
+
+      const deleteData = await response.json()
+      window.location.reload()
+      console.log(deleteData.data)
+      // return deleteData
+
+    } catch (error) {
+      console.error('룸메이트 신청현황 삭제 오류', error)
+    }
+  }
 
   return (
     <>
@@ -103,7 +136,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
               <Card
                 cover={<Badge.Ribbon text={post.matchStatus} />}
                 style={{ width: 530, marginBottom: 30 }}
-                actions={[<CloseOutlined key="close" />]}
+                actions={[<CloseOutlined key="close" onClick={updateDelete}/>]}
               >
                 <Meta
                   title={`${post.otherUserName}님의 룸메이트 매칭을 거절 하였습니다.`}

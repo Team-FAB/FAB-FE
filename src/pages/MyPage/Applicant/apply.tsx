@@ -12,7 +12,7 @@ import { ApplyProps } from '../../../interface/interface'
 const Apply: React.FC = () => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
-  const [showApply, setShowApply] = useState(true)
+  const [showApply, setShowApply] = useState(false)
   const [count, setCount] = useState(0)
   const [toCurrentPage, setToCurrentPage] = useState(1)
   const [fromCurrentPage, setFromCurrentPage] = useState(1)
@@ -21,6 +21,7 @@ const Apply: React.FC = () => {
 
   const toggleShowApply = () => {
     setShowApply(!showApply)
+    console.log(showApply)
   }
 
   const refresh = () => {

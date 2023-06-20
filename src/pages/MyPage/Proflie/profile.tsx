@@ -56,7 +56,7 @@ const Profile: React.FC = () => {
         
         setSelectedGender(responseData.data.gender === 'null' ? '성별' : responseData.data.gender)
         setNickname(responseData.data.nickname)
-        setSelectedAge(responseData.data.myAge === null ? '20' : responseData.data.myAge)
+        setSelectedAge(responseData.data.myAge === null ? '0' : responseData.data.myAge)
         setEmail(responseData.data.email)
         setProfileImage(responseData.data.image === null ? 'https://via.placeholder.com/120' : responseData.data.image)
         setSelectedSmoke(responseData.data.isSmoker === true ? '합니다' : '하지 않습니다')

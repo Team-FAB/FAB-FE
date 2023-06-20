@@ -1,5 +1,5 @@
 import styles from './profile.module.css'
-import { Modal, message } from 'antd'
+import { Input, Modal, message } from 'antd'
 import { Button } from 'antd'
 import { Checkbox } from 'antd'
 import { Badge } from "antd"
@@ -21,7 +21,6 @@ const ProfileTendency = (props:profileTendencyProps) => {
 
   const [boxStates, setBoxStates] = useState({
     genderBoxOpen: false,
-    ageBoxOpen: false,
     smokeBoxOpen: false,
     MBTIBoxOpen: false,
     regionBoxOpen: false,
@@ -149,26 +148,33 @@ const ProfileTendency = (props:profileTendencyProps) => {
           </div>
         </Radio.Group>
         <Radio.Group onChange={(e) => {
-          props.setSelectedAge(e.target.value);
-          handleToggleBox("ageBoxOpen")
+          props.setSelectedAge(e.target.value)
         }}>
           <div className={styles.dropdownBox}> 
             <p className={styles.dropdownP}> 저의 연령대는</p>
-            <div onClick={() => handleToggleBox("ageBoxOpen")}>
-              <Badge className={styles.dropdownBadge}>{props.selectedAge}</Badge>
+            <div>
             </div>
-            {boxStates.ageBoxOpen && (
-              <div className={styles.RadioBtn}> 
-                {age.map((item, index) => (
-                  <Radio
-                    key={index}
-                    value={item.age}
-                    className={styles.Radio}>
-                      {item.age}
-                  </Radio>
-                ))}
+              <div className={styles.input}> 
+                <Input 
+                  type="number" 
+                  style={{ width: 38, height: 22, marginTop: 1, borderRadius: 10, paddingBottom: 6 }}
+                  value={props.selectedAge} 
+                  onChange={(e) => {
+                    if (e.target.value === '') {
+                      props.setSelectedAge(0)
+                    } else {
+                      const val = parseInt(e.target.value)
+                      if (isNaN(val)) {
+                        message.warning('숫자를 입력해주세요!')
+                      } else {
+                        props.setSelectedAge(val)
+                      }
+                    }
+                  }}
+                  min={0}
+                  max={150}
+                />
               </div>
-            )}
             <p className={styles.dropdownP}> 입니다 ☺️</p>
           </div>
         </Radio.Group>

@@ -77,8 +77,8 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
         })
   
         if (response.ok) {
-          const data = await response.json()
-          setLocalIsSaved(data.data)
+          const responseData = await response.json()
+          setLocalIsSaved(responseData.data)
         } else {
           throw new Error("찜 상태를 가져오는데 실패했습니다.")
         }
@@ -104,8 +104,11 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       if (!response.ok) {
         throw new Error("신청하기를 실패했습니다.")
       }
-  
+
+      const responeData = await response.json()
+      console.log(responeData.data)
       setApplyIsSaved((prevIsSaved) => !prevIsSaved)
+
     } catch (error) {
       console.error(error)
     }

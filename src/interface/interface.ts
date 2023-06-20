@@ -80,7 +80,6 @@ export interface GlobalState extends UserState {
 
 export interface profileTendencyDropdown {
   genderBoxOpen: boolean
-  ageBoxOpen: boolean
   smokeBoxOpen: boolean
   MBTIBoxOpen: boolean
   regionBoxOpen: boolean
