@@ -61,7 +61,7 @@ const WritePage: React.FC = () => {
         title: "게시글 작성 완료",
         content: "게시글 작성이 완료되었습니다!",
       })
-    } else if(!isLoading && error){
+    } else if (!isLoading && error) {
       console.error("Error:", error)
       Modal.error({
         title: "서버 오류",
@@ -69,7 +69,6 @@ const WritePage: React.FC = () => {
       })
     }
   }, [isLoading, isSuccess, navigate, error])
-
 
   const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo)

@@ -11,7 +11,7 @@ import PostModal from "../../components/PostModal/postModal"
 import RecommendModal from "../../components/RecommendModal/recommendModal"
 import { userArticle, usersRecommend, usersProfile } from "../../api"
 import { message } from "antd"
-import { Post, User } from "../../interface/interface"
+import { Post, User, FetchData, PostData } from "../../interface/interface"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
 import { mbtiGraph } from "../../object/mbtiGraph"
@@ -42,11 +42,7 @@ const MainPage: React.FC = () => {
   )
   const [messageApi, contextHolder] = message.useMessage()
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [data, setData] = useState<null | {
-    mbti: string
-    recommendDtoList: { id: number; nickname: string; mbti: string }[]
-  }>(null)
-
+  const [data, setData] = useState<FetchData | null>(null)
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
   // 로그인 상태 체크
@@ -60,80 +56,89 @@ const MainPage: React.FC = () => {
   }
 
   //추천 룸메이트
+  const {
+    datas: recommendDatas,
+    isSuccess: recommendSuccess,
+    setUrl: setRecommendUrl,
+    setHeaders: setRecommendHeaders,
+    setMethod: setRecommendMethod,
+    setBody: setRecommendBody,
+  } = useFetch<FetchData | null>("", "", {}, null)
+
   useEffect(() => {
-    const fetchRecommendedUsers = async () => {
+    setRecommendUrl(`/api/${usersRecommend}?size=12`)
+    setRecommendMethod("GET")
+    setRecommendHeaders({
+      "ngrok-skip-browser-warning": "69420",
+      Authorization: userToken.atk.toString(),
+    })
+    setRecommendBody()
+  }, [usersRecommend, userToken.atk])
+
+  useEffect(() => {
+    if (recommendSuccess) {
       try {
-        const response = await fetch(`/api/${usersRecommend}?size=12`, {
-          method: "GET",
-          headers: new Headers({
-            "ngrok-skip-browser-warning": "69420",
-            Authorization: userToken.atk.toString(),
-          }),
-        })
-
-        if (!response.ok) {
-          throw new Error("서버에서 사용자 데이터를 가져오지 못했습니다.")
-        }
-
-        const data = await response.json()
-        setUsers(data.data.recommendDtoList)
-        setData(data.data)
+        setUsers((recommendDatas?.recommendDtoList as User[]) || [])
+        setData(recommendDatas)
       } catch (error) {
         console.error(error)
       }
     }
-
-    fetchRecommendedUsers()
-  }, [messageApi])
+  }, [recommendSuccess, recommendDatas])
 
   //메인페이지 게시글
+
+  const {
+    datas: postDatas,
+    isSuccess: postSuccess,
+    setUrl: setPostUrl,
+    setHeaders: setPostHeaders,
+    setMethod: setPostMethod,
+    setBody: setPostBody,
+  } = useFetch<PostData | null>("", "", {}, null)
+
   useEffect(() => {
-    const fetchData = async () => {
+    setPostUrl(`/api/${userArticle}?page=1&size=12&isRecruiting=true`)
+    setPostMethod("GET")
+    setPostHeaders({
+      "ngrok-skip-browser-warning": "69420",
+    })
+    setPostBody()
+  }, [userArticle])
+
+  useEffect(() => {
+    if (postSuccess) {
       try {
-        const response = await fetch(
-          `/api/${userArticle}?page=1&size=12&isRecruiting=true`,
-          {
-            method: "GET",
-            headers: new Headers({
-              "ngrok-skip-browser-warning": "69420",
-            }),
-          },
-        )
-        if (!response.ok) {
-          throw new Error("서버에서 데이터를 가져오지 못했습니다")
-        }
-        const data = await response.json()
-        setPosts(data.data.articleList)
+        setPosts(postDatas?.articleList || [])
       } catch (error) {
         console.error(error)
       }
     }
-
-    fetchData()
-  }, [messageApi])
+  }, [postSuccess, postDatas])
 
   // 추천 룸메이트 정보
+
+  const {
+    datas: profileDatas,
+    isSuccess: profileDatasSuccess,
+    setUrl: setProfileDatasUrl,
+    setHeaders: setProfileHeaders,
+    setMethod: setProfileMethod,
+    setBody: setProfileBody,
+  } = useFetch<User | null>("", "", {}, null)
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         if (selectedUser) {
-          const response = await fetch(
-            `/api/${usersProfile}/${selectedUser.id}`,
-            {
-              method: "GET",
-              headers: new Headers({
-                "ngrok-skip-browser-warning": "69420",
-                Authorization: userToken.atk.toString(),
-              }),
+          setProfileDatasUrl(`/api/${usersProfile}/${selectedUser.id}`)
+          setProfileMethod("GET")
+          setProfileHeaders({
+              Authorization: userToken.atk.toString(),
             },
           )
-
-          if (!response.ok) {
-            throw new Error("서버에서 유저 프로필을 가져오지 못했습니다.")
-          }
-
-          const data = await response.json()
-          setSelectedUserProfile(data.data)
+          setProfileBody()
+          setSelectedUserProfile(profileDatas)
         }
       } catch (error) {
         console.error(error)
@@ -143,7 +148,8 @@ const MainPage: React.FC = () => {
     if (selectedUser) {
       fetchUserProfile()
     }
-  }, [selectedUser, messageApi, userToken])
+  }, [selectedUser, messageApi, userToken, profileDatasSuccess, profileDatas])
+
 
   const adImages = [
     "src/assets/001.jpg",
