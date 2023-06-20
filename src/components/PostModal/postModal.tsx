@@ -48,7 +48,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
 
   // 찜하기 수정
   const userToken = useSelector((state: RootState) => state.user.data.token)
-  const [isSaved, toggleFavorite] = useFavorite(post.id)
+  const [, toggleFavorite] = useFavorite(post.id)
   const [localIsSaved, setLocalIsSaved] = useState(false)
   const saveClassName = localIsSaved
     ? `${styles.save} ${styles.saveActive}`
@@ -113,7 +113,6 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       const responeData = await response.json()
       console.log(responeData.data)
       setApplyIsSaved((prevIsSaved) => !prevIsSaved)
-
     } catch (error) {
       console.error(error)
     }
@@ -147,12 +146,12 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   // }, [post.id])
 
   // 삭제하기
-//  datas: recommendDatas,
-//     isSuccess: recommendSuccess,
-//     setUrl: setRecommendUrl,
-//     setHeaders: setRecommendHeaders,
-//     setMethod: setRecommendMethod,
-//     setBody: setRecommendBody,
+  //  datas: recommendDatas,
+  //     isSuccess: recommendSuccess,
+  //     setUrl: setRecommendUrl,
+  //     setHeaders: setRecommendHeaders,
+  //     setMethod: setRecommendMethod,
+  //     setBody: setRecommendBody,
   const {
     isLoading: deleteLoading,
     isSuccess: deleteSuccess,
@@ -192,8 +191,6 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       })
     }
   }, [deleteLoading, deleteSuccess, deleteError])
-
-
 
   useEffect(() => {
     if (isDeleted) {
