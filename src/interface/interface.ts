@@ -211,3 +211,12 @@ export interface Article {
   id: number
   title: string
 }
+
+export interface FetchData {
+  mbti: string
+  recommendDtoList: { id: number; nickname: string; mbti: string }[]
+}
+
+export interface PostData {
+  articleList: Post[]
+}
