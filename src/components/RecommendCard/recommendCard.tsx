@@ -25,6 +25,7 @@ const RecommendPostCard: React.FC<Props> = ({ user, onClick, data }) => {
   ]
 
   const compatibilityKey = `${data.mbti}-${user.mbti}`
+
   
   const compatibility =
     compatibilityKey in mbtiGraph &&

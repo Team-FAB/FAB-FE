@@ -5,6 +5,7 @@ import { RecommendModalProps } from "../../interface/interface"
 import { userArticle } from "../../api"
 import { Post } from "../../interface/interface"
 import PostModal from "../PostModal/postModal"
+import useFetch from "../../hooks/useFetch"
 
 const RecommendModal: React.FC<RecommendModalProps> = ({
   visible,
@@ -44,21 +45,36 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
     { label: "남성", value: "남성" },
   ]
 
-  const handleArticleClick = async (articleId: string) => {
-    try {
-      const response = await fetch(`/api/articles/${articleId}`, {
-        method: "GET",
-        headers: new Headers({
-          "ngrok-skip-browser-warning": "69420",
-        }),
-      })
-      const data = await response.json()
-      setSelectedArticle(data.data)
-    } catch (error) {
-      console.error("Error:", error)
-    }
+
+  const {
+    datas: articleData,
+    isSuccess: articleSuccess,
+    setUrl: setArticleUrl,
+    setHeaders: setArticleHeaders,
+    setMethod: setArticleMethod,
+    setBody: setArticleBody,
+  } = useFetch<Post>("", "", {}, null)
+
+  const handleArticleClick = (articleId: string) => {
+    setArticleUrl(`/api/articles/${articleId}`)
+    setArticleMethod("GET")
+    setArticleHeaders(
+      new Headers({
+        "ngrok-skip-browser-warning": "69420",
+      }),
+    )
+    setArticleBody()
   }
 
+  useEffect(() => {
+    if (articleSuccess) {
+      try {
+        setSelectedArticle(articleData)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }, [articleSuccess, articleData])
 
   return (
     <>
@@ -126,7 +142,7 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
             <span>작성한 게시글</span>
             {userArticles.map((article) => (
               <div className={styles.articleTitle} key={article.id}>
-                <a  onClick={() => handleArticleClick(article.id.toString())}>
+                <a onClick={() => handleArticleClick(article.id.toString())}>
                   {article.title}
                 </a>
               </div>
