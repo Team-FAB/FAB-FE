@@ -44,10 +44,11 @@
   word-wrap: break-word;
 }
 
-.userProfileNickname{
+.userProfileNickname {
   font-weight: bold;
 }
 
-.articleTitle{
-  
+.postsCreated {
+  margin-top: 15px;
+  font-weight: 700;
 }

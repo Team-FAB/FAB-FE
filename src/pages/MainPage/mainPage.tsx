@@ -52,7 +52,7 @@ const MainPage: React.FC = () => {
   let recommendTitle = "방갑고에서 추천하는 룸메이트를 만나보세요 💌"
   // 로그인이 안된 경우
   if (!isLogged) {
-    recommendTitle = "로그인 시 추천을 해드립니다."
+    recommendTitle = "로그인 후 추천하는 룸메이트를 만나보세요 💌"
   }
 
   //추천 룸메이트
@@ -134,9 +134,8 @@ const MainPage: React.FC = () => {
           setProfileDatasUrl(`/api/${usersProfile}/${selectedUser.id}`)
           setProfileMethod("GET")
           setProfileHeaders({
-              Authorization: userToken.atk.toString(),
-            },
-          )
+            Authorization: userToken.atk.toString(),
+          })
           setProfileBody()
           setSelectedUserProfile(profileDatas)
         }
@@ -149,7 +148,6 @@ const MainPage: React.FC = () => {
       fetchUserProfile()
     }
   }, [selectedUser, messageApi, userToken, profileDatasSuccess, profileDatas])
-
 
   const adImages = [
     "src/assets/001.jpg",

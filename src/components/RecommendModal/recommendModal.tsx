@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Button, Checkbox, Input, Modal } from "antd"
+import { Button, Checkbox, Input, List, Modal } from "antd"
 import styles from "./recommendModal.module.css"
 import { RecommendModalProps } from "../../interface/interface"
 import { userArticle } from "../../api"
@@ -44,7 +44,6 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
     { label: "여성", value: "여성" },
     { label: "남성", value: "남성" },
   ]
-
 
   const {
     datas: articleData,
@@ -139,14 +138,20 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
               }}
               readOnly
             />
-            <span>작성한 게시글</span>
-            {userArticles.map((article) => (
-              <div className={styles.articleTitle} key={article.id}>
-                <a onClick={() => handleArticleClick(article.id.toString())}>
-                  {article.title}
-                </a>
-              </div>
-            ))}
+            <span className={styles.postsCreated}>
+              {userProfile?.nickname}님이 작성한 게시글
+            </span>
+            <List
+              bordered
+              dataSource={userArticles}
+              renderItem={(article) => (
+                <List.Item>
+                  <a onClick={() => handleArticleClick(article.id.toString())}>
+                    {article.title}
+                  </a>
+                </List.Item>
+              )}
+            />
           </div>
         </div>
       </Modal>
