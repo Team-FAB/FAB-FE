@@ -10,7 +10,9 @@ import { RootState } from "../../Redux/store"
 const PostCard: React.FC<Props> = ({ posts }) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [messageApi, contextHolder] = message.useMessage()
-  const isLogged = useSelector((state: RootState) => state.user.isLogged)
+  const isLogged = useSelector((state: RootState) =>
+    Boolean(state.user.data.token.atk),
+  )
 
   const recruit = (recruiting: boolean) => {
     return recruiting ? "모집" : "마감"
