@@ -12,6 +12,7 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
   onClose,
   userProfile,
   user,
+  showArticles = true
 }) => {
   const [checkedGender, setCheckedGender] = useState<string>("")
   const [checkedSmoking, setCheckedSmoking] = useState<string>("")
@@ -23,17 +24,20 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
       try {
         if (userProfile) {
           setCheckedGender(userProfile.gender)
-          setCheckedSmoking(userProfile.issmoke ? "흡연" : "비흡연")
-          const response = await fetch(`/api/${userArticle}/users/${user.id}`)
+          setCheckedSmoking(userProfile.isSmoker ? "흡연" : "비흡연")
+
+          if (showArticles) {
+          const response = await fetch(`/api/${userArticle}/users/${user?.id}`)
           const data = await response.json()
           setUserArticles(data.data)
+          }
         }
       } catch (error) {
         console.error("Error:", error)
       }
     }
     fetchData()
-  }, [userProfile])
+  }, [])
 
   const smokingOptions = [
     { label: "흡연", value: "흡연" },
@@ -89,6 +93,8 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
           </Button>,
         ]}
       >
+      {userProfile && (
+        <>
         <div className={styles.profileTitle}>
           <span>
             <span className={styles.userProfileNickname}>
@@ -158,22 +164,30 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
               }}
               readOnly
             />
-            <span className={styles.postsCreated}>
-              {userProfile?.nickname}님이 작성한 게시글
-            </span>
-            <List
-              bordered
-              dataSource={userArticles}
-              renderItem={(article) => (
-                <List.Item>
-                  <a onClick={() => handleArticleClick(article.id.toString())}>
-                    {article.title}
-                  </a>
-                </List.Item>
-              )}
-            />
+            {showArticles && (
+              <>
+                <span className={styles.postsCreated}>
+                  {userProfile?.nickname}님이 작성한 게시글
+                </span>
+                {userArticles && (
+                  <List
+                    bordered
+                    dataSource={userArticles}
+                    renderItem={(article) => (
+                      <List.Item>
+                        <a onClick={() => handleArticleClick(article.id.toString())}>
+                          {article.title}
+                        </a>
+                      </List.Item>
+                    )}
+                  />
+                )}
+              </>
+            )}
           </div>
         </div>
+      </>
+      )}
       </Modal>
       {selectedArticle && (
         <PostModal
