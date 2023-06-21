@@ -21,7 +21,6 @@ const Apply: React.FC = () => {
 
   const toggleShowApply = () => {
     setShowApply(!showApply)
-    console.log(showApply)
   }
 
   const refresh = () => {
@@ -61,8 +60,9 @@ const Apply: React.FC = () => {
         }
 
         const responeData = await response.json()
-        setCount(responeData.count) // 개수로 수정
-        setApplyPosts(responeData.data)
+        console.log(responeData.data.applyPageList)
+        setCount(responeData.data.totalCount)
+        setApplyPosts(responeData.data.applyPageList)
       } catch (error) {
         console.error(error)
       }

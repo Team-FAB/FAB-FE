@@ -156,7 +156,7 @@ const ProfileTendency = (props:profileTendencyProps) => {
             </div>
               <div className={styles.input}> 
                 <Input 
-                  type="number" 
+                  type="text" 
                   style={{ width: 38, height: 22, marginTop: 1, borderRadius: 10, paddingBottom: 6 }}
                   value={props.selectedAge} 
                   onChange={(e) => {

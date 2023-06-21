@@ -134,8 +134,8 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
 
       if (response.ok) {
         const responseData = await response.json()
-        console.log(responseData.data)
-        setApplyIsSaved(responseData.data)
+        console.log(responseData.data.apply)
+        setApplyIsSaved(responseData.data.apply)
       } else {
         throw new Error("신청현황을 가져오는데 실패했습니다.")
       }
