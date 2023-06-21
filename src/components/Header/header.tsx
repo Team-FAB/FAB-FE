@@ -8,7 +8,9 @@ import { MenuOutlined, UserOutlined } from "@ant-design/icons"
 import { logOutUser } from "../../Redux/user"
 
 const Header: React.FC = () => {
-  const isLogged = useSelector((state: RootState) => state.user.isLogged)
+  const isLoggedIn = useSelector((state: RootState) =>
+    Boolean(state.user.data.token.atk),
+  )
   const dispatch: AppDispatch = useDispatch()
   const navigator = useNavigate()
   const userToken = useSelector((state: RootState) => state.user.data.token.atk)
@@ -23,7 +25,7 @@ const Header: React.FC = () => {
   }
 
   const items = [
-    isLogged
+    isLoggedIn
       ? {
           key: "My Page",
           label: (
@@ -33,7 +35,7 @@ const Header: React.FC = () => {
           ),
         }
       : null,
-    isLogged
+    isLoggedIn
       ? {
           key: "logout",
           label: (
@@ -50,7 +52,7 @@ const Header: React.FC = () => {
             </Link>
           ),
         },
-    isLogged
+    isLoggedIn
       ? null
       : {
           key: "signUp",
@@ -74,7 +76,7 @@ const Header: React.FC = () => {
               <li>룸메이트 구해요</li>
             </Link>
             <Alarm />
-            {isLogged === true ? (
+            {isLoggedIn === true ? (
               <Dropdown menu={{ items }} placement="bottomRight">
                 <li className={styles.user}>
                   <MenuOutlined size={50} />

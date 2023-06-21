@@ -17,7 +17,9 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const [showRecruiting, setShowRecruiting] = useState(false)
   const [posts, setPosts] = useState<Post[]>([])
   const [count, setCount] = useState(0)
-  const isLogged = useSelector((state: RootState) => state.user.isLogged)
+  const isLogged = useSelector((state: RootState) =>
+    Boolean(state.user.data.token.atk),
+  )
   const pageSize = 9
   const navigate = useNavigate()
   const [searchResults] = useState([])
@@ -29,6 +31,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     setPosts(results)
     setIsSearched(true)
   }
+
   // 페이지네이션
   const handlePageChange = (page: number) => {
     setCurrentPage(page)

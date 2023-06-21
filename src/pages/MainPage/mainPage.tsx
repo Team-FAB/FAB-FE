@@ -46,7 +46,9 @@ const MainPage: React.FC = () => {
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
   // 로그인 상태 체크
-  const isLogged = useSelector((state: RootState) => state.user.isLogged)
+  const isLogged = useSelector((state: RootState) =>
+    Boolean(state.user.data.token.atk),
+  )
 
   // 추천 룸메이트 표시 제목
   let recommendTitle = "방갑고에서 추천하는 룸메이트를 만나보세요 💌"
