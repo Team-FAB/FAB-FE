@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Button, Checkbox, Input, List, Modal } from "antd"
+import { Button, Input, List, Modal, Radio } from "antd"
 import styles from "./recommendModal.module.css"
 import { RecommendModalProps } from "../../interface/interface"
 import { userArticle } from "../../api"
@@ -13,8 +13,8 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
   userProfile,
   user,
 }) => {
-  const [checkedGender, setCheckedGender] = useState<string[]>([])
-  const [checkedSmoking, setCheckedSmoking] = useState<string[]>([])
+  const [checkedGender, setCheckedGender] = useState<string>("")
+  const [checkedSmoking, setCheckedSmoking] = useState<string>("")
   const [userArticles, setUserArticles] = useState<Post[]>([])
   const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
 
@@ -22,8 +22,8 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
     const fetchData = async () => {
       try {
         if (userProfile) {
-          setCheckedGender([userProfile.gender])
-          setCheckedSmoking([userProfile.issmoke ? "흡연" : "비흡연"])
+          setCheckedGender(userProfile.gender)
+          setCheckedSmoking(userProfile.issmoke ? "흡연" : "비흡연")
           const response = await fetch(`/api/${userArticle}/users/${user.id}`)
           const data = await response.json()
           setUserArticles(data.data)
@@ -98,9 +98,25 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
           </span>
         </div>
         <div className={styles.profileBox}>
-          <div className={styles.profileSection}>
+          <div
+            className={`${styles.profileSection} ${styles.profileSection2Col}`}
+          >
             <span>성별</span>
-            <Checkbox.Group options={genderOptions} value={checkedGender} />
+            <Radio.Group
+              options={genderOptions}
+              value={checkedGender}
+              optionType="button"
+            />
+          </div>
+          <div
+            className={`${styles.profileSection} ${styles.profileSection2Col}`}
+          >
+            <span>흡연</span>
+            <Radio.Group
+              options={smokingOptions}
+              value={checkedSmoking}
+              optionType="button"
+            />
           </div>
           <div className={styles.profileSection}>
             <span>활동시간</span>
@@ -110,23 +126,27 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
               readOnly
             />
           </div>
-          <div className={styles.profileSection}>
-            <span>흡연</span>
-            <Checkbox.Group options={smokingOptions} value={checkedSmoking} />
-          </div>
-          <div className={styles.profileSection}>
+          <div
+            className={`${styles.profileSection} ${styles.profileSection4Col}`}
+          >
             <span>MBTI</span>
             <Input value={userProfile?.mbti} style={{ width: 50 }} readOnly />
           </div>
-          <div className={styles.profileSection}>
+          <div
+            className={`${styles.profileSection} ${styles.profileSection4Col}`}
+          >
             <span>지역</span>
             <Input value={userProfile?.region} style={{ width: 60 }} readOnly />
           </div>
-          <div className={styles.profileSection}>
+          <div
+            className={`${styles.profileSection} ${styles.profileSection4Col}`}
+          >
             <span>연령</span>
             <Input value={userProfile?.myAge} style={{ width: 50 }} readOnly />
           </div>
-          <div className={styles.profileSection}>
+          <div
+            className={`${styles.profileSection} ${styles.profileSection4Col}`}
+          >
             <span>본인 소개</span>
             <Input.TextArea
               autoSize={{ minRows: 1, maxRows: 5 }}
