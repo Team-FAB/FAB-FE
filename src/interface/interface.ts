@@ -39,7 +39,7 @@ export interface User {
   image: string
   email: string
   gender: string
-  issmoke: boolean
+  isSmoker: boolean
   mbti: string
   region: string
   minAge: number
@@ -172,7 +172,8 @@ export interface ApplicantProps {
 
 export interface RecommendModalProps extends ModalProps {
   userProfile: User | null
-  user: User
+  user?: User
+  showArticles?: boolean
 }
 
 export interface Data {

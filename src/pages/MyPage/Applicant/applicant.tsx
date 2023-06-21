@@ -1,16 +1,25 @@
 import styles from './applicant.module.css'
 import { Badge, Card, Modal } from "antd"
-import { IdcardOutlined, CloseOutlined, WechatOutlined, FileDoneOutlined, CheckOutlined } from "@ant-design/icons"
 import Meta from "antd/es/card/Meta"
-import { ApplicantProps } from '../../../interface/interface'
+import { ApplicantProps, Post, User } from '../../../interface/interface'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
 import { userAprove, userRefuse } from '../../../api'
 import { userApplicant } from '../../../api'
+import { usersProfile } from '../../../api'
+import { useState } from 'react'
+import RecommendModal from '../../../components/RecommendModal/recommendModal'
 
 const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
+  const [otheruser, setOtherUser] = useState<User | null>(null)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const handleUserClick = (userId: number) => {
+    userData(userId)
+    setIsModalVisible(true)
+  }
 
   // 승인
   const updateApprove = async () => {
@@ -106,6 +115,29 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
     }
   }
 
+  // 프로필
+  const userData = async (userId: number) => {
+    try {
+      const response = await fetch(`/api/${usersProfile}/${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        console.log(response)
+        throw new Error(`서버 상태 응답 ${response.status}`)
+      }
+
+      const responeData = await response.json()
+      setOtherUser(responeData.data)
+      setIsModalVisible(true)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
       {
@@ -116,9 +148,9 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
                 cover={<Badge.Ribbon text={post.matchStatus} />}
                 style={{ width: 530, marginBottom: 30 }}
                 actions={[
-                  <IdcardOutlined title="프로필" />,  
-                  <CheckOutlined onClick={updateApprove} />,
-                  <CloseOutlined onClick={updateRefuse}/>,
+                  <p onClick={()=>handleUserClick(post.otherUserId)}>프로필</p>,
+                  <p onClick={updateApprove}>승인</p>,
+                  <p onClick={updateRefuse}>거절</p>,
                 ]}
               >
                 <Meta
@@ -135,7 +167,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
               <Card
                 cover={<Badge.Ribbon text={post.matchStatus} />}
                 style={{ width: 530, marginBottom: 30 }}
-                actions={[<CloseOutlined key="close" onClick={updateDelete}>삭제</CloseOutlined>]}
+                actions={[<p onClick={updateDelete}>삭제</p>]}
               >
                 <Meta
                   title={`'${post.otherUserName}'님의 룸메이트 매칭을 거절 하였습니다.`}
@@ -152,8 +184,8 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
                 cover={<Badge.Ribbon text={post.matchStatus} />}
                 style={{ width: 530, marginBottom: 30 }}
                 actions={[
-                  <WechatOutlined title="채팅" />,
-                  <IdcardOutlined title="프로필" />]}
+                  <p>채팅</p>,
+                  <p onClick={()=>handleUserClick(post.otherUserId)}>프로필</p>]}
               >
                 <Meta
                   title={`'${post.articleTitle}' 게시물에 '${post.otherUserName}'님과 룸메이트 매칭이 되었습니다.`}
@@ -172,8 +204,8 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
                 cover={<Badge.Ribbon text={post.matchStatus} />}
                 style={{ width: 530, marginBottom: 30 }}
                 actions={[
-                  <IdcardOutlined title="프로필" />, 
-                  <FileDoneOutlined key="게시물" />]}
+                  <p onClick={()=>handleUserClick(post.otherUserId)}>프로필</p>, 
+                  <p>게시물</p>]}
               >
                 <Meta
                   title={`'${post.articleTitle}' 게시물에 룸메이트 신청을 하였습니다.`}
@@ -189,7 +221,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
               <Card
                 cover={<Badge.Ribbon text={post.matchStatus} />}
                 style={{ width: 530, marginBottom: 30 }}
-                actions={[<CloseOutlined key="close">삭제</CloseOutlined>]}
+                actions={[<p onClick={updateDelete}>삭제</p>]}
               >
                 <Meta
                   title={`'${post.articleTitle}' 게시물 룸메이트 매칭이 거절 되었습니다.`}
@@ -205,8 +237,8 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
               cover={<Badge.Ribbon text={post.matchStatus} />}
               style={{ width: 530, marginBottom: 30 }}
               actions={[
-                <WechatOutlined title="채팅" />,
-                <IdcardOutlined title="프로필" />]}
+                <p>채팅</p>,
+                <p onClick={()=>handleUserClick(post.otherUserId)}>프로필</p>]}
             >
               <Meta
                 title={`'${post.articleTitle}' 게시물에 '${post.otherUserName}'님과 룸메이트 매칭이 되었습니다.`}
@@ -219,6 +251,14 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
           ) : null
         ) 
       }
+      {otheruser && (
+        <RecommendModal
+          userProfile={otheruser}
+          visible={isModalVisible}
+          onClose={() => setOtherUser(null)}
+          showArticles={false}
+        />
+      )}
     </>
   )
 }
