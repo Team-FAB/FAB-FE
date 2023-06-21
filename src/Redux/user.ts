@@ -12,6 +12,9 @@ import {
   userLogout,
   userRegister,
 } from "../api"
+import { useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
+import { useEffect } from "react"
 
 const initialState: UserState = loadFromLocalStorage() || {
   isLogged: false,
@@ -24,6 +27,25 @@ const initialState: UserState = loadFromLocalStorage() || {
   signUp: false,
   email: "",
   status: "idle",
+}
+
+export function useAutoLogout() {
+  const dispatch = useDispatch()
+  const { token } = useSelector((state: RootState) => state.user.data)
+
+  useEffect(() => {
+    if (token && token.atk) {
+      const splitToken = token.atk.split(".")
+      const tokenPayload = JSON.parse(atob(splitToken[1]))
+      const expirationTime = tokenPayload.exp * 1000
+
+      const timeoutId = setTimeout(() => {
+        dispatch(logout())
+      }, expirationTime - new Date().getTime())
+
+      return () => clearTimeout(timeoutId)
+    }
+  }, [token, dispatch])
 }
 
 export const refreshTokenIfNeeded = createAsyncThunk<
@@ -40,12 +62,6 @@ export const refreshTokenIfNeeded = createAsyncThunk<
 
   const splitToken = token.atk.split(".")
 
-  if (splitToken.length < 2) {
-    console.error("토큰 형식 오류:", token.atk)
-    throw new Error("Token format error")
-  }
-
-  //한시간으로 설정 되어있음
   try {
     const tokenPayload = JSON.parse(atob(splitToken[1]))
     const expirationTime = tokenPayload.exp * 1000
@@ -53,9 +69,11 @@ export const refreshTokenIfNeeded = createAsyncThunk<
 
     if (currentTime > expirationTime) {
       await dispatch(refreshToken({ refreshToken: token.rtk }))
+    } else {
+      dispatch(logout())
     }
   } catch (error) {
-    console.error("Error decoding access token:", error)
+    console.error(error)
     throw error
   }
 })
