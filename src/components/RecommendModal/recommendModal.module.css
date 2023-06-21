@@ -2,19 +2,29 @@
   width: 400px;
   margin: 0 auto;
   margin-top: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--black100);
 }
 
 .profileBox {
   width: 400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
-  grid-row-gap: 5px;
+  gap: 20px;
 }
 
 .profileBox > div:last-child {
-  grid-column: span 3;
+  grid-column: span 4;
+}
+
+.profileSection2Col {
+  grid-column: span 2;
+}
+
+.profileSection1Col {
+  grid-column: span 1;
 }
 
 .profileTitle {
@@ -51,4 +61,8 @@
 .postsCreated {
   margin-top: 15px;
   font-weight: 700;
+}
+
+.ant-list-item:hover {
+  color: #6231ef !important;
 }
