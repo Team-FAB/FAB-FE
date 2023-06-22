@@ -43,7 +43,7 @@ const RecommendPostCard: React.FC<Props> = ({ user, onClick, data }) => {
             <span className={styles.cardTitle}>{user.nickname}</span>
           </div>
           <div className={styles.date}>
-            님과 프로필이 비슷한
+            {data.nickname }님과 프로필이 비슷한
             <br />
             룸메이트입니다!
             <br /> 확인해보세요 ~

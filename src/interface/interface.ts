@@ -178,6 +178,7 @@ export interface RecommendModalProps extends ModalProps {
 
 export interface Data {
   mbti: string
+  nickname: string
   recommendDtoList: {
     id: number
     nickname: string
@@ -215,6 +216,7 @@ export interface Article {
 
 export interface FetchData {
   mbti: string
+  nickname: string
   recommendDtoList: { id: number; nickname: string; mbti: string }[]
 }
 
