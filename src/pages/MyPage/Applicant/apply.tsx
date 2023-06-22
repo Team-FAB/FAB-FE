@@ -4,20 +4,21 @@ import { Button, Pagination } from 'antd'
 import { useEffect, useState } from 'react'
 import Applicant from './applicant'
 import MyPage from '../myPage'
-import { userMyToApplicants, userMyFromApplicants } from '../../../api'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../Redux/store'
-import { ApplyProps } from '../../../interface/interface'
+import { AppDispatch, RootState } from '../../../Redux/store'
+import { useDispatch } from 'react-redux'
+import { fetchData } from '../../../Redux/applyReducer'
 
 const Apply: React.FC = () => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
   const [showApply, setShowApply] = useState(false)
-  const [count, setCount] = useState(0)
   const [toCurrentPage, setToCurrentPage] = useState(1)
   const [fromCurrentPage, setFromCurrentPage] = useState(1)
   const pageSize = 3
-  const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
+
+  const dispatch: AppDispatch = useDispatch();
+  const { applyPosts, totalCount } = useSelector((state: RootState) => state.apply)
 
   const toggleShowApply = () => {
     setShowApply(!showApply)
@@ -36,40 +37,12 @@ const Apply: React.FC = () => {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      let apiEndpoint
-
-      if (showApply) {
-        apiEndpoint = `/api/${userMyToApplicants}?page=${toCurrentPage}&size=3`
-      } else {
-        apiEndpoint = `/api/${userMyFromApplicants}?page=${fromCurrentPage}&size=3`
-      }
-
-      try {
-        const response = await fetch(apiEndpoint, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: userToken.atk.toString(),
-          },
-        })
-
-        if (!response.ok) {
-          console.log(response)
-          throw new Error(`서버 상태 응답 ${response.status}`)
-        }
-
-        const responeData = await response.json()
-        console.log(responeData.data.applyPageList)
-        setCount(responeData.data.totalCount)
-        setApplyPosts(responeData.data.applyPageList)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchData()
-  }, [toCurrentPage, fromCurrentPage, showApply])
+    dispatch(fetchData({ 
+      showApply: showApply, 
+      currentPage: showApply ? toCurrentPage : fromCurrentPage, 
+      userToken: userToken.atk.toString()
+    }))
+  }, [dispatch, toCurrentPage, fromCurrentPage, showApply, userToken])
 
   return (
     <>
@@ -102,14 +75,14 @@ const Apply: React.FC = () => {
               className={styles.pagination}
               current={toCurrentPage}
               onChange={handleToPageChange}
-              total={count}
+              total={totalCount}
               pageSize={pageSize} />
           ) : (
             <Pagination 
               className={styles.pagination}
               current={fromCurrentPage}
               onChange={handleFromPageChange}
-              total={count}
+              total={totalCount}
               pageSize={pageSize} />
           )}
         </div>
