@@ -8,9 +8,9 @@ import { userAprove, userRefuse } from '../../../api'
 import { userApplicant } from '../../../api'
 import { usersProfile } from '../../../api'
 import { useEffect, useState } from 'react'
-import RecommendModal from '../../../components/RecommendModal/recommendModal'
 import useFetch from '../../../hooks/useFetch'
 import PostModal from '../../../components/PostModal/postModal'
+import OtherUserProfile from './otherUserProfile'
 
 const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
 
@@ -286,11 +286,10 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
         ) 
       }
       {otheruser && (
-        <RecommendModal
+        <OtherUserProfile
           userProfile={otheruser}
           visible={isModalVisible}
           onClose={() => setOtherUser(null)}
-          showArticles={false}
         />
       )}
       {selectedArticle && (
