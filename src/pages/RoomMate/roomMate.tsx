@@ -1,6 +1,6 @@
 import styles from "./roomMate.module.css"
 import PostCard from "../../components/PostCard/postCard"
-import { Button, Pagination, message } from "antd"
+import { Button, Pagination, message, Spin } from "antd"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
@@ -8,9 +8,10 @@ import { RootState } from "../../Redux/store"
 import roomMateTitle from "../../assets/RoommateTitle.svg"
 import { userArticle } from "../../api"
 import { Post, SearchQuery } from "../../interface/interface"
-import { RoomMateSearchProps } from "../../interface/interface"
+import { RoomMateSearchProps, PostData } from "../../interface/interface"
 import { RedoOutlined } from "@ant-design/icons"
 import SearchBar from "../../components/SearchBar/searchBar"
+import useFetch from "../../hooks/useFetch"
 
 const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -97,35 +98,38 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     }
   }
 
+
+  const {
+    datas: fetchedData,
+    isLoading: fetchDataLoading,
+    isSuccess: fetchDataSuccess,
+    setUrl,
+    setHeaders,
+    setMethod,
+    setBody,
+  } = useFetch<PostData | null>("", "", {}, null)
+
   useEffect(() => {
-    const fetchData = async () => {
+    setUrl(
+      `/api/${userArticle}?page=${currentPage}&size=9&isRecruiting=${showRecruiting}`,
+    )
+    setMethod("GET")
+    setHeaders({
+      "ngrok-skip-browser-warning": "69420",
+    })
+    setBody()
+  }, [userArticle, currentPage, showRecruiting, messageApi])
+
+  useEffect(() => {
+    if (fetchDataSuccess) {
       try {
-        const response = await fetch(
-          `/api/${userArticle}?page=${currentPage}&size=9&isRecruiting=${showRecruiting}`,
-          {
-            method: "GET",
-            headers: new Headers({
-              "ngrok-skip-browser-warning": "69420",
-            }),
-          },
-        )
-
-        if (!response.ok) {
-          throw new Error(`서버 상태 응답 ${response.status}`)
-        }
-
-        const data = await response.json()
-        setPosts(data.data.articleList)
-        setCount(data.data.totalCnt)
+        setPosts(fetchedData?.articleList || [])
+        setCount(fetchedData?.totalCnt || 0)
       } catch (error) {
         console.error(error)
-        messageApi.error("데이터 불러오기 오류")
       }
     }
-
-    fetchData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, showRecruiting, messageApi])
+  }, [fetchDataSuccess, fetchedData])
 
   return (
     <>
@@ -148,12 +152,16 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
           </div>
         </div>
         <div className={styles.cardGrid}>
-          <PostCard
-            posts={posts}
-            Resultsposts={searchResults}
-            currentPage={currentPage}
-            showRecruiting={showRecruiting}
-          />
+          {fetchDataLoading ? (
+            <Spin/>
+          ) : (
+            <PostCard
+              posts={posts}
+              Resultsposts={searchResults}
+              currentPage={currentPage}
+              showRecruiting={showRecruiting}
+            />
+          )}
         </div>
         <Pagination
           className={styles.pagination}

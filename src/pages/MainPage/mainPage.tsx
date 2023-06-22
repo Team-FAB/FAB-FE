@@ -10,7 +10,7 @@ import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai"
 import PostModal from "../../components/PostModal/postModal"
 import RecommendModal from "../../components/RecommendModal/recommendModal"
 import { userArticle, usersRecommend, usersProfile } from "../../api"
-import { message } from "antd"
+import { message, Spin } from "antd"
 import { Post, User, FetchData, PostData } from "../../interface/interface"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
@@ -59,6 +59,7 @@ const MainPage: React.FC = () => {
     setHeaders: setRecommendHeaders,
     setMethod: setRecommendMethod,
     setBody: setRecommendBody,
+    isLoading: recommendLoading,
   } = useFetch<FetchData | null>("", "", {}, null)
 
   // 추천 룸메이트 표시 제목
@@ -96,6 +97,7 @@ const MainPage: React.FC = () => {
   const {
     datas: postDatas,
     isSuccess: postSuccess,
+    isLoading: postLoading,
     setUrl: setPostUrl,
     setHeaders: setPostHeaders,
     setMethod: setPostMethod,
@@ -223,28 +225,34 @@ const MainPage: React.FC = () => {
       <div className={styles.mainPost}>
         <div className={styles.title}>룸메이트 구해요 👋</div>
         <div className={styles.carouselWrapper}>
-          <MultiCarousel
-            responsive={responsive}
-            infinite={true}
-            draggable={true}
-            showDots={false}
-            customRightArrow={<CustomRightArrow />}
-            customLeftArrow={<CustomLeftArrow />}
-          >
-            {posts.slice(0, 12).map((post) => (
-              <MainPostCard
-                key={post.id}
-                post={post}
-                onClick={() => handlePostClick(post)}
-              />
-            ))}
-          </MultiCarousel>
+          {postLoading ? (
+            <Spin/>
+          ) : (
+            <MultiCarousel
+              responsive={responsive}
+              infinite={true}
+              draggable={true}
+              showDots={false}
+              customRightArrow={<CustomRightArrow />}
+              customLeftArrow={<CustomLeftArrow />}
+            >
+              {posts.slice(0, 12).map((post) => (
+                <MainPostCard
+                  key={post.id}
+                  post={post}
+                  onClick={() => handlePostClick(post)}
+                />
+              ))}
+            </MultiCarousel>
+          )}
         </div>
       </div>
       <div className={styles.recommendPost}>
         <div className={styles.title}>{recommendTitle}</div>
         <div className={styles.carouselWrapper}>
-          {users.length > 0 ? (
+          {recommendLoading ? (
+            <Spin/>
+          ) : users.length > 0 ? (
             <MultiCarousel
               responsive={responsive}
               infinite={true}

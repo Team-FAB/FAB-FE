@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom"
 import styles from "../Header/header.module.css"
-import Alarm from "./Alarm/alarm"
+// import Alarm from "./Alarm/alarm"
 import { useSelector, useDispatch } from "react-redux"
 import { AppDispatch, RootState } from "../../Redux/store"
 import { Avatar, Dropdown } from "antd"
 import { MenuOutlined, UserOutlined } from "@ant-design/icons"
 import { logOutUser } from "../../Redux/user"
+import { RiMessage3Fill } from "react-icons/ri"
 
 const Header: React.FC = () => {
   const isLoggedIn = useSelector((state: RootState) =>
@@ -23,6 +24,12 @@ const Header: React.FC = () => {
       console.error(error)
     }
   }
+
+    const chatOnClick = () => {
+      navigator("/Chat")
+    }
+
+
 
   const items = [
     isLoggedIn
@@ -75,7 +82,10 @@ const Header: React.FC = () => {
             <Link to="/RoomMate">
               <li>룸메이트 구해요</li>
             </Link>
-            <Alarm />
+            <div className={styles.chatIcon} onClick={chatOnClick}>
+              <RiMessage3Fill style={{ color: "#6231ef" }} size={25} />
+            </div>
+            {/* <Alarm /> */}
             {isLoggedIn === true ? (
               <Dropdown menu={{ items }} placement="bottomRight">
                 <li className={styles.user}>

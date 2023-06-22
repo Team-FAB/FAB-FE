@@ -73,3 +73,10 @@
 .userMenuBox {
   width: 500px;
 }
+
+.chatIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
