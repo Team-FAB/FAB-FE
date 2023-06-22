@@ -18,6 +18,24 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
   const [userArticles, setUserArticles] = useState<Post[]>([])
   const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (userProfile) {
+  //         setCheckedGender(userProfile.gender)
+  //         setCheckedSmoking(userProfile.isSmoker ? "흡연" : "비흡연")
+
+  //         const response = await fetch(`/api/${userArticle}/users/${user?.id}`)
+  //         const data = await response.json()
+  //         setUserArticles(data.data)
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error)
+  //     }
+  //   }
+  //   fetchData()
+  // }, [])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,8 +51,11 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
         console.error("Error:", error)
       }
     }
-    fetchData()
-  }, []) // userProfile
+
+    if (visible) {
+      fetchData()
+    }
+  }, [visible, userProfile, user])
 
   const smokingOptions = [
     { label: "흡연", value: "흡연" },
@@ -167,7 +188,9 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
                 dataSource={userArticles}
                 renderItem={(article) => (
                   <List.Item>
-                    <a onClick={() => handleArticleClick(article.id.toString())}>
+                    <a
+                      onClick={() => handleArticleClick(article.id.toString())}
+                    >
                       {article.title}
                     </a>
                   </List.Item>

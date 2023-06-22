@@ -1,4 +1,4 @@
-.alarmContainer {
+/* .alarmContainer {
   position: relative;
   display: flex;
   justify-content: center;
@@ -40,10 +40,10 @@
 .alarmMessageBtn {
   padding: 5px 10px;
   font-size: var(--font-size-button);
-}
+} */
 
 /* proflie modal */
-.profileTitle {
+/* .profileTitle {
   width: 400px;
   margin: 0 auto;
   margin-top: 20px;
@@ -87,4 +87,4 @@
 .profileInput {
   max-width: 472px;
   word-wrap: break-word;
-}
+} */

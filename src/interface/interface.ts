@@ -222,4 +222,5 @@ export interface FetchData {
 
 export interface PostData {
   articleList: Post[]
+  totalCnt : number
 }
