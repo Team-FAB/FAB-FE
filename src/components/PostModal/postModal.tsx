@@ -149,12 +149,6 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   }, [post.id])
 
   // 삭제하기
-  //  datas: recommendDatas,
-  //     isSuccess: recommendSuccess,
-  //     setUrl: setRecommendUrl,
-  //     setHeaders: setRecommendHeaders,
-  //     setMethod: setRecommendMethod,
-  //     setBody: setRecommendBody,
   const {
     isLoading: deleteLoading,
     isSuccess: deleteSuccess,

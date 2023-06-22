@@ -82,3 +82,7 @@
   line-height: 49px;
   color: var(--purple600);
 }
+
+.noRecommend{
+  margin-top: 20px;
+}

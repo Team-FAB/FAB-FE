@@ -48,22 +48,25 @@ const MainPage: React.FC = () => {
   // 로그인 상태 체크
   const isLogged = useSelector((state: RootState) => state.user.isLogged)
 
-  // 추천 룸메이트 표시 제목
-  let recommendTitle = "방갑고에서 추천하는 룸메이트를 만나보세요 💌"
-  // 로그인이 안된 경우
-  if (!isLogged) {
-    recommendTitle = "로그인 후 추천하는 룸메이트를 만나보세요 💌"
-  }
-
   //추천 룸메이트
   const {
     datas: recommendDatas,
     isSuccess: recommendSuccess,
+    error: recommendError,
     setUrl: setRecommendUrl,
     setHeaders: setRecommendHeaders,
     setMethod: setRecommendMethod,
     setBody: setRecommendBody,
   } = useFetch<FetchData | null>("", "", {}, null)
+
+  // 추천 룸메이트 표시 제목
+  let recommendTitle = "방갑고에서 추천하는 룸메이트를 만나보세요 💌"
+  // 로그인이 안된 경우
+  if (!isLogged) {
+    recommendTitle = "로그인 후 추천하는 룸메이트를 만나보세요 💌"
+  } else if (recommendError) {
+    recommendTitle = "회원님의 정보를 입력 후 추천하는 룸메이트를 만나보세요 💌"
+  }
 
   useEffect(() => {
     setRecommendUrl(`/api/${usersRecommend}?size=12`)
@@ -269,7 +272,7 @@ const MainPage: React.FC = () => {
                 )}
             </MultiCarousel>
           ) : (
-            <p>추천하는 사람이 없습니다.</p>
+            <p className={styles.noRecommend}>추천하는 사람이 없습니다.</p>
           )}
         </div>
       </div>
