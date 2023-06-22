@@ -7,14 +7,17 @@ import { RootState } from '../../../Redux/store'
 import { userAprove, userRefuse } from '../../../api'
 import { userApplicant } from '../../../api'
 import { usersProfile } from '../../../api'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import RecommendModal from '../../../components/RecommendModal/recommendModal'
+import useFetch from '../../../hooks/useFetch'
+import PostModal from '../../../components/PostModal/postModal'
 
 const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
   const [otheruser, setOtherUser] = useState<User | null>(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
 
   const handleUserClick = (userId: number) => {
     userData(userId)
@@ -138,6 +141,37 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
     }
   }
 
+  // 게시물
+  const {
+    datas: articleData,
+    isSuccess: articleSuccess,
+    setUrl: setArticleUrl,
+    setHeaders: setArticleHeaders,
+    setMethod: setArticleMethod,
+    setBody: setArticleBody,
+  } = useFetch<Post>("", "", {}, null)
+
+  const handleArticleClick = (articleId: string) => {
+    setArticleUrl(`/api/articles/${articleId}`)
+    setArticleMethod("GET")
+    setArticleHeaders(
+      new Headers({
+        "ngrok-skip-browser-warning": "69420",
+      }),
+    )
+    setArticleBody()
+  }
+
+  useEffect(() => {
+    if (articleSuccess) {
+      try {
+        setSelectedArticle(articleData)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }, [articleSuccess, articleData])
+
   return (
     <>
       {
@@ -205,7 +239,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
                 style={{ width: 530, marginBottom: 30 }}
                 actions={[
                   <p onClick={()=>handleUserClick(post.otherUserId)}>프로필</p>, 
-                  <p>게시물</p>]}
+                  <p onClick={() => handleArticleClick(post.articleId.toString())}>게시물</p>]}
               >
                 <Meta
                   title={`'${post.articleTitle}' 게시물에 룸메이트 신청을 하였습니다.`}
@@ -257,6 +291,13 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
           visible={isModalVisible}
           onClose={() => setOtherUser(null)}
           showArticles={false}
+        />
+      )}
+      {selectedArticle && (
+        <PostModal
+          visible={!!selectedArticle}
+          onClose={() => setSelectedArticle(null)}
+          post={selectedArticle}
         />
       )}
     </>
