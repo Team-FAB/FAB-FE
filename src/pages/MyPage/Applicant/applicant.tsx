@@ -1,16 +1,16 @@
 import styles from './applicant.module.css'
 import { Badge, Card, Modal } from "antd"
 import Meta from "antd/es/card/Meta"
-import { ApplicantProps, Post, User } from '../../../interface/interface'
+import { ApplicantProps, ApplyProps, Post, User } from '../../../interface/interface'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../Redux/store'
-import { userAprove, userRefuse } from '../../../api'
-import { userApplicant } from '../../../api'
+import { AppDispatch, RootState } from '../../../Redux/store'
 import { usersProfile } from '../../../api'
 import { useEffect, useState } from 'react'
 import useFetch from '../../../hooks/useFetch'
 import PostModal from '../../../components/PostModal/postModal'
 import OtherUserProfile from './otherUserProfile'
+import { useDispatch } from 'react-redux'
+import { approvePostAsync, deletePostAsync, refusePostAsync } from '../../../Redux/applicantReducer'
 
 const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
 
@@ -19,103 +19,23 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
 
+  const dispatch: AppDispatch = useDispatch()
+
+  const handleApprovePost = async (post: ApplyProps) => {
+    dispatch(approvePostAsync({ userToken: userToken.atk.toString(), otherUserId: post.otherUserId, articleId: post.articleId }));
+  };
+
+  const handleRefusePost = async (post: ApplyProps) => {
+    dispatch(refusePostAsync({ userToken: userToken.atk.toString(), applyId: post.applyId, articleId: post.articleId }));
+  };
+
+  const handleDeletePost = async (applyId: number) => {
+    dispatch(deletePostAsync({ userToken: userToken.atk.toString(), applyId: post.applyId }));
+  };
+
   const handleUserClick = (userId: number) => {
     userData(userId)
     setIsModalVisible(true)
-  }
-
-  // 승인
-  const updateApprove = async () => {
-    try {
-      const response = await fetch(`/api/${userAprove}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: userToken.atk.toString(), 
-        },
-        body: JSON.stringify({
-          "userId" : post.otherUserId,
-          "articleId" : post.articleId
-        }),
-      })
-
-      if (!response.ok) {
-        console.log(response)
-        throw new Error('매칭 승인 실패')
-      } else {
-        Modal.success({
-          title: "룸메이트 매칭 성공!",
-          content: "룸메이트 매칭을 승인하였습니다.",
-        });
-      }
-
-      const approveData = await response.json()
-      window.location.reload()
-      console.log(approveData.data)
-
-    } catch (error) {
-      console.error('룸메이트 매칭 승인 오류', error)
-    }
-  }
-
-  // 거절
-  const updateRefuse = async () => {
-    try {
-      const response = await fetch(`/api/${userRefuse}/${post.applyId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: userToken.atk.toString(), 
-        },
-        body: JSON.stringify(post.articleId),
-      })
-
-      if (!response.ok) {
-        throw new Error('매칭 거절 실패')
-      } else {
-        Modal.success({
-          title: "룸메이트 매칭 거절!",
-          content: "룸메이트 매칭을 거절하였습니다.",
-        });
-      }
-
-      const refuseData = await response.json()
-      window.location.reload()
-      console.log(refuseData.data)
-      return refuseData
-
-    } catch (error) {
-      console.error('룸메이트 매칭 거절 오류', error)
-    }
-  }
-
-  // 삭제
-  const updateDelete = async () => {
-    try {
-      const response = await fetch(`/api/${userApplicant}/${post.applyId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: userToken.atk.toString(), 
-        },
-      })
-
-      if (response.ok) {
-        Modal.confirm({
-          title: "신청현황 삭제!",
-          content: "룸메이트 신청현황을 삭제하였습니다.",
-        })
-      } else {
-        throw new Error('삭제 실패')
-      }
-
-      const deleteData = await response.json()
-      window.location.reload()
-      console.log(deleteData.data)
-
-    } catch (error) {
-      console.error('룸메이트 신청현황 삭제 오류', error)
-    }
   }
 
   // 프로필
@@ -183,8 +103,8 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
                 style={{ width: 530, marginBottom: 30 }}
                 actions={[
                   <p onClick={()=>handleUserClick(post.otherUserId)}>프로필</p>,
-                  <p onClick={updateApprove}>승인</p>,
-                  <p onClick={updateRefuse}>거절</p>,
+                  <p onClick={()=>handleApprovePost(post)}>승인</p>,
+                  <p onClick={()=>handleRefusePost(post)}>거절</p>,
                 ]}
               >
                 <Meta
@@ -201,7 +121,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
               <Card
                 cover={<Badge.Ribbon text={post.matchStatus} />}
                 style={{ width: 530, marginBottom: 30 }}
-                actions={[<p onClick={updateDelete}>삭제</p>]}
+                actions={[<p onClick={()=>handleDeletePost(post.applyId)}>삭제</p>]}
               >
                 <Meta
                   title={`'${post.otherUserName}'님의 룸메이트 매칭을 거절 하였습니다.`}
@@ -255,7 +175,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
               <Card
                 cover={<Badge.Ribbon text={post.matchStatus} />}
                 style={{ width: 530, marginBottom: 30 }}
-                actions={[<p onClick={updateDelete}>삭제</p>]}
+                actions={[<p onClick={()=>handleDeletePost(post.applyId)}>삭제</p>]}
               >
                 <Meta
                   title={`'${post.articleTitle}' 게시물 룸메이트 매칭이 거절 되었습니다.`}

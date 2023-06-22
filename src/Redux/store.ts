@@ -4,12 +4,16 @@ import { saveToLocalStorage } from "./localStorage"
 import savedReducer from './savedReducer'
 import { useDispatch as useReduxDispatch } from 'react-redux'
 import favoriteReducer from "./favoriteReducer"
+import applicantReducer from './applicantReducer'
+import applyReducer from "./applyReducer"
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     saved: savedReducer,
-    favorites: favoriteReducer
+    favorites: favoriteReducer,
+    applicant: applicantReducer,
+    apply: applyReducer
   },
 })
 

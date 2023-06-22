@@ -3,13 +3,14 @@ import { Modal, Badge, Button } from "antd"
 import styles from "./PostModal.module.css"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { RootState } from "../../Redux/store"
+import { AppDispatch, RootState } from "../../Redux/store"
 import { userFavorite } from "../../api"
 import { userArticle } from "../../api"
 import { PostModalProps } from "../../interface/interface"
 import useFavorite from "../Favorite/useFavorite"
-import { userArticleApply } from "../../api"
 import useFetch from "../../hooks/useFetch"
+import { useDispatch } from "react-redux"
+import { getApplicationStatus, postApplication } from "../../Redux/applyReducer"
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const [isDeleted, setIsDeleted] = useState(false)
@@ -54,12 +55,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     ? `${styles.save} ${styles.saveActive}`
     : styles.save
 
-  // 신청 상태
-  const [applyIsSaved, setApplyIsSaved] = useState(false)
-  const applySave = applyIsSaved
-    ? `${styles.apply} ${styles.applyActive}`
-    : styles.apply
-
+  // 찜하기
   const handleSaveClick = useCallback(async () => {
     try {
       await toggleFavorite()
@@ -95,58 +91,39 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     fetchFavoriteStatus()
   }, [post.id])
 
+  // 신청 상태
+  const dispatch: AppDispatch = useDispatch()
+  const posts = useSelector((state: RootState) => state.applicant.posts);
+
+  const [applyIsSaved, setApplyIsSaved] = useState(false)
+  const applySave = applyIsSaved
+    ? `${styles.apply} ${styles.applyActive}`
+    : styles.apply
+
   // 신청하기
-  const handleOnApply = async () => {
+  const handleApplyClick = useCallback(async () => {
     try {
-      const response = await fetch(`/api/${userArticleApply}/${post.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: userToken.atk.toString(),
-        },
-      })
-
-      if (!response.ok) {
-        console.log(response)
-        throw new Error("신청하기를 실패했습니다.")
-      }
-
-      const responeData = await response.json()
-      console.log(responeData.data)
-      setApplyIsSaved((responseData) => !responseData)
-
+      const applyStatus = await dispatch(postApplication({ userToken: userToken.atk.toString(), postId: post.id })).unwrap()
+      setApplyIsSaved((applyStatus) => !applyStatus)
+      
     } catch (error) {
       console.error(error)
     }
-    onClose()
-  }
+  }, [dispatch, post.id, userToken.atk])
 
-  // 신청 상태 가져오기
-  const fetchApplyStatus = async () => {
+  // 신청상태 가져오기
+  const fetchApplyStatus = useCallback(async () => {
     try {
-      const response = await fetch(`/api/${userArticleApply}/${post.id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: userToken.atk.toString(),
-        },
-      })
-
-      if (response.ok) {
-        const responseData = await response.json()
-        console.log(responseData.data.apply)
-        setApplyIsSaved(responseData.data.apply)
-      } else {
-        throw new Error("신청현황을 가져오는데 실패했습니다.")
-      }
+      const applyStatus = await dispatch(getApplicationStatus({ userToken: userToken.atk.toString(), postId: post.id })).unwrap()
+      setApplyIsSaved(applyStatus)
     } catch (error) {
       console.error(error)
     }
-  }
-
+  }, [dispatch, post.id, userToken.atk])
+  
   useEffect(() => {
     fetchApplyStatus()
-  }, [post.id])
+  }, [fetchApplyStatus])
 
   // 삭제하기
   const {
@@ -247,7 +224,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
               <button
                 className={applySave}
                 style={{ float: "right" }}
-                onClick={handleOnApply}
+                onClick={handleApplyClick}
               >
                 신청하기
               </button>
@@ -296,7 +273,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
               <button
                 className={applySave}
                 style={{ float: "right" }}
-                onClick={handleOnApply}
+                onClick={handleApplyClick}
               >
                 신청하기
               </button>
