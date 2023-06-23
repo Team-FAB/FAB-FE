@@ -6,6 +6,7 @@ import { useDispatch as useReduxDispatch } from 'react-redux'
 import favoriteReducer from "./favoriteReducer"
 import applicantReducer from './applicantReducer'
 import applyReducer from "./applyReducer"
+import applySavedReducer from "./applySavedReducer"
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     saved: savedReducer,
     favorites: favoriteReducer,
     applicant: applicantReducer,
-    apply: applyReducer
+    apply: applyReducer,
+    applySaved: applySavedReducer
   },
 })
 

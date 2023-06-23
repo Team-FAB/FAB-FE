@@ -4,13 +4,13 @@ import styles from "./PostModal.module.css"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../Redux/store"
-import { userFavorite } from "../../api"
+import { userArticleApply, userFavorite } from "../../api"
 import { userArticle } from "../../api"
 import { PostModalProps } from "../../interface/interface"
 import useFavorite from "../Favorite/useFavorite"
 import useFetch from "../../hooks/useFetch"
 import { useDispatch } from "react-redux"
-import { getApplicationStatus, postApplication } from "../../Redux/applyReducer"
+import { useApply } from "../Apply/applyApi"
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const [isDeleted, setIsDeleted] = useState(false)
@@ -47,7 +47,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     return "~" + price.toLocaleString("ko-KR") + "원"
   }
 
-  // 찜하기 수정
+ // 찜하기 상태
   const userToken = useSelector((state: RootState) => state.user.data.token)
   const [, toggleFavorite] = useFavorite(post.id)
   const [localIsSaved, setLocalIsSaved] = useState(false)
@@ -65,36 +65,8 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     }
   }, [])
 
-  // 찜하기 상태 가져오기
-  useEffect(() => {
-    const fetchFavoriteStatus = async () => {
-      try {
-        const response = await fetch(`/api/${userFavorite}/${post.id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: userToken.atk.toString(),
-          },
-        })
-
-        if (response.ok) {
-          const responseData = await response.json()
-          setLocalIsSaved(responseData.data)
-        } else {
-          throw new Error("찜 상태를 가져오는데 실패했습니다.")
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchFavoriteStatus()
-  }, [post.id])
-
   // 신청 상태
-  const dispatch: AppDispatch = useDispatch()
-  const posts = useSelector((state: RootState) => state.applicant.posts);
-
+  const [, toggleApply] = useApply(post.id)
   const [applyIsSaved, setApplyIsSaved] = useState(false)
   const applySave = applyIsSaved
     ? `${styles.apply} ${styles.applyActive}`
@@ -103,27 +75,39 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   // 신청하기
   const handleApplyClick = useCallback(async () => {
     try {
-      const applyStatus = await dispatch(postApplication({ userToken: userToken.atk.toString(), postId: post.id })).unwrap()
-      setApplyIsSaved((applyStatus) => !applyStatus)
-      
+      await toggleApply()
+      setApplyIsSaved((prevIsSaved) => !prevIsSaved)
     } catch (error) {
       console.error(error)
     }
-  }, [dispatch, post.id, userToken.atk])
+  }, [])
 
-  // 신청상태 가져오기
-  const fetchApplyStatus = useCallback(async () => {
-    try {
-      const applyStatus = await dispatch(getApplicationStatus({ userToken: userToken.atk.toString(), postId: post.id })).unwrap()
-      setApplyIsSaved(applyStatus)
-    } catch (error) {
-      console.error(error)
-    }
-  }, [dispatch, post.id, userToken.atk])
-  
+  // 찜하기, 신청현황 가져오기
   useEffect(() => {
-    fetchApplyStatus()
-  }, [fetchApplyStatus])
+    const fetchData = async (url: string, setter: (data: boolean) => void, errorMessage: string, apply?: boolean) => {
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: userToken.atk.toString(),
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(errorMessage)
+        }
+
+        const responseData = await response.json()
+        apply ? setter(responseData.data.apply) : setter(responseData.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData(`/api/${userFavorite}/${post.id}`, setLocalIsSaved, "찜 상태를 가져오는데 실패했습니다.")
+    fetchData(`/api/${userArticleApply}/${post.id}`, setApplyIsSaved, "신청현황을 가져오는데 실패했습니다.", true)
+  }, [post.id])
 
   // 삭제하기
   const {
