@@ -16,26 +16,30 @@ const Apply: React.FC = () => {
   const [toCurrentPage, setToCurrentPage] = useState(1)
   const [fromCurrentPage, setFromCurrentPage] = useState(1)
   const pageSize = 3
-
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch()
   const { applyPosts, totalCount } = useSelector((state: RootState) => state.apply)
 
+  // '신청 했어요' '신청 받았어요'
   const toggleShowApply = () => {
     setShowApply(!showApply)
   }
 
+  // 새로고침
   const refresh = () => {
     window.location.reload()
   }
 
+  // '신청 했어요' 페이지네이션
   const handleToPageChange = (page: number) => {
     setToCurrentPage(page)
   }
 
+  // '신청 받았어요' 페이지네이션
   const handleFromPageChange = (page: number) => {
     setFromCurrentPage(page)
   }
 
+  // 신청현황 불러오기
   useEffect(() => {
     dispatch(fetchData({ 
       showApply: showApply, 
@@ -86,7 +90,6 @@ const Apply: React.FC = () => {
               pageSize={pageSize} />
           )}
         </div>
-        
       </div>
     </>
   )

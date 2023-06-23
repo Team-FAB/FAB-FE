@@ -13,9 +13,9 @@ export const store = configureStore({
     user: userReducer,
     saved: savedReducer,
     favorites: favoriteReducer,
-    applicant: applicantReducer,
     apply: applyReducer,
-    applySaved: applySavedReducer
+    applySaved: applySavedReducer,
+    applicant: applicantReducer
   },
 })
 

@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { ApplyProps } from "../interface/interface";
-import { userMyFromApplicants, userMyToApplicants } from "../api";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
+import { ApplyProps } from "../interface/interface"
+import { userMyFromApplicants, userMyToApplicants } from "../api"
 
 interface ApplyState {
   applyStatus: boolean
