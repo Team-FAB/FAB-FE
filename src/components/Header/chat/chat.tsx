@@ -35,10 +35,13 @@ const Chat: React.FC = () => {
   const selectedUserName =
     participants.find((p) => p.id === selectedUser)?.name || ""
 
+  const userInforClass = 
+    selectedUser ? `${styles.userInfor} ${styles.selectedUserInfor}` : `${styles.userInfor}`
+
   return (
     <div className={styles.userDiv}>
-      <div className={styles.userInfor}>
-        <h2>채팅방</h2>
+      <div className={userInforClass}>
+        <h2>방갑고 채팅방</h2>
         {participants.map((user) => (
           <div
             key={user.id}
@@ -52,12 +55,13 @@ const Chat: React.FC = () => {
 
       {selectedUser && (
         <div className={styles.chatDiv}>
-          <h2>{selectedUserName}</h2>
+          <h2>'{selectedUserName}' 님과 원활한 대화를 나눠보세요 ☺️</h2>
           <div className={styles.chat}>
             <div className={styles.chatMessageDiv}>
               {messages.map((message, index) => (
                 <div
                   key={index}
+                  className={styles.messageDiv}
                   style={{
                     textAlign: message.user === selectedUser ? "right" : "left",
                   }}
