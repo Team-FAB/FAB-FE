@@ -6,9 +6,8 @@ import { useSelector } from "react-redux";
 import { fetchData } from "../../Redux/applyReducer";
 import { setSaved } from "../../Redux/savedReducer";
 
-// 신청하기
+// 신청
 export const useApply = (postId: number) => {
-
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>()
   const isSaved = useSelector((state: RootState) => state.saved[postId])
   const userToken = useSelector((state : RootState) => state.user.data.token)
@@ -56,14 +55,14 @@ export const updateApprove = async (userToken: string, userId: number, articleId
         "userId" : userId,
         "articleId" : articleId
       }),
-    });
+    })
 
     if (!response.ok) {
       throw new Error('매칭 승인 실패')
     }
 
     const approveData = await response.json()
-    return approveData.data;
+    return approveData.data
 
   } catch (error) {
     console.error('룸메이트 매칭 승인 오류', error)
@@ -87,7 +86,7 @@ export const updateRefuse = async (userToken: string, applyId:number, articleId:
     }
 
     const refuseData = await response.json()
-    return refuseData.data;
+    return refuseData.data
 
   } catch (error) {
     console.error('룸메이트 매칭 거절 오류', error)
@@ -114,27 +113,5 @@ export const updateDelete = async (userToken: string, applyId:number) => {
 
   } catch (error) {
     console.error('룸메이트 신청현황 삭제 오류', error)
-  }
-}
-
-// 프로필
-export const userData = async (userId: number) => {
-  try {
-    const response = await fetch(`/api/${usersProfile}/${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-
-    if (!response.ok) {
-      throw new Error(`서버 상태 응답 ${response.status}`)
-    }
-
-    const responeData = await response.json()
-    return responeData.data;
-    
-  } catch (error) {
-    console.error(error)
   }
 }

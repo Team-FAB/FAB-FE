@@ -166,8 +166,8 @@ export interface ApplyProps {
 
 export interface ApplicantProps {
   post: ApplyProps
-  currentPage?: number
-  showApply?: boolean
+  currentPage: number
+  showApply: boolean
 }
 
 export interface RecommendModalProps extends ModalProps {

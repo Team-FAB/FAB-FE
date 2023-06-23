@@ -1,5 +1,5 @@
 import styles from './applicant.module.css'
-import { Badge, Card, Modal } from "antd"
+import { Badge, Card } from "antd"
 import Meta from "antd/es/card/Meta"
 import { ApplicantProps, ApplyProps, Post, User } from '../../../interface/interface'
 import { useSelector } from 'react-redux'
@@ -11,8 +11,9 @@ import PostModal from '../../../components/PostModal/postModal'
 import OtherUserProfile from './otherUserProfile'
 import { useDispatch } from 'react-redux'
 import { approvePostAsync, deletePostAsync, refusePostAsync } from '../../../Redux/applicantReducer'
+import { fetchData } from '../../../Redux/applyReducer'
 
-const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
+const Applicant: React.FC<ApplicantProps> = ({ showApply, post, currentPage }) => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
   const [otheruser, setOtherUser] = useState<User | null>(null)
@@ -21,21 +22,34 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
 
   const dispatch: AppDispatch = useDispatch()
 
+  // 승인
   const handleApprovePost = async (post: ApplyProps) => {
-    dispatch(approvePostAsync({ userToken: userToken.atk.toString(), otherUserId: post.otherUserId, articleId: post.articleId }));
-  };
+    await dispatch(approvePostAsync({ userToken: userToken.atk.toString(), otherUserId: post.otherUserId, articleId: post.articleId }))
+    dispatch(fetchData({ 
+      showApply: showApply, 
+      currentPage: currentPage, 
+      userToken: userToken.atk.toString()
+    }))
+  }
 
+  // 거절
   const handleRefusePost = async (post: ApplyProps) => {
-    dispatch(refusePostAsync({ userToken: userToken.atk.toString(), applyId: post.applyId, articleId: post.articleId }));
-  };
+    await dispatch(refusePostAsync({ userToken: userToken.atk.toString(), applyId: post.applyId, articleId: post.articleId }))
+    dispatch(fetchData({ 
+      showApply: showApply, 
+      currentPage: currentPage, 
+      userToken: userToken.atk.toString()
+    }))
+  }
 
+  // 삭제
   const handleDeletePost = async (applyId: number) => {
-    dispatch(deletePostAsync({ userToken: userToken.atk.toString(), applyId: post.applyId }));
-  };
-
-  const handleUserClick = (userId: number) => {
-    userData(userId)
-    setIsModalVisible(true)
+    await dispatch(deletePostAsync({ userToken: userToken.atk.toString(), applyId: applyId }))
+    dispatch(fetchData({ 
+      showApply: showApply, 
+      currentPage: currentPage, 
+      userToken: userToken.atk.toString()
+    }))
   }
 
   // 프로필
@@ -60,6 +74,12 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
       console.error(error)
     }
   }
+  
+  // 프로필 호출
+  const handleUserClick = (userId: number) => {
+    userData(userId)
+    setIsModalVisible(true)
+  }
 
   // 게시물
   const {
@@ -82,6 +102,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post }) => {
     setArticleBody()
   }
 
+  // 게시물 호출
   useEffect(() => {
     if (articleSuccess) {
       try {

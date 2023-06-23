@@ -3,13 +3,12 @@ import { Modal, Badge, Button } from "antd"
 import styles from "./PostModal.module.css"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { AppDispatch, RootState } from "../../Redux/store"
+import { RootState } from "../../Redux/store"
 import { userArticleApply, userFavorite } from "../../api"
 import { userArticle } from "../../api"
 import { PostModalProps } from "../../interface/interface"
 import useFavorite from "../Favorite/useFavorite"
 import useFetch from "../../hooks/useFetch"
-import { useDispatch } from "react-redux"
 import { useApply } from "../Apply/applyApi"
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
@@ -47,7 +46,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     return "~" + price.toLocaleString("ko-KR") + "원"
   }
 
- // 찜하기 상태
+ // 찜하기 상태 
   const userToken = useSelector((state: RootState) => state.user.data.token)
   const [, toggleFavorite] = useFavorite(post.id)
   const [localIsSaved, setLocalIsSaved] = useState(false)
@@ -92,7 +91,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             "Content-Type": "application/json",
             Authorization: userToken.atk.toString(),
           },
-        });
+        })
 
         if (!response.ok) {
           throw new Error(errorMessage)
