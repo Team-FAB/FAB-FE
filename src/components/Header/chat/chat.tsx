@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import styles from "./chat.module.css"
+import * as Stomp from "@stomp/stompjs"
+import SockJS from 'sockjs-client'
 
 const participants = [
   { id: 1, name: "조유진" },
@@ -15,13 +17,71 @@ const Chat: React.FC = () => {
   const [messages, setMessages] = useState<{ user: number; text: string }[]>([])
   const messageEndRef = useRef<HTMLDivElement>(null)
 
-  const handleSend = () => {
-    if (input) {
-      setMessages([...messages, { user: selectedUser!, text: input }])
-      setInput("")
-    }
-  }
+  // stomp 사용
+  const stompClient = useRef<Stomp.Client | null>(null)
 
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  
+    // SockJS를 사용 -> STOMP 서버 연결
+    const sock = new SockJS("http://localhost:8080/ws") // 백엔드 API
+
+    const stompConfig = {
+      webSocketFactory: () => sock,
+      reconnectDelay: 30000,
+      debug: (msg: string) => {
+        console.log("[STOMP Debug]", msg)
+      },
+    }
+    const stompClient = new Stomp.Client(stompConfig)
+
+    // STOMP 서버 연결
+    stompClient.onConnect = (frame) => {
+      // 연결 성공 -> 채팅방 ID 구현
+      stompClient.subscribe(
+        "/chat/room/" + selectedUser, // 채팅방 구독 주소
+        (message) => {
+          const parsedMessage = JSON.parse(message.body)
+          setMessages((prevMessages) => [...prevMessages, parsedMessage])
+        }
+      )
+    }
+
+    stompClient.onDisconnect = () => {
+      console.log("STOMP 연결이 해제되었습니다.")
+    }
+
+    stompClient.activate()
+
+    // STOMP 서버 연결 해제
+    return () => {
+      stompClient.deactivate()
+    }
+}, [selectedUser])
+
+// 채팅 입력
+const handleSend = () => {
+  if (input && selectedUser) {
+    // STOMP 서버에 메시지 전송
+    stompClient.current?.publish ({
+      destination: "/chat/send", // 백엔드 API
+      headers: {}, // 헤더
+      body: JSON.stringify({ user: selectedUser!, text: input })
+    })
+
+    setInput("")
+  }
+}
+
+  // 채팅 입력
+  // const handleSend = () => {
+  //   if (input && selectedUser) {
+  //     setMessages([...messages, { user: selectedUser!, text: input }])
+  //     setInput("")
+  //   }
+  // }
+
+  // 채팅창 Enter 입력
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       handleSend()
