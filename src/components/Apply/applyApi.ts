@@ -1,49 +1,46 @@
+import { useDispatch } from "react-redux";
 import { userApplicant, userAprove, userArticleApply, userRefuse, usersProfile } from "../../api";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "../../Redux/store";
+import { useSelector } from "react-redux";
+import { fetchData } from "../../Redux/applyReducer";
+import { setSaved } from "../../Redux/savedReducer";
 
 // 신청하기
-export const applyPost = async (userToken: string, postId: number) => {
-  try {
-    const response = await fetch(`/api/${userArticleApply}/${postId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: userToken,
-      },
-    })
+export const useApply = (postId: number) => {
 
-    if (!response.ok) {
-      throw new Error("신청하기를 실패했습니다.")
+  const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>()
+  const isSaved = useSelector((state: RootState) => state.saved[postId])
+  const userToken = useSelector((state : RootState) => state.user.data.token)
+
+  const toggleApply = async () => {
+    try {
+      const newIsSaved = !isSaved
+      const response = await fetch(`/api/${userArticleApply}/${postId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userToken.atk.toString(),
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error("신청하기를 처리하는데 실패했습니다.")
+      }
+
+      console.log(response)
+      dispatch(setSaved({ postId, isSaved: newIsSaved }))
+      dispatch(fetchData({
+        showApply: true,
+        currentPage: 1,
+        userToken: userToken.atk.toString()
+      }))
+    } catch (error) {
+      console.error(error)
+      throw error
     }
-
-    const responeData = await response.json()
-    return responeData.data;
-
-  } catch (error) {
-    console.error(error)
   }
-}
-
-// 신청상태 가져오기
-export const fetchApplyStatus = async (userToken: string, postId: number) => {
-  try {
-    const response = await fetch(`/api/${userArticleApply}/${postId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: userToken,
-      },
-    })
-
-    if (!response.ok) {
-      throw new Error("신청현황을 가져오는데 실패했습니다.")
-    }
-
-    const responseData = await response.json()
-    return responseData.data.apply;
-
-  } catch (error) {
-    console.error(error)
-  }
+  return [isSaved, toggleApply] as const
 }
 
 // 승인
