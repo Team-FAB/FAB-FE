@@ -10,7 +10,9 @@ import { RootState } from "../../Redux/store"
 const PostCard: React.FC<Props> = ({ posts }) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [messageApi, contextHolder] = message.useMessage()
-  const isLogged = useSelector((state: RootState) => state.user.isLogged)
+  const isLogged = useSelector((state: RootState) =>
+    Boolean(state.user.data.token.atk),
+  )
 
   const recruit = (recruiting: boolean) => {
     return recruiting ? "모집" : "마감"
@@ -30,7 +32,7 @@ const PostCard: React.FC<Props> = ({ posts }) => {
   }
 
   const handlePostClick = (post: Post) => {
-    if (isLogged) {
+    if (isLogged === true) {
       setSelectedPost(post)
     } else {
       messageApi.error("로그인이 필요합니다.")

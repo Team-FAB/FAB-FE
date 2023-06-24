@@ -1,61 +1,32 @@
-import React, { useState, useEffect } from "react"
-import { Button, Input, List, Modal, Radio } from "antd"
-import styles from "./recommendModal.module.css"
-import { RecommendModalProps } from "../../interface/interface"
-import { userArticle } from "../../api"
-import { Post } from "../../interface/interface"
-import PostModal from "../PostModal/postModal"
-import useFetch from "../../hooks/useFetch"
+import { Button, Input, Modal, Radio } from "antd"
+import React from "react"
+import styles from "../../../components/RecommendModal/recommendModal.module.css"
+import { Post, RecommendModalProps } from "../../../interface/interface"
+import { useEffect, useState } from "react"
+import PostModal from "../../../components/PostModal/postModal"
 
-const RecommendModal: React.FC<RecommendModalProps> = ({
+const OtherUserProfile: React.FC<RecommendModalProps> = ({
   visible,
   onClose,
   userProfile,
-  user,
 }) => {
   const [checkedGender, setCheckedGender] = useState<string>("")
   const [checkedSmoking, setCheckedSmoking] = useState<string>("")
-  const [userArticles, setUserArticles] = useState<Post[]>([])
   const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       if (userProfile) {
-  //         setCheckedGender(userProfile.gender)
-  //         setCheckedSmoking(userProfile.isSmoker ? "흡연" : "비흡연")
-
-  //         const response = await fetch(`/api/${userArticle}/users/${user?.id}`)
-  //         const data = await response.json()
-  //         setUserArticles(data.data)
-  //       }
-  //     } catch (error) {
-  //       console.error("Error:", error)
-  //     }
-  //   }
-  //   fetchData()
-  // }, [])
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (userProfile) {
           setCheckedGender(userProfile.gender)
           setCheckedSmoking(userProfile.isSmoker ? "흡연" : "비흡연")
-
-          const response = await fetch(`/api/${userArticle}/users/${user?.id}`)
-          const data = await response.json()
-          setUserArticles(data.data)
         }
       } catch (error) {
         console.error("Error:", error)
       }
     }
-
-    if (visible) {
-      fetchData()
-    }
-  }, [visible, userProfile, user])
+    fetchData()
+  }, [])
 
   const smokingOptions = [
     { label: "흡연", value: "흡연" },
@@ -66,36 +37,6 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
     { label: "여성", value: "여성" },
     { label: "남성", value: "남성" },
   ]
-
-  const {
-    datas: articleData,
-    isSuccess: articleSuccess,
-    setUrl: setArticleUrl,
-    setHeaders: setArticleHeaders,
-    setMethod: setArticleMethod,
-    setBody: setArticleBody,
-  } = useFetch<Post>("", "", {}, null)
-
-  const handleArticleClick = (articleId: string) => {
-    setArticleUrl(`/api/articles/${articleId}`)
-    setArticleMethod("GET")
-    setArticleHeaders(
-      new Headers({
-        "ngrok-skip-browser-warning": "69420",
-      }),
-    )
-    setArticleBody()
-  }
-
-  useEffect(() => {
-    if (articleSuccess) {
-      try {
-        setSelectedArticle(articleData)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  }, [articleSuccess, articleData])
 
   return (
     <>
@@ -111,6 +52,8 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
           </Button>,
         ]}
       >
+      {userProfile && (
+        <>
         <div className={styles.profileTitle}>
           <span>
             <span className={styles.userProfileNickname}>
@@ -180,24 +123,10 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
               }}
               readOnly
             />
-            <span className={styles.postsCreated}>
-              {userProfile?.nickname}님이 작성한 게시글
-            </span>
-              <List
-                bordered
-                dataSource={userArticles}
-                renderItem={(article) => (
-                  <List.Item>
-                    <a
-                      onClick={() => handleArticleClick(article.id.toString())}
-                    >
-                      {article.title}
-                    </a>
-                  </List.Item>
-                )}
-              />
           </div>
         </div>
+      </>
+      )}
       </Modal>
       {selectedArticle && (
         <PostModal
@@ -210,4 +139,4 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
   )
 }
 
-export default RecommendModal
+export default OtherUserProfile

@@ -22,19 +22,19 @@ const ProfileBasic = (props: ProfileBasicProps) => {
     } catch (error) {
       console.error('프로필 업데이트 실패', error)
     }
-  };
+  }
 
   // 서버 연결
   const updateProfile = async (profileData: { nickname: string }) => {
     try {
-      const response = await fetch(`/api/${userMyprofileNickname}`, { // 주소 수정
+      const response = await fetch(`/api/${userMyprofileNickname}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: userToken.atk.toString(),
         },
         body: JSON.stringify(profileData),
-      });
+      })
 
       if (!response.ok) {
         console.log(response)
@@ -45,6 +45,7 @@ const ProfileBasic = (props: ProfileBasicProps) => {
           })
         } 
         throw new Error('프로필 기본 정보 업데이트 실패')
+        
       } else {
         Modal.success({
           title: "닉네임 수정 완료",
@@ -52,12 +53,12 @@ const ProfileBasic = (props: ProfileBasicProps) => {
         })
       }
 
-      const data = await response.json()
-      props.setNickname(data.data.nickname)
+      const responseData = await response.json()
+      props.setNickname(responseData.data.nickname)
     } catch (error) {
       console.error('프로필 기본정보 업데이트 오류', error)
     }
-  };
+  }
 
   return (
     <div className={styles.profilePhotoBox}>

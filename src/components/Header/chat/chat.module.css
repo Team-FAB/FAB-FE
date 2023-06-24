@@ -1,0 +1,179 @@
+/* .userDiv {
+  display: flex;
+  justify-content: space-around;
+  height: 50vh;
+}
+
+.userName {
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+}
+
+.chatDiv {
+  flex: 2;
+  padding: 20px;
+}
+
+.messageInput {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.messageInput input {
+  flex-grow: 1;
+  height: 40px;
+  padding: 5px;
+  border: 1px solid var(--black200);
+  border-radius: var(--badge-border-radius) 0 0 var(--badge-border-radius);
+}
+
+.messageInput button {
+  background: var(--purple500);
+  color: var(--white);
+  height: 52px;
+  border: none;
+  border-radius: 0 var(--badge-border-radius) var(--badge-border-radius) 0;
+  padding: 5px 10px;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chatMessageDiv{
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.userInfor{
+    flex: 1;
+    overflow: auto;
+    border-right: 1px solid #ccc;
+} */
+
+
+.userDiv {
+  display: flex;
+  width: 800px;
+  min-height: 600px;
+  max-height: 600px;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 60px 30px;
+  margin: 0 auto;
+}
+
+.userName {
+  cursor: pointer;
+  padding: 15px 15px 15px 20px;
+  border-bottom: 1px solid #eee;
+  background: #f5f5f5;
+  color: #333;
+  transition: background 0.2s ease-in-out;
+}
+
+.userName:hover {
+  background: #ddd;
+}
+
+.chatDiv {
+  flex: 2;
+  background: #fff;
+  position: relative;
+  box-shadow: var(--shadow);
+  border-radius: var(--badge-border-radius) var(--badge-border-radius) var(--badge-border-radius) 0;
+}
+
+.chatDiv > h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  margin: 0 auto;
+  font-weight: var(--font-weight-h4);
+  font-size: var(--font-size-sub2);
+  background-color: #ddd;
+  border-radius: 0 var(--badge-border-radius) 0 0;
+
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: cal(100% - 16px);
+}
+
+.chatMessageDiv {
+  max-height: 470px;
+  flex-grow: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.chatMessageDiv::-webkit-scrollbar {
+  display: none;
+}
+
+.userInfor{
+  flex: 1;
+  overflow: auto;
+  background: #f5f5f5;
+  border-radius: var(--badge-border-radius);
+}
+
+.userInfor > h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  margin: 0 auto;
+  font-weight: var(--font-weight-h4);
+  font-size: var(--font-size-sub2);
+  color: var(--white);
+  background-color: var(--purple500);
+}
+
+.messageInput {
+  width: 500px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  position: absolute;
+  bottom: 0%;
+  transform: translateX(5px);
+}
+
+.messageInput input {
+  flex-grow: 1;
+  height: 40px;
+  padding: 5px;
+  border: 1px solid var(--black200);
+  border-radius: var(--badge-border-radius) 0 0 var(--badge-border-radius);
+}
+
+.messageInput button {
+  background: var(--purple500);
+  color: var(--white);
+  height: 52px;
+  border: none;
+  border-radius: 0 var(--badge-border-radius) var(--badge-border-radius) 0;
+  padding: 5px 10px;
+}
+
+.selectedUserInfor {
+  border-radius: var(--badge-border-radius) 0 0 var(--badge-border-radius);
+}
+
+.messageDiv {
+  padding: 10px;
+}

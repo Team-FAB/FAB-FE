@@ -22,22 +22,24 @@ const MainPostCard: React.FC<RoomMateSearchProps> = ({ post, onClick }) => {
       <Badge.Ribbon text="모집">
         <Card style={{ width: 250, marginTop: 16 }}>
           <div className={styles.cardText}>
-            <span className={styles.cardTitle}>{post.title}</span>
+            <span className={styles.cardTitle}>{post?.title}</span>
           </div>
           <div className={styles.author}>
-            <span>{post.nickname}</span>
-            {post.gender === "여성" ? (
+            <span>{post?.nickname}</span>
+            {post?.gender === "여성" ? (
               <UserOutlined style={{ color: "#ff0000" }} />
             ) : (
               <UserOutlined style={{ color: "#2858FF" }} />
             )}
           </div>
-          <div className={styles.date}>{formatDate(post.createdDate)}</div>
+          <div className={styles.date}>
+            {post?.createdDate ? formatDate(post.createdDate) : "N/A"}
+          </div>
           <div className={styles.cardBadgeContainer}>
-            <Badge className={styles.cardBadgeArea}>{post.region}</Badge>
-            <Badge className={styles.cardBadgePeriod}>{post.period}</Badge>
+            <Badge className={styles.cardBadgeArea}>{post?.region}</Badge>
+            <Badge className={styles.cardBadgePeriod}>{post?.period}</Badge>
             <Badge className={styles.cardBadgePrice}>
-              {formatPrice(post.price)}
+              {post?.price ? formatPrice(post.price) : "N/A"}
             </Badge>
           </div>
         </Card>

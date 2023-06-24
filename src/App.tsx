@@ -4,7 +4,6 @@ import { store } from "./Redux/store"
 import "../src/App.css"
 import { ConfigProvider } from "antd"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Chat from "./components/Chat/chat"
 import Header from "./components/Header/header"
 import MainPage from "../src/pages/MainPage/mainPage"
 import Footer from "./components/Footer/footer"
@@ -17,8 +16,11 @@ import Favorite from "./pages/MyPage/Favorites/favorite"
 import WritePage from "./pages/WritePage/writePage"
 import EditPage from "./pages/EditPage/editPage"
 import MbitCalculator from "./components/MbtiCalculator/mbitCalculator"
-import Kakao from "./components/Kakao/kakao"
+import Kakao from "./components/SocialLogin/kakao"
 import Apply from "./pages/MyPage/Applicant/apply"
+import Google from "./components/SocialLogin/google"
+import Chat from "./components/Header/chat/chat"
+
 
 const App: React.FC = () => {
   return (
@@ -32,7 +34,6 @@ const App: React.FC = () => {
         }}
       >
         <BrowserRouter>
-          <Chat />
           <Header />
           <MbitCalculator />
           <Routes>
@@ -47,6 +48,8 @@ const App: React.FC = () => {
             <Route path="/WritePage" element={<WritePage />} />
             <Route path="/editPage/:postId" element={<EditPage />} />
             <Route path="/kakao" element={<Kakao />} />
+            <Route path="/google" element={<Google />} />
+            <Route path="/Chat" element={<Chat />} />
           </Routes>
           <Footer />
         </BrowserRouter>

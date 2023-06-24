@@ -9,11 +9,13 @@ import "react-multi-carousel/lib/styles.css"
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai"
 import PostModal from "../../components/PostModal/postModal"
 import RecommendModal from "../../components/RecommendModal/recommendModal"
-import { userArticle, usersRecommend } from "../../api"
-import { message } from "antd"
-import { Post, User } from "../../interface/interface"
+import { userArticle, usersRecommend, usersProfile } from "../../api"
+import { message, Spin } from "antd"
+import { Post, User, FetchData, PostData } from "../../interface/interface"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
+import { mbtiGraph } from "../../object/mbtiGraph"
+import useFetch from "../../hooks/useFetch"
 
 const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
@@ -35,67 +37,124 @@ const MainPage: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([])
   const [users, setUsers] = useState<User[]>([])
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [selectedUserProfile, setSelectedUserProfile] = useState<User | null>(
+    null,
+  )
   const [messageApi, contextHolder] = message.useMessage()
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [data, setData] = useState<null | {
-    mbti: string
-    recommendDtoList: { id: number; nickname: string; mbti: string }[]
-  }>(null)
-
+  const [data, setData] = useState<FetchData | null>(null)
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
+  // 로그인 상태 체크
+  const isLogged = useSelector((state: RootState) =>
+    Boolean(state.user.data.token.atk),
+  )
+
+  //추천 룸메이트
+  const {
+    datas: recommendDatas,
+    isSuccess: recommendSuccess,
+    error: recommendError,
+    setUrl: setRecommendUrl,
+    setHeaders: setRecommendHeaders,
+    setMethod: setRecommendMethod,
+    setBody: setRecommendBody,
+    isLoading: recommendLoading,
+  } = useFetch<FetchData | null>("", "", {}, null)
+
+  // 추천 룸메이트 표시 제목
+  let recommendTitle = "방갑고에서 추천하는 룸메이트를 만나보세요 💌"
+  // 로그인이 안된 경우
+  if (!isLogged) {
+    recommendTitle = "로그인 후 추천하는 룸메이트를 만나보세요 💌"
+  } else if (recommendError) {
+    recommendTitle = "회원님의 정보를 입력 후 추천하는 룸메이트를 만나보세요 💌"
+  }
+
   useEffect(() => {
-    const fetchRecommendedUsers = async () => {
+    setRecommendUrl(`/api/${usersRecommend}?size=12`)
+    setRecommendMethod("GET")
+    setRecommendHeaders({
+      "ngrok-skip-browser-warning": "69420",
+      Authorization: userToken.atk.toString(),
+    })
+    setRecommendBody()
+  }, [usersRecommend, userToken.atk])
+
+  useEffect(() => {
+    if (recommendSuccess) {
       try {
-        const response = await fetch(`/api/${usersRecommend}?size=9`, {
-          method: "GET",
-          headers: new Headers({
-            "ngrok-skip-browser-warning": "69420",
+        setUsers((recommendDatas?.recommendDtoList as User[]) || [])
+        setData(recommendDatas)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }, [recommendSuccess, recommendDatas])
+
+  //메인페이지 게시글
+
+  const {
+    datas: postDatas,
+    isSuccess: postSuccess,
+    isLoading: postLoading,
+    setUrl: setPostUrl,
+    setHeaders: setPostHeaders,
+    setMethod: setPostMethod,
+    setBody: setPostBody,
+  } = useFetch<PostData | null>("", "", {}, null)
+
+  useEffect(() => {
+    setPostUrl(`/api/${userArticle}?page=1&size=12&isRecruiting=true`)
+    setPostMethod("GET")
+    setPostHeaders({
+      "ngrok-skip-browser-warning": "69420",
+    })
+    setPostBody()
+  }, [userArticle])
+
+  useEffect(() => {
+    if (postSuccess) {
+      try {
+        setPosts(postDatas?.articleList || [])
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }, [postSuccess, postDatas])
+
+  // 추천 룸메이트 정보
+
+  const {
+    datas: profileDatas,
+    isSuccess: profileDatasSuccess,
+    setUrl: setProfileDatasUrl,
+    setHeaders: setProfileHeaders,
+    setMethod: setProfileMethod,
+    setBody: setProfileBody,
+  } = useFetch<User | null>("", "", {}, null)
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        if (selectedUser) {
+          setProfileDatasUrl(`/api/${usersProfile}/${selectedUser.id}`)
+          setProfileMethod("GET")
+          setProfileHeaders({
             Authorization: userToken.atk.toString(),
-          }),
-        })
-
-        if (!response.ok) {
-          throw new Error("서버에서 사용자 데이터를 가져오지 못했습니다.")
+          })
+          setProfileBody()
+          setSelectedUserProfile(profileDatas)
         }
-
-        const data = await response.json()
-        setUsers(data.data.recommendDtoList)
-        setData(data.data)
       } catch (error) {
         console.error(error)
-        messageApi.error("사용자 데이터를 로드하는 동안 오류가 발생했습니다.")
       }
     }
 
-    fetchRecommendedUsers()
-  }, [messageApi])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `/api/${userArticle}?page=1&size=12&isRecruiting=true`,
-          {
-            method: "GET",
-            headers: new Headers({
-              "ngrok-skip-browser-warning": "69420",
-            }),
-          },
-        )
-        if (!response.ok) {
-          throw new Error("서버에서 데이터를 가져오지 못했습니다")
-        }
-        const data = await response.json()
-        setPosts(data.data)
-      } catch (error) {
-        console.error(error)
-        messageApi.error("데이터를 로드하는 동안 오류가 발생했습니다")
-      }
+    if (selectedUser) {
+      fetchUserProfile()
     }
-
-    fetchData()
-  }, [messageApi])
+  }, [selectedUser, messageApi, userToken, profileDatasSuccess, profileDatas])
 
   const adImages = [
     "src/assets/001.jpg",
@@ -166,49 +225,65 @@ const MainPage: React.FC = () => {
       <div className={styles.mainPost}>
         <div className={styles.title}>룸메이트 구해요 👋</div>
         <div className={styles.carouselWrapper}>
-          <MultiCarousel
-            responsive={responsive}
-            infinite={true}
-            draggable={true}
-            showDots={false}
-            customRightArrow={<CustomRightArrow />}
-            customLeftArrow={<CustomLeftArrow />}
-          >
-            {posts.slice(0, 12).map((post) => (
-              <MainPostCard
-                key={post.id}
-                post={post}
-                onClick={() => handlePostClick(post)}
-              />
-            ))}
-          </MultiCarousel>
+          {postLoading ? (
+            <Spin/>
+          ) : (
+            <MultiCarousel
+              responsive={responsive}
+              infinite={true}
+              draggable={true}
+              showDots={false}
+              customRightArrow={<CustomRightArrow />}
+              customLeftArrow={<CustomLeftArrow />}
+            >
+              {posts.slice(0, 12).map((post) => (
+                <MainPostCard
+                  key={post.id}
+                  post={post}
+                  onClick={() => handlePostClick(post)}
+                />
+              ))}
+            </MultiCarousel>
+          )}
         </div>
       </div>
       <div className={styles.recommendPost}>
-        <div className={styles.title}>
-          방갑고에서 추천하는 룸메이트를 만나보세요 💌
-        </div>
+        <div className={styles.title}>{recommendTitle}</div>
         <div className={styles.carouselWrapper}>
-          <MultiCarousel
-            responsive={responsive}
-            infinite={true}
-            draggable={true}
-            showDots={false}
-            customRightArrow={<CustomRightArrow />}
-            customLeftArrow={<CustomLeftArrow />}
-          >
-            {users.slice(0, 12).map(
-              (user) =>
-                data && (
-                  <RecommendPostCard 
-                    key={user.id}
-                    user={user}
-                    onClick={() => handleUserClick(user)}
-                    data={data}
-                  />
-                ),
-            )}
-          </MultiCarousel>
+          {recommendLoading ? (
+            <Spin/>
+          ) : users.length > 0 ? (
+            <MultiCarousel
+              responsive={responsive}
+              infinite={true}
+              draggable={true}
+              showDots={false}
+              customRightArrow={<CustomRightArrow />}
+              customLeftArrow={<CustomLeftArrow />}
+            >
+              {users
+                .filter(
+                  (user) =>
+                    data &&
+                    `${data.mbti}-${user.mbti}` in mbtiGraph &&
+                    mbtiGraph[`${data.mbti}-${user.mbti}`] >= 2 &&
+                    mbtiGraph[`${data.mbti}-${user.mbti}`] <= 4,
+                )
+                .slice(0, 12)
+                .map((user) =>
+                  data ? (
+                    <RecommendPostCard
+                      key={user.id}
+                      user={user}
+                      onClick={() => handleUserClick(user)}
+                      data={data}
+                    />
+                  ) : null,
+                )}
+            </MultiCarousel>
+          ) : (
+            <p className={styles.noRecommend}>추천하는 사람이 없습니다.</p>
+          )}
         </div>
       </div>
       {selectedPost && (
@@ -217,6 +292,7 @@ const MainPage: React.FC = () => {
       {selectedUser && (
         <RecommendModal
           user={selectedUser}
+          userProfile={selectedUserProfile}
           visible={isModalVisible}
           onClose={() => setSelectedUser(null)}
         />

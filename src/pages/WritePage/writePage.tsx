@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styles from "./writePage.module.css"
 import ReactQuill from "react-quill"
 import "react-quill/dist/quill.snow.css"
@@ -9,6 +9,7 @@ import { Store } from "antd/lib/form/interface"
 import { userArticle } from "../../api"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
+import useFetch from "../../hooks/useFetch"
 
 const WritePage: React.FC = () => {
   const [content, setContent] = useState("")
@@ -33,34 +34,41 @@ const WritePage: React.FC = () => {
 
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
-  const onFinish = async (values: Store) => {
-    try {
-      const response = await fetch(`/api/${userArticle}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: userToken.atk.toString(),
-        },
-        body: JSON.stringify(values),
-      })
+  const {
+    isLoading,
+    isSuccess,
+    error,
+    setUrl,
+    setHeaders,
+    setMethod,
+    setBody,
+  } = useFetch<unknown>("", "", {}, null)
 
-      if (!response.ok) {
-        console.log(response)
-      } else {
-        navigate("/RoomMate")
-        Modal.success({
-          title: "게시글 작성 완료",
-          content: "게시글 작성이 완료되었습니다!",
-        })
-      }
-    } catch (error) {
+  const onFinish = async (values: Store) => {
+    setUrl(`/api/${userArticle}`)
+    setMethod("POST")
+    setHeaders({
+      "Content-Type": "application/json",
+      Authorization: userToken.atk.toString(),
+    })
+    setBody(values)
+  }
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      navigate("/RoomMate")
+      Modal.success({
+        title: "게시글 작성 완료",
+        content: "게시글 작성이 완료되었습니다!",
+      })
+    } else if (!isLoading && error) {
       console.error("Error:", error)
       Modal.error({
         title: "서버 오류",
         content: "게시글을 서버에 전송하는데 실패했습니다.",
       })
     }
-  }
+  }, [isLoading, isSuccess, navigate, error])
 
   const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo)

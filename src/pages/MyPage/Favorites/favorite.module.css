@@ -1,13 +1,12 @@
 .favoriteContainer {
   width: 870px;
-  min-height: 500px;
-  max-height: 750px;
+  min-height: 600px;
+  max-height: 600px;
   display: grid;
   grid-template-rows: repeat(3, 1fr);
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
   margin: 15px auto;
-  overflow-y: scroll;
   
   position: relative;
 }
@@ -24,4 +23,9 @@
   align-items: center;
   justify-content: center;
   gap: 25px;
+}
+
+.emptyFavorites {
+  position: absolute;
+  left: 38%;
 }

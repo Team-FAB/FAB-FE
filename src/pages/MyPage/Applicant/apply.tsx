@@ -4,77 +4,56 @@ import { Button, Pagination } from 'antd'
 import { useEffect, useState } from 'react'
 import Applicant from './applicant'
 import MyPage from '../myPage'
-import { userMyToApplicants, userMyFromApplicants } from '../../../api'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../Redux/store'
-import { ApplyProps } from '../../../interface/interface'
+import { AppDispatch, RootState } from '../../../Redux/store'
+import { useDispatch } from 'react-redux'
+import { fetchData } from '../../../Redux/applyReducer'
 
 const Apply: React.FC = () => {
 
   const userToken = useSelector((state : RootState) => state.user.data.token)
-  const [showApply, setShowApply] = useState(true)
-  const [count, setCount] = useState(0)
+  const [showApply, setShowApply] = useState(false)
   const [toCurrentPage, setToCurrentPage] = useState(1)
   const [fromCurrentPage, setFromCurrentPage] = useState(1)
   const pageSize = 3
-  const [applyPosts, setApplyPosts] = useState<ApplyProps[]>([])
+  const dispatch: AppDispatch = useDispatch()
+  const { applyPosts, totalCount } = useSelector((state: RootState) => state.apply)
 
+  // '신청 했어요' '신청 받았어요'
   const toggleShowApply = () => {
     setShowApply(!showApply)
   }
 
+  // 새로고침
   const refresh = () => {
     window.location.reload()
   }
 
+  // '신청 했어요' 페이지네이션
   const handleToPageChange = (page: number) => {
     setToCurrentPage(page)
   }
 
+  // '신청 받았어요' 페이지네이션
   const handleFromPageChange = (page: number) => {
     setFromCurrentPage(page)
   }
 
+  // 신청현황 불러오기
   useEffect(() => {
-    const fetchData = async () => {
-      let apiEndpoint
-
-      if (showApply) {
-        apiEndpoint = `/api/${userMyToApplicants}?page=${toCurrentPage}&size=3`
-      } else {
-        apiEndpoint = `/api/${userMyFromApplicants}?page=${fromCurrentPage}&size=3`
-      }
-
-      try {
-        const response = await fetch(apiEndpoint, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: userToken.atk.toString(),
-          },
-        })
-
-        if (!response.ok) {
-          throw new Error(`서버 상태 응답 ${response.status}`)
-        }
-
-        const data = await response.json()
-        setCount(data.data) // 개수로 수정
-        setApplyPosts(data.data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchData()
-  }, [toCurrentPage, fromCurrentPage, showApply])
+    dispatch(fetchData({ 
+      showApply: showApply, 
+      currentPage: showApply ? toCurrentPage : fromCurrentPage, 
+      userToken: userToken.atk.toString()
+    }))
+  }, [dispatch, toCurrentPage, fromCurrentPage, showApply, userToken])
 
   return (
     <>
       <MyPage />
       <div className={styles.applyContainer}>
         <div className={styles.applyTitle}>
-          <h3>룸메이트를 찾아보세요 👋🏻</h3>
+          {showApply ? <h3>신청한 현황입니다 👋🏻</h3> : <h3>신청 받은 현황입니다 👋🏻</h3>}
           <div className={styles.applyBtn}>
             <Button className={styles.circleBtn} shape="circle" onClick={refresh}>
               <RedoOutlined />
@@ -89,7 +68,7 @@ const Apply: React.FC = () => {
             applyPosts.map((post) => (
               <div key={post.applyId}>
                 <Applicant
-                  applyPosts={applyPosts}
+                  post={post}
                   currentPage={showApply ? toCurrentPage : fromCurrentPage}
                   showApply={showApply} />
               </div>
@@ -100,18 +79,17 @@ const Apply: React.FC = () => {
               className={styles.pagination}
               current={toCurrentPage}
               onChange={handleToPageChange}
-              total={count}
+              total={totalCount}
               pageSize={pageSize} />
           ) : (
             <Pagination 
               className={styles.pagination}
               current={fromCurrentPage}
               onChange={handleFromPageChange}
-              total={count}
+              total={totalCount}
               pageSize={pageSize} />
           )}
         </div>
-        
       </div>
     </>
   )

@@ -4,12 +4,14 @@ import styles from "./PostModal.module.css"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
-import { userFavorite } from "../../api"
+import { userArticleApply, userFavorite } from "../../api"
 import { userArticle } from "../../api"
 import { PostModalProps } from "../../interface/interface"
+import useFavorite from "../Favorite/useFavorite"
+import useFetch from "../../hooks/useFetch"
+import { useApply } from "../Apply/applyApi"
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
-  const [isSaved, setIsSaved] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
   const userEmail = useSelector((state: RootState) => state.user.email)
   const navigate = useNavigate()
@@ -44,46 +46,46 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     return "~" + price.toLocaleString("ko-KR") + "원"
   }
 
-  const [newIsSaved, setNewIsSaved] = useState(false)
+ // 찜하기 상태 
   const userToken = useSelector((state: RootState) => state.user.data.token)
-
-  const saveClassName = newIsSaved
+  const [, toggleFavorite] = useFavorite(post.id)
+  const [localIsSaved, setLocalIsSaved] = useState(false)
+  const saveClassName = localIsSaved
     ? `${styles.save} ${styles.saveActive}`
     : styles.save
 
-  const handleSaveClick = () => {
-    setNewIsSaved((prevIsSaved) => !prevIsSaved)
-  }
-
-  const handleOnCancel = useCallback(async () => {
-    if (newIsSaved !== isSaved) {
-      try {
-        const response = await fetch(`/api/${userFavorite}/${post.id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: userToken.atk.toString(),
-          },
-        })
-
-        if (!response.ok) {
-          throw new Error("찜하기를 처리하는데 실패했습니다.")
-        }
-
-        setIsSaved(newIsSaved)
-      } catch (error) {
-        console.error(error)
-        setNewIsSaved(isSaved)
-      }
+  // 찜하기
+  const handleSaveClick = useCallback(async () => {
+    try {
+      await toggleFavorite()
+      setLocalIsSaved((prevIsSaved) => !prevIsSaved)
+    } catch (error) {
+      console.error(error)
     }
-    onClose()
-  }, [newIsSaved, isSaved, onClose])
+  }, [])
 
-  // 찜하기 상태 가져오기
+  // 신청 상태
+  const [, toggleApply] = useApply(post.id)
+  const [applyIsSaved, setApplyIsSaved] = useState(false)
+  const applySave = applyIsSaved
+    ? `${styles.apply} ${styles.applyActive}`
+    : styles.apply
+
+  // 신청하기
+  const handleApplyClick = useCallback(async () => {
+    try {
+      await toggleApply()
+      setApplyIsSaved((prevIsSaved) => !prevIsSaved)
+    } catch (error) {
+      console.error(error)
+    }
+  }, [])
+
+  // 찜하기, 신청현황 가져오기
   useEffect(() => {
-    const fetchFavoriteStatus = async () => {
+    const fetchData = async (url: string, setter: (data: boolean) => void, errorMessage: string, apply?: boolean) => {
       try {
-        const response = await fetch(`/api/${userFavorite}/${post.id}`, {
+        const response = await fetch(url, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -91,22 +93,32 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           },
         })
 
-        if (response.ok) {
-          const data = await response.json()
-          setIsSaved(data.data)
-          setNewIsSaved(data.data)
-        } else {
-          throw new Error("찜 상태를 가져오는데 실패했습니다.")
+        if (!response.ok) {
+          throw new Error(errorMessage)
         }
+
+        const responseData = await response.json()
+        apply ? setter(responseData.data.apply) : setter(responseData.data)
       } catch (error) {
         console.error(error)
       }
     }
 
-    fetchFavoriteStatus()
+    fetchData(`/api/${userFavorite}/${post.id}`, setLocalIsSaved, "찜 상태를 가져오는데 실패했습니다.")
+    fetchData(`/api/${userArticleApply}/${post.id}`, setApplyIsSaved, "신청현황을 가져오는데 실패했습니다.", true)
   }, [post.id])
 
-  //
+  // 삭제하기
+  const {
+    isLoading: deleteLoading,
+    isSuccess: deleteSuccess,
+    error: deleteError,
+    setUrl: setDeleteUrl,
+    setHeaders: setDeleteHeaders,
+    setMethod: setDeleteMethod,
+    setBody: setDeleteBody,
+  } = useFetch<unknown>("", "", {}, null)
+
   const handleDeleteClick = async () => {
     Modal.confirm({
       title: "이 포스트를 정말로 삭제하시겠습니까?",
@@ -114,30 +126,28 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
       okType: "danger",
       cancelText: "아니오",
       onOk: async () => {
-        try {
-          const response = await fetch(`/api/${userArticle}/${post.id}`, {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: userToken.atk.toString(),
-            },
-          })
-
-          if (response.ok) {
-            setIsDeleted(true)
-          } else {
-            throw new Error("포스트를 삭제하는데 실패했습니다.")
-          }
-        } catch (error) {
-          Modal.error({
-            title: "에러 발생",
-            content:
-              "포스트를 삭제하는데 오류가 발생했습니다. 다시 시도해 주세요.",
-          })
-        }
+        setDeleteUrl(`/api/${userArticle}/${post.id}`)
+        setDeleteMethod("DELETE")
+        setDeleteHeaders({
+          "Content-Type": "application/json",
+          Authorization: userToken.atk.toString(),
+        })
+        setDeleteBody()
       },
     })
   }
+
+  useEffect(() => {
+    if (!deleteLoading && deleteSuccess) {
+      setIsDeleted(true)
+    } else if (!deleteLoading && deleteError) {
+      console.error("Error:", deleteError)
+      Modal.error({
+        title: "에러 발생",
+        content: "포스트를 삭제하는데 오류가 발생했습니다. 다시 시도해 주세요.",
+      })
+    }
+  }, [deleteLoading, deleteSuccess, deleteError])
 
   useEffect(() => {
     if (isDeleted) {
@@ -155,7 +165,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
     <Modal
       open={true}
       onOk={onClose}
-      onCancel={handleOnCancel}
+      onCancel={onClose}
       cancelButtonProps={{ style: { display: "none" } }}
       okButtonProps={{ style: { display: "none" } }}
     >
@@ -167,9 +177,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           <div className={styles.titleContainer}>
             <span className={styles.title}>{post.title}</span>
             {userEmail !== post.email && (
-              <span className={saveClassName} onClick={handleSaveClick}>
+              <button onClick={handleSaveClick} className={saveClassName}>
                 찜하기
-              </span>
+              </button>
             )}
           </div>
           <div className={styles.content}>{decodeHTML(post.content)}</div>
@@ -194,9 +204,13 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
                 </Button>
               </div>
             ) : (
-              <Button className={styles.apply} type="primary">
+              <button
+                className={applySave}
+                style={{ float: "right" }}
+                onClick={handleApplyClick}
+              >
                 신청하기
-              </Button>
+              </button>
             )}
           </div>
           <div className={styles.line}></div>
@@ -216,9 +230,9 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           <div className={styles.titleContainer}>
             <span className={styles.title}>{post.title}</span>
             {userEmail !== post.email && (
-              <span className={saveClassName} onClick={handleSaveClick}>
+              <button onClick={handleSaveClick} className={saveClassName}>
                 찜하기
-              </span>
+              </button>
             )}
           </div>
           <div className={styles.content}>{decodeHTML(post.content)}</div>
@@ -232,20 +246,20 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
             </span>
             {userEmail === post.email ? (
               <div className={styles.buttonContainer}>
-                <Button className={styles.editButton} onClick={handleEditClick}>
-                  수정
-                </Button>
                 <Button
                   className={styles.deleteButton}
-                  onClick={handleDeleteClick}
-                >
+                  onClick={handleDeleteClick}> 
                   삭제
                 </Button>
               </div>
             ) : (
-              <Button className={styles.apply} type="primary">
+              <button
+                className={applySave}
+                style={{ float: "right" }}
+                onClick={handleApplyClick}
+              >
                 신청하기
-              </Button>
+              </button>
             )}
           </div>
           <div className={styles.line}></div>

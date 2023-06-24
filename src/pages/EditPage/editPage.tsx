@@ -9,6 +9,7 @@ import { Store } from "antd/lib/form/interface"
 import { userArticle } from "../../api"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
+import useFetch from "../../hooks/useFetch"
 
 const editPage: React.FC = () => {
   const [content, setContent] = useState("")
@@ -43,44 +44,49 @@ const editPage: React.FC = () => {
     }
   }, [editPost])
 
-  const handleChange = (
-    content: string,
-  ) => {
+  const handleChange = (content: string) => {
     setContent(content)
   }
   console.log(editPost.id)
 
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
-  const onFinish = async (values: Store) => {
-    try {
-      const response = await fetch(`/api/${userArticle}/${editPost.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: userToken.atk.toString(),
-        },
-        body: JSON.stringify(values), // values를 JSON 형식으로 변환
-      })
-      console.log(values)
+  const {
+    isLoading,
+    isSuccess,
+    error,
+    setUrl,
+    setHeaders,
+    setMethod,
+    setBody,
+  } = useFetch<unknown>("", "", {}, null)
 
-      if (!response.ok) {
-        console.log(response)
-      } else {
-        navigate("/RoomMate")
-        Modal.success({
-          title: "게시글 수정 완료",
-          content: "게시글 수정이 완료되었습니다!",
-        })
-      }
-    } catch (error) {
+  const onFinish = async (values: Store) => {
+    setUrl(`/api/${userArticle}/${editPost.id}`)
+    setMethod("PUT")
+    setHeaders({
+      "Content-Type": "application/json",
+      Authorization: userToken.atk.toString(),
+    })
+    setBody(values)
+  }
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      navigate("/RoomMate")
+      Modal.success({
+        title: "게시글 수정 완료",
+        content: "게시글 수정이 완료되었습니다!",
+      })
+    } else if (!isLoading && error) {
       console.error("Error:", error)
       Modal.error({
         title: "서버 오류",
         content: "게시글을 서버에 전송하는데 실패했습니다.",
       })
     }
-  }
+  }, [isLoading, isSuccess, navigate, error])
+
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo)

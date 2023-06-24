@@ -4,57 +4,41 @@ import styles from './favorite.module.css'
 import { Post } from '../../../interface/interface'
 import PostModal from '../../../components/PostModal/postModal'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../Redux/store'
+import { AppDispatch, RootState } from '../../../Redux/store'
 import PostCard from '../../../components/PostCard/postCard'
-import { userMyFavorite } from '../../../api'
+import { useDispatch } from 'react-redux'
+import { fetchFavorites } from '../../../components/Favorite/favoritesThunk'
 
 const Favorite = () => {
 
+  const dispatch: AppDispatch = useDispatch()
+  const favorites = useSelector((state: RootState) => state.favorites)
+
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
-  const [posts, setPosts] = useState<Post[]>([])
-  const userToken = useSelector((state : RootState) => state.user.data.token)
 
   const handleCloseModal = () => {
     setSelectedPost(null)
   }
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`/api/${userMyFavorite}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: userToken.atk.toString()
-        },
-      })
-
-      if (!response.ok) {
-        throw new Error(`서버 상태 응답 ${response.status}`)
-      }
-
-      const data = await response.json()
-      setPosts(data.data)
-
-      if(data.data.newIsSaved === false) {
-        window.location.reload()
-      }
-
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   useEffect(() => {
-    fetchData()
-  }, [])
+    dispatch(fetchFavorites())
+  }, [dispatch])
   
   return(
     <>
       <MyPage />
       <div className={styles.favoriteContainer}>
-        <div className={styles.cardGrid}>
-          <PostCard posts={posts}/>
-        </div>
+        {
+          favorites.length === 0 ? (
+            <div className={styles.emptyFavorites}>
+              관심 있는 게시물을 담아보세요 🙌🏻
+            </div>
+          ) : (
+            <div className={styles.cardGrid}>
+              <PostCard posts={favorites}/>
+            </div>
+          )
+        }
         {selectedPost && (
           <PostModal
             post={selectedPost} onClose={handleCloseModal} />

@@ -5,13 +5,16 @@ import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage"
 import { Dispatch } from "redux"
 import { RootState, AppDispatch } from "./store"
 import {
-  googleUserLogin,
+  googleLogin,
   kakaoLogin,
   refreshApiUrl,
   userLogin,
   userLogout,
   userRegister,
 } from "../api"
+import { useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
+import { useEffect } from "react"
 
 const initialState: UserState = loadFromLocalStorage() || {
   isLogged: false,
@@ -24,6 +27,25 @@ const initialState: UserState = loadFromLocalStorage() || {
   signUp: false,
   email: "",
   status: "idle",
+}
+
+export function useAutoLogout() {
+  const dispatch = useDispatch()
+  const { token } = useSelector((state: RootState) => state.user.data)
+
+  useEffect(() => {
+    if (token && token.atk) {
+      const splitToken = token.atk.split(".")
+      const tokenPayload = JSON.parse(atob(splitToken[1]))
+      const expirationTime = tokenPayload.exp * 1000
+
+      const timeoutId = setTimeout(() => {
+        dispatch(logout())
+      }, expirationTime - new Date().getTime())
+
+      return () => clearTimeout(timeoutId)
+    }
+  }, [token, dispatch])
 }
 
 export const refreshTokenIfNeeded = createAsyncThunk<
@@ -40,12 +62,6 @@ export const refreshTokenIfNeeded = createAsyncThunk<
 
   const splitToken = token.atk.split(".")
 
-  if (splitToken.length < 2) {
-    console.error("토큰 형식 오류:", token.atk)
-    throw new Error("Token format error")
-  }
-
-  //한시간으로 설정 되어있음
   try {
     const tokenPayload = JSON.parse(atob(splitToken[1]))
     const expirationTime = tokenPayload.exp * 1000
@@ -53,9 +69,11 @@ export const refreshTokenIfNeeded = createAsyncThunk<
 
     if (currentTime > expirationTime) {
       await dispatch(refreshToken({ refreshToken: token.rtk }))
+    } else {
+      dispatch(logout())
     }
   } catch (error) {
-    console.error("Error decoding access token:", error)
+    console.error(error)
     throw error
   }
 })
@@ -160,8 +178,11 @@ export const refreshToken = createAsyncThunk<
 )
 
 export const kakaologinUser = createAsyncThunk<
-  { token: Token },
-  string,
+  {
+    email: string
+    token: Token
+  },
+  { code: string },
   { dispatch: AppDispatch; state: RootState }
 >("/kakao", async (code, { rejectWithValue }) => {
   try {
@@ -179,7 +200,7 @@ export const kakaologinUser = createAsyncThunk<
 
     const data: UserState = await response.json()
 
-    return { token: data.data.token }
+    return { email: data.email, token: data.data.token }
   } catch (error: any) {
     return rejectWithValue(error.message)
   }
@@ -187,23 +208,23 @@ export const kakaologinUser = createAsyncThunk<
 
 export const googleloginUser = createAsyncThunk<
   { token: Token },
-  void,
+  { accessToken: string },
   { dispatch: Dispatch; state: RootState }
->("login/oauth2/google", async () => {
+>("login/oauth2/google", async (arg) => {
   try {
-    const response = await fetch(googleUserLogin, {
-      method: "GET",
+    const { accessToken } = arg
+    const response = await fetch(`/api/${googleLogin}`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ code: accessToken }),
     })
 
     const data = await response.json()
-    const { token } = data.data
-
-    return { token }
+    return { token: data.data.token }
   } catch (error) {
-    console.error("로그인 실패")
+    console.error("로그인 실패", error)
     throw error
   }
 })
@@ -240,7 +261,6 @@ const userSlice = createSlice({
       state.isLogged = false
       state.data.token = { atk: "", rtk: "" }
       state.email = ""
-      localStorage.removeItem("email")
     },
     signUp: (state) => {
       state.signUp = false
@@ -248,6 +268,8 @@ const userSlice = createSlice({
     kakaoLogin: (state, action) => {
       state.isLogged = false
       state.data.token = action.payload.data.token
+      state.email = action.payload.email
+      saveToLocalStorage(state)
     },
     googleLogin: (state, action) => {
       state.isLogged = false
@@ -264,6 +286,7 @@ const userSlice = createSlice({
 
     builder.addCase(loginUser.rejected, (state) => {
       state.isLogged = false
+      state.email = ""
     })
 
     builder.addCase(logOutUser.fulfilled, (state) => {
@@ -271,21 +294,23 @@ const userSlice = createSlice({
     })
 
     builder.addCase(registerUser.fulfilled, (state) => {
-      state.isLogged = true
+      state.signUp = true
     })
 
     builder.addCase(registerUser.rejected, (state) => {
-      state.isLogged = false
+      state.signUp = false
     })
 
     builder.addCase(kakaologinUser.fulfilled, (state, action) => {
       state.isLogged = true
       state.data.token = action.payload.token
+      state.email = action.payload.email
       saveToLocalStorage(state)
     })
 
     builder.addCase(kakaologinUser.rejected, (state) => {
       state.isLogged = false
+      state.email = ""
     })
 
     builder.addCase(googleloginUser.fulfilled, (state, action) => {
@@ -296,6 +321,7 @@ const userSlice = createSlice({
 
     builder.addCase(googleloginUser.rejected, (state) => {
       state.isLogged = false
+      state.email = ""
     })
   },
 })

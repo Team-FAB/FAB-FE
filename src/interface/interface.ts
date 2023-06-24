@@ -11,6 +11,7 @@ export interface UserState {
   }
   email: string
   status: "idle" | "loading" | "fulfilled" | "error"
+  accessToken?: string
 }
 
 export interface LoginValues {
@@ -38,7 +39,7 @@ export interface User {
   image: string
   email: string
   gender: string
-  smoke: boolean
+  isSmoker: boolean
   mbti: string
   region: string
   minAge: number
@@ -49,6 +50,7 @@ export interface User {
   hateTag: string
   myText: string
   post: Post
+  detail: string
 }
 
 export interface ModalProps {
@@ -78,7 +80,6 @@ export interface GlobalState extends UserState {
 
 export interface profileTendencyDropdown {
   genderBoxOpen: boolean
-  ageBoxOpen: boolean
   smokeBoxOpen: boolean
   MBTIBoxOpen: boolean
   regionBoxOpen: boolean
@@ -156,7 +157,6 @@ export interface RoomMateSearchProps {
 
 export interface ApplyProps {
   applyId: number
-  leader: boolean
   articleId: number
   articleTitle: string
   otherUserId: number
@@ -165,18 +165,62 @@ export interface ApplyProps {
 }
 
 export interface ApplicantProps {
-  applyPosts: ApplyProps[]
-  currentPage?: number
-  showApply?: boolean
+  post: ApplyProps
+  currentPage: number
+  showApply: boolean
 }
 
 export interface RecommendModalProps extends ModalProps {
-  user: User
+  userProfile: User | null
+  user?: User
+  showArticles?: boolean
 }
 
-export interface SaveButtonProps {
-  post: Post
-  isSaved: boolean
-  userFavorite: string
-  onClose: () => void
+export interface Data {
+  mbti: string
+  nickname: string
+  recommendDtoList: {
+    id: number
+    nickname: string
+    mbti: string
+  }[]
+}
+
+
+export interface RecommendUser {
+  id: number
+  nickname: string
+  mbti: string
+}
+
+export interface UserProfile {
+  email: string
+  nickname: string
+  image: string
+  isSmoker: boolean
+  activityTime: string
+  gender: string
+  region: string
+  mbti: string
+  tags: [string]
+  minAge: number
+  maxAge: number
+  myAge: number
+  detail: string
+}
+
+export interface Article {
+  id: number
+  title: string
+}
+
+export interface FetchData {
+  mbti: string
+  nickname: string
+  recommendDtoList: { id: number; nickname: string; mbti: string }[]
+}
+
+export interface PostData {
+  articleList: Post[]
+  totalCnt : number
 }
