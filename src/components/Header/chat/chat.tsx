@@ -17,32 +17,36 @@ const Chat: React.FC = () => {
   const [input, setInput] = useState<string>("")
   const [messages, setMessages] = useState<{ user: string; text: string }[]>([])
   const messageEndRef = useRef<HTMLDivElement>(null)
-
-  // stomp 클라이언트 참조
-  const stompClient = useRef<Stomp.CompatClient | null>(null) // <Stomp.Client | null>(null)
+  const [stClient, setStClient] = useState<Stomp.Client | null>(null)
 
   const connectHandler = (selectedUser: string) => {
     // SockJS를 사용 -> STOMP 서버 연결
-    const sock = new SockJS("http://localhost:8080/ws") // 백엔드 API
-
+    const sock = new WebSocket(`${import.meta.env.VITE_STOMP_URL}`) // 백엔드 API
+    // console.log(sock)
     const stompConfig = {
       webSocketFactory: () => sock,
-      reconnectDelay: 30000,
+      reconnectDelay: 10000,
       debug: (msg: string) => {
-        console.log("[STOMP Debug]", msg)
+        console.log("[STOMP debug]", msg)
       },
     }
 
     const stompClient = new Stomp.Client(stompConfig)
-
+    setStClient(stompClient)
     // STOMP 서버 연결
     stompClient.onConnect = (frame) => {
       // 연결 성공 -> 채팅방 ID 구현
       stompClient.subscribe(
-        `/chat/room/${selectedUser}`, // 채팅방 구독 주소 (이전 메시지 포함)
+        '/topic/chat', // 채팅방 구독 주소 (이전 메시지 포함)
         (message) => {
-          const parsedMessage = JSON.parse(message.body)
-          setMessages((prevMessages) => [...prevMessages, parsedMessage])
+          try{
+            const parsedMessage = JSON.parse(message.body)
+            console.log(parsedMessage)
+
+            setMessages((prevMessages) => [...prevMessages, parsedMessage])
+          } catch (error) {
+            console.error(error)
+          }
         }
       )
     }
@@ -65,8 +69,7 @@ const Chat: React.FC = () => {
   }
 
   const disconnectHandler = () => {
-    stompClient.current?.deactivate()
-    stompClient.current = null
+    stClient?.deactivate()
   }
 
   const handleUserSelect = (user: string) => {
@@ -77,23 +80,20 @@ const Chat: React.FC = () => {
 
   // 채팅 입력
   const handleSend = () => {
-    // console.log('room Id : ' + roomId)
     if (input && selectedUser) {
-      const createdDate = new Date().toISOString()
       const newMessage:ChatMessage = {
-        // roomId: roomId,
         userName: selectedUser, 
         msg: input,
-        createdDate: createdDate // 서버에서?
       }
 
       // STOMP 서버에 메시지 전송
-      stompClient.current?.publish ({ // json 형식으로 변환 -> 서버 전송
-        destination: "/chat/send", // 백엔드 API
+      stClient?.publish ({ // json 형식으로 변환 -> 서버 전송
+        destination: "/pub/chat", // 백엔드 API
         headers: {}, // 헤더
         body: JSON.stringify(newMessage)
       })
 
+      console.log(stClient)
       // UI 즉시 갱신 (메시지 전송에 대한 응답 받은 후, 메시지 표시?)
       setMessages((prevMessages) => [
         ...prevMessages, 
