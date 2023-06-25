@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import styles from "./chat.module.css"
 import * as Stomp from "@stomp/stompjs"
 import SockJS from 'sockjs-client'
+import { ChatMessage } from "../../../interface/interface"
 
 const participants = [
   { id: 1, name: "조유진" },
@@ -12,17 +13,15 @@ const participants = [
 ]
 
 const Chat: React.FC = () => {
-  const [selectedUser, setSelectedUser] = useState<number | null>(null)
+  const [selectedUser, setSelectedUser] = useState<string | null>(null)
   const [input, setInput] = useState<string>("")
-  const [messages, setMessages] = useState<{ user: number; text: string }[]>([])
+  const [messages, setMessages] = useState<{ user: string; text: string }[]>([])
   const messageEndRef = useRef<HTMLDivElement>(null)
 
-  // stomp 사용
-  const stompClient = useRef<Stomp.Client | null>(null)
+  // stomp 클라이언트 참조
+  const stompClient = useRef<Stomp.CompatClient | null>(null) // <Stomp.Client | null>(null)
 
-  useEffect(() => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  
+  const connectHandler = (selectedUser: string) => {
     // SockJS를 사용 -> STOMP 서버 연결
     const sock = new SockJS("http://localhost:8080/ws") // 백엔드 API
 
@@ -33,53 +32,80 @@ const Chat: React.FC = () => {
         console.log("[STOMP Debug]", msg)
       },
     }
+
     const stompClient = new Stomp.Client(stompConfig)
 
     // STOMP 서버 연결
     stompClient.onConnect = (frame) => {
       // 연결 성공 -> 채팅방 ID 구현
       stompClient.subscribe(
-        "/chat/room/" + selectedUser, // 채팅방 구독 주소
+        `/chat/room/${selectedUser}`, // 채팅방 구독 주소 (이전 메시지 포함)
         (message) => {
           const parsedMessage = JSON.parse(message.body)
           setMessages((prevMessages) => [...prevMessages, parsedMessage])
         }
       )
     }
-
+    
     stompClient.onDisconnect = () => {
       console.log("STOMP 연결이 해제되었습니다.")
     }
 
-    stompClient.activate()
-
-    // STOMP 서버 연결 해제
-    return () => {
-      stompClient.deactivate()
+    // STOMP 에러 처리
+    stompClient.onStompError = (frame) => {
+      console.error(`STOMP 에러: ${frame.headers['message']}`)
     }
-}, [selectedUser])
 
-// 채팅 입력
-const handleSend = () => {
-  if (input && selectedUser) {
-    // STOMP 서버에 메시지 전송
-    stompClient.current?.publish ({
-      destination: "/chat/send", // 백엔드 API
-      headers: {}, // 헤더
-      body: JSON.stringify({ user: selectedUser!, text: input })
-    })
+    // 웹소켓 에러 처리
+    stompClient.onWebSocketError = (event) => {
+      console.error(`웹소켓 에러: ${event}`)
+    }
 
-    setInput("")
+    stompClient.activate()
   }
-}
+
+  const disconnectHandler = () => {
+    stompClient.current?.deactivate()
+    stompClient.current = null
+  }
+
+  const handleUserSelect = (user: string) => {
+    disconnectHandler()
+    setSelectedUser(user)
+    connectHandler(user)
+  }
 
   // 채팅 입력
-  // const handleSend = () => {
-  //   if (input && selectedUser) {
-  //     setMessages([...messages, { user: selectedUser!, text: input }])
-  //     setInput("")
-  //   }
-  // }
+  const handleSend = () => {
+    // console.log('room Id : ' + roomId)
+    if (input && selectedUser) {
+      const createdDate = new Date().toISOString()
+      const newMessage:ChatMessage = {
+        // roomId: roomId,
+        userName: selectedUser, 
+        msg: input,
+        createdDate: createdDate // 서버에서?
+      }
+
+      // STOMP 서버에 메시지 전송
+      stompClient.current?.publish ({ // json 형식으로 변환 -> 서버 전송
+        destination: "/chat/send", // 백엔드 API
+        headers: {}, // 헤더
+        body: JSON.stringify(newMessage)
+      })
+
+      // UI 즉시 갱신 (메시지 전송에 대한 응답 받은 후, 메시지 표시?)
+      setMessages((prevMessages) => [
+        ...prevMessages, 
+        { 
+          user: selectedUser, 
+          text: input 
+        },
+      ])
+
+      setInput("")
+    }
+  }
 
   // 채팅창 Enter 입력
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -88,12 +114,13 @@ const handleSend = () => {
     }
   }
 
+  // 메시지 입력 -> 자동 스크롤
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
   const selectedUserName =
-    participants.find((p) => p.id === selectedUser)?.name || ""
+    participants.find((p) => p.name === selectedUser)?.name || ""
 
   const userInforClass = 
     selectedUser ? `${styles.userInfor} ${styles.selectedUserInfor}` : `${styles.userInfor}`
@@ -104,9 +131,9 @@ const handleSend = () => {
         <h2>방갑고 채팅방</h2>
         {participants.map((user) => (
           <div
-            key={user.id}
+            key={user.name}
             className={styles.userName}
-            onClick={() => setSelectedUser(user.id)}
+            onClick={() => handleUserSelect(user.name)}
           >
             {user.name}
           </div>
