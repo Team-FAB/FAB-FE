@@ -183,7 +183,7 @@ export const kakaologinUser = createAsyncThunk<
     token: Token
   },
   { code: string },
-  { dispatch: AppDispatch; state: RootState }
+  { dispatch: Dispatch; state: RootState }
 >("/kakao", async (code, { rejectWithValue }) => {
   try {
     const response = await fetch(`/api/${kakaoLogin}`, {
@@ -207,7 +207,10 @@ export const kakaologinUser = createAsyncThunk<
 })
 
 export const googleloginUser = createAsyncThunk<
-  { token: Token },
+  { 
+    token: Token
+    email: string
+  },
   { accessToken: string },
   { dispatch: Dispatch; state: RootState }
 >("login/oauth2/google", async (arg) => {
@@ -222,7 +225,7 @@ export const googleloginUser = createAsyncThunk<
     })
 
     const data = await response.json()
-    return { token: data.data.token }
+    return { token: data.data.token, email: data.data.email }
   } catch (error) {
     console.error("로그인 실패", error)
     throw error
@@ -274,6 +277,8 @@ const userSlice = createSlice({
     googleLogin: (state, action) => {
       state.isLogged = false
       state.data.token = action.payload.data.token
+      state.email = action.payload.email
+      saveToLocalStorage(state)
     },
   },
   extraReducers: (builder) => {
@@ -316,6 +321,7 @@ const userSlice = createSlice({
     builder.addCase(googleloginUser.fulfilled, (state, action) => {
       state.isLogged = true
       state.data.token = action.payload.token
+      state.email = action.payload.email
       saveToLocalStorage(state)
     })
 

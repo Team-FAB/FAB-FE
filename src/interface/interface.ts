@@ -224,3 +224,10 @@ export interface PostData {
   articleList: Post[]
   totalCnt : number
 }
+
+export interface ChatMessage {
+  // roomId: number
+  userName: string
+  msg: string
+  createdDate: string
+}
