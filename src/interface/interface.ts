@@ -226,8 +226,6 @@ export interface PostData {
 }
 
 export interface ChatMessage {
-  // roomId: number
   userName: string
   msg: string
-  createdDate: string
 }
