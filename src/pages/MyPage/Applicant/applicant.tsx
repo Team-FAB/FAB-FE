@@ -12,6 +12,8 @@ import OtherUserProfile from './otherUserProfile'
 import { useDispatch } from 'react-redux'
 import { approvePostAsync, deletePostAsync, refusePostAsync } from '../../../Redux/applicantReducer'
 import { fetchData } from '../../../Redux/applyReducer'
+import { useNavigate } from 'react-router-dom'
+import { userChatRoom } from '../../../api'
 
 const Applicant: React.FC<ApplicantProps> = ({ showApply, post, currentPage }) => {
 
@@ -19,6 +21,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post, currentPage }) =
   const [otheruser, setOtherUser] = useState<User | null>(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
+  const navigate = useNavigate()
 
   const dispatch: AppDispatch = useDispatch()
 
@@ -113,6 +116,29 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post, currentPage }) =
     }
   }, [articleSuccess, articleData])
 
+  // 채팅방 생성
+  const handleChatClick = async (applyId: number) => {
+    try {
+      const response = await fetch(`/api/${userChatRoom}/${applyId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userToken.atk.toString(),
+        },
+      })
+
+      if (!response.ok) {
+        console.log(response)
+        throw new Error(`서버 상태 응답 ${response.status}`)
+      }
+
+      await response.json()
+      navigate('/chat')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
       {
@@ -159,7 +185,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post, currentPage }) =
                 cover={<Badge.Ribbon text={post.matchStatus} />}
                 style={{ width: 530, marginBottom: 30 }}
                 actions={[
-                  <p>채팅</p>,
+                  <p onClick={()=>handleChatClick(post.applyId)}>채팅방 만들기</p>,
                   <p onClick={()=>handleUserClick(post.otherUserId)}>프로필</p>]}
               >
                 <Meta
@@ -212,7 +238,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post, currentPage }) =
               cover={<Badge.Ribbon text={post.matchStatus} />}
               style={{ width: 530, marginBottom: 30 }}
               actions={[
-                <p>채팅</p>,
+                <p onClick={()=>handleChatClick(post.applyId)}>채팅방 만들기</p>,
                 <p onClick={()=>handleUserClick(post.otherUserId)}>프로필</p>]}
             >
               <Meta
