@@ -226,6 +226,18 @@ export interface PostData {
 }
 
 export interface ChatMessage {
-  userName: string
   msg: string
+  createData?: string
+}
+
+export interface ChatList {
+  userNickname: string
+  roomId: string
+}
+
+export interface MessageType {
+  roomId: string
+  userEmail: string
+  msg: string
+  createDate: string
 }
