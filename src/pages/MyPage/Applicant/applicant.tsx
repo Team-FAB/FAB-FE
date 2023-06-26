@@ -56,23 +56,23 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post, currentPage }) =
   }
 
   // 프로필
-  const userData = async (userId: number) => {
+  const {
+    datas: profileDatas,
+    setUrl: setProfileDatasUrl,
+    setHeaders: setProfileHeaders,
+    setMethod: setProfileMethod,
+    setBody: setProfileBody,
+  } = useFetch<User | null>("", "", {}, null)
+
+  const fetchUserProfile = async (userId: number) => {
     try {
-      const response = await fetch(`/api/${usersProfile}/${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      setProfileDatasUrl(`/api/${usersProfile}/${userId}`)
+      setProfileMethod("GET")
+      setProfileHeaders({
+        "Content-Type": "application/json",
       })
-
-      if (!response.ok) {
-        console.log(response)
-        throw new Error(`서버 상태 응답 ${response.status}`)
-      }
-
-      const responeData = await response.json()
-      setOtherUser(responeData.data)
-      setIsModalVisible(true)
+      setProfileBody()
+      setOtherUser(profileDatas)
     } catch (error) {
       console.error(error)
     }
@@ -80,7 +80,7 @@ const Applicant: React.FC<ApplicantProps> = ({ showApply, post, currentPage }) =
   
   // 프로필 호출
   const handleUserClick = (userId: number) => {
-    userData(userId)
+    fetchUserProfile(userId)
     setIsModalVisible(true)
   }
 
