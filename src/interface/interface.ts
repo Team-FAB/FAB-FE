@@ -227,6 +227,7 @@ export interface PostData {
 
 export interface ChatMessage {
   msg: string
+  userEmail: string
   createData?: string
 }
 
