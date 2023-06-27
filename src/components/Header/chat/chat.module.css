@@ -102,6 +102,25 @@
   background-color: #ddd;
   border-radius: 0 var(--badge-border-radius) 0 0;
 
+  position: relative;
+}
+
+.clIcon {
+  font-size: var(--font-size-h6);
+  font-weight: var(--font-weight-h4);
+  color: var(--black300);
+  position: absolute;
+  right: 5%;
+  transform: translateY(2px);
+}
+
+.noList {
+  font-size: var(--font-size-sub1);
+  position: absolute;
+  bottom: 43%;
+  left: 35%;
+  text-align: center;
+  line-height: 30px;
 }
 
 .chat {
@@ -126,6 +145,8 @@
   overflow: auto;
   background: #f5f5f5;
   border-radius: var(--badge-border-radius);
+
+  position: relative;
 }
 
 .userInfor > h2 {
@@ -176,4 +197,11 @@
 
 .messageDiv {
   padding: 10px;
+}
+
+.createDate {
+  font-size: var(--font-size-sub4);
+  font-weight: var(--font-weight-h1);
+  color: var(--black300);
+  padding-left: 8px;
 }

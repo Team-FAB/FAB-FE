@@ -7,6 +7,10 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../../Redux/store"
 import { userChatList } from "../../../api"
 import { MessageType } from "../../../interface/interface"
+import { CloseCircleOutlined } from '@ant-design/icons'
+import moment from "moment"
+import 'moment/locale/ko'
+moment.locale('ko')
 
 const Chat: React.FC = () => {
   const [chatList, setChatList] = useState<ChatList[]>([])
@@ -41,17 +45,15 @@ const Chat: React.FC = () => {
         console.error(error)
       }
     }
-
     fetchChatList()
-  }, [])
+  }, [])  
 
   const connectHandler = (roomId: string) => {
     // WebSocket 사용 -> STOMP 서버 연결
-    const sock = new WebSocket(`${import.meta.env.VITE_STOMP_URL}`) // 백엔드 API
+    const sock = new WebSocket(`${import.meta.env.VITE_STOMP_URL}`)
 
     const stompConfig = {
       webSocketFactory: () => sock,
-      // reconnectDelay: 10000,
       debug: (msg: string) => {
         console.log("[STOMP debug]", msg)
       },
@@ -80,7 +82,9 @@ const Chat: React.FC = () => {
         (message) => {
           try {
             const parsedMessage = JSON.parse(message.body)
-            setMessages(prevMessages => [...prevMessages, ...parsedMessage])
+            if (parsedMessage && parsedMessage.length > 0) {
+              setMessages(prevMessages => [...prevMessages, ...parsedMessage])
+            }
             historySubscription.unsubscribe()
           } catch (error) {
             console.error(error)
@@ -95,7 +99,6 @@ const Chat: React.FC = () => {
         (message) => {
           try{
             const parsedMessage = JSON.parse(message.body)
-            console.log(parsedMessage)
             setMessages(prevMessages => [...prevMessages, parsedMessage])
           } catch (error) {
             console.error(error)
@@ -124,6 +127,7 @@ const Chat: React.FC = () => {
   // 연결 해제
   const disconnectHandler = () => {
     stClient?.deactivate()
+    setSelectedUser(null)
   }
 
   // 사용자 선택
@@ -156,8 +160,9 @@ const Chat: React.FC = () => {
   }
 
   // 채팅창 Enter 입력
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyUp = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
+      e.preventDefault()
       handleSend(selectedRoomId)
     }
   }
@@ -174,20 +179,28 @@ const Chat: React.FC = () => {
     <div className={styles.userDiv}>
       <div className={userInforClass}>
         <h2>방갑고 채팅방</h2>
-        {chatList.map((user) => (
-          <div
-            key={user.roomId}
-            className={styles.userName}
-            onClick={() => handleUserSelect(user.roomId, userEmail, user.userNickname)}
-          >
-            {user.userNickname}
-          </div>
-        ))}
-      </div>
+        {chatList.length > 0 ? (
+          chatList.map((user) => (
+            <div
+              key={user.roomId}
+              className={styles.userName}
+              onClick={() => handleUserSelect(user.roomId, userEmail, user.userNickname)}
+            >
+              {user.userNickname}
+            </div>
+          ))
+        ) : (
+          <div className={styles.noList}>대화 상대가 없습니다 😐 <br/> 신청현황에서 대화방을 만들어보세요!</div>
+        )}
+        
+      </div>  
 
-      {selectedUser && ( // otherUserName로 변경 가능?
+      {selectedUser && (
         <div className={styles.chatDiv}>
-          <h2>'{otherUserName}' 님과 원활한 대화를 나눠보세요 ☺️</h2>
+          <h2>
+            '{otherUserName}' 님과 원활한 대화를 나눠보세요 ☺️ 
+            <CloseCircleOutlined className={styles.clIcon} onClick={disconnectHandler}/>
+          </h2>
           <div className={styles.chat}>
             <div className={styles.chatMessageDiv}>
               {messages.map((message, index) => (
@@ -199,7 +212,7 @@ const Chat: React.FC = () => {
                   }}
                 >
                   {message.msg}
-                  <span>{message.createDate}</span>
+                  <span className={styles.createDate}>{moment(message.createDate).locale('ko').fromNow()}</span>
                 </div>
               ))}
               <div ref={messageEndRef} />
@@ -208,7 +221,7 @@ const Chat: React.FC = () => {
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
+                onKeyUp={handleKeyUp}
                 placeholder="채팅글 작성"
               />
               <button onClick={()=>handleSend(selectedRoomId)}>전송</button>
