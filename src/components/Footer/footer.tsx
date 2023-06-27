@@ -9,27 +9,27 @@ const Footer: React.FC = () => {
   const items = [
     {
       key: "BE_윤장원",
-      label: <a href="https://github.com/yjjjwww">BE_윤장원</a>,
+      label: <a href="https://github.com/yjjjwww" target="_blank" rel="noopener noreferrer">BE_윤장원</a>,
     },
     {
       key: "BE_서원호",
-      label: <a href="https://github.com/wonho-seo">BE_서원호</a>,
+      label: <a href="https://github.com/wonho-seo" target="_blank" rel="noopener noreferrer">BE_서원호</a>,
     },
     {
       key: "BE_고지민",
-      label: <a href="https://github.com/FeelingXD">BE_고지민</a>,
+      label: <a href="https://github.com/FeelingXD" target="_blank" rel="noopener noreferrer">BE_고지민</a>,
     },
     {
       key: "FE_조유진",
-      label: <a href="https://github.com/YouJin-Cho">FE_조유진</a>,
+      label: <a href="https://github.com/YouJin-Cho" target="_blank" rel="noopener noreferrer">FE_조유진</a>,
     },
     {
       key: "FE_황지민",
-      label: <a href="https://github.com/HwangJiMinn">FE_황지민</a>,
+      label: <a href="https://github.com/HwangJiMinn"target="_blank" rel="noopener noreferrer">FE_황지민</a>,
     },
     {
       key: "FE_권선아",
-      label: <a href="https://github.com/kwonseona">FE_권선아</a>,
+      label: <a href="https://github.com/kwonseona" target="_blank" rel="noopener noreferrer">FE_권선아</a>,
     },
   ]
 

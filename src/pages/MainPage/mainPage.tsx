@@ -226,7 +226,7 @@ const MainPage: React.FC = () => {
         <div className={styles.title}>룸메이트 구해요 👋</div>
         <div className={styles.carouselWrapper}>
           {postLoading ? (
-            <Spin/>
+            <Spin style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}/>
           ) : (
             <MultiCarousel
               responsive={responsive}
@@ -251,7 +251,7 @@ const MainPage: React.FC = () => {
         <div className={styles.title}>{recommendTitle}</div>
         <div className={styles.carouselWrapper}>
           {recommendLoading ? (
-            <Spin/>
+            <Spin style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}/>
           ) : users.length > 0 ? (
             <MultiCarousel
               responsive={responsive}
