@@ -31,6 +31,7 @@ export interface Post {
   period: string
   price: number
   recruiting: boolean
+  image?: string
 }
 
 export interface User {

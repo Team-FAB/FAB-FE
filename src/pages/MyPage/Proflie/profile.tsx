@@ -9,6 +9,7 @@ import { userMyprofile } from '../../../api'
 import useFetch from '../../../hooks/useFetch'
 import { UserProfile } from '../../../interface/interface'
 import { Spin } from 'antd'
+import img from "../../../assets/mbti1.svg"
 
 const Profile: React.FC = () => {
   const userToken = useSelector((state : RootState) => state.user.data.token)
@@ -16,7 +17,7 @@ const Profile: React.FC = () => {
   // profileBasic
   const [nickname, setNickname] = useState('')
   const [email, setEmail] = useState('')
-  const [profileImage, setProfileImage] = useState('https://via.placeholder.com/120')
+  const [profileImage, setProfileImage] = useState(img)
 
   // profileTendency
   const [selectedGender, setSelectedGender] = useState('')
@@ -62,7 +63,7 @@ const Profile: React.FC = () => {
       setNickname(profileData.nickname)
       setSelectedAge(profileData.myAge === null ? 0 : profileData.myAge)
       setEmail(profileData.email)
-      setProfileImage(profileData.image === null ? 'https://via.placeholder.com/120' : profileData.image)
+      setProfileImage(profileData.image === null ? img : profileData.image)
       setSelectedSmoke(profileData.isSmoker === true ? '합니다' : '하지 않습니다')
       setSelectedMBTI(profileData.mbti === 'null' ? 'mbti' : profileData.mbti)
       setSelectedregion(profileData.region === 'null' ? '여기' : profileData.region)
@@ -83,7 +84,7 @@ const Profile: React.FC = () => {
       <div className={styles.profileContainer}>
         {
           fetchProfileLoading ? (
-            <Spin />
+            <Spin style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}/>
           ) : (
             <>
               <ProfileBasic 
