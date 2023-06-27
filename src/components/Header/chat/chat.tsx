@@ -32,10 +32,11 @@ const Chat: React.FC = () => {
           },
         })
         if (!response.ok) {
+          console.log(response)
           throw new Error(`서버 상태 응답 ${response.status}`)
         }
         const responseData = await response.json()
-        setChatList(responseData.data)
+        setChatList(responseData)
       } catch (error) {
         console.error(error)
       }
@@ -45,12 +46,12 @@ const Chat: React.FC = () => {
   }, [])
 
   const connectHandler = (roomId: string) => {
-    // SockJS를 사용 -> STOMP 서버 연결
+    // WebSocket 사용 -> STOMP 서버 연결
     const sock = new WebSocket(`${import.meta.env.VITE_STOMP_URL}`) // 백엔드 API
-    // console.log(sock)
+
     const stompConfig = {
       webSocketFactory: () => sock,
-      reconnectDelay: 10000,
+      // reconnectDelay: 10000,
       debug: (msg: string) => {
         console.log("[STOMP debug]", msg)
       },
@@ -58,24 +59,29 @@ const Chat: React.FC = () => {
 
     const stompClient = new Stomp.Client(stompConfig)
     setStClient(stompClient)
-
+   
     // STOMP 서버 연결
     stompClient.onConnect = (frame) => {
+
       // history subscribe trigger
-      stClient?.publish ({
-        destination: `/pub/chat.history.${roomId}`,
-        headers: { Authorization: userToken.atk.toString() },
-        body: JSON.stringify('open')
-      })
-    
+      const handleSendText = () => {
+        stompClient.publish ({
+          destination: `/pub/chat.history.${roomId}`,
+          headers: { Authorization: userToken.atk.toString() },
+        })
+        console.log(`/pub/chat.history.${roomId}`)
+      }
+
+      handleSendText()
+
       // history subscribe
       const historySubscription = stompClient.subscribe(
-        `topic/chat.history.${roomId}`,
+        `/topic/chat.history.${roomId}`,
         (message) => {
           try {
             const parsedMessage = JSON.parse(message.body)
-            console.log(parsedMessage)
             setMessages(prevMessages => [...prevMessages, ...parsedMessage])
+            historySubscription.unsubscribe()
           } catch (error) {
             console.error(error)
           }
@@ -83,12 +89,9 @@ const Chat: React.FC = () => {
         { Authorization: userToken.atk.toString() }
       )
 
-      historySubscription.unsubscribe()
-      
       // 연결 성공 -> 채팅방 ID 구현
       stompClient.subscribe(
-        `topic/chat.${roomId}`,
-        
+        `/topic/chat.${roomId}`,
         (message) => {
           try{
             const parsedMessage = JSON.parse(message.body)
@@ -100,7 +103,7 @@ const Chat: React.FC = () => {
         }
       )
     }
-    
+
     stompClient.onDisconnect = () => {
       console.log("STOMP 연결이 해제되었습니다.")
     }
@@ -118,12 +121,15 @@ const Chat: React.FC = () => {
     stompClient.activate()
   }
 
+  // 연결 해제
   const disconnectHandler = () => {
     stClient?.deactivate()
   }
 
+  // 사용자 선택
   const handleUserSelect = (roomId: string, userEmail: string, userNickname: string) => {
     disconnectHandler()
+    setMessages([])
     setSelectedUser(userEmail)
     setOtherUserName(userNickname)
     setSelectedRoomId(roomId)
@@ -132,14 +138,15 @@ const Chat: React.FC = () => {
 
   // 채팅 입력
   const handleSend = (roomId: string) => {
-    if (input) {
+    if (input && selectedUser) {
       const newMessage:ChatMessage = {
-        msg: input
+        msg: input,
+        userEmail: selectedUser
       }
 
       // STOMP 서버에 메시지 전송
       stClient?.publish ({ // json 형식으로 변환 -> 서버 전송
-        destination: `/pub/chat.${roomId}`, // 백엔드 API
+        destination: `/pub/chat.${roomId}`,
         headers: { Authorization: userToken.atk.toString() },
         body: JSON.stringify(newMessage)
       })
@@ -159,9 +166,6 @@ const Chat: React.FC = () => {
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
-
-  // const selectedUserName =
-  //   chatList.find((p) => p.userNickname === selectedUser)?.userNickname || ""
 
   const userInforClass = 
     selectedUser ? `${styles.userInfor} ${styles.selectedUserInfor}` : `${styles.userInfor}`

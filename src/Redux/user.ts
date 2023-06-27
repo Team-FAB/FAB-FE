@@ -201,8 +201,8 @@ export const kakaologinUser = createAsyncThunk<
     const data: UserState = await response.json()
 
     return { email: data.email, token: data.data.token }
-  } catch (error: any) {
-    return rejectWithValue(error.message)
+  } catch (error) {
+    return rejectWithValue(error)
   }
 })
 
