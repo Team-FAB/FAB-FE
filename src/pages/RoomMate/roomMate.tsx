@@ -153,7 +153,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
         </div>
         <div className={styles.cardGrid}>
           {fetchDataLoading ? (
-            <Spin />
+            <Spin style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}/>
           ) : (
             <PostCard
               posts={posts}

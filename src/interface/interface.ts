@@ -233,6 +233,19 @@ export interface PostData {
 }
 
 export interface ChatMessage {
-  readonly userName: string
-  readonly msg: string
+  msg: string
+  userEmail: string
+  createData?: string
+}
+
+export interface ChatList {
+  userNickname: string
+  roomId: string
+}
+
+export interface MessageType {
+  roomId: string
+  userEmail: string
+  msg: string
+  createDate: string
 }

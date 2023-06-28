@@ -40,7 +40,6 @@ const ProfileTendency = (props:profileTendencyProps) => {
     })
   } 
 
-
   const handleTendencyChange = (checkedValues: CheckboxValueType[]) => {
     if (checkedValues.length <= 5) {
       props.setFavoriteTag(checkedValues as string[])

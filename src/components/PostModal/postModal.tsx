@@ -10,6 +10,7 @@ import { PostModalProps } from "../../interface/interface"
 import useFavorite from "../Favorite/useFavorite"
 import useFetch from "../../hooks/useFetch"
 import { useApply } from "../Apply/applyApi"
+import img from "../../assets/mbti1.svg"
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const [isDeleted, setIsDeleted] = useState(false)
@@ -103,7 +104,6 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
         console.error(error)
       }
     }
-
     fetchData(`/api/${userFavorite}/${post.id}`, setLocalIsSaved, "찜 상태를 가져오는데 실패했습니다.")
     fetchData(`/api/${userArticleApply}/${post.id}`, setApplyIsSaved, "신청현황을 가져오는데 실패했습니다.", true)
   }, [post.id])
@@ -186,7 +186,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           <div className={styles.ProfileContainer}>
             <img
               className={styles.profileImg}
-              src="https://via.placeholder.com/25"
+              src={post.image ? post.image : img}
             ></img>
             <span className={styles.ProfileContent}>
               {post.nickname} {formatDate(post.createdDate)}
@@ -239,7 +239,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
           <div className={styles.ProfileContainer}>
             <img
               className={styles.profileImg}
-              src="https://via.placeholder.com/25"
+              src={post.image ? post.image : img}
             ></img>
             <span className={styles.ProfileContent}>
               {post.nickname} {formatDate(post.createdDate)}
