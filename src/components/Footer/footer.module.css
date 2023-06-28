@@ -6,17 +6,16 @@
 
 .footerContainer {
   bottom: 0%;
-  min-width: 1077px;
   background: var(--purple500);
 }
 
 .footerBox {
-  height: 120px;
   display: flex;
   padding: 30px 80px;
   justify-content: space-between;
   margin: 0 auto;
 }
+
 
 .footerDesc {
   display: flex;
@@ -152,6 +151,7 @@
   display: flex;
   gap: 10px;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 .info p {
@@ -161,4 +161,32 @@
 
 .info p:last-child {
   border: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .footerContainer {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .footerBox {
+    flex-direction: column;
+    padding: 15px;
+    align-items: center;
+  }
+  .footerGit{
+    margin: 0 auto;
+  }
+
+  .footerOwner {
+    margin-top: 20px;
+  }
+  
+  .footerDesc {
+    flex-direction: column;
+  }
+  
+  .footerDesc > img {
+    margin-right: 10px;
+  }
 }

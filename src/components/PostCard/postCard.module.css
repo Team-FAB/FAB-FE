@@ -1,5 +1,6 @@
 .cardContainer {
   cursor: pointer;
+  width: 250px;
 }
 
 .cardContainer:hover {

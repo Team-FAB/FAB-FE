@@ -63,3 +63,16 @@
   color: var(--purple500);
   margin-bottom: 10px;
 }
+
+@media screen and (max-width: 768px) {
+  .videoBox {
+    display: none;
+  }
+  .loginContainer {
+    flex-direction: column;
+  }
+
+  .inputBox{
+    border-radius: var(--badge-border-radius);
+  }
+}

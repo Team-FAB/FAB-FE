@@ -11,6 +11,9 @@
   align-items: center;
   z-index: 1000;
   background-color: var(--bgc);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .logo {
@@ -39,6 +42,7 @@
   font-size: var(--font-size-body1);
   color: var(--purple500);
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .videoBox {
@@ -62,6 +66,8 @@
   width: 400px;
   border-radius: 0 20px 20px 0px;
   background-color: var(--white);
+  margin: auto;
+  height: 500px;
 }
 
 .loginForm {
@@ -133,4 +139,17 @@
   width: 100px;
   height: 1px;
   background-color: var(--black100);
+}
+
+@media screen and (max-width: 768px) {
+  .videoBox {
+    display: none;
+  }
+  .loginContainer {
+    flex-direction: column;
+  }
+
+  .formBox{
+    border-radius: var(--badge-border-radius);
+  }
 }
