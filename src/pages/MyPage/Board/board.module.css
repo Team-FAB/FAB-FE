@@ -1,6 +1,7 @@
 .boardContainer {
   max-width: 870px;
   max-height: 600px;
+  min-height: 470px;
   display: grid;  
   gap: 25px;
   margin: 15px auto;
@@ -22,10 +23,20 @@
   margin: 0 auto;
 }
 
+.emptyBoard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transform: translateY(-100px);
+  color: var(--black300);
+}
+
 @media (max-width: 834px) {
   .cardGrid {
     grid-template-columns: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
+    margin-bottom: 30px;
   }
 }
 
@@ -33,5 +44,11 @@
   .cardGrid {
     grid-template-columns: 1fr;
     grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .boardContainer {
+    overflow-x: auto;
   }
 }

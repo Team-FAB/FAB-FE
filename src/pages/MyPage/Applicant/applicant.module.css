@@ -1,9 +1,16 @@
 .applyContainer {
   max-width: 700px;
-  max-height: 700px;
-  padding: 60px;
+  padding: 30px 60px 40px 60px;
   margin: 0 auto;
   box-sizing: border-box;
+}
+
+.applyPostsP {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--black300);
 }
 
 .applyTitle {
@@ -12,18 +19,6 @@
   margin-bottom: 5px;
   font-size: var(--font-size-h4);
   font-weight: var(--font-weight-button);
-}
-
-@media (max-width: 700px) {
-  .applyTitle {
-    justify-content: center;
-    flex-direction: column;
-  }
-  .applyTitle h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-  }
 }
 
 .applyBtn {
@@ -46,13 +41,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 200px;
   height: 100%;
   margin: 0px auto;
   position: relative;
 }
 
 .pagination {
-  margin-top: 30px;
+  margin-top: 60px;
   display: flex;
   justify-content: center;
 }
@@ -62,8 +58,27 @@
   width: 530px;
 }
 
-@media screen and (max-width: 530px) {
+@media screen and (max-width: 600px) {
   .cardContainer {
-    max-width: 370px;
+    max-width: 360px;
+  }
+  .applyTitle {
+    justify-content: center;
+    flex-direction: column;
+  }
+  .applyTitle h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .applyContainer {
+    overflow-x: auto;
+  }
+
+  .applyTitle > h2 {
+    font-size: var(--font-size-h6);
   }
 }

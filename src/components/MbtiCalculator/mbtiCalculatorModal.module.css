@@ -69,3 +69,10 @@
   align-items: center;
   justify-content: center;
 }
+
+@media screen and (max-width: 370px) {
+  .mbtiModal {
+    overflow-x: auto;
+    min-width: 375px;
+  }
+}

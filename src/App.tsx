@@ -36,21 +36,23 @@ const App: React.FC = () => {
         <BrowserRouter>
           <Header />
           <MbitCalculator />
-          <Routes>
-            <Route path="/RoomMate" element={<RoomMate />} />
-            <Route path="/" element={<Login />} />
-            <Route path="/MainPage" element={<MainPage />} />
-            <Route path="/SignUp" element={<SignUp />} />
-            <Route path="/MyPage" element={<Profile />} />
-            <Route path="/Board" element={<Board />} />
-            <Route path="/Apply" element={<Apply />} />
-            <Route path="/Favorite" element={<Favorite />} />
-            <Route path="/WritePage" element={<WritePage />} />
-            <Route path="/editPage/:postId" element={<EditPage />} />
-            <Route path="/kakao" element={<Kakao />} />
-            <Route path="/google" element={<Google />} />
-            <Route path="/Chat" element={<Chat />} />
-          </Routes>
+          <section className='main'>
+            <Routes>
+              <Route path="/RoomMate" element={<RoomMate />} />
+              <Route path="/" element={<Login />} />
+              <Route path="/MainPage" element={<MainPage />} />
+              <Route path="/SignUp" element={<SignUp />} />
+              <Route path="/MyPage" element={<Profile />} />
+              <Route path="/Board" element={<Board />} />
+              <Route path="/Apply" element={<Apply />} />
+              <Route path="/Favorite" element={<Favorite />} />
+              <Route path="/WritePage" element={<WritePage />} />
+              <Route path="/editPage/:postId" element={<EditPage />} />
+              <Route path="/kakao" element={<Kakao />} />
+              <Route path="/google" element={<Google />} />
+              <Route path="/Chat" element={<Chat />} />
+            </Routes>
+          </section>
           <Footer />
         </BrowserRouter>
       </ConfigProvider>

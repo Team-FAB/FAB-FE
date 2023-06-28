@@ -1,14 +1,14 @@
 .signUpContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  display: flex;
-  flex-direction: column;
   gap: 50px;
-  justify-content: center;
-  align-items: center;
   z-index: 1000;
   background-color: var(--bgc);
 }
@@ -17,6 +17,7 @@
   width: 130px;
   position: absolute;
   top: 50px;
+  left: calc(50% - 70px);
   cursor: pointer;
   transition: opacity 0.3s;
   opacity: 1;
@@ -28,13 +29,22 @@
 
 .signUpBox {
   display: flex;
-  height: 400px;
-  top: 10px;
-  left: 10px;
+  height: 500px;
+}
+
+.SignUptitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-body1);
+  color: var(--purple500);
+  margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .videoBox {
   width: 400px;
+  height: 500px;
   background-color: var(--purple500);
   border-radius: 20px 0 0 20px;
 }
@@ -48,11 +58,13 @@
 
 .inputBox {
   width: 400px;
+  height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 10px;
+  margin: auto;
   border-radius: 0 20px 20px 0px;
   background-color: var(--white);
   box-shadow: var(--shadow);
@@ -62,6 +74,23 @@
   font-size: var(--font-size-body2);
   color: var(--purple500);
   margin-bottom: 10px;
+}
+
+.signUpText {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+  color: var(--black300);
+  font-size: var(--font-size-sub3);
+}
+
+.signUpLink {
+  transition: opacity 0.2s;
+  opacity: 1;
+}
+
+.signUpLink:hover {
+  opacity: 0.5;
 }
 
 @media screen and (max-width: 768px) {
@@ -74,5 +103,11 @@
 
   .inputBox{
     border-radius: var(--badge-border-radius);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .inputBox {
+    overflow-x: auto;
   }
 }

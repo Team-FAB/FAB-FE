@@ -2,6 +2,10 @@
   margin-top: 10px;
 }
 
+.carouselContainer {
+  transform: translateY(-10px);
+}
+
 .carousel {
   object-fit: cover;
 }
@@ -91,12 +95,17 @@
 }
 
 .noRecommend {
-  margin-top: 20px;
+  margin-top: 40px;
+  text-align: center;
+  line-height: 30px;
+  color: var(--black300);
+  font-weight: var(--font-weight-h3);
 }
 
 @media screen and (max-width: 768px) {
   .title {
     font-size: 25px;
+    line-height: 30px;
   }
 }
 
@@ -109,6 +118,16 @@
 @media screen and (max-width: 440px) {
   .title {
     font-size: 17px;
+  }
+  .noRecommend {
+    font-size: 13px;
+    line-height: 20px;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .conatainer {
+    overflow-x: auto;
   }
 }
 

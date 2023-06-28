@@ -5,7 +5,10 @@
 }
 
 .footerContainer {
-  bottom: 0%;
+  position: relative;
+  width: 100%;
+  bottom: 0;
+  left: 0;
   background: var(--purple500);
 }
 
@@ -174,6 +177,7 @@
     padding: 15px;
     align-items: center;
   }
+
   .footerGit{
     margin: 0 auto;
   }
@@ -188,5 +192,11 @@
   
   .footerDesc > img {
     margin-right: 10px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .footerContainer {
+    overflow-x: auto;
   }
 }

@@ -4,3 +4,7 @@
 * {
   font-family: "Noto Sans KR", sans-serif !important;
 }
+
+.main {
+  min-height: calc(100vh - 3rem - 224px);
+}

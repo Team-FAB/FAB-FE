@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import styles from "../Header/header.module.css"
 import { useSelector, useDispatch } from "react-redux"
 import { AppDispatch, RootState } from "../../Redux/store"
-import { Avatar, Dropdown } from "antd"
+import { Avatar, Dropdown, Menu } from "antd"
 import { MenuOutlined, UserOutlined } from "@ant-design/icons"
 import { logOutUser } from "../../Redux/user"
 import { RiMessage3Fill } from "react-icons/ri"
@@ -43,20 +43,6 @@ const Header: React.FC = () => {
       window.removeEventListener("resize", handleResize)
     }
   }, [])
-
-  const [isModalVisible, setIsModalVisible] = useState(false)
-
-  const showModal = () => {
-    setIsModalVisible(true)
-  }
-
-  const handleOk = () => {
-    setIsModalVisible(false)
-  }
-
-  const handleCancel = () => {
-    setIsModalVisible(false)
-  }
 
   const items = [
     windowWidth <= 768
@@ -124,12 +110,14 @@ const Header: React.FC = () => {
             <div className={styles.chatIcon} onClick={chatOnClick}>
               <RiMessage3Fill style={{ color: "#6231ef" }} size={25} />
             </div>
-            <Dropdown menu={{ items }} placement="bottomRight">
+            <div className={styles.DropdownBox}>
+            <Dropdown menu={{ items }} placement="bottom">
               <li className={styles.user}>
                 <MenuOutlined size={50} />
                 <Avatar size="small" icon={<UserOutlined />} />
               </li>
             </Dropdown>
+            </div>
           </ul>
         </div>
       </div>
