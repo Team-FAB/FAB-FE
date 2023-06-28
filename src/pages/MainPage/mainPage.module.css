@@ -33,10 +33,14 @@
 .carouselWrapper {
   position: relative;
 }
+.carouselItem {
+  display: flex;
+  justify-content: center;
+}
 
 .customRightArrow {
   position: absolute;
-  right: 2.4%;
+  right: -0.7%;
   top: 50%;
   transform: translateY(-50%);
   width: 30px;
@@ -49,6 +53,7 @@
   justify-content: right;
   align-items: center;
   margin-left: 5px;
+  z-index: 1000;
 }
 
 .customLeftArrow {
@@ -66,6 +71,7 @@
   justify-content: left;
   align-items: center;
   margin-right: 5px;
+  z-index: 1000;
 }
 
 .RightArrow {
@@ -81,8 +87,28 @@
   font-size: 34px;
   line-height: 49px;
   color: var(--purple600);
+  white-space: nowrap;
 }
 
-.noRecommend{
+.noRecommend {
   margin-top: 20px;
 }
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 25px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .title {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .title {
+    font-size: 17px;
+  }
+}
+

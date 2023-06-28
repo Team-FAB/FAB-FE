@@ -53,7 +53,7 @@ const Apply: React.FC = () => {
       <MyPage />
       <div className={styles.applyContainer}>
         <div className={styles.applyTitle}>
-          {showApply ? <h3>신청한 현황입니다 👋🏻</h3> : <h3>신청 받은 현황입니다 👋🏻</h3>}
+          {showApply ? <h2>신청한 현황입니다 👋🏻</h2> : <h2>신청 받은 현황입니다 👋🏻</h2>}
           <div className={styles.applyBtn}>
             <Button className={styles.circleBtn} shape="circle" onClick={refresh}>
               <RedoOutlined />

@@ -1,6 +1,5 @@
 .roomMateContainer {
-  width: 800px;
-  height: calc(100vh - 120px);
+  max-width: 800px;
   padding: 60px;
   margin: 0 auto;
 }
@@ -9,10 +8,32 @@
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 20px;
   align-items: center;
   justify-content: center;
   gap: 25px;
+}
+@media (max-width: 768px) {
+  .cardGrid {
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .cardGrid {
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media (max-width: 700px) {
+  .roomMateTitle {
+    justify-content: center;
+    flex-direction: column;
+  }
+  .roomMateTitleText{
+    margin-bottom: 20px;
+    text-align: center;
+  }
 }
 
 .roomMateTitle {
@@ -23,9 +44,11 @@
   font-weight: var(--font-weight-button);
 }
 
+
 .roomMateBtn {
   display: flex;
   gap: 10px;
+  align-self: center;
 }
 
 .pagination {
@@ -40,4 +63,8 @@
 
 .circleBtn:hover {
   transform: rotate(360deg);
+}
+
+.pagination {
+  margin-top: 20px;
 }

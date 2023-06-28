@@ -1,12 +1,13 @@
 import { Link, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
 import styles from "../Header/header.module.css"
-// import Alarm from "./Alarm/alarm"
 import { useSelector, useDispatch } from "react-redux"
 import { AppDispatch, RootState } from "../../Redux/store"
 import { Avatar, Dropdown } from "antd"
 import { MenuOutlined, UserOutlined } from "@ant-design/icons"
 import { logOutUser } from "../../Redux/user"
 import { RiMessage3Fill } from "react-icons/ri"
+import MbitCalculatorModal from "../MbtiCalculator/mbtiCalculatorModal"
 
 const Header: React.FC = () => {
   const isLoggedIn = useSelector((state: RootState) =>
@@ -25,13 +26,49 @@ const Header: React.FC = () => {
     }
   }
 
-    const chatOnClick = () => {
-      navigator("/Chat")
+  const chatOnClick = () => {
+    navigator("/Chat")
+  }
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
     }
 
+    window.addEventListener("resize", handleResize)
 
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
+
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const showModal = () => {
+    setIsModalVisible(true)
+  }
+
+  const handleOk = () => {
+    setIsModalVisible(false)
+  }
+
+  const handleCancel = () => {
+    setIsModalVisible(false)
+  }
 
   const items = [
+    windowWidth <= 768
+      ? {
+          key: "roommate",
+          label: (
+            <Link to="/RoomMate" className={styles.roommate}>
+              룸메이트 구해요
+            </Link>
+          ),
+        }
+      : null,
     isLoggedIn
       ? {
           key: "My Page",
@@ -46,9 +83,9 @@ const Header: React.FC = () => {
       ? {
           key: "logout",
           label: (
-            <Link to="/" className={styles.logout} onClick={handleLogout}>
+            <div className={styles.logout} onClick={handleLogout}>
               로그아웃
-            </Link>
+            </div>
           ),
         }
       : {
@@ -79,28 +116,20 @@ const Header: React.FC = () => {
         </Link>
         <div className={styles.menu}>
           <ul className={styles.nav}>
-            <Link to="/RoomMate">
-              <li>룸메이트 구해요</li>
-            </Link>
+            {windowWidth > 768 &&(
+              <Link to="/RoomMate" className={styles.roommate}>
+                <li>룸메이트 구해요</li>
+              </Link>
+            )}
             <div className={styles.chatIcon} onClick={chatOnClick}>
               <RiMessage3Fill style={{ color: "#6231ef" }} size={25} />
             </div>
-            {/* <Alarm /> */}
-            {isLoggedIn === true ? (
-              <Dropdown menu={{ items }} placement="bottomRight">
-                <li className={styles.user}>
-                  <MenuOutlined size={50} />
-                  <Avatar size="small" icon={<UserOutlined />} />
-                </li>
-              </Dropdown>
-            ) : (
-              <Dropdown menu={{ items }} placement="bottomRight">
-                <li className={styles.user}>
-                  <MenuOutlined size={50} />
-                  <Avatar size="small" icon={<UserOutlined />} />
-                </li>
-              </Dropdown>
-            )}
+            <Dropdown menu={{ items }} placement="bottomRight">
+              <li className={styles.user}>
+                <MenuOutlined size={50} />
+                <Avatar size="small" icon={<UserOutlined />} />
+              </li>
+            </Dropdown>
           </ul>
         </div>
       </div>

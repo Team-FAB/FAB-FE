@@ -63,12 +63,16 @@ const MainPage: React.FC = () => {
   } = useFetch<FetchData | null>("", "", {}, null)
 
   // 추천 룸메이트 표시 제목
-  let recommendTitle = "방갑고에서 추천하는 룸메이트를 만나보세요 💌"
-  // 로그인이 안된 경우
+  let recommendTitle: React.ReactNode =
+    "방갑고에서 추천하는 룸메이트를 만나보세요 💌"
   if (!isLogged) {
     recommendTitle = "로그인 후 추천하는 룸메이트를 만나보세요 💌"
   } else if (recommendError) {
-    recommendTitle = "회원님의 정보를 입력 후 추천하는 룸메이트를 만나보세요 💌"
+    recommendTitle = (
+      <>
+        회원님의 정보를 입력 후 <br /> 추천하는 룸메이트를 만나보세요 💌
+      </>
+    )
   }
 
   useEffect(() => {
@@ -180,6 +184,7 @@ const MainPage: React.FC = () => {
       slidesToSlide: 2,
     },
     small: {
+      centermode: true,
       breakpoint: { max: 700, min: 0 },
       items: 1,
       slidesToSlide: 1,
@@ -230,18 +235,20 @@ const MainPage: React.FC = () => {
           ) : (
             <MultiCarousel
               responsive={responsive}
-              infinite={true}
+              infinite={false}
               draggable={true}
               showDots={false}
               customRightArrow={<CustomRightArrow />}
               customLeftArrow={<CustomLeftArrow />}
             >
               {posts.slice(0, 12).map((post) => (
-                <MainPostCard
-                  key={post.id}
-                  post={post}
-                  onClick={() => handlePostClick(post)}
-                />
+                <div key={post.id} className={styles.carouselItem}>
+                  <MainPostCard
+                    key={post.id}
+                    post={post}
+                    onClick={() => handlePostClick(post)}
+                  />
+                </div>
               ))}
             </MultiCarousel>
           )}
@@ -255,7 +262,7 @@ const MainPage: React.FC = () => {
           ) : users.length > 0 ? (
             <MultiCarousel
               responsive={responsive}
-              infinite={true}
+              infinite={false}
               draggable={true}
               showDots={false}
               customRightArrow={<CustomRightArrow />}
@@ -272,12 +279,14 @@ const MainPage: React.FC = () => {
                 .slice(0, 12)
                 .map((user) =>
                   data ? (
-                    <RecommendPostCard
-                      key={user.id}
-                      user={user}
-                      onClick={() => handleUserClick(user)}
-                      data={data}
-                    />
+                    <div key={user.id} className={styles.carouselItem}>
+                      <RecommendPostCard
+                        key={user.id}
+                        user={user}
+                        onClick={() => handleUserClick(user)}
+                        data={data}
+                      />
+                    </div>
                   ) : null,
                 )}
             </MultiCarousel>
