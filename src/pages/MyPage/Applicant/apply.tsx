@@ -65,14 +65,18 @@ const Apply: React.FC = () => {
         </div>
         <div className={styles.applicantContainer}>
           {
-            applyPosts.map((post) => (
-              <div key={post.applyId}>
-                <Applicant
-                  post={post}
-                  currentPage={showApply ? toCurrentPage : fromCurrentPage}
-                  showApply={showApply} />
-              </div>
-            ))
+            applyPosts.length === 0 ? (
+              <p className={styles.applyPostsP}>신청현황이 없습니다 😐</p>
+            ) : (
+              applyPosts.map((post) => (
+                <div key={post.applyId}>
+                  <Applicant
+                    post={post}
+                    currentPage={showApply ? toCurrentPage : fromCurrentPage}
+                    showApply={showApply} />
+                </div>
+              ))
+            )
           }
           {showApply ? (
             <Pagination 

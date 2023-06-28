@@ -176,59 +176,88 @@ const Chat: React.FC = () => {
     selectedUser ? `${styles.userInfor} ${styles.selectedUserInfor}` : `${styles.userInfor}`
 
   return (
-    <div className={styles.userDiv}>
-      <div className={userInforClass}>
-        <h2>방갑고 채팅방</h2>
-        {chatList.length > 0 ? (
-          chatList.map((user) => (
-            <div
-              key={user.roomId}
-              className={styles.userName}
-              onClick={() => handleUserSelect(user.roomId, userEmail, user.userNickname)}
-            >
-              {user.userNickname}
-            </div>
-          ))
-        ) : (
-          <div className={styles.noList}>대화 상대가 없습니다 😐 <br/> 신청현황에서 대화방을 만들어보세요!</div>
-        )}
-        
-      </div>  
+    <div className={styles.chatContainer}>
+      <h6 className={styles.hiddenH6}>방갑고 채팅방</h6>
+      <div className={styles.userDiv}>
+        <div className={userInforClass}>
+          <h2>방갑고 채팅방</h2>
+          {chatList.length > 0 ? (
+            chatList.map((user) => (
+              <div
+                key={user.roomId}
+                className={styles.userName}
+                onClick={() => handleUserSelect(user.roomId, userEmail, user.userNickname)}
+              >
+                {user.userNickname}
+              </div>
+            ))
+          ) : (
+            <div className={styles.noList}>대화 상대가 없습니다 😐 <br/> 신청현황에서 대화방을 만들어보세요!</div>
+          )}
+          
+        </div>  
 
-      {selectedUser && (
-        <div className={styles.chatDiv}>
-          <h2>
-            '{otherUserName}' 님과 원활한 대화를 나눠보세요 ☺️ 
-            <CloseCircleOutlined className={styles.clIcon} onClick={disconnectHandler}/>
-          </h2>
-          <div className={styles.chat}>
-            <div className={styles.chatMessageDiv}>
-              {messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={styles.messageDiv}
-                  style={{
-                    textAlign: message.userEmail === selectedUser ? "right" : "left"
-                  }}
-                >
-                  {message.msg}
-                  <span className={styles.createDate}>{moment(message.createDate).locale('ko').fromNow()}</span>
-                </div>
-              ))}
-              <div ref={messageEndRef} />
-            </div>
-            <div className={styles.messageInput}>
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyUp={handleKeyUp}
-                placeholder="채팅글 작성"
-              />
-              <button onClick={()=>handleSend(selectedRoomId)}>전송</button>
-            </div>
-          </div>  
-        </div>
-      )}
+        {selectedUser && (
+          <div className={styles.chatDiv}>
+            <h2>
+              '{otherUserName}' 님과 원활한 대화를 나눠보세요 ☺️ 
+              <CloseCircleOutlined className={styles.clIcon} onClick={disconnectHandler}/>
+            </h2>
+            <div className={styles.chat}>
+              <div className={styles.chatMessageDiv}>
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={styles.messageDiv}
+                    style={{
+                      textAlign: message.userEmail === selectedUser ? "right" : "left"
+                    }}
+                  >
+                    {message.userEmail === selectedUser && (
+                      <span 
+                        className={styles.createDate}
+                        style={{
+                          paddingRight: 5
+                        }}
+                      >
+                        {moment(message.createDate).locale('ko').format('A h:mm')}
+                      </span>
+                    )}
+                    <span 
+                      className={styles.message} 
+                      style={{
+                        backgroundColor: message.userEmail === selectedUser ? "#7f35fc" : "#9d54fd"
+                      }}
+                    >
+                      {message.msg}
+                    </span>
+                    {message.userEmail !== selectedUser && (
+                      <span 
+                        className={styles.createDate}
+                        style={{
+                          paddingLeft: 5
+                        }}
+                      >
+                        {moment(message.createDate).locale('ko').format('A h:mm')}
+                      </span>
+                    )}
+                  </div>
+                ))}
+                <div ref={messageEndRef} />
+              </div>
+              <div className={styles.messageInput}>
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyUp={handleKeyUp}
+                  placeholder="채팅글 작성"
+                />
+                <button onClick={()=>handleSend(selectedRoomId)}>전송</button>
+              </div>
+            </div>  
+          </div>
+        )}
+      </div>
     </div>
   )
 }

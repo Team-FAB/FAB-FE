@@ -219,6 +219,7 @@ const MainPage: React.FC = () => {
           showIndicators={false}
           showStatus={false}
           showArrows={false}
+          className={styles.carouselContainer}
         >
           {adImages.map((url, index) => (
             <div key={index}>
@@ -291,7 +292,7 @@ const MainPage: React.FC = () => {
                 )}
             </MultiCarousel>
           ) : (
-            <p className={styles.noRecommend}>추천하는 사람이 없습니다.</p>
+            <p className={styles.noRecommend}>추천 받을 룸메이트가 없습니다 😐 <br /> 비슷한 성향의 룸메이트를 기다려 보세요!</p>
           )}
         </div>
       </div>
