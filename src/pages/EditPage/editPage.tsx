@@ -6,10 +6,13 @@ import EditPageSelect from "./editPageSelect"
 import { Button, Input, Form, Modal } from "antd"
 import { useNavigate, useLocation } from "react-router-dom"
 import { Store } from "antd/lib/form/interface"
+import { ValidateErrorEntity } from "rc-field-form/lib/interface"
 import { userArticle } from "../../api"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
 import useFetch from "../../hooks/useFetch"
+
+
 
 const editPage: React.FC = () => {
   const [content, setContent] = useState("")
@@ -87,8 +90,7 @@ const editPage: React.FC = () => {
     }
   }, [isLoading, isSuccess, navigate, error])
 
-
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = (errorInfo: ValidateErrorEntity) => {
     console.log("Failed:", errorInfo)
     Modal.error({
       title: "입력 오류",

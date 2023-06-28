@@ -1,3 +1,5 @@
+import { Store, NamePath } from "antd/lib/form/interface"
+
 export interface Token {
   readonly atk: string
   readonly rtk: string
@@ -248,4 +250,10 @@ export interface MessageType {
   userEmail: string
   msg: string
   createDate: string
+}
+
+export interface ValidateErrorEntity {
+  values: Store
+  errorFields: { name: NamePath; errors: string[] }[]
+  outOfDate: boolean
 }
