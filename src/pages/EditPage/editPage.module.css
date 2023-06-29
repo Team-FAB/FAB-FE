@@ -33,8 +33,8 @@
 }
 
 .textArea {
-  margin-top: -40px;
-  height: 400px;
+  transform: translateY(-40px);
+  min-height: 400px;
   z-index: 0;
 }
 

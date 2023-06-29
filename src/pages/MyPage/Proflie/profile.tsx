@@ -31,7 +31,7 @@ const Profile: React.FC = () => {
   const [favoriteTag, setfavoriteTag] = useState<string[]>([])
 
   // 프로필 성향 업데이트 성공 감지(콜백 함수)
-  const [profileUpdated, setProfileUpdated] = useState(false)
+  const [, setProfileUpdated] = useState(false)
 
   const handleUpdateProfileSuccess = () => {
     setProfileUpdated(prevState => !prevState)

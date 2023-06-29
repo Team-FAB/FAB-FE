@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import styles from "./writePage.module.css"
-import ReactQuill from "react-quill"
+import TextArea from "antd/es/input/TextArea"
 import "react-quill/dist/quill.snow.css"
 import WritePageSelect from "./writePageSelect"
 import { Button, Input, Form, Modal } from "antd"
@@ -12,25 +12,9 @@ import { RootState } from "../../Redux/store"
 import useFetch from "../../hooks/useFetch"
 
 const WritePage: React.FC = () => {
-  const [content, setContent] = useState("")
   const [form] = Form.useForm()
   const navigate = useNavigate()
 
-  const modules = {
-    toolbar: [
-      ["bold", "italic", "underline", "strike"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      [{ color: [] }, { background: [] }],
-      [{ font: [] }],
-      [{ align: [] }],
-      ["clean"],
-    ],
-  }
-
-  const handleChange = (content: string) => {
-    setContent(content)
-  }
 
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
@@ -95,12 +79,7 @@ const WritePage: React.FC = () => {
         <div className={styles.require}>* 필수 입력 항목</div>
         <WritePageSelect form={form} />
         <Form.Item name="content">
-          <ReactQuill
-            theme="snow"
-            modules={modules}
-            onChange={handleChange}
-            className={styles.textArea}
-          />
+          <TextArea showCount maxLength={4000} className={styles.textArea} />
         </Form.Item>
         <div className={styles.buttonContainer}>
           <Button

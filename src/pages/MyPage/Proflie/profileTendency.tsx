@@ -7,7 +7,7 @@ import TextArea from 'antd/es/input/TextArea'
 import { useState } from 'react'
 import { Radio } from "antd"
 import { CheckboxValueType } from 'antd/es/checkbox/Group'
-import { activityTime, age, ageGroup, gender, mbti, region, smoke, tendencyChoice } from '../../../object/profileDropdown'
+import { activityTime, ageGroup, gender, mbti, region, smoke, tendencyChoice } from '../../../object/profileDropdown'
 import { profileTendencyDropdown, profileTendencyProps, userProfileData } from '../../../interface/interface'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'

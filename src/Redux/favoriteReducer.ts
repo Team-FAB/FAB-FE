@@ -6,7 +6,7 @@ const favoritesSlice = createSlice({
   initialState: [],
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchFavorites.fulfilled, (state, action) => {
+    builder.addCase(fetchFavorites.fulfilled, (_state, action) => {
       return action.payload
     })
   }
