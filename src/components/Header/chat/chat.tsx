@@ -169,7 +169,9 @@ const Chat: React.FC = () => {
 
   // 메시지 입력 -> 자동 스크롤
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    if (messageEndRef.current) {
+    messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight
+    }
   }, [messages])
 
   const userInforClass = selectedUser
@@ -215,7 +217,7 @@ const Chat: React.FC = () => {
               />
             </h2>
             <div className={styles.chat}>
-              <div className={styles.chatMessageDiv}>
+              <div className={styles.chatMessageDiv} ref={messageEndRef}>
                 {messages.map((message, index) => (
                   <div
                     key={index}
