@@ -12,7 +12,7 @@ const ProfileBasic = (props: ProfileBasicProps) => {
   // 로그인한 유저 가져오기
   const userToken = useSelector((state : RootState) => state.user.data.token)
   
-  const handleProfileBasicChange = async ({ nickname, email }: { nickname: string, email: string }) => {
+  const handleProfileBasicChange = async ({ nickname }: { nickname: string}) => {
     const updatedProfileData = { nickname: nickname }
 
     console.log("입력된 닉네임:", nickname)

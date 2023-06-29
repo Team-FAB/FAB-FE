@@ -3,11 +3,11 @@ import { useState, useEffect } from "react"
 import styles from "../Header/header.module.css"
 import { useSelector, useDispatch } from "react-redux"
 import { AppDispatch, RootState } from "../../Redux/store"
-import { Avatar, Dropdown, Menu } from "antd"
+import { Avatar, Dropdown } from "antd"
 import { MenuOutlined, UserOutlined } from "@ant-design/icons"
 import { logOutUser } from "../../Redux/user"
 import { RiMessage3Fill } from "react-icons/ri"
-import MbitCalculatorModal from "../MbtiCalculator/mbtiCalculatorModal"
+
 
 const Header: React.FC = () => {
   const isLoggedIn = useSelector((state: RootState) =>

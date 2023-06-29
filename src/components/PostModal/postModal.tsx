@@ -235,7 +235,7 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
               </button>
             )}
           </div>
-          <div className={styles.content}>{decodeHTML(post.content)}</div>
+          <div className={styles.content}>{post.content}</div>
           <div className={styles.ProfileContainer}>
             <img
               className={styles.profileImg}
