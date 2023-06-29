@@ -23,8 +23,5 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    define: {
-      global: {},
-    },
   }
 })
