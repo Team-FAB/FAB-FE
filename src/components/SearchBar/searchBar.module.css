@@ -41,6 +41,7 @@
   align-items: center;
   flex: 1;
   border-right: 1px solid var(--black100);
+  white-space: nowrap;
 }
 
 .searchBox .lastDiv {
@@ -60,18 +61,44 @@
 
 .cardBadgeArea {
   background-color: var(--purple200);
+  white-space: nowrap;
 }
 
 .cardBadgePeriod {
   background-color: var(--purple300);
+  white-space: nowrap;
 }
 
 .cardBadgePrice {
   background-color: var(--purple400);
+  white-space: nowrap;
 }
 
 .cardBadgeGender {
   background-color: var(--purple500);
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+  .cardBadgeArea {
+    font-size: 6px;
+  }
+
+  .cardBadgePeriod {
+    font-size: 6px;
+  }
+
+  .cardBadgePrice {
+    font-size: 6px;
+  }
+
+  .cardBadgeGender {
+    font-size: 6px;
+  }
+
+  .searchBar div {
+    font-size: 6px;
+  }
 }
 
 /* Search Choice Container */
@@ -79,7 +106,6 @@
   position: absolute;
   top: 140%;
   left: 0;
-  width: 740px;
   background-color: var(--white);
   box-shadow: var(--shadow);
   border-radius: var(--badge-border-radius);
@@ -93,6 +119,14 @@
   height: 230px;
   margin-bottom: 10px;
   gap: 50px;
+  display: flex;
+  margin: 0 auto;
+}
+
+.searchChoiceArea,
+.searchChoicePeriod,
+.searchChoicePrice {
+  margin-left: 50px;
 }
 
 .searchChoiceContainer > div > p {
@@ -103,26 +137,29 @@
 .searchChoiceArea > p {
   margin-bottom: 10px;
   color: var(--purple200);
+  white-space: nowrap;
 }
 
 .searchChoicePeriod > p {
   margin-bottom: 10px;
   color: var(--purple300);
+  white-space: nowrap;
 }
 
 .searchChoicePrice > p {
   margin-bottom: 10px;
   color: var(--purple400);
+  white-space: nowrap;
 }
 
 .searchChoiceGender > p {
   margin-bottom: 10px;
   color: var(--purple500);
+  white-space: nowrap;
 }
 
 .searchChoiceBtn {
   display: flex;
-  width: 700px;
   height: 40px;
   margin: 0 auto;
   justify-content: center;
@@ -148,17 +185,20 @@
 
 .areaRadioGroup,
 .priceRadioGroup {
-  width: 140px;
   height: 200px;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
 
+.areaRadioGroup{
+  white-space: nowrap;
+}
+
+
 .areaRadioBtn {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 120px;
   height: 40px;
   font-size: var(--font-size-sub3);
   margin: 0;
@@ -171,6 +211,7 @@
   justify-items: start;
   align-items: center;
   font-size: var(--font-size-sub3);
+  white-space: nowrap;
 }
 
 .genderRadioGroup {

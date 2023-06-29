@@ -2,47 +2,107 @@ import React, { useState, useEffect, useRef } from "react"
 import styles from "./chat.module.css"
 import * as Stomp from "@stomp/stompjs"
 import SockJS from 'sockjs-client'
-
-const participants = [
-  { id: 1, name: "조유진" },
-  { id: 2, name: "황지민" },
-  { id: 3, name: "윤장원" },
-  { id: 4, name: "고지민" },
-  { id: 5, name: "서원호" },
-]
+import { ChatList, ChatMessage } from "../../../interface/interface"
+import { useSelector } from "react-redux"
+import { RootState } from "../../../Redux/store"
+import { userChatList } from "../../../api"
+import { MessageType } from "../../../interface/interface"
+import { CloseCircleOutlined } from '@ant-design/icons'
+import moment from "moment"
+import 'moment/locale/ko'
+moment.locale('ko')
 
 const Chat: React.FC = () => {
-  const [selectedUser, setSelectedUser] = useState<number | null>(null)
+  const [chatList, setChatList] = useState<ChatList[]>([])
+  const [selectedUser, setSelectedUser] = useState<string | null>(null)
+  const [otherUserName, setOtherUserName] = useState('')
+  const [selectedRoomId, setSelectedRoomId] = useState('')
   const [input, setInput] = useState<string>("")
-  const [messages, setMessages] = useState<{ user: number; text: string }[]>([])
+  const [messages, setMessages] = useState<MessageType[]>([])
   const messageEndRef = useRef<HTMLDivElement>(null)
+  const [stClient, setStClient] = useState<Stomp.Client | null>(null)
+  const userToken = useSelector((state : RootState) => state.user.data.token)
+  const userEmail = useSelector((state : RootState) => state.user.email)
 
-  // stomp 사용
-  const stompClient = useRef<Stomp.Client | null>(null)
-
+  // 채팅 목록 불러오기
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  
-    // SockJS를 사용 -> STOMP 서버 연결
-    const sock = new SockJS("http://localhost:8080/ws") // 백엔드 API
+    const fetchChatList = async () => {
+      try {
+        const response = await fetch(`/api/${userChatList}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: userToken.atk.toString(),
+          },
+        })
+        if (!response.ok) {
+          console.log(response)
+          throw new Error(`서버 상태 응답 ${response.status}`)
+        }
+        const responseData = await response.json()
+        setChatList(responseData)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchChatList()
+  }, [])  
+
+  const connectHandler = (roomId: string) => {
+    // WebSocket 사용 -> STOMP 서버 연결
+    const sock = new WebSocket(`${import.meta.env.VITE_STOMP_URL}`)
 
     const stompConfig = {
       webSocketFactory: () => sock,
-      reconnectDelay: 30000,
       debug: (msg: string) => {
-        console.log("[STOMP Debug]", msg)
+        console.log("[STOMP debug]", msg)
       },
     }
-    const stompClient = new Stomp.Client(stompConfig)
 
+    const stompClient = new Stomp.Client(stompConfig)
+    setStClient(stompClient)
+   
     // STOMP 서버 연결
     stompClient.onConnect = (frame) => {
+
+      // history subscribe trigger
+      const handleSendText = () => {
+        stompClient.publish ({
+          destination: `/pub/chat.history.${roomId}`,
+          headers: { Authorization: userToken.atk.toString() },
+        })
+        console.log(`/pub/chat.history.${roomId}`)
+      }
+
+      handleSendText()
+
+      // history subscribe
+      const historySubscription = stompClient.subscribe(
+        `/topic/chat.history.${roomId}`,
+        (message) => {
+          try {
+            const parsedMessage = JSON.parse(message.body)
+            if (parsedMessage && parsedMessage.length > 0) {
+              setMessages(prevMessages => [...prevMessages, ...parsedMessage])
+            }
+            historySubscription.unsubscribe()
+          } catch (error) {
+            console.error(error)
+          }
+        },
+        { Authorization: userToken.atk.toString() }
+      )
+
       // 연결 성공 -> 채팅방 ID 구현
       stompClient.subscribe(
-        "/chat/room/" + selectedUser, // 채팅방 구독 주소
+        `/topic/chat.${roomId}`,
         (message) => {
-          const parsedMessage = JSON.parse(message.body)
-          setMessages((prevMessages) => [...prevMessages, parsedMessage])
+          try{
+            const parsedMessage = JSON.parse(message.body)
+            setMessages(prevMessages => [...prevMessages, parsedMessage])
+          } catch (error) {
+            console.error(error)
+          }
         }
       )
     }
@@ -51,98 +111,153 @@ const Chat: React.FC = () => {
       console.log("STOMP 연결이 해제되었습니다.")
     }
 
-    stompClient.activate()
-
-    // STOMP 서버 연결 해제
-    return () => {
-      stompClient.deactivate()
+    // STOMP 에러 처리
+    stompClient.onStompError = (frame) => {
+      console.error(`STOMP 에러: ${frame.headers['message']}`)
     }
-}, [selectedUser])
 
-// 채팅 입력
-const handleSend = () => {
-  if (input && selectedUser) {
-    // STOMP 서버에 메시지 전송
-    stompClient.current?.publish ({
-      destination: "/chat/send", // 백엔드 API
-      headers: {}, // 헤더
-      body: JSON.stringify({ user: selectedUser!, text: input })
-    })
+    // 웹소켓 에러 처리
+    stompClient.onWebSocketError = (event) => {
+      console.error(`웹소켓 에러: ${event}`)
+    }
 
-    setInput("")
+    stompClient.activate()
   }
-}
+
+  // 연결 해제
+  const disconnectHandler = () => {
+    stClient?.deactivate()
+    setSelectedUser(null)
+  }
+
+  // 사용자 선택
+  const handleUserSelect = (roomId: string, userEmail: string, userNickname: string) => {
+    disconnectHandler()
+    setMessages([])
+    setSelectedUser(userEmail)
+    setOtherUserName(userNickname)
+    setSelectedRoomId(roomId)
+    connectHandler(roomId)
+  }
 
   // 채팅 입력
-  // const handleSend = () => {
-  //   if (input && selectedUser) {
-  //     setMessages([...messages, { user: selectedUser!, text: input }])
-  //     setInput("")
-  //   }
-  // }
+  const handleSend = (roomId: string) => {
+    if (input && selectedUser) {
+      const newMessage:ChatMessage = {
+        msg: input,
+        userEmail: selectedUser
+      }
 
-  // 채팅창 Enter 입력
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSend()
+      // STOMP 서버에 메시지 전송
+      stClient?.publish ({ // json 형식으로 변환 -> 서버 전송
+        destination: `/pub/chat.${roomId}`,
+        headers: { Authorization: userToken.atk.toString() },
+        body: JSON.stringify(newMessage)
+      })
+
+      setInput("")
     }
   }
 
+  // 채팅창 Enter 입력
+  const handleKeyUp = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      handleSend(selectedRoomId)
+    }
+  }
+
+  // 메시지 입력 -> 자동 스크롤
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
-
-  const selectedUserName =
-    participants.find((p) => p.id === selectedUser)?.name || ""
 
   const userInforClass = 
     selectedUser ? `${styles.userInfor} ${styles.selectedUserInfor}` : `${styles.userInfor}`
 
   return (
-    <div className={styles.userDiv}>
-      <div className={userInforClass}>
-        <h2>방갑고 채팅방</h2>
-        {participants.map((user) => (
-          <div
-            key={user.id}
-            className={styles.userName}
-            onClick={() => setSelectedUser(user.id)}
-          >
-            {user.name}
-          </div>
-        ))}
-      </div>
+    <div className={styles.chatContainer}>
+      <h6 className={styles.hiddenH6}>방갑고 채팅방</h6>
+      <div className={styles.userDiv}>
+        <div className={userInforClass}>
+          <h2>방갑고 채팅방</h2>
+          {chatList.length > 0 ? (
+            chatList.map((user) => (
+              <div
+                key={user.roomId}
+                className={styles.userName}
+                onClick={() => handleUserSelect(user.roomId, userEmail, user.userNickname)}
+              >
+                {user.userNickname}
+              </div>
+            ))
+          ) : (
+            <div className={styles.noList}>대화 상대가 없습니다 😐 <br/> 신청현황에서 대화방을 만들어보세요!</div>
+          )}
+          
+        </div>  
 
-      {selectedUser && (
-        <div className={styles.chatDiv}>
-          <h2>'{selectedUserName}' 님과 원활한 대화를 나눠보세요 ☺️</h2>
-          <div className={styles.chat}>
-            <div className={styles.chatMessageDiv}>
-              {messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={styles.messageDiv}
-                  style={{
-                    textAlign: message.user === selectedUser ? "right" : "left",
-                  }}
-                >
-                  {message.text}
-                </div>
-              ))}
-              <div ref={messageEndRef} />
-            </div>
-            <div className={styles.messageInput}>
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="채팅글 작성"
-              />
-              <button onClick={handleSend}>전송</button>
-            </div>
+        {selectedUser && (
+          <div className={styles.chatDiv}>
+            <h2>
+              '{otherUserName}' 님과 원활한 대화를 나눠보세요 ☺️ 
+              <CloseCircleOutlined className={styles.clIcon} onClick={disconnectHandler}/>
+            </h2>
+            <div className={styles.chat}>
+              <div className={styles.chatMessageDiv}>
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={styles.messageDiv}
+                    style={{
+                      textAlign: message.userEmail === selectedUser ? "right" : "left"
+                    }}
+                  >
+                    {message.userEmail === selectedUser && (
+                      <span 
+                        className={styles.createDate}
+                        style={{
+                          paddingRight: 5
+                        }}
+                      >
+                        {moment(message.createDate).locale('ko').format('A h:mm')}
+                      </span>
+                    )}
+                    <span 
+                      className={styles.message} 
+                      style={{
+                        backgroundColor: message.userEmail === selectedUser ? "#7f35fc" : "#9d54fd"
+                      }}
+                    >
+                      {message.msg}
+                    </span>
+                    {message.userEmail !== selectedUser && (
+                      <span 
+                        className={styles.createDate}
+                        style={{
+                          paddingLeft: 5
+                        }}
+                      >
+                        {moment(message.createDate).locale('ko').format('A h:mm')}
+                      </span>
+                    )}
+                  </div>
+                ))}
+                <div ref={messageEndRef} />
+              </div>
+              <div className={styles.messageInput}>
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyUp={handleKeyUp}
+                  placeholder="채팅글 작성"
+                />
+                <button onClick={()=>handleSend(selectedRoomId)}>전송</button>
+              </div>
+            </div>  
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }

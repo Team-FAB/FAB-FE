@@ -18,3 +18,17 @@
 .mbtiIcon {
   width: 40px;
 }
+
+@media screen and (max-width: 768px) {
+  .logoButton {
+    width: 37px;
+    height: 37px;
+    border-radius: 10px;
+    left: 87%;
+    top: 2.1%;
+    position: absolute;
+  }
+  .mbtiIcon {
+    width: 25px;
+  }
+}

@@ -1,14 +1,12 @@
 .boardContainer {
-  width: 870px;
-  min-height: 600px;
+  max-width: 870px;
   max-height: 600px;
+  min-height: 470px;
   display: grid;  
-  grid-template-rows: repeat(3, 1fr);
-  grid-template-columns: repeat(3, 1fr);
   gap: 25px;
   margin: 15px auto;
-
   position: relative;
+  overflow-y: auto;
 }
 
 .boardContainer::-webkit-scrollbar {
@@ -19,8 +17,38 @@
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 20px;
   align-items: center;
   justify-content: center;
   gap: 25px;
+  margin: 0 auto;
+}
+
+.emptyBoard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transform: translateY(-100px);
+  color: var(--black300);
+}
+
+@media (max-width: 834px) {
+  .cardGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 560px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .boardContainer {
+    overflow-x: auto;
+  }
 }

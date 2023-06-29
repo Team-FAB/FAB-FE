@@ -31,7 +31,7 @@ const Favorite = () => {
         {
           favorites.length === 0 ? (
             <div className={styles.emptyFavorites}>
-              관심 있는 게시물을 담아보세요 🙌🏻
+              관심 있는 게시글을 담아보세요 🙌🏻
             </div>
           ) : (
             <div className={styles.cardGrid}>

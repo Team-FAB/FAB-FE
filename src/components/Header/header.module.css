@@ -1,9 +1,8 @@
 @import "../../styles/variable.css";
 
 .headerContainer {
-  width: 1017px;
   height: 77px;
-  padding: 0px 30px 0px 30px;
+  padding: 0px 30px;
   margin: 0 auto;
   display: flex;
   justify-content: space-evenly;
@@ -11,7 +10,6 @@
 }
 
 .line {
-  width: 100vw;
   border-bottom: 0.5px solid var(--black100);
 }
 
@@ -23,7 +21,7 @@
 .logo {
   width: 98px;
   height: 60px;
-  margin-right: 469px;
+  margin-right: auto;
   transition: opacity 0.3s ease-in-out;
   opacity: 1;
 }
@@ -54,6 +52,10 @@
   transform: scale(1.03);
 }
 
+.dropdownLi {
+  position: relative;
+}
+
 .user {
   display: flex;
   gap: 15px;
@@ -78,5 +80,50 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
+
+@media screen and (max-width: 768px) {
+  .headerContainer {
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+  }
+
+  .logo {
+    margin-right: 0;
+  }
+
+  .nav {
+    flex-direction: row;
+    gap: 20px;
+    font-size: var(--font-size-sub1);
+  }
+
+  .nav li {
+    padding: 0 10px;
+  }
+}
+
+.nav .roommate {
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .nav .roommate {
+    display: none;
+  }
+
+  .roommate,
+  .mypage,
+  .logout {
+    font-size: var(--font-size-sub2);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .headerContainer {
+    overflow-x: auto;
+    padding: 0px;
+  }
+}
+

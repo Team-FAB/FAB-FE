@@ -1,7 +1,7 @@
 import { Input, Button, Form } from "antd"
 import { UserOutlined, LockOutlined } from "@ant-design/icons"
 import styles from "./signUp.module.css"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { registerUser } from "../../Redux/user"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
@@ -44,7 +44,7 @@ const SignUp: React.FC = () => {
           <video src={video} autoPlay loop muted />
         </div>
         <div className={styles.inputBox}>
-          <span className={styles.title}>회원가입</span>
+          <span className={styles.SignUptitle}>회원가입</span>
           <Form
             name="signUp"
             initialValues={{ remember: true }}
@@ -117,6 +117,12 @@ const SignUp: React.FC = () => {
               </Button>
             </Form.Item>
           </Form>
+          <div className={styles.signUpText}>
+            <span>회원이신가요?</span>
+            <Link to="/">
+              <span className={styles.signUpLink}>로그인 하기</span>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

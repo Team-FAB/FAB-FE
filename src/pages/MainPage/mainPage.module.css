@@ -2,6 +2,10 @@
   margin-top: 10px;
 }
 
+.carouselContainer {
+  transform: translateY(-10px);
+}
+
 .carousel {
   object-fit: cover;
 }
@@ -33,10 +37,14 @@
 .carouselWrapper {
   position: relative;
 }
+.carouselItem {
+  display: flex;
+  justify-content: center;
+}
 
 .customRightArrow {
   position: absolute;
-  right: 2.4%;
+  right: -0.7%;
   top: 50%;
   transform: translateY(-50%);
   width: 30px;
@@ -49,6 +57,7 @@
   justify-content: right;
   align-items: center;
   margin-left: 5px;
+  z-index: 1000;
 }
 
 .customLeftArrow {
@@ -66,6 +75,7 @@
   justify-content: left;
   align-items: center;
   margin-right: 5px;
+  z-index: 1000;
 }
 
 .RightArrow {
@@ -81,8 +91,43 @@
   font-size: 34px;
   line-height: 49px;
   color: var(--purple600);
+  white-space: nowrap;
 }
 
-.noRecommend{
-  margin-top: 20px;
+.noRecommend {
+  margin-top: 40px;
+  text-align: center;
+  line-height: 30px;
+  color: var(--black300);
+  font-weight: var(--font-weight-h3);
 }
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 25px;
+    line-height: 30px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .title {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .title {
+    font-size: 17px;
+  }
+  .noRecommend {
+    font-size: 13px;
+    line-height: 20px;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .conatainer {
+    overflow-x: auto;
+  }
+}
+

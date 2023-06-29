@@ -190,6 +190,7 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
                   <List.Item>
                     <a
                       onClick={() => handleArticleClick(article.id.toString())}
+                      className={styles.articleTitle}
                     >
                       {article.title}
                     </a>

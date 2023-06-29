@@ -1,72 +1,17 @@
-/* .userDiv {
-  display: flex;
-  justify-content: space-around;
-  height: 50vh;
+.chatContainer {
+  max-width: 800px;
+  height: 730px;
+  margin: 0 auto;
 }
-
-.userName {
-  cursor: pointer;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  border-top: 1px solid #eee;
-}
-
-.chatDiv {
-  flex: 2;
-  padding: 20px;
-}
-
-.messageInput {
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.messageInput input {
-  flex-grow: 1;
-  height: 40px;
-  padding: 5px;
-  border: 1px solid var(--black200);
-  border-radius: var(--badge-border-radius) 0 0 var(--badge-border-radius);
-}
-
-.messageInput button {
-  background: var(--purple500);
-  color: var(--white);
-  height: 52px;
-  border: none;
-  border-radius: 0 var(--badge-border-radius) var(--badge-border-radius) 0;
-  padding: 5px 10px;
-}
-
-.chat {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.chatMessageDiv{
-    flex-grow: 1;
-    overflow: auto;
-}
-
-.userInfor{
-    flex: 1;
-    overflow: auto;
-    border-right: 1px solid #ccc;
-} */
-
 
 .userDiv {
   display: flex;
-  width: 800px;
   min-height: 600px;
   max-height: 600px;
   border-radius: 5px;
-  overflow: hidden;
   padding: 60px 30px;
   margin: 0 auto;
+  overflow-y: auto;
 }
 
 .userName {
@@ -102,6 +47,28 @@
   background-color: #ddd;
   border-radius: 0 var(--badge-border-radius) 0 0;
 
+  position: relative;
+}
+
+.clIcon {
+  font-size: var(--font-size-h6);
+  font-weight: var(--font-weight-h4);
+  color: var(--black300);
+  position: absolute;
+  right: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.noList {
+  height: calc(100% - 50px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-sub1);
+  text-align: center;
+  line-height: 30px;
 }
 
 .chat {
@@ -126,6 +93,8 @@
   overflow: auto;
   background: #f5f5f5;
   border-radius: var(--badge-border-radius);
+
+  position: relative;
 }
 
 .userInfor > h2 {
@@ -142,7 +111,7 @@
 }
 
 .messageInput {
-  width: 500px;
+  width: calc(100% - 30px);
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -175,5 +144,137 @@
 }
 
 .messageDiv {
-  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.message {
+  display: inline-block;
+  max-width: 60%;
+  color: var(--white);
+  border-radius: 10px;
+  padding: 5px 10px;
+  line-height: 20px;
+}
+
+.createDate {
+  font-size: var(--font-size-sub4);
+  font-weight: var(--font-weight-h1);
+  color: var(--black300);
+  padding-top: 5px;
+}
+
+.hiddenH6 {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .chatDiv > h2,
+  .userDiv > div > h2,
+  .clIcon,
+  .userName,
+  .noList,
+  .chatMessageDiv {
+    font-size: var(--font-size-sub3);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .userDiv {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 80px 30px 60px 30px;
+  }
+
+  .userInfor {
+    border-radius: var(--badge-border-radius);
+  }
+
+  .userInfor:hover {
+    max-height: 200px;
+    z-index: 50;  
+  }
+
+  .userInfor::-webkit-scrollbar {
+    display: none;
+  }
+
+  .selectedUserInfor {
+    border-radius: var(--badge-border-radius) var(--badge-border-radius) 0 0;
+  }
+
+  .userInfor > h2 {
+    display: none;
+  }
+
+  .hiddenH6 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--purple500);
+    padding: 10px;
+    text-align: center;
+    font-size: var(--font-size-sub2);
+    color: var(--white);
+    margin: 10 auto;
+    border-radius: var(--badge-border-radius);
+    position: absolute;
+    bottom: calc(100% - 130px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .userName {
+    height: 10px;
+  }
+
+  .chatDiv {
+    min-height: 500px;
+    border-radius: 0 0 var(--badge-border-radius) var(--badge-border-radius);
+  }
+
+  .chatDiv > h2 {
+    border-radius: 0;
+  }
+
+  .chatMessageDiv {
+    max-height: 400px;
+  }
+
+  .messageInput > input {
+    height: 16px;
+    padding: 6px;
+  }
+
+  .messageInput > button {
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 7px 5px 5px;
+  }
+
+  .noList {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .chatContainer {
+    overflow-x: auto;
+  }
+
+  .chatDiv > h2 {
+    background-color: var(--purple500);
+    color: var(--white);
+  }
+
+  .clIcon {
+    color: var(--white);
+  }
 }

@@ -1,7 +1,6 @@
 export const gender = [{ name: "여성" }, { name: "남성" }]
 
 export const Searchgender = [
-  { name: "상관 없음" },
   { name: "여성" },
   { name: "남성" },
 ]
@@ -71,7 +70,6 @@ export const region = [
 ]
 
 export const Searchregion = [
-  { region: "상관 없음" },
   { region: "마포구" },
   { region: "서대문구" },
   { region: "은평구" },
@@ -126,7 +124,6 @@ export const period = [
 ]
 
 export const Searchperiod = [
-  { quarter: "상관 없음" },
   { quarter: "1개월 ~ 3개월" },
   { quarter: "3개월 ~ 6개월" },
   { quarter: "6개월 ~ 9개월" },
@@ -158,7 +155,6 @@ export const price = [
 ]
 
 export const Searchprice = [
-  { deposit: "상관 없음", display: "상관 없음" },
   { deposit: 1000000, display: "~1,000,000원" },
   { deposit: 2000000, display: "~2,000,000원" },
   { deposit: 3000000, display: "~3,000,000원" },

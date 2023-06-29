@@ -1,5 +1,4 @@
 .profileTitle {
-  width: 400px;
   margin: 0 auto;
   margin-top: 20px;
   padding-bottom: 10px;
@@ -7,7 +6,6 @@
 }
 
 .profileBox {
-  width: 400px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -65,4 +63,12 @@
 
 .ant-list-item:hover {
   color: #6231ef !important;
+}
+
+.articleTitle{
+  display: flex;
+  font-weight: bold;
+  font-size: 17px;
+  margin: 0 auto;
+
 }

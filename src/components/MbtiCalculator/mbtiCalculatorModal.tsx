@@ -79,11 +79,12 @@ const MbitCalculatorModal: React.FC<MbitCalculatorModalProps> = ({
         onCancel={handleCancel}
         cancelButtonProps={{ style: { display: "none" } }}
         okButtonProps={{ style: { display: "none" } }}
+        className={styles.mbtiModal}
       >
         <div className={styles.title}>MBTI 궁합 계산기</div>
         <div className={styles.selectContainer}>
           <Select
-            placeholder="내 MBTI를 선택해주세요."
+            placeholder="MBTI를 선택해주세요."
             onChange={(value) => setMbtiType1(value)}
             className={styles.select}
           >
@@ -94,7 +95,7 @@ const MbitCalculatorModal: React.FC<MbitCalculatorModalProps> = ({
             ))}
           </Select>
           <Select
-            placeholder="룸메이트 MBTI를 선택해주세요."
+            placeholder="MBTI를 선택해주세요."
             onChange={(value) => setMbtiType2(value)}
             className={styles.select}
           >

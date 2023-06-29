@@ -10,12 +10,13 @@ import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai"
 import PostModal from "../../components/PostModal/postModal"
 import RecommendModal from "../../components/RecommendModal/recommendModal"
 import { userArticle, usersRecommend, usersProfile } from "../../api"
-import { message, Spin } from "antd"
+import { message, Spin, Modal } from "antd"
 import { Post, User, FetchData, PostData } from "../../interface/interface"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
 import { mbtiGraph } from "../../object/mbtiGraph"
 import useFetch from "../../hooks/useFetch"
+import { useNavigate } from "react-router-dom"
 
 const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
@@ -24,6 +25,8 @@ const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
     </button>
   )
 }
+
+
 
 const CustomLeftArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
@@ -63,12 +66,16 @@ const MainPage: React.FC = () => {
   } = useFetch<FetchData | null>("", "", {}, null)
 
   // 추천 룸메이트 표시 제목
-  let recommendTitle = "방갑고에서 추천하는 룸메이트를 만나보세요 💌"
-  // 로그인이 안된 경우
+  let recommendTitle: React.ReactNode =
+    "방갑고에서 추천하는 룸메이트를 만나보세요 💌"
   if (!isLogged) {
     recommendTitle = "로그인 후 추천하는 룸메이트를 만나보세요 💌"
   } else if (recommendError) {
-    recommendTitle = "회원님의 정보를 입력 후 추천하는 룸메이트를 만나보세요 💌"
+    recommendTitle = (
+      <>
+        회원님의 정보를 입력 후 <br /> 추천하는 룸메이트를 만나보세요 💌
+      </>
+    )
   }
 
   useEffect(() => {
@@ -180,6 +187,7 @@ const MainPage: React.FC = () => {
       slidesToSlide: 2,
     },
     small: {
+      centermode: true,
       breakpoint: { max: 700, min: 0 },
       items: 1,
       slidesToSlide: 1,
@@ -202,6 +210,20 @@ const MainPage: React.FC = () => {
     setIsModalVisible(true)
   }
 
+  // 내정보를 입력하지 않으면 내 정보를 입력하라고 모달창이 나옴
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (recommendError) {
+      Modal.error({
+        title: "프로필 설정",
+        content: "내 정보 설정 후 방갑고를 이용해주세요.",
+        onOk: () => navigate("/MyPage"),
+      })
+    }
+  }, [recommendError, navigate])
+
   return (
     <div className={styles.conatainer}>
       <div className={styles.adContainer}>
@@ -214,6 +236,7 @@ const MainPage: React.FC = () => {
           showIndicators={false}
           showStatus={false}
           showArrows={false}
+          className={styles.carouselContainer}
         >
           {adImages.map((url, index) => (
             <div key={index}>
@@ -226,22 +249,24 @@ const MainPage: React.FC = () => {
         <div className={styles.title}>룸메이트 구해요 👋</div>
         <div className={styles.carouselWrapper}>
           {postLoading ? (
-            <Spin/>
+            <Spin style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}/>
           ) : (
             <MultiCarousel
               responsive={responsive}
-              infinite={true}
+              infinite={false}
               draggable={true}
               showDots={false}
               customRightArrow={<CustomRightArrow />}
               customLeftArrow={<CustomLeftArrow />}
             >
               {posts.slice(0, 12).map((post) => (
-                <MainPostCard
-                  key={post.id}
-                  post={post}
-                  onClick={() => handlePostClick(post)}
-                />
+                <div key={post.id} className={styles.carouselItem}>
+                  <MainPostCard
+                    key={post.id}
+                    post={post}
+                    onClick={() => handlePostClick(post)}
+                  />
+                </div>
               ))}
             </MultiCarousel>
           )}
@@ -251,11 +276,11 @@ const MainPage: React.FC = () => {
         <div className={styles.title}>{recommendTitle}</div>
         <div className={styles.carouselWrapper}>
           {recommendLoading ? (
-            <Spin/>
+            <Spin style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}/>
           ) : users.length > 0 ? (
             <MultiCarousel
               responsive={responsive}
-              infinite={true}
+              infinite={false}
               draggable={true}
               showDots={false}
               customRightArrow={<CustomRightArrow />}
@@ -272,17 +297,19 @@ const MainPage: React.FC = () => {
                 .slice(0, 12)
                 .map((user) =>
                   data ? (
-                    <RecommendPostCard
-                      key={user.id}
-                      user={user}
-                      onClick={() => handleUserClick(user)}
-                      data={data}
-                    />
+                    <div key={user.id} className={styles.carouselItem}>
+                      <RecommendPostCard
+                        key={user.id}
+                        user={user}
+                        onClick={() => handleUserClick(user)}
+                        data={data}
+                      />
+                    </div>
                   ) : null,
                 )}
             </MultiCarousel>
           ) : (
-            <p className={styles.noRecommend}>추천하는 사람이 없습니다.</p>
+            <p className={styles.noRecommend}>추천 받을 룸메이트가 없습니다 😐 <br /> 비슷한 성향의 룸메이트를 기다려 보세요!</p>
           )}
         </div>
       </div>
