@@ -98,7 +98,7 @@ const Header: React.FC = () => {
     <>
       <div className={styles.headerContainer}>
         <Link to="/MainPage">
-          <img className={styles.logo} src="src/assets/logo.svg" alt="Logo" />
+          <img className={styles.logo} src="/logo.svg" alt="Logo" />
         </Link>
         <div className={styles.menu}>
           <ul className={styles.nav}>

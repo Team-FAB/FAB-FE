@@ -23,7 +23,7 @@ const MbitCalculator: React.FC = () => {
       <Button className={styles.logoButton} onClick={showModal} type="primary">
         <img
           className={styles.mbtiIcon}
-          src="src/assets/mbti.svg"
+          src="/mbti.svg"
           alt="mbti로고"
         />
       </Button>

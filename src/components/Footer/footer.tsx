@@ -1,7 +1,7 @@
 import styles from "./footer.module.css"
 import { SiNotion } from "react-icons/si"
 import { BsYoutube } from "react-icons/bs"
-import img from "../../assets/logo(w).svg"
+import img from "/logo(w).svg"
 import { Button, Dropdown } from "antd"
 import { GithubOutlined } from "@ant-design/icons"
 

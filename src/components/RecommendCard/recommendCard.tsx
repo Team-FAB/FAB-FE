@@ -14,13 +14,13 @@ const RecommendPostCard: React.FC<Props> = ({ user, onClick, data }) => {
     <div></div>,
     <div></div>,
     <div style={{ color: "#F0CB33" }} className={styles.mbtiResult}>
-      <img src="src/assets/mbti5.svg" className={styles.mbtiIcon} />
+      <img src="/mbti5.svg" className={styles.mbtiIcon} />
     </div>,
     <div style={{ color: "#70E5AD" }} className={styles.mbtiResult}>
-      <img src="src/assets/mbti1.svg" className={styles.mbtiIcon} />
+      <img src="/mbti1.svg" className={styles.mbtiIcon} />
     </div>,
     <div style={{ color: "#70B7F2" }} className={styles.mbtiResult}>
-      <img src="src/assets/mbti3.svg" className={styles.mbtiIcon} />
+      <img src="/mbti3.svg" className={styles.mbtiIcon} />
     </div>,
   ]
 

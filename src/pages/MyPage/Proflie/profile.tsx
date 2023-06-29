@@ -9,7 +9,7 @@ import { userMyprofile } from '../../../api'
 import useFetch from '../../../hooks/useFetch'
 import { UserProfile } from '../../../interface/interface'
 import { Spin } from 'antd'
-import img from "../../../assets/mbti1.svg"
+import img from "/mbti1.svg"
 
 const Profile: React.FC = () => {
   const userToken = useSelector((state : RootState) => state.user.data.token)

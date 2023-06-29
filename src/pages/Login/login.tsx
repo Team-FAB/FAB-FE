@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
 import { loginUser } from "../../Redux/user"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { googleUserLogin, kakaoUserLogin } from "../../api"
-import video from "../../assets/bg.mp4"
+import video from "/bg.mp4"
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
@@ -36,7 +36,7 @@ const Login: React.FC = () => {
     <>
       <div className={styles.loginContainer}>
         <Link to="/MainPage">
-          <img className={styles.logo} src="src/assets/logo.svg" />
+          <img className={styles.logo} src="/logo.svg" />
         </Link>
         <div className={styles.loginBox}>
           <div className={styles.videoBox}>
@@ -92,8 +92,8 @@ const Login: React.FC = () => {
                 <span className={styles.title}>또는</span>
                 <span className={styles.line}></span>
               </div>
-              <img src="src/assets/Kakao Login.svg" onClick={kakao} />
-              <img src="src/assets/Google Login.svg" onClick={google} />
+              <img src="/Kakao Login.svg" onClick={kakao} />
+              <img src="/Google Login.svg" onClick={google} />
             </div>
           </div>
         </div>

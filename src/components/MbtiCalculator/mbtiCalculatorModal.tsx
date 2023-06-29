@@ -22,23 +22,23 @@ const MbitCalculatorModal: React.FC<MbitCalculatorModalProps> = ({
 
   const compatibilityLevels = [
     <div style={{ color: "#F04333" }} className={styles.mbtiResult}>
-      <img src="src/assets/mbti4.svg" className={styles.mbtiIcon} />
+      <img src="/mbti4.svg" className={styles.mbtiIcon} />
       <span>우리 궁합 다시 생각해봐요.</span>
     </div>,
     <div style={{ color: "#F07933" }} className={styles.mbtiResult}>
-      <img src="src/assets/mbti2.svg" className={styles.mbtiIcon} />
+      <img src="/mbti2.svg" className={styles.mbtiIcon} />
       <span>최악은 아니지만 좋지도 않아요.</span>
     </div>,
     <div style={{ color: "#F0CB33" }} className={styles.mbtiResult}>
-      <img src="src/assets/mbti5.svg" className={styles.mbtiIcon} />
+      <img src="/mbti5.svg" className={styles.mbtiIcon} />
       <span>안맞는 것 맞는것, 반반!</span>
     </div>,
     <div style={{ color: "#70E5AD" }} className={styles.mbtiResult}>
-      <img src="src/assets/mbti1.svg" className={styles.mbtiIcon} />
+      <img src="/mbti1.svg" className={styles.mbtiIcon} />
       <span>좋은 관계로 발전 가능!</span>
     </div>,
     <div style={{ color: "#70B7F2" }} className={styles.mbtiResult}>
-      <img src="src/assets/mbti3.svg" className={styles.mbtiIcon} />
+      <img src="/mbti3.svg" className={styles.mbtiIcon} />
       <span>우리 궁합은 천생연분!</span>
     </div>,
   ]
@@ -116,23 +116,23 @@ const MbitCalculatorModal: React.FC<MbitCalculatorModalProps> = ({
         <div className={styles.result}>{compatibility}</div>
         <div className={styles.informContainer}>
           <span style={{ color: "#70B7F2" }} className={styles.mbtiBox}>
-            <img src="src/assets/mbti3.svg" className={styles.mbtiIcon} />
+            <img src="/mbti3.svg" className={styles.mbtiIcon} />
             우리 궁합은 천생연분!
           </span>
           <span style={{ color: "#70E5AD" }} className={styles.mbtiBox}>
-            <img src="src/assets/mbti1.svg" className={styles.mbtiIcon} />
+            <img src="/mbti1.svg" className={styles.mbtiIcon} />
             좋은 관계로 발전 가능!
           </span>
           <span style={{ color: "#F0CB33" }} className={styles.mbtiBox}>
-            <img src="src/assets/mbti5.svg" className={styles.mbtiIcon} />
+            <img src="/mbti5.svg" className={styles.mbtiIcon} />
             안맞는 것 맞는것, 반반!
           </span>
           <span style={{ color: "#F07933" }} className={styles.mbtiBox}>
-            <img src="src/assets/mbti2.svg" className={styles.mbtiIcon} />
+            <img src="/mbti2.svg" className={styles.mbtiIcon} />
             최악은 아니지만 좋지도 않아요.
           </span>
           <span style={{ color: "#F04333" }} className={styles.mbtiBox}>
-            <img src="src/assets/mbti4.svg" className={styles.mbtiIcon} />
+            <img src="/mbti4.svg" className={styles.mbtiIcon} />
             우리 궁합 다시 생각해봐요.
           </span>
         </div>

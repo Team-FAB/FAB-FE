@@ -6,7 +6,7 @@ import { registerUser } from "../../Redux/user"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-import video from "../../assets/bg.mp4"
+import video from "/bg.mp4"
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -36,7 +36,7 @@ const SignUp: React.FC = () => {
     <div className={styles.signUpContainer}>
       <img
         className={styles.logo}
-        src="src/assets/logo.svg"
+        src="/logo.svg"
         onClick={mainpageLink}
       />
       <div className={styles.signUpBox}>

@@ -10,7 +10,7 @@ import { PostModalProps } from "../../interface/interface"
 import useFavorite from "../Favorite/useFavorite"
 import useFetch from "../../hooks/useFetch"
 import { useApply } from "../Apply/applyApi"
-import img from "../../assets/mbti1.svg"
+import img from "/mbti1.svg"
 
 const PostModal: React.FC<PostModalProps> = ({ post, onClose }) => {
   const [isDeleted, setIsDeleted] = useState(false)

@@ -164,10 +164,10 @@ const MainPage: React.FC = () => {
   }, [selectedUser, messageApi, userToken, profileDatasSuccess, profileDatas])
 
   const adImages = [
-    "src/assets/001.jpg",
-    "src/assets/002.jpg",
-    "src/assets/003.jpg",
-    "src/assets/004.jpg",
+    "/001.jpg",
+    "/002.jpg",
+    "/003.jpg",
+    "/004.jpg",
   ]
 
   const responsive = {
