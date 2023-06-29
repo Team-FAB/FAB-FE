@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import styles from "../Header/header.module.css"
+import styles from "./header.module.css"
 import { useSelector, useDispatch } from "react-redux"
 import { AppDispatch, RootState } from "../../Redux/store"
 import { Avatar, Dropdown } from "antd"

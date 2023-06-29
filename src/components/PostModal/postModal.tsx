@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { Modal, Badge, Button } from "antd"
-import styles from "./PostModal.module.css"
+import styles from "./postModal.module.css"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
