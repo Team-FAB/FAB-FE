@@ -2,7 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://fab-fe-pk62.vercel.app/"
+      "destination": "https://fab-fe-pk62.vercel.app"
+    },
+    {
+      "source": "/api/:path*/",
+      "destination": "hhttps://fab-fe-pk62.vercel.app/"
     }
   ]
 }
