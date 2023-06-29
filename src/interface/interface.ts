@@ -9,9 +9,10 @@ export interface UserState {
   readonly isLogged: boolean
   readonly signUp: boolean
   readonly data: {
+    readonly email: string
     readonly token: Token
   }
-  readonly email: string
+  readonly email?: string // 수정
   readonly status: "idle" | "loading" | "fulfilled" | "error"
   readonly accessToken?: string
 }
@@ -33,6 +34,7 @@ export interface Post {
   readonly period: string
   readonly price: number
   readonly recruiting: boolean
+  readonly image?: string
 }
 
 export interface User {
