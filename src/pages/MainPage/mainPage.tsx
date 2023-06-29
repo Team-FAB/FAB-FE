@@ -10,12 +10,13 @@ import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai"
 import PostModal from "../../components/PostModal/postModal"
 import RecommendModal from "../../components/RecommendModal/recommendModal"
 import { userArticle, usersRecommend, usersProfile } from "../../api"
-import { message, Spin } from "antd"
+import { message, Spin, Modal } from "antd"
 import { Post, User, FetchData, PostData } from "../../interface/interface"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
 import { mbtiGraph } from "../../object/mbtiGraph"
 import useFetch from "../../hooks/useFetch"
+import { useNavigate } from "react-router-dom"
 
 const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
@@ -24,6 +25,8 @@ const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
     </button>
   )
 }
+
+
 
 const CustomLeftArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
@@ -206,6 +209,20 @@ const MainPage: React.FC = () => {
     setSelectedUser(user)
     setIsModalVisible(true)
   }
+
+  // 내정보를 입력하지 않으면 내 정보를 입력하라고 모달창이 나옴
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (recommendError) {
+      Modal.error({
+        title: "프로필 설정",
+        content: "내 정보 설정 후 방갑고를 이용해주세요.",
+        onOk: () => navigate("/MyPage"),
+      })
+    }
+  }, [recommendError, navigate])
 
   return (
     <div className={styles.conatainer}>
