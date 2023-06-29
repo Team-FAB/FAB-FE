@@ -26,8 +26,6 @@ const CustomRightArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   )
 }
 
-
-
 const CustomLeftArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
     <button onClick={onClick} className={styles.customLeftArrow}>
@@ -163,12 +161,7 @@ const MainPage: React.FC = () => {
     }
   }, [selectedUser, messageApi, userToken, profileDatasSuccess, profileDatas])
 
-  const adImages = [
-    "/001.jpg",
-    "/002.jpg",
-    "/003.jpg",
-    "/004.jpg",
-  ]
+  const adImages = ["/001.jpg", "/002.jpg", "/003.jpg", "/004.jpg"]
 
   const responsive = {
     XLarge: {
@@ -215,14 +208,14 @@ const MainPage: React.FC = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (recommendError) {
+    if (isLogged && recommendError) {
       Modal.error({
         title: "프로필 설정",
         content: "내 정보 설정 후 방갑고를 이용해주세요.",
         onOk: () => navigate("/MyPage"),
       })
     }
-  }, [recommendError, navigate])
+  }, [recommendError, navigate, isLogged])
 
   return (
     <div className={styles.conatainer}>
@@ -249,7 +242,14 @@ const MainPage: React.FC = () => {
         <div className={styles.title}>룸메이트 구해요 👋</div>
         <div className={styles.carouselWrapper}>
           {postLoading ? (
-            <Spin style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}/>
+            <Spin
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
           ) : (
             <MultiCarousel
               responsive={responsive}
@@ -276,7 +276,14 @@ const MainPage: React.FC = () => {
         <div className={styles.title}>{recommendTitle}</div>
         <div className={styles.carouselWrapper}>
           {recommendLoading ? (
-            <Spin style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}/>
+            <Spin
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
           ) : users.length > 0 ? (
             <MultiCarousel
               responsive={responsive}
@@ -309,7 +316,10 @@ const MainPage: React.FC = () => {
                 )}
             </MultiCarousel>
           ) : (
-            <p className={styles.noRecommend}>추천 받을 룸메이트가 없습니다 😐 <br /> 비슷한 성향의 룸메이트를 기다려 보세요!</p>
+            <p className={styles.noRecommend}>
+              추천 받을 룸메이트가 없습니다 😐 <br /> 비슷한 성향의 룸메이트를
+              기다려 보세요!
+            </p>
           )}
         </div>
       </div>
