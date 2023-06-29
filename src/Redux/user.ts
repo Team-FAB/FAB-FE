@@ -19,13 +19,14 @@ import { useEffect } from "react"
 const initialState: UserState = loadFromLocalStorage() || {
   isLogged: false,
   data: {
+    email: "",
     token: {
       atk: "",
       rtk: "",
     },
   },
   signUp: false,
-  email: "",
+  // email: "",
   status: "idle",
 }
 
@@ -199,8 +200,9 @@ export const kakaologinUser = createAsyncThunk<
     }
 
     const data: UserState = await response.json()
+    console.log(data.data.email)
 
-    return { email: data.email, token: data.data.token }
+    return { email: data.data.email, token: data.data.token }
   } catch (error) {
     return rejectWithValue(error)
   }
