@@ -33,9 +33,20 @@
 }
 
 .textArea {
-  transform: translateY(-40px);
+  width: 100%;
   min-height: 400px;
-  z-index: 0;
+  height: 400px;
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.textArea:focus {
+  outline: none;
+  border-color: var(--purple200);
 }
 
 .buttonContainer {

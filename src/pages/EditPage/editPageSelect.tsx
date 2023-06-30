@@ -15,7 +15,6 @@ const editPageSelect: React.FC<EditPageSelectProps> = ({ form }) => {
   const [selectedArea, setSelectedArea] = useState<string>("지역")
   const [selectedPeriod, setSelectedPeriod] = useState<string>("기간")
   const [selectedPrice, setSelectedPrice] = useState<String>("보증금")
-  // const [selectedGender, setSelectedGender] = useState<string>("성별")
 
   const editPost = useLocation().state.post
 
@@ -40,11 +39,7 @@ const editPageSelect: React.FC<EditPageSelectProps> = ({ form }) => {
     form.setFieldsValue({ price: deposit })
   }
 
-  // const handleGenderChange = (e: RadioChangeEvent) => {
-  //   const gender = e.target.value
-  //   setSelectedGender(gender)
-  //   form.setFieldsValue({ gender })
-  // }
+
 
   const handleToggleSearchBox = () => {
     setSearchBoxOpen(!searchBoxOpen)
@@ -55,7 +50,7 @@ const editPageSelect: React.FC<EditPageSelectProps> = ({ form }) => {
         setSelectedArea(editPost.region)
         setSelectedPeriod(editPost.period)
         setSelectedPrice(editPost.price)
-        // setSelectedGender(editPost.gender)
+
       }
     }, [editPost])
 
@@ -82,12 +77,6 @@ const editPageSelect: React.FC<EditPageSelectProps> = ({ form }) => {
               </p>
               <Badge className={styles.cardBadgePrice}>{selectedPrice}</Badge>
             </div>
-            {/* <div className={styles.lastDiv}>
-              <p>
-                <span className={styles.require}>*</span>성별
-              </p>
-              <Badge className={styles.cardBadgeGender}>{selectedGender}</Badge>
-            </div> */}
           </div>
           <div
             className={
@@ -179,34 +168,6 @@ const editPageSelect: React.FC<EditPageSelectProps> = ({ form }) => {
                   </Radio.Group>
                 </Form.Item>
               </div>
-              {/* <div className={styles.searchChoiceGender}>
-                <p>성별</p>
-                <Form.Item
-                  name="gender"
-                  rules={[
-                    {
-                      required: true,
-                      message: "성별을 선택해 주세요.",
-                    },
-                  ]}
-                >
-                  <Radio.Group
-                    className={styles.genderRadioGroup}
-                    value={selectedGender}
-                    onChange={handleGenderChange}
-                  >
-                    {gender.map((item, index) => (
-                      <Radio
-                        key={index}
-                        value={item.name}
-                        className={styles.genderRadioBtn}
-                      >
-                        {item.name}
-                      </Radio>
-                    ))}
-                  </Radio.Group>
-                </Form.Item>
-              </div> */}
             </div>
           </div>
         </div>

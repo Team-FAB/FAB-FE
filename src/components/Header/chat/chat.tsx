@@ -170,7 +170,7 @@ const Chat: React.FC = () => {
   // 메시지 입력 -> 자동 스크롤
   useEffect(() => {
     if (messageEndRef.current) {
-    messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight
+      messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight
     }
   }, [messages])
 

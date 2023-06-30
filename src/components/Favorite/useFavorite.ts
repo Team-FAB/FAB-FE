@@ -26,7 +26,6 @@ const useFavorite = (postId: number) => {
         throw new Error("찜하기를 처리하는데 실패했습니다.")
       }
 
-      console.log(response)
       dispatch(setSaved({ postId, isSaved: newIsSaved }))
       dispatch(fetchFavorites())
     } catch (error) {
