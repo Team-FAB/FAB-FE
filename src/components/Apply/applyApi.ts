@@ -25,7 +25,6 @@ export const useApply = (postId: number) => {
       })
 
       if (!response.ok) {
-        console.log(response)
         if (response.status === 400) {
           Modal.error({
             title: "신청이 불가능합니다 ❌",
@@ -34,8 +33,6 @@ export const useApply = (postId: number) => {
         } 
         throw new Error("신청하기를 처리하는데 실패했습니다.")
       }
-
-      console.log(response)
       dispatch(setSaved({ postId, isSaved: newIsSaved }))
       dispatch(fetchData({
         showApply: true,
@@ -117,7 +114,7 @@ export const updateDelete = async (userToken: string, applyId:number) => {
     }
 
     const deleteData = await response.json()
-    return deleteData.data;
+    return deleteData.data
 
   } catch (error) {
     console.error('룸메이트 신청현황 삭제 오류', error)

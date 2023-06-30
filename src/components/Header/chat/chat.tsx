@@ -35,7 +35,6 @@ const Chat: React.FC = () => {
           },
         })
         if (!response.ok) {
-          console.log(response)
           throw new Error(`서버 상태 응답 ${response.status}`)
         }
         const responseData = await response.json()
@@ -53,9 +52,6 @@ const Chat: React.FC = () => {
 
     const stompConfig = {
       webSocketFactory: () => sock,
-      debug: (msg: string) => {
-        console.log("[STOMP debug]", msg)
-      },
     }
 
     const stompClient = new Stomp.Client(stompConfig)
@@ -69,7 +65,6 @@ const Chat: React.FC = () => {
           destination: `/pub/chat.history.${roomId}`,
           headers: { Authorization: userToken.atk.toString() },
         })
-        console.log(`/pub/chat.history.${roomId}`)
       }
 
       handleSendText()
@@ -170,7 +165,7 @@ const Chat: React.FC = () => {
   // 메시지 입력 -> 자동 스크롤
   useEffect(() => {
     if (messageEndRef.current) {
-    messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight
+      messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight
     }
   }, [messages])
 

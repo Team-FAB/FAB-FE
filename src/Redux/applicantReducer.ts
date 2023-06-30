@@ -1,6 +1,6 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { ApplyProps } from '../interface/interface';
-import { updateApprove, updateDelete, updateRefuse } from '../components/Apply/applyApi';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { ApplyProps } from '../interface/interface'
+import { updateApprove, updateDelete, updateRefuse } from '../components/Apply/applyApi'
 
 interface State {
   posts: ApplyProps[]
@@ -77,7 +77,7 @@ export const deletePostAsync = createAsyncThunk<
       return thunkAPI.rejectWithValue(error)
     }
   }
-);
+)
 
 const applySlice = createSlice({
   name: 'applyAction',

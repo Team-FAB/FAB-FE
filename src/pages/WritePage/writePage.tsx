@@ -1,6 +1,5 @@
 import React, { useEffect } from "react"
 import styles from "./writePage.module.css"
-import TextArea from "antd/es/input/TextArea"
 import "react-quill/dist/quill.snow.css"
 import WritePageSelect from "./writePageSelect"
 import { Button, Input, Form, Modal } from "antd"
@@ -14,8 +13,6 @@ import useFetch from "../../hooks/useFetch"
 const WritePage: React.FC = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
-
-
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
   const {
@@ -54,8 +51,7 @@ const WritePage: React.FC = () => {
     }
   }, [isLoading, isSuccess, navigate, error])
 
-  const onFinishFailed = (errorInfo: unknown) => {
-    console.log("Failed:", errorInfo)
+  const onFinishFailed = () => {
     Modal.error({
       title: "입력 오류",
       content: "모든 입력을 완료해 주세요.",
@@ -79,7 +75,7 @@ const WritePage: React.FC = () => {
         <div className={styles.require}>* 필수 입력 항목</div>
         <WritePageSelect form={form} />
         <Form.Item name="content">
-          <TextArea showCount maxLength={4000} className={styles.textArea} />
+          <textarea className={styles.textArea} maxLength={4000} />
         </Form.Item>
         <div className={styles.buttonContainer}>
           <Button

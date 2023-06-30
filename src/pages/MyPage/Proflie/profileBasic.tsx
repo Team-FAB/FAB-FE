@@ -9,13 +9,11 @@ import ProfileFile from "./profileFile"
 
 const ProfileBasic = (props: ProfileBasicProps) => {
 
-  // 로그인한 유저 가져오기
   const userToken = useSelector((state : RootState) => state.user.data.token)
   
+  // 프로필 기본 정보 수정
   const handleProfileBasicChange = async ({ nickname }: { nickname: string}) => {
     const updatedProfileData = { nickname: nickname }
-
-    console.log("입력된 닉네임:", nickname)
 
     try {
       await updateProfile(updatedProfileData)
@@ -37,7 +35,6 @@ const ProfileBasic = (props: ProfileBasicProps) => {
       })
 
       if (!response.ok) {
-        console.log(response)
         if (response.status === 400) {
           Modal.error({
             title: "오류",
@@ -69,36 +66,37 @@ const ProfileBasic = (props: ProfileBasicProps) => {
         name="profileBasicUpdate"
         initialValues={{ remember: true }}
         onFinish={handleProfileBasicChange}
-        className={styles.profileformBox}>
-          <div className={styles.originNickname}>{props.nickname} 님</div>
+        className={styles.profileformBox}
+      >
+        <div className={styles.originNickname}>{props.nickname} 님</div>
+        <Input
+          prefix={<MailOutlined />}
+          placeholder="이메일입니다."
+          type="email"
+          value={props.email}
+          style={{ width: 200, height: 40, textAlign: 'center', marginBottom: 12 }}
+          readOnly />
+        <Form.Item
+          name="nickname"
+          initialValue={props.nickname}
+          rules={[
+            { required: true, message: "새로운 닉네임을 입력하세요." },
+            { type: "string", message: "기존 닉네임과 같습니다." },
+          ]}
+        >
           <Input
-            prefix={<MailOutlined />}
-            placeholder="이메일입니다."
-            type="email"
-            value={props.email}
-            style={{ width: 200, height: 40, textAlign: 'center', marginBottom: 12 }}
-            readOnly />
-          <Form.Item
-            name="nickname"
-            initialValue={props.nickname}
-            rules={[
-              { required: true, message: "새로운 닉네임을 입력하세요." },
-              { type: "string", message: "기존 닉네임과 같습니다." },
-            ]}
-          >
-            <Input
-            prefix={<UserOutlined />}
-            placeholder="새로운 닉네임을 입력하세요."
-            onChange={(e) => e.target.value }
-            style={{ width: 200, height: 40, textAlign: 'center' }}/>
-          </Form.Item>
-          <Button 
-            className={styles.basicBtn} 
-            type="primary" 
-            htmlType="submit" 
-            style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>
-            닉네임 수정
-          </Button>
+          prefix={<UserOutlined />}
+          placeholder="새로운 닉네임을 입력하세요."
+          onChange={(e) => e.target.value }
+          style={{ width: 200, height: 40, textAlign: 'center' }}/>
+        </Form.Item>
+        <Button 
+          className={styles.basicBtn} 
+          type="primary" 
+          htmlType="submit" 
+          style={{ width: 70, height: 30, fontSize: 10, borderRadius: 20 }}>
+          닉네임 수정
+        </Button>
       </Form>
     </div>
   )

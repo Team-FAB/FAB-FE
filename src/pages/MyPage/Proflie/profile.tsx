@@ -76,7 +76,7 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     handleProfile()
-  }, []) // [nickname, profileUpdated]
+  }, []) 
 
   return (
     <>

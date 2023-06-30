@@ -32,7 +32,6 @@ export const fetchData = createAsyncThunk<
       })
 
     if (!response.ok) {
-      console.log(response)
       throw new Error(`서버 상태 응답 ${response.status}`)
     }
 
