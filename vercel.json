@@ -8,11 +8,7 @@
       "source": "/api/:path*/",
       "destination": "https://firstandbest.shop/:path*/"
     },
-    {
-      "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
-    },
-    {
-      "rewrites": [{ "source": "/:path*", "destination": "/" }]
-    }
-  ]
+    { "source": "/:path*", "destination": "/" }
+  ],
+  "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
 }
