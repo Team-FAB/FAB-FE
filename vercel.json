@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "http://feelingxd.myddns.me:8080/:path*"
+      "destination": "https://firstandbest.shop/:path*"
     },
     {
       "source": "/api/:path*/",
-      "destination": "http://feelingxd.myddns.me:8080/:path*/"
+      "destination": "https://firstandbest.shop/:path*/"
     }
   ]
 }
