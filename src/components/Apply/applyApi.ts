@@ -114,7 +114,7 @@ export const updateDelete = async (userToken: string, applyId:number) => {
     }
 
     const deleteData = await response.json()
-    return deleteData.data;
+    return deleteData.data
 
   } catch (error) {
     console.error('룸메이트 신청현황 삭제 오류', error)

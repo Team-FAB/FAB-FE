@@ -7,9 +7,9 @@ import { ProfileFileProps } from '../../../interface/interface'
 
 const ProfileFile = (props: ProfileFileProps) => {
 
-  // 사진 업로드
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
+  // 사진 업로드
   const beforeUpload = (file: File) => {
     const fileTypes = ['image/jpeg', 'image/png']
     const maxSize = 10 * 1024 * 1024

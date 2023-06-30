@@ -13,8 +13,6 @@ import useFetch from "../../hooks/useFetch"
 const WritePage: React.FC = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
-
-
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
   const {
