@@ -3,6 +3,7 @@
     {
       "source": "/api/:path*",
       "destination": "https://firstandbest.shop/api/:path*"
-    }
+    },
+    { "source": "/:path*", "destination": "/" }
   ]
 }
