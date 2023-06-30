@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import styles from './board.module.css'
-import { Post } from '../../../interface/interface';
-import PostModal from '../../../components/PostModal/postModal';
-import MyPage from '../myPage';
-import { userMyArticles } from '../../../api';
-import PostCard from '../../../components/PostCard/postCard';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../Redux/store';
-import useFetch from '../../../hooks/useFetch';
-import { Spin } from 'antd';
+import { Post } from '../../../interface/interface'
+import PostModal from '../../../components/PostModal/postModal'
+import MyPage from '../myPage'
+import { userMyArticles } from '../../../api'
+import PostCard from '../../../components/PostCard/postCard'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../Redux/store'
+import useFetch from '../../../hooks/useFetch'
+import { Spin } from 'antd'
 
 const Board: React.FC = () => {
 
@@ -16,7 +16,7 @@ const Board: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([])
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
-  // 게시글 불러오기
+  // 게시글
   const {
     datas: boardData,
     isLoading: boardDataLoading,
@@ -39,6 +39,7 @@ const Board: React.FC = () => {
     setBoardBody()
   }
 
+  // 게시글 불러오기
   useEffect(() => {
     if (boardSuccess && boardData) {
       try {

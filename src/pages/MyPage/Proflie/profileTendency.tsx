@@ -26,10 +26,9 @@ import { RootState } from "../../../Redux/store"
 import { userMyprofile } from "../../../api"
 
 const ProfileTendency = (props: profileTendencyProps) => {
-  // radio버튼 모달창
+
   const [tendencyModal, setTendencyModal] = useState(false)
   const [choiceModal, setChoiceModal] = useState(false)
-
   const [boxStates, setBoxStates] = useState({
     genderBoxOpen: false,
     smokeBoxOpen: false,
@@ -39,6 +38,7 @@ const ProfileTendency = (props: profileTendencyProps) => {
     activityTimeBoxOpen: false,
   })
 
+  // 성향 dropdown 
   const handleToggleBox = (boxName: keyof profileTendencyDropdown) => {
     setBoxStates((prevState) => {
       const newState = Object.keys(prevState).reduce((state, key) => {
@@ -51,6 +51,7 @@ const ProfileTendency = (props: profileTendencyProps) => {
     })
   }
 
+  // 체크박스
   const handleTendencyChange = (checkedValues: CheckboxValueType[]) => {
     if (checkedValues.length <= 5) {
       props.setFavoriteTag(checkedValues as string[])
@@ -90,7 +91,7 @@ const ProfileTendency = (props: profileTendencyProps) => {
     }
   }
 
-  // 프로필 정보 업데이트 핸들러
+  // 프로필 업데이트
   const handleUpdateProfile = async () => {
     if (
       props.selectedGender === "남여" ||
