@@ -77,13 +77,15 @@ const MainPage: React.FC = () => {
   }
 
   useEffect(() => {
-    setRecommendUrl(`/api/${usersRecommend}?size=12`)
-    setRecommendMethod("GET")
-    setRecommendHeaders({
-      "ngrok-skip-browser-warning": "69420",
-      Authorization: userToken.atk.toString(),
-    })
-    setRecommendBody()
+    if(isLogged){
+      setRecommendUrl(`/api/${usersRecommend}?size=12`)
+      setRecommendMethod("GET")
+      setRecommendHeaders({
+        "ngrok-skip-browser-warning": "69420",
+        Authorization: userToken.atk.toString(),
+      })
+      setRecommendBody()
+    }
   }, [usersRecommend, userToken.atk])
 
   useEffect(() => {
