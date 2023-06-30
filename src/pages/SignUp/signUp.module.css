@@ -15,9 +15,7 @@
 
 .logo {
   width: 130px;
-  position: absolute;
-  top: 50px;
-  left: calc(50% - 70px);
+  position: relative;
   cursor: pointer;
   transition: opacity 0.3s;
   opacity: 1;
