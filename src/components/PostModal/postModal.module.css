@@ -18,6 +18,8 @@
   background-color: var(--black200);
   margin-left: 15px;
   cursor: pointer;
+  min-width: 55px;
+  max-height: 29px;
 }
 
 .apply {
@@ -109,4 +111,10 @@
 .deleteButton{
   border: none;
   box-shadow: none;
+}
+
+@media screen and (max-width: 370px) {
+  .cardBadgeContainer {
+    flex-direction: column;
+  }
 }

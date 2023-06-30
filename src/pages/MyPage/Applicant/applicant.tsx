@@ -93,13 +93,14 @@ const Applicant: React.FC<ApplicantProps> = ({
   // 프로필
   const {
     datas: profileDatas,
+    isSuccess: profileSuccess,
     setUrl: setProfileDatasUrl,
     setHeaders: setProfileHeaders,
     setMethod: setProfileMethod,
     setBody: setProfileBody,
   } = useFetch<User | null>("", "", {}, null)
 
-  const fetchUserProfile = async (userId: number) => {
+  const handleUserProfile = (userId: number) => {
     try {
       setProfileDatasUrl(`/api/${usersProfile}/${userId}`)
       setProfileMethod("GET")
@@ -107,19 +108,24 @@ const Applicant: React.FC<ApplicantProps> = ({
         "Content-Type": "application/json",
       })
       setProfileBody()
-      setOtherUser(profileDatas)
     } catch (error) {
       console.error(error)
     }
   }
 
   // 프로필 호출
-  const handleUserClick = (userId: number) => {
-    fetchUserProfile(userId)
-    setIsModalVisible(true)
-  }
+  useEffect(() => {
+    if (profileSuccess) {
+      try {
+        setOtherUser(profileDatas)
+        setIsModalVisible(true)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }, [profileSuccess, profileDatas])
 
-  // 게시물
+  // 게시글
   const {
     datas: articleData,
     isSuccess: articleSuccess,
@@ -140,7 +146,7 @@ const Applicant: React.FC<ApplicantProps> = ({
     setArticleBody()
   }
 
-  // 게시물 호출
+  // 게시글 호출
   useEffect(() => {
     if (articleSuccess) {
       try {
@@ -152,26 +158,34 @@ const Applicant: React.FC<ApplicantProps> = ({
   }, [articleSuccess, articleData])
 
   // 채팅방 생성
-  const handleChatClick = async (applyId: number) => {
-    try {
-      const response = await fetch(`/api/${userChatRoom}/${applyId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: userToken.atk.toString(),
-        },
-      })
+  const {
+    isSuccess: chatSuccess,
+    setUrl: setChatUrl,
+    setHeaders: setChatHeaders,
+    setMethod: setChatMethod,
+    setBody: setChatBody,
+  } = useFetch<Post>("", "", {}, null)
 
-      if (!response.ok) {
-        throw new Error(`서버 상태 응답 ${response.status}`)
-      }
-
-      await response.json()
-      navigate("/chat")
-    } catch (error) {
-      console.error(error)
-    }
+  const handleChatClick = (applyId: number) => {
+    setChatUrl(`/api/${userChatRoom}/${applyId}`)
+    setChatMethod("POST")
+    setChatHeaders({
+      "Content-Type": "application/json",
+      Authorization: userToken.atk.toString(),
+    })
+    setChatBody()
   }
+
+  // 채팅방 가기
+  useEffect(() => {
+    if (chatSuccess) {
+      try {
+        navigate("/chat")
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }, [chatSuccess])
 
   return (
     <>
@@ -182,7 +196,7 @@ const Applicant: React.FC<ApplicantProps> = ({
               cover={<Badge.Ribbon text={post.matchStatus} />}
               className={styles.cardContainer}
               actions={[
-                <p onClick={() => handleUserClick(post.otherUserId)}>프로필</p>,
+                <p onClick={() => handleUserProfile(post.otherUserId)}>프로필</p>,
                 <p onClick={() => handleApprovePost(post)}>승인</p>,
                 <p onClick={() => handleRefusePost(post)}>거절</p>,
               ]}
@@ -223,7 +237,7 @@ const Applicant: React.FC<ApplicantProps> = ({
                 <p onClick={() => handleChatClick(post.applyId)}>
                   채팅방 만들기
                 </p>,
-                <p onClick={() => handleUserClick(post.otherUserId)}>프로필</p>,
+                <p onClick={() => handleUserProfile(post.otherUserId)}>프로필</p>,
               ]}
             >
               <Meta
@@ -242,7 +256,7 @@ const Applicant: React.FC<ApplicantProps> = ({
             cover={<Badge.Ribbon text={post.matchStatus} />}
             className={styles.cardContainer}
             actions={[
-              <p onClick={() => handleUserClick(post.otherUserId)}>프로필</p>,
+              <p onClick={() => handleUserProfile(post.otherUserId)}>프로필</p>,
               <p onClick={() => handleArticleClick(post.articleId.toString())}>
                 게시물
               </p>,
@@ -281,7 +295,7 @@ const Applicant: React.FC<ApplicantProps> = ({
           className={styles.cardContainer}
           actions={[
             <p onClick={() => handleChatClick(post.applyId)}>채팅방 만들기</p>,
-            <p onClick={() => handleUserClick(post.otherUserId)}>프로필</p>,
+            <p onClick={() => handleUserProfile(post.otherUserId)}>프로필</p>,
           ]}
         >
           <Meta

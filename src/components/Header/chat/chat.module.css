@@ -237,6 +237,8 @@
 
   .chatDiv > h2 {
     border-radius: 0;
+    background-color: var(--purple500);
+    color: var(--white);
   }
 
   .chatMessageDiv {
@@ -267,11 +269,6 @@
 @media screen and (max-width: 440px) {
   .chatContainer {
     overflow-x: auto;
-  }
-
-  .chatDiv > h2 {
-    background-color: var(--purple500);
-    color: var(--white);
   }
 
   .clIcon {
