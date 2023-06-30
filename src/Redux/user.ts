@@ -26,7 +26,6 @@ const initialState: UserState = loadFromLocalStorage() || {
     },
   },
   signUp: false,
-  // email: "",
   status: "idle",
 }
 
@@ -200,7 +199,6 @@ export const kakaologinUser = createAsyncThunk<
     }
 
     const data: UserState = await response.json()
-    console.log(data.data.email)
 
     return { email: data.data.email, token: data.data.token }
   } catch (error) {

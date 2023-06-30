@@ -12,7 +12,7 @@ export interface UserState {
     readonly email: string
     readonly token: Token
   }
-  readonly email?: string // 수정
+  readonly email?: string 
   readonly status: "idle" | "loading" | "fulfilled" | "error"
   readonly accessToken?: string
 }

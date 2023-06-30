@@ -18,23 +18,6 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
   const [userArticles, setUserArticles] = useState<Post[]>([])
   const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       if (userProfile) {
-  //         setCheckedGender(userProfile.gender)
-  //         setCheckedSmoking(userProfile.isSmoker ? "흡연" : "비흡연")
-
-  //         const response = await fetch(`/api/${userArticle}/users/${user?.id}`)
-  //         const data = await response.json()
-  //         setUserArticles(data.data)
-  //       }
-  //     } catch (error) {
-  //       console.error("Error:", error)
-  //     }
-  //   }
-  //   fetchData()
-  // }, [])
 
   useEffect(() => {
     const fetchData = async () => {

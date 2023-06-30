@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react"
 import styles from "./editPage.module.css"
 import EditPageSelect from "./editPageSelect"
 import { Button, Input, Form, Modal } from "antd"
-import TextArea from "antd/es/input/TextArea"
 import { useNavigate, useLocation } from "react-router-dom"
 import { Store } from "antd/lib/form/interface"
-import { ValidateErrorEntity } from "rc-field-form/lib/interface"
 import { userArticle } from "../../api"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Redux/store"
@@ -71,8 +69,7 @@ const editPage: React.FC = () => {
     }
   }, [isLoading, isSuccess, navigate, error])
 
-  const onFinishFailed = (errorInfo: ValidateErrorEntity) => {
-    console.log("Failed:", errorInfo)
+  const onFinishFailed = () => {
     Modal.error({
       title: "입력 오류",
       content: "모든 입력을 완료해 주세요.",
@@ -96,8 +93,7 @@ const editPage: React.FC = () => {
         <div className={styles.require}>* 필수 입력 항목</div>
         <EditPageSelect form={form} />
         <Form.Item name="content" initialValue={userContent}>
-          <TextArea
-            showCount
+          <textarea
             maxLength={4000}
             className={styles.textArea}
             onChange={(e) => setUserContent(e.target.value)}
