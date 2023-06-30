@@ -35,7 +35,6 @@ const editPage: React.FC = () => {
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
 
-  // 게시글 수정
   const {
     isLoading,
     isSuccess,
