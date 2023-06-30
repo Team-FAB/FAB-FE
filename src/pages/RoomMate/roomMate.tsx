@@ -11,6 +11,8 @@ import { RoomMateSearchProps, PostData } from "../../interface/interface"
 import { RedoOutlined } from "@ant-design/icons"
 import SearchBar from "../../components/SearchBar/searchBar"
 import useFetch from "../../hooks/useFetch"
+import { UserProfile } from "../../interface/interface"
+import { userMyprofile } from "../../api"
 
 const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -27,6 +29,29 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const [, setIsSearched] = useState(false)
   const [searchBoxOpen, setSearchBoxOpen] = useState(false)
 
+  const userToken = useSelector((state: RootState) => state.user.data.token)
+
+  
+  // 유저 정보 가져오기
+  const {
+    datas: profileData,
+    setUrl: setProfileUrl,
+    setHeaders: setProfileHeaders,
+    setMethod: setProfileMethod,
+    setBody: setProfileBody,
+  } = useFetch<UserProfile | null>("", "", {}, null)
+
+  useEffect(() => {
+    setProfileUrl(`/api/${userMyprofile}`)
+    setProfileMethod("GET")
+    setProfileHeaders({
+      "Content-Type": "application/json",
+      Authorization: userToken.atk.toString(),
+    })
+    setProfileBody()
+  }, [userMyprofile, userToken])
+
+
   const handleSearchResults = (results: Post[]) => {
     setPosts(results)
     setIsSearched(true)
@@ -40,7 +65,11 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   // 글쓰기 페이지
   const goToWritePage = () => {
     if (isLogged === true) {
-      navigate("/WritePage")
+      if (profileData?.gender !== "null") {
+        navigate("/WritePage")
+      } else {
+        messageApi.info("내 정보를 입력 후 사용해주세요.")
+      }
     } else {
       messageApi.info("로그인 후 사용 가능합니다.")
     }
@@ -97,7 +126,6 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     }
   }
 
-
   const {
     datas: fetchedData,
     isLoading: fetchDataLoading,
@@ -152,7 +180,14 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
         </div>
         <div className={styles.cardGrid}>
           {fetchDataLoading ? (
-            <Spin style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}/>
+            <Spin
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
           ) : (
             <PostCard
               posts={posts}

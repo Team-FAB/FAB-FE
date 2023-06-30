@@ -54,7 +54,7 @@ const SignUp: React.FC = () => {
               name="email"
               rules={[
                 { required: true, message: "이메일을 입력하세요." },
-                { type: "email", message: "이미 사용중인 이메일입니다." },
+                { type: "email", message: "이메일 형식으로 작성해주세요." },
               ]}
             >
               <Input

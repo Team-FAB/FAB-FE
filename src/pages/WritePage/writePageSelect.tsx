@@ -15,7 +15,7 @@ const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("기간")
   const [selectedPrice, setSelectedPrice] = useState<String>("보증금")
 
-  const [selectedGender, setSelectedGender] = useState<string>("성별")
+  // const [selectedGender, setSelectedGender] = useState<string>("성별")
 
   const handleRegionChange = (e: RadioChangeEvent) => {
     const region = e.target.value
@@ -38,11 +38,11 @@ const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
     form.setFieldsValue({ price: deposit })
   }
 
-  const handleGenderChange = (e: RadioChangeEvent) => {
-    const gender = e.target.value
-    setSelectedGender(gender)
-    form.setFieldsValue({ gender })
-  }
+  // const handleGenderChange = (e: RadioChangeEvent) => {
+  //   const gender = e.target.value
+  //   setSelectedGender(gender)
+  //   form.setFieldsValue({ gender })
+  // }
 
   const handleToggleSearchBox = () => {
     setSearchBoxOpen(!searchBoxOpen)
@@ -54,29 +54,29 @@ const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
         <div className={styles.searchBox}>
           <div className={styles.searchBar} onClick={handleToggleSearchBox}>
             <div>
-              <p>
+              <p className={styles.title}>
                 <span className={styles.require}>*</span>지역
               </p>
               <Badge className={styles.cardBadgeArea}>{selectedArea}</Badge>
             </div>
             <div>
-              <p>
+              <p className={styles.title}>
                 <span className={styles.require}>*</span>기간
               </p>
               <Badge className={styles.cardBadgePeriod}>{selectedPeriod}</Badge>
             </div>
-            <div>
-              <p>
+            <div className={styles.lastDiv}>
+              <p className={styles.title}>
                 <span className={styles.require}>*</span>보증금
               </p>
               <Badge className={styles.cardBadgePrice}>{selectedPrice}</Badge>
             </div>
-            <div className={styles.lastDiv}>
+            {/* <div className={styles.lastDiv}>
               <p>
                 <span className={styles.require}>*</span>성별
               </p>
               <Badge className={styles.cardBadgeGender}>{selectedGender}</Badge>
-            </div>
+            </div> */}
           </div>
           <div
             className={
@@ -168,7 +168,7 @@ const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
                   </Radio.Group>
                 </Form.Item>
               </div>
-              <div className={styles.searchChoiceGender}>
+              {/* <div className={styles.searchChoiceGender}>
                 <p>성별</p>
                 <Form.Item
                   name="gender"
@@ -195,7 +195,7 @@ const writePageSelect: React.FC<WritePageSelectProps> = ({ form }) => {
                     ))}
                   </Radio.Group>
                 </Form.Item>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
