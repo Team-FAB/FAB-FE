@@ -31,6 +31,8 @@ const editPage: React.FC = () => {
     }
   }, [editPost])
 
+  //게시물 수정
+
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
   const {
