@@ -3,7 +3,7 @@ import styles from "./writePageSelect.module.css"
 import { Radio } from "antd"
 import { useState } from "react"
 import { FormInstance } from "antd"
-import { region, gender, period, price } from "../../object/profileDropdown"
+import { region, period, price } from "../../object/profileDropdown"
 
 interface WritePageSelectProps {
   form: FormInstance

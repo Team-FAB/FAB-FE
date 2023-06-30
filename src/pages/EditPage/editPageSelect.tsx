@@ -3,7 +3,7 @@ import styles from "./editPageSelect.module.css"
 import { Radio } from "antd"
 import { useState, useEffect } from "react"
 import { FormInstance } from "antd"
-import { region, gender, period, price } from "../../object/profileDropdown"
+import { region, period, price } from "../../object/profileDropdown"
 import { useLocation } from "react-router-dom"
 
 interface EditPageSelectProps {
