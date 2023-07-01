@@ -28,10 +28,8 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const [messageApi, contextHolder] = message.useMessage()
   const [, setIsSearched] = useState(false)
   const [searchBoxOpen, setSearchBoxOpen] = useState(false)
-
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
-  
   // 유저 정보 가져오기
   const {
     datas: profileData,
@@ -50,7 +48,6 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     })
     setProfileBody()
   }, [userMyprofile, userToken])
-
 
   const handleSearchResults = (results: Post[]) => {
     setPosts(results)

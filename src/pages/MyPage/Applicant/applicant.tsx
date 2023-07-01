@@ -34,7 +34,6 @@ const Applicant: React.FC<ApplicantProps> = ({
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
   const navigate = useNavigate()
-
   const dispatch: AppDispatch = useDispatch()
 
   // 승인

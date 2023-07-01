@@ -46,7 +46,6 @@
   font-size: var(--font-size-sub2);
   background-color: #ddd;
   border-radius: 0 var(--badge-border-radius) 0 0;
-
   position: relative;
 }
 
@@ -93,7 +92,6 @@
   overflow: auto;
   background: #f5f5f5;
   border-radius: var(--badge-border-radius);
-
   position: relative;
 }
 

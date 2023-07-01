@@ -256,3 +256,22 @@ export const mbtiGraph: { [key: string]: number } = {
   "ESTJ-ISTJ": 3,
   "ESTJ-ESTJ": 3,
 }
+
+export const mbtiTypes = [
+  "INTJ",
+  "INTP",
+  "ENTJ",
+  "ENTP",
+  "INFJ",
+  "INFP",
+  "ENFJ",
+  "ENFP",
+  "ISTJ",
+  "ISFJ",
+  "ESTJ",
+  "ESFJ",
+  "ISTP",
+  "ISFP",
+  "ESTP",
+  "ESFP",
+]

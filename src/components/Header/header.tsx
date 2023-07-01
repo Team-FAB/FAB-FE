@@ -8,7 +8,6 @@ import { MenuOutlined, UserOutlined } from "@ant-design/icons"
 import { logOutUser } from "../../Redux/user"
 import { RiMessage3Fill } from "react-icons/ri"
 
-
 const Header: React.FC = () => {
   const isLoggedIn = useSelector((state: RootState) =>
     Boolean(state.user.data.token.atk),
@@ -36,9 +35,8 @@ const Header: React.FC = () => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth)
     }
-
     window.addEventListener("resize", handleResize)
-
+    
     return () => {
       window.removeEventListener("resize", handleResize)
     }

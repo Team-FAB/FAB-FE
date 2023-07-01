@@ -12,6 +12,7 @@
   justify-content: center;
   gap: 25px;
 }
+
 @media (max-width: 768px) {
   .cardGrid {
     grid-template-rows: 1fr 1fr;
@@ -25,11 +26,13 @@
     flex-direction: column;
   }
 }
+
 @media (max-width: 700px) {
   .roomMateTitle {
     justify-content: center;
     flex-direction: column;
   }
+
   .roomMateTitleText{
     margin-bottom: 20px;
     text-align: center;
@@ -43,7 +46,6 @@
   font-size: var(--font-size-h4);
   font-weight: var(--font-weight-button);
 }
-
 
 .roomMateBtn {
   display: flex;

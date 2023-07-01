@@ -1,15 +1,9 @@
 import styles from "./recommendCard.module.css"
 import { Badge, Card, Button } from "antd"
 import { mbtiGraph } from "../../object/mbtiGraph"
-import { RecommendUser, Data } from "../../interface/interface"
+import { RecommendProps } from "../../interface/interface"
 
-interface Props {
-  user: RecommendUser
-  onClick?: () => void
-  data: Data
-}
-
-const RecommendPostCard: React.FC<Props> = ({ user, onClick, data }) => {
+const RecommendPostCard: React.FC<RecommendProps> = ({ user, onClick, data }) => {
   const compatibilityLevels = [
     <div></div>,
     <div></div>,
@@ -26,7 +20,6 @@ const RecommendPostCard: React.FC<Props> = ({ user, onClick, data }) => {
 
   const compatibilityKey = `${data.mbti}-${user.mbti}`
 
-  
   const compatibility =
     compatibilityKey in mbtiGraph &&
     mbtiGraph[compatibilityKey] >= 2 &&

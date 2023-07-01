@@ -21,7 +21,6 @@ import Apply from "./pages/MyPage/Applicant/apply"
 import Google from "./components/SocialLogin/google"
 import Chat from "./components/Header/chat/chat"
 
-
 const App: React.FC = () => {
   return (
     <Provider store={store}>

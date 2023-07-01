@@ -89,14 +89,6 @@
   opacity: 0.5;
 }
 
-/* .alert {
-  z-index: 1001;
-  position: absolute;
-  top: 10px;
-  display: flex;
-  justify-content: center;
-} */
-
 .loginBtnBox {
   display: flex;
   gap: 10px;
@@ -143,6 +135,7 @@
   .videoBox {
     display: none;
   }
+  
   .loginContainer {
     flex-direction: column;
   }
