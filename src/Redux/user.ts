@@ -235,7 +235,6 @@ export const googleloginUser = createAsyncThunk<
 export const registerUser = createAsyncThunk(
   "api/users/register",
   async (userInfo: { email: string; password: string; nickname: string }) => {
-    try {
       const response = await fetch(`/api/${userRegister}`, {
         method: "POST",
         headers: {
@@ -244,17 +243,13 @@ export const registerUser = createAsyncThunk(
         body: JSON.stringify(userInfo),
       })
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(`${response.status}: ${errorData.msg}`)
+      if (response.status === 201) {
+        return true
+      } else {
+        return false
       }
-
-    } catch (error) {
-      console.error("회원가입 실패", error)
-      throw error
-    }
-  },
-)
+    },
+  )
 
 const userSlice = createSlice({
   name: "user",
