@@ -11,6 +11,7 @@ const useFavorite = (postId: number) => {
   const isSaved = useSelector((state: RootState) => state.saved[postId])
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
+  // 찜하기, 취소하기
   const toggleFavorite = async () => {
     try {
       const newIsSaved = !isSaved

@@ -10,16 +10,15 @@ import { useDispatch } from 'react-redux'
 import { fetchFavorites } from '../../../components/Favorite/favoritesThunk'
 
 const Favorite = () => {
-
   const dispatch: AppDispatch = useDispatch()
   const favorites = useSelector((state: RootState) => state.favorites)
-
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
 
   const handleCloseModal = () => {
     setSelectedPost(null)
   }
 
+  // 찜한 목록 가져오기
   useEffect(() => {
     dispatch(fetchFavorites())
   }, [dispatch])

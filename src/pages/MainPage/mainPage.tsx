@@ -99,7 +99,6 @@ const MainPage: React.FC = () => {
   }, [recommendSuccess, recommendDatas])
 
   //메인페이지 게시글
-
   const {
     datas: postDatas,
     isSuccess: postSuccess,
@@ -128,7 +127,6 @@ const MainPage: React.FC = () => {
   }, [postSuccess, postDatas])
 
   // 추천 룸메이트 정보
-
   const {
     datas: profileDatas,
     isSuccess: profileDatasSuccess,
@@ -203,7 +201,6 @@ const MainPage: React.FC = () => {
   }
 
   // 내정보를 입력하지 않으면 내 정보를 입력하라고 모달창이 나옴
-
   const navigate = useNavigate()
 
   useEffect(() => {

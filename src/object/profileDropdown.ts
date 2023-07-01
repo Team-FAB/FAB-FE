@@ -115,6 +115,8 @@ export const tendencyChoice = [
   { label: "조용한 분위기를 좋아하는", value: "조용한 분위기를 좋아하는" },
   { label: "동물을 좋아하는", value: "동물을 좋아하는" },
   { label: "동물을 좋아하지 않는", value: "동물을 좋아하지 않는" },
+  { label: "엄청 깔끔한", value: "엄청 깔끔한" },
+  { label: "적당히 깔끔한", value: "적당히 깔끔한" },
 ]
 
 export const period = [

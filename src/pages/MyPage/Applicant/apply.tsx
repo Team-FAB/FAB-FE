@@ -10,7 +10,6 @@ import { useDispatch } from 'react-redux'
 import { fetchData } from '../../../Redux/applyReducer'
 
 const Apply: React.FC = () => {
-
   const userToken = useSelector((state : RootState) => state.user.data.token)
   const [showApply, setShowApply] = useState(false)
   const [toCurrentPage, setToCurrentPage] = useState(1)

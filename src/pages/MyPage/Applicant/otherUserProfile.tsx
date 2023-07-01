@@ -14,6 +14,7 @@ const OtherUserProfile: React.FC<RecommendModalProps> = ({
   const [checkedSmoking, setCheckedSmoking] = useState<string>("")
   const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
   
+  // 유저 정보 가져오기
   useEffect(() => {
     const fetchData = async () => {
       try {

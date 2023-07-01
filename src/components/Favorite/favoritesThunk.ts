@@ -6,6 +6,7 @@ export const fetchFavorites = createAsyncThunk('favorites/fetch', async (_, thun
   const state = thunkAPI.getState() as RootState
   const userToken = state.user.data.token
 
+  // 찜한 목록
   try {
     const response = await fetch(`/api/${userMyFavorite}`, {
       method: "GET",

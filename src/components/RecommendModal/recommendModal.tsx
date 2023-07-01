@@ -18,7 +18,6 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
   const [userArticles, setUserArticles] = useState<Post[]>([])
   const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
