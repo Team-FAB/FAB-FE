@@ -102,9 +102,6 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     try {
       const response = await fetch(`/api/articles/filter?${queryString}`, {
         method: "GET",
-        headers: new Headers({
-          "ngrok-skip-browser-warning": "69420",
-        }),
       })
 
       if (!response.ok) {
@@ -141,9 +138,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
       `/api/${userArticle}?page=${currentPage}&size=9&isRecruiting=${showRecruiting}`,
     )
     setMethod("GET")
-    setHeaders({
-      "ngrok-skip-browser-warning": "69420",
-    })
+    setHeaders()
     setBody()
   }, [userArticle, currentPage, showRecruiting, messageApi])
 

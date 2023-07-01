@@ -62,11 +62,7 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
   const handleArticleClick = (articleId: string) => {
     setArticleUrl(`/api/articles/${articleId}`)
     setArticleMethod("GET")
-    setArticleHeaders(
-      new Headers({
-        "ngrok-skip-browser-warning": "69420",
-      }),
-    )
+    setArticleHeaders()
     setArticleBody()
   }
 

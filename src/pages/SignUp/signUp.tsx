@@ -1,38 +1,37 @@
-import { Input, Button, Form } from "antd"
+import { Input, Button, Form, message } from "antd"
 import { UserOutlined, LockOutlined } from "@ant-design/icons"
 import styles from "./signUp.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { registerUser } from "../../Redux/user"
-import { useSelector } from "react-redux"
-import { RootState } from "../../Redux/store"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import video from "/bg.mp4"
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const [messageApi, contextHolder] = message.useMessage()
 
   const mainpageLink = () => {
     navigate("/MainPage")
   }
-
-  const registerUserStatus = useSelector(
-    (state: RootState) => state.user.signUp,
-  )
 
   const onFinish = async (values: {
     email: string
     password: string
     nickname: string
   }) => {
-    await dispatch(registerUser(values))
-
-    if (registerUserStatus === true) {
+    try {
+      await dispatch(registerUser(values))
       navigate("/")
+    } catch (error) {
+      if (error instanceof Error) {
+        messageApi.error(error.message)
+      }
     }
   }
 
   return (
+    <>
     <div className={styles.signUpContainer}>
       <img
         className={styles.logo}
@@ -126,6 +125,8 @@ const SignUp: React.FC = () => {
         </div>
       </div>
     </div>
+    {contextHolder}
+    </>
   )
 }
 
