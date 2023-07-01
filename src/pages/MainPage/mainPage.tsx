@@ -81,7 +81,6 @@ const MainPage: React.FC = () => {
       setRecommendUrl(`/api/${usersRecommend}?size=12`)
       setRecommendMethod("GET")
       setRecommendHeaders({
-        "ngrok-skip-browser-warning": "69420",
         Authorization: userToken.atk.toString(),
       })
       setRecommendBody()
@@ -114,9 +113,7 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     setPostUrl(`/api/${userArticle}?page=1&size=12&isRecruiting=true`)
     setPostMethod("GET")
-    setPostHeaders({
-      "ngrok-skip-browser-warning": "69420",
-    })
+    setPostHeaders()
     setPostBody()
   }, [userArticle])
 

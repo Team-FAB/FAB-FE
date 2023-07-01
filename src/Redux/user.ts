@@ -236,15 +236,21 @@ export const registerUser = createAsyncThunk(
   "api/users/register",
   async (userInfo: { email: string; password: string; nickname: string }) => {
     try {
-      await fetch(`/api/${userRegister}`, {
+      const response = await fetch(`/api/${userRegister}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userInfo),
       })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(`${response.status}: ${errorData.msg}`)
+      }
+
     } catch (error) {
-      console.error("회원가입 실패")
+      console.error("회원가입 실패", error)
       throw error
     }
   },

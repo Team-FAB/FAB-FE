@@ -98,7 +98,7 @@ const Chat: React.FC = () => {
     }
 
     stompClient.onDisconnect = () => {
-      console.log("STOMP 연결이 해제되었습니다.")
+      console.error("STOMP 연결이 해제되었습니다.")
     }
 
     // STOMP 에러 처리

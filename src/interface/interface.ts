@@ -15,6 +15,7 @@ export interface UserState {
   readonly email?: string 
   readonly status: "idle" | "loading" | "fulfilled" | "error"
   readonly accessToken?: string
+  readonly error?: string
 }
 
 export interface LoginValues {
