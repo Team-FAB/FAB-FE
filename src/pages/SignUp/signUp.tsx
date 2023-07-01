@@ -3,8 +3,6 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons"
 import styles from "./signUp.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { registerUser } from "../../Redux/user"
-import { useSelector } from "react-redux"
-import { RootState } from "../../Redux/store"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import video from "/bg.mp4"
 
@@ -16,10 +14,6 @@ const SignUp: React.FC = () => {
   const mainpageLink = () => {
     navigate("/MainPage")
   }
-
-  const registerUserStatus = useSelector(
-    (state: RootState) => state.user.signUp,
-  )
 
   const onFinish = async (values: {
     email: string
