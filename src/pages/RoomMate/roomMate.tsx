@@ -68,7 +68,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
         messageApi.info("내 정보를 입력 후 사용해주세요.")
       }
     } else {
-      messageApi.info("로그인 후 사용 가능합니다.")
+      messageApi.error("로그인이 필요합니다.")
     }
   }
 
