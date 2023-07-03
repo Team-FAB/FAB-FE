@@ -202,7 +202,6 @@ const MainPage: React.FC = () => {
 
   const handleCloseModal = () => {
     setSelectedPost(null)
-    setIsModalVisible(false)
   }
 
   const handleUserClick = (user: User) => {

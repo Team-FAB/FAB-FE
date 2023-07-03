@@ -63,6 +63,7 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
     setArticleMethod("GET")
     setArticleHeaders()
     setArticleBody()
+    setSelectedArticle(articleData)
   }
 
   useEffect(() => {
