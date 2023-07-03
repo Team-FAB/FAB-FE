@@ -16,7 +16,6 @@ const editPage: React.FC = () => {
   const location = useLocation()
   const editPost = location.state.post
 
-
   useEffect(() => {
     if (editPost) {
       form.setFieldsValue({
@@ -92,7 +91,16 @@ const editPage: React.FC = () => {
         </Form.Item>
         <div className={styles.require}>* 필수 입력 항목</div>
         <EditPageSelect form={form} />
-        <Form.Item name="content" initialValue={userContent}>
+        <Form.Item
+          name="content"
+          initialValue={userContent}
+          rules={[
+            {
+              required: true,
+              message: "내용을 작성해주세요.",
+            },
+          ]}
+        >
           <textarea
             maxLength={4000}
             className={styles.textArea}

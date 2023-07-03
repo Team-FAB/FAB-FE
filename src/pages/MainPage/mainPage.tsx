@@ -77,7 +77,7 @@ const MainPage: React.FC = () => {
   }
 
   useEffect(() => {
-    if(isLogged){
+    if (isLogged) {
       setRecommendUrl(`/api/${usersRecommend}?size=12`)
       setRecommendMethod("GET")
       setRecommendHeaders({
@@ -187,7 +187,11 @@ const MainPage: React.FC = () => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
 
   const handlePostClick = (post: Post) => {
-    setSelectedPost(post)
+    if (isLogged === true) {
+      setSelectedPost(post)
+    } else {
+      messageApi.error("로그인이 필요합니다.")
+    }
   }
 
   const handleCloseModal = () => {

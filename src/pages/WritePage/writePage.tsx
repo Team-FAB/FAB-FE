@@ -74,7 +74,15 @@ const WritePage: React.FC = () => {
         </Form.Item>
         <div className={styles.require}>* 필수 입력 항목</div>
         <WritePageSelect form={form} />
-        <Form.Item name="content">
+        <Form.Item
+          name="content"
+          rules={[
+            {
+              required: true,
+              message: "내용을 작성해주세요.",
+            },
+          ]}
+        >
           <textarea className={styles.textArea} maxLength={4000} />
         </Form.Item>
         <div className={styles.buttonContainer}>
