@@ -165,7 +165,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     }
   }, [fetchDataSuccess, fetchedData])
 
-  // 모집글, 전체글 토글
+  // 모집글, 전체글 토글 버튼
   const toggleRecruitOnly = () => {
     setShowRecruiting((prevShowRecruiting) => {
       const nextShowRecruiting = !prevShowRecruiting
