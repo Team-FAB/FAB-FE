@@ -1,8 +1,9 @@
 # 방갑고
 ![사진](https://github.com/Team-FAB/FAB-FE/assets/122066788/595eb1c6-d188-460e-825f-ff15e9c75cf1)
 ***
-#Overview
-***
+
+# Overview
+
 사회 초년생들이 사회에 첫 발을 내딛을 때, 주거비용은 상당한 부담으로 다가옵니다.
 특히 월세나 전세금이 계속해서 높아지는 현실에서 혼자 주거비용을 감당하는 것은 새로운 지역으로 이동하거나 독립을 할 때 생각보다 많은 경제적 압박을 받게 됩니다.
 
@@ -18,3 +19,58 @@
 - **세분화된 검색 기능 제공**
     - 사용자는 원하는 지역, 기간, 보증금, 성별 정보를 기반으로 게시글을 검색하고 필터링할 수 있습니다. 또한, 모집 중인 글만 따로 보거나 마감된 글까지 전체로 보는 것이 가능합니다.
     이를 통해 사용자들은 자신의 선호사항에 맞는 룸메이트 구하는 게시글을 빠르게 찾을 수 있습니다.
+
+***
+
+# 배포주소
+https://fab-fe-rust.vercel.app/
+
+***
+
+# 시연영상
+
+***
+
+# 발표영상
+
+***
+
+# Project
+
+## ⚙ 프로젝트 아키텍처
+
+
+
+## 🛠 기술스택
+**Frontend**
+- React
+- Typescript
+- Redux
+- React-router-dom
+- StompJs
+- Vite
+
+**Style**
+- module.css
+- Ant Design
+
+**Communication**
+- Slack
+- Discord
+- Gather town
+
+## CI / CD
+- Deploy
+    - Vercel
+
+## 🔗 주요 기능
+- 프로젝트의 모든 기획
+- 전반적인 서비스 디자인 기획
+- 로그인 OAuth(카카오, google)
+- 프로필 조회, 수정
+- 프로필을 기반으로 추천 시스템
+- 룸메이트 구하는 게시글  CRUD 및 신청
+- 매칭된 사용자끼리 채팅
+
+## 📋 ERD
+![Untitled (2)](https://github.com/Team-FAB/FAB-FE/assets/122066788/f0f62fec-f5d7-42dc-ae69-50a344491f44)
