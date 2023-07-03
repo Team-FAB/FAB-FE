@@ -15,6 +15,7 @@ export interface UserState {
   readonly email?: string 
   readonly status: "idle" | "loading" | "fulfilled" | "error"
   readonly accessToken?: string
+  readonly error?: string
 }
 
 export interface LoginValues {
@@ -238,25 +239,37 @@ export interface PostData {
 }
 
 export interface ChatMessage {
-  msg: string
-  userEmail: string
-  createData?: string
+  readonly msg: string
+  readonly userEmail: string
+  readonly createData?: string
 }
 
 export interface ChatList {
-  userNickname: string
-  roomId: string
+  readonly userNickname: string
+  readonly roomId: string
 }
 
 export interface MessageType {
-  roomId: string
-  userEmail: string
-  msg: string
-  createDate: string
+  readonly roomId: string
+  readonly userEmail: string
+  readonly msg: string
+  readonly createDate: string
 }
 
 export interface ValidateErrorEntity {
-  values: Store
-  errorFields: { name: NamePath; errors: string[] }[]
-  outOfDate: boolean
+  readonly values: Store
+  readonly errorFields: { name: NamePath; errors: string[] }[]
+  readonly outOfDate: boolean
+}
+
+export interface MbitCalculatorModalProps {
+  readonly isModalVisible: boolean
+  readonly handleOk: () => void
+  readonly handleCancel: () => void
+}
+
+export interface RecommendProps {
+  readonly user: RecommendUser
+  readonly onClick?: () => void
+  readonly data: Data
 }
