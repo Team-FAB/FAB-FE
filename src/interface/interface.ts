@@ -157,6 +157,7 @@ export interface RoomMateSearchProps {
     query: SearchQuery,
     page?: number,
     size?: number,
+    showRecruiting? : boolean,
   ) => Promise<void>
   readonly post?: Post
   readonly onClick?: () => void
