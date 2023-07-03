@@ -38,6 +38,7 @@ https://fab-fe-rust.vercel.app/
 # Project
 
 ## ⚙ 프로젝트 아키텍처
+![아키택처](https://github.com/Team-FAB/FAB-FE/assets/122066788/eabfabe5-a531-4e86-b4dd-7739f35d19f9)
 
 
 
