@@ -8,7 +8,6 @@ import { userMyprofileNickname } from '../../../api'
 import ProfileFile from "./profileFile"
 
 const ProfileBasic = (props: ProfileBasicProps) => {
-
   const userToken = useSelector((state : RootState) => state.user.data.token)
   
   // 프로필 기본 정보 수정
@@ -22,7 +21,7 @@ const ProfileBasic = (props: ProfileBasicProps) => {
     }
   }
 
-  // 서버 연결
+  // 닉네임 수정
   const updateProfile = async (profileData: { nickname: string }) => {
     try {
       const response = await fetch(`/api/${userMyprofileNickname}`, {

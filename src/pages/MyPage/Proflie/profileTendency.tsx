@@ -26,7 +26,6 @@ import { RootState } from "../../../Redux/store"
 import { userMyprofile } from "../../../api"
 
 const ProfileTendency = (props: profileTendencyProps) => {
-
   const [tendencyModal, setTendencyModal] = useState(false)
   const [choiceModal, setChoiceModal] = useState(false)
   const [boxStates, setBoxStates] = useState({
@@ -37,6 +36,7 @@ const ProfileTendency = (props: profileTendencyProps) => {
     ageGroupBoxOpen: false,
     activityTimeBoxOpen: false,
   })
+  const userToken = useSelector((state: RootState) => state.user.data.token)
 
   // 성향 dropdown 
   const handleToggleBox = (boxName: keyof profileTendencyDropdown) => {
@@ -60,9 +60,7 @@ const ProfileTendency = (props: profileTendencyProps) => {
     }
   }
 
-  const userToken = useSelector((state: RootState) => state.user.data.token)
-
-  // 서버 연결
+  // 프로필 성향 수정
   const updateProfileTendency = async (profileData: userProfileData) => {
     try {
       const response = await fetch(`/api/${userMyprofile}`, {
@@ -91,7 +89,6 @@ const ProfileTendency = (props: profileTendencyProps) => {
     }
   }
 
-  // 프로필 업데이트
   const handleUpdateProfile = async () => {
     if (
       props.selectedGender === "남여" ||

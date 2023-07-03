@@ -81,7 +81,6 @@ const MainPage: React.FC = () => {
       setRecommendUrl(`/api/${usersRecommend}?size=12`)
       setRecommendMethod("GET")
       setRecommendHeaders({
-        "ngrok-skip-browser-warning": "69420",
         Authorization: userToken.atk.toString(),
       })
       setRecommendBody()
@@ -100,7 +99,6 @@ const MainPage: React.FC = () => {
   }, [recommendSuccess, recommendDatas])
 
   //메인페이지 게시글
-
   const {
     datas: postDatas,
     isSuccess: postSuccess,
@@ -114,9 +112,7 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     setPostUrl(`/api/${userArticle}?page=1&size=12&isRecruiting=true`)
     setPostMethod("GET")
-    setPostHeaders({
-      "ngrok-skip-browser-warning": "69420",
-    })
+    setPostHeaders()
     setPostBody()
   }, [userArticle])
 
@@ -131,7 +127,6 @@ const MainPage: React.FC = () => {
   }, [postSuccess, postDatas])
 
   // 추천 룸메이트 정보
-
   const {
     datas: profileDatas,
     isSuccess: profileDatasSuccess,
@@ -210,7 +205,6 @@ const MainPage: React.FC = () => {
   }
 
   // 내정보를 입력하지 않으면 내 정보를 입력하라고 모달창이 나옴
-
   const navigate = useNavigate()
 
   useEffect(() => {

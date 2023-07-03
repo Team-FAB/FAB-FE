@@ -11,7 +11,6 @@ import useFetch from '../../../hooks/useFetch'
 import { Spin } from 'antd'
 
 const Board: React.FC = () => {
-
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [posts, setPosts] = useState<Post[]>([])
   const userToken = useSelector((state : RootState) => state.user.data.token)

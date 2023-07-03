@@ -97,20 +97,6 @@ const Chat: React.FC = () => {
       })
     }
 
-    stompClient.onDisconnect = () => {
-      console.log("STOMP 연결이 해제되었습니다.")
-    }
-
-    // STOMP 에러 처리
-    stompClient.onStompError = (frame) => {
-      console.error(`STOMP 에러: ${frame.headers["message"]}`)
-    }
-
-    // 웹소켓 에러 처리
-    stompClient.onWebSocketError = (event) => {
-      console.error(`웹소켓 에러: ${event}`)
-    }
-
     stompClient.activate()
   }
 

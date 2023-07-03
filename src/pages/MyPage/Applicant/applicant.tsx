@@ -34,7 +34,6 @@ const Applicant: React.FC<ApplicantProps> = ({
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedArticle, setSelectedArticle] = useState<Post | null>(null)
   const navigate = useNavigate()
-
   const dispatch: AppDispatch = useDispatch()
 
   // 승인
@@ -138,11 +137,7 @@ const Applicant: React.FC<ApplicantProps> = ({
   const handleArticleClick = (articleId: string) => {
     setArticleUrl(`/api/articles/${articleId}`)
     setArticleMethod("GET")
-    setArticleHeaders(
-      new Headers({
-        "ngrok-skip-browser-warning": "69420",
-      }),
-    )
+    setArticleHeaders()
     setArticleBody()
   }
 

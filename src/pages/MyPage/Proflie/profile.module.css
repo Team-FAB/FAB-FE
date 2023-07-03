@@ -215,7 +215,6 @@
   border-radius: var(--badge-border-radius);
   background-color: inherit;
   margin-left: 5px;
-
   position: relative;
 }
 
@@ -236,7 +235,6 @@
   background-color: var(--white);
   box-shadow: var(--shadow);
   overflow-y: scroll;
-
   position: absolute;
   top: 100%;
   left: 35%;
@@ -262,7 +260,6 @@
   background-color: var(--white);
   box-shadow: var(--shadow);
   overflow-y: scroll;
-
   position: absolute;
   top: 100%;
   left: 40%;
@@ -287,7 +284,6 @@
   border-radius: 10px;
   background-color: var(--white);
   box-shadow: var(--shadow);
-
   position: absolute;
   top: 100%;
   left: 37%;
@@ -360,7 +356,6 @@
   border-radius: 10px;
   background-color: var(--white);
   box-shadow: var(--shadow);
-
   position: absolute;
   top: 100%;
   left: 30%;

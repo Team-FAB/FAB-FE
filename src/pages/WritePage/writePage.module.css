@@ -109,7 +109,6 @@
   border: none;
 }
 
-/* postCard.css */
 .cardBadgeArea,
 .cardBadgePeriod,
 .cardBadgePrice,
@@ -134,7 +133,6 @@
 .cardBadgeGender {
   background-color: var(--purple500);
 }
-/* postCard.css */
 
 .searchChoiceContainer {
   position: absolute;

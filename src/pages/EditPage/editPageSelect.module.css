@@ -44,7 +44,6 @@
   border: none;
 }
 
-/* Post Card */
 .cardBadgeArea,
 .cardBadgePeriod,
 .cardBadgePrice,
@@ -78,6 +77,7 @@
   .searchBox {
     font-size: 12px;
   }
+
   .cardBadgeArea,
   .cardBadgePeriod,
   .cardBadgePrice,
@@ -86,7 +86,6 @@
   }
 }
 
-/* Search Choice Container */
 .searchChoiceContainer {
   position: absolute;
   top: 140%;
@@ -168,7 +167,6 @@
   align-items: center;
 }
 
-/* Radio Groups */
 .areaRadioGroup::-webkit-scrollbar-thumb,
 .priceRadioGroup::-webkit-scrollbar-thumb {
   background-color: var(--black100);

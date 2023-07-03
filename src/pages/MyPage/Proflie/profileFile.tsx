@@ -6,7 +6,6 @@ import { userMyprofileFile } from '../../../api'
 import { ProfileFileProps } from '../../../interface/interface'
 
 const ProfileFile = (props: ProfileFileProps) => {
-
   const userToken = useSelector((state : RootState) => state.user.data.token)
 
   // 사진 업로드

@@ -26,12 +26,18 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   const navigate = useNavigate()
   const [searchResults] = useState([])
   const [messageApi, contextHolder] = message.useMessage()
-  const [, setIsSearched] = useState(false)
+  const [isSearched, setIsSearched] = useState(false)
   const [searchBoxOpen, setSearchBoxOpen] = useState(false)
+  const [queryString, setQueryString] = useState("")
+  const [query, setQuery] = useState<SearchQuery>({
+    area: "",
+    period: "",
+    price: undefined,
+    gender: "",
+  })
 
   const userToken = useSelector((state: RootState) => state.user.data.token)
 
-  
   // 유저 정보 가져오기
   const {
     datas: profileData,
@@ -50,7 +56,6 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     })
     setProfileBody()
   }, [userMyprofile, userToken])
-
 
   const handleSearchResults = (results: Post[]) => {
     setPosts(results)
@@ -71,7 +76,7 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
         messageApi.info("내 정보를 입력 후 사용해주세요.")
       }
     } else {
-      messageApi.info("로그인 후 사용 가능합니다.")
+      messageApi.error("로그인이 필요합니다.")
     }
   }
 
@@ -80,31 +85,31 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
     window.location.reload()
   }
 
-  // 모집글, 전체글 토글
-  const toggleRecruitOnly = () => {
-    setShowRecruiting(!showRecruiting)
-  }
-
   // 검색 필터링
-  const handleSearch = async (query: SearchQuery, page = 1, size = 9) => {
+  const handleSearch = async (
+    query: SearchQuery,
+    page = 1,
+    size = 9,
+    showRecruiting? : boolean,
+  ) => {
+    setQuery(query)
     const searchParams = {
       page: page.toString(),
       size: size.toString(),
-      isRecruiting: false.toString(),
+      isRecruiting: showRecruiting?.toString() || "false",
       region: query.area,
       period: query.period,
       price: query.price?.toString() ?? "",
       gender: query.gender.toString(),
     }
 
-    const queryString = new URLSearchParams(searchParams).toString()
+    const newQueryString = new URLSearchParams(searchParams).toString()
+    setQueryString(newQueryString)
 
     try {
-      const response = await fetch(`/api/articles/filter?${queryString}`, {
+      const response = await fetch(`/api/articles/filter?${newQueryString}`, {
         method: "GET",
-        headers: new Headers({
-          "ngrok-skip-browser-warning": "69420",
-        }),
+        headers: new Headers(),
       })
 
       if (!response.ok) {
@@ -125,7 +130,6 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
       messageApi.error("검색된 결과가 없습니다.")
     }
   }
-
   const {
     datas: fetchedData,
     isLoading: fetchDataLoading,
@@ -137,13 +141,16 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
   } = useFetch<PostData | null>("", "", {}, null)
 
   useEffect(() => {
-    setUrl(
-      `/api/${userArticle}?page=${currentPage}&size=9&isRecruiting=${showRecruiting}`,
-    )
+    if (isSearched === false) {
+      setUrl(
+        `/api/${userArticle}?page=${currentPage}&size=9&isRecruiting=${showRecruiting}`,
+      )
+    } else {
+      setUrl(`/api/articles/filter?${queryString}`)
+    }
+
     setMethod("GET")
-    setHeaders({
-      "ngrok-skip-browser-warning": "69420",
-    })
+    setHeaders()
     setBody()
   }, [userArticle, currentPage, showRecruiting, messageApi])
 
@@ -157,6 +164,19 @@ const RoomMate: React.FC<RoomMateSearchProps> = () => {
       }
     }
   }, [fetchDataSuccess, fetchedData])
+
+  // 모집글, 전체글 토글
+  const toggleRecruitOnly = () => {
+    setShowRecruiting((prevShowRecruiting) => {
+      const nextShowRecruiting = !prevShowRecruiting
+
+      if (isSearched === true) {
+        handleSearch(query, currentPage, pageSize, nextShowRecruiting)
+      }
+
+      return nextShowRecruiting
+    })
+  }
 
   return (
     <>

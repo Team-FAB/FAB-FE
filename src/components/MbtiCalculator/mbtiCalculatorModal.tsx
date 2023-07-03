@@ -1,15 +1,10 @@
 import React, { useState } from "react"
 import { Modal, Button, Select } from "antd"
 import styles from "./mbtiCalculatorModal.module.css"
-import { mbtiGraph } from "../../object/mbtiGraph"
+import { mbtiGraph, mbtiTypes } from "../../object/mbtiGraph"
+import { MbitCalculatorModalProps } from "../../interface/interface"
 
 const { Option } = Select
-
-interface MbitCalculatorModalProps {
-  isModalVisible: boolean
-  handleOk: () => void
-  handleCancel: () => void
-}
 
 const MbitCalculatorModal: React.FC<MbitCalculatorModalProps> = ({
   isModalVisible,
@@ -41,25 +36,6 @@ const MbitCalculatorModal: React.FC<MbitCalculatorModalProps> = ({
       <img src="/mbti3.svg" className={styles.mbtiIcon} />
       <span>우리 궁합은 천생연분!</span>
     </div>,
-  ]
-
-  const mbtiTypes = [
-    "INTJ",
-    "INTP",
-    "ENTJ",
-    "ENTP",
-    "INFJ",
-    "INFP",
-    "ENFJ",
-    "ENFP",
-    "ISTJ",
-    "ISFJ",
-    "ESTJ",
-    "ESFJ",
-    "ISTP",
-    "ISFP",
-    "ESTP",
-    "ESFP",
   ]
 
   const calculateCompatibility = () => {

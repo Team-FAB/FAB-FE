@@ -95,6 +95,7 @@
   .videoBox {
     display: none;
   }
+  
   .loginContainer {
     flex-direction: column;
   }
