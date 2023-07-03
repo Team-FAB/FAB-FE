@@ -156,7 +156,13 @@ const MainPage: React.FC = () => {
     if (selectedUser) {
       fetchUserProfile()
     }
-  }, [selectedUser, messageApi, userToken, profileDatasSuccess, profileDatas])
+  }, [selectedUser, messageApi, userToken, profileDatasSuccess])
+
+  useEffect(() => {
+    if (profileDatasSuccess) {
+      setSelectedUserProfile(profileDatas)
+    }
+  }, [profileDatasSuccess, profileDatas])
 
   const adImages = ["/001.jpg", "/002.jpg", "/003.jpg", "/004.jpg"]
 
