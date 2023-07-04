@@ -215,9 +215,7 @@ const Chat: React.FC = () => {
                           paddingRight: 5,
                         }}
                       >
-                        {moment(message.createDate)
-                          .locale("ko")
-                          .format("A h:mm")}
+                        {moment(message.createDate).add(9, 'hours').locale("ko").format("A h:mm")}
                       </span>
                     )}
                     <span
@@ -238,9 +236,7 @@ const Chat: React.FC = () => {
                           paddingLeft: 5,
                         }}
                       >
-                        {moment(message.createDate)
-                          .locale("ko")
-                          .format("A h:mm")}
+                        {moment(message.createDate).add(9, 'hours').locale("ko").format("A h:mm")}
                       </span>
                     )}
                   </div>
