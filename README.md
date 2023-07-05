@@ -28,6 +28,7 @@ https://fab-fe-rust.vercel.app/
 ***
 
 # 시연영상
+https://youtu.be/T61bLiATLN0
 
 ***
 
