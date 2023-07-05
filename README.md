@@ -39,7 +39,8 @@ https://youtu.be/T61bLiATLN0
 # Project
 
 ## ⚙ 프로젝트 아키텍처
-![아키택처](https://github.com/Team-FAB/FAB-FE/assets/122066788/c586f321-d6d2-4cd8-9382-95d666ebf650)
+![아키택처](https://github.com/Team-FAB/FAB-FE/assets/122066788/fb1ff4ca-f768-4ea0-984b-f0114893f785)
+
 
 
 
