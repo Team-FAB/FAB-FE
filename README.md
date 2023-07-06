@@ -32,7 +32,8 @@ https://youtu.be/T61bLiATLN0
 
 ***
 
-# 발표영상
+# Notion주소
+https://www.notion.so/cb2e54049e1240c59d18928fdd83c5d0?v=c40b3db97f7a4042b2db491e8e752346
 
 ***
 
