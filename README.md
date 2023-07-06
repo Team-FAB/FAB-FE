@@ -28,17 +28,21 @@ https://fab-fe-rust.vercel.app/
 ***
 
 # 시연영상
+https://youtu.be/T61bLiATLN0
 
 ***
 
-# 발표영상
+# Notion주소
+https://www.notion.so/cb2e54049e1240c59d18928fdd83c5d0?v=c40b3db97f7a4042b2db491e8e752346
 
 ***
 
 # Project
 
 ## ⚙ 프로젝트 아키텍처
-![아키택처](https://github.com/Team-FAB/FAB-FE/assets/122066788/eabfabe5-a531-4e86-b4dd-7739f35d19f9)
+![아키택처](https://github.com/Team-FAB/FAB-FE/assets/122066788/fb1ff4ca-f768-4ea0-984b-f0114893f785)
+
+
 
 
 
