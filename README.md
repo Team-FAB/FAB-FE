@@ -76,18 +76,23 @@ https://www.notion.so/cb2e54049e1240c59d18928fdd83c5d0?v=c40b3db97f7a4042b2db491
 ![찜하기](https://github.com/Team-FAB/FAB-FE/assets/122290134/060987cb-f6e1-4593-887e-36822354f1ba)
 
 - 로그인 OAuth(카카오, google)
+
 ![로그인](https://github.com/Team-FAB/FAB-FE/assets/122290134/399005c2-7b42-4552-8d73-e267e758748d)
 
 - 프로필 조회, 수정 및 이미지 업로드
+
 ![이미지 업로드 (1)](https://github.com/Team-FAB/FAB-FE/assets/122290134/86ebe20b-ba6a-4c52-ba7b-8416a5e35271)
 
 - 프로필을 기반으로 추천 시스템
+
 ![추천](https://github.com/Team-FAB/FAB-FE/assets/122290134/20b5c208-d022-41b5-9608-1fa6361f6d51)
 
 - 룸메이트 모집 게시글 CRUD 및 신청 하기
+
 ![신청현황](https://github.com/Team-FAB/FAB-FE/assets/122290134/c2aa59bb-0e2c-4122-90d4-4ac9f585a45e)
 
 - 매칭된 사용자끼리 채팅
+
 ![채팅](https://github.com/Team-FAB/FAB-FE/assets/122290134/68faefd5-214a-4d64-9791-e4b7b2bd6ede)
 
 ## 📋 ERD
